@@ -1,0 +1,203 @@
+@import 'tailwindcss';
+
+/*
+  Formula Insight design tokens.
+  Tailwind v4 reads `@theme` and generates utilities for every token below,
+  e.g. `--color-brand-500` -> `bg-brand-500` / `text-brand-500` / `border-brand-500`.
+*/
+@theme {
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    'Noto Sans', sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+
+  /* Primary / secondary blues */
+  --color-brand-50: #f1f6fa;
+  --color-brand-100: #e0ecf5;
+  --color-brand-200: #c3dbec;
+  --color-brand-300: #93c0dd;
+  --color-brand-400: #2e86c1;
+  --color-brand-500: #1b5e8c;
+  --color-brand-600: #175078;
+  --color-brand-700: #123f60;
+
+  /* Deep navy — sidebar + headings */
+  --color-navy-500: #26486b;
+  --color-navy-600: #1b3b5c;
+  --color-navy-700: #163250;
+  --color-navy-800: #102a43;
+  --color-navy-900: #0b1e31;
+
+  /* Teal accent */
+  --color-accent-50: #effcf9;
+  --color-accent-100: #d7f5ef;
+  --color-accent-400: #14b8a6;
+  --color-accent-500: #0d9488;
+  --color-accent-600: #0b7c72;
+
+  /* Surfaces & text */
+  --color-canvas: #f5f7fb;
+  --color-surface: #ffffff;
+  --color-line: #e2e8f0;
+  --color-line-strong: #cbd5e1;
+  --color-ink: #172b4d;
+  --color-muted: #64748b;
+  --color-subtle: #94a3b8;
+
+  /* Semantic */
+  --color-success: #15803d;
+  --color-success-soft: #ecfdf3;
+  --color-success-line: #bbf7d0;
+  --color-warning: #b45309;
+  --color-warning-soft: #fff7ec;
+  --color-warning-line: #fcd9a4;
+  --color-danger: #b91c1c;
+  --color-danger-soft: #fef2f2;
+  --color-danger-line: #fecaca;
+  --color-info: #1b5e8c;
+  --color-info-soft: #f1f6fa;
+  --color-info-line: #c3dbec;
+  --color-neutral-soft: #f1f5f9;
+
+  --radius-card: 14px;
+  --radius-panel: 16px;
+
+  --shadow-card: 0 1px 2px rgba(16, 42, 67, 0.04), 0 1px 3px rgba(16, 42, 67, 0.06);
+  --shadow-raised: 0 4px 12px rgba(16, 42, 67, 0.08), 0 1px 3px rgba(16, 42, 67, 0.05);
+  --shadow-overlay: 0 18px 48px rgba(11, 30, 49, 0.18);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: var(--color-ink);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-400);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Keep numeric columns aligned in dense tables. */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer components {
+  .fi-scroll-x {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+  }
+
+  .fi-link {
+    color: var(--color-brand-500);
+    text-decoration: none;
+  }
+
+  .fi-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+}
+
+/* Scrollbars — restrained, matches the enterprise surface treatment. */
+@supports (scrollbar-width: thin) {
+  .fi-scroll-x,
+  .fi-scroll-y {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-line-strong) transparent;
+  }
+}
+
+.fi-animate-in {
+  animation: fi-fade-in 160ms ease-out both;
+}
+
+.fi-slide-in-right {
+  animation: fi-slide-right 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.fi-scale-in {
+  animation: fi-scale 160ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes fi-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fi-slide-right {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fi-scale {
+  from {
+    opacity: 0;
+    transform: scale(0.98) translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  .fi-no-print {
+    display: none !important;
+  }
+
+  body {
+    background: #ffffff;
+  }
+
+  .fi-print-root {
+    padding: 0 !important;
+  }
+}
