@@ -1,12 +1,15 @@
 import {
   createContext,
   useContext,
+  useEffect,
   useMemo,
   useSyncExternalStore,
   type ReactNode,
 } from 'react';
 import type { DemoSettings, Person } from '../types/domain';
 import { createServices, type FormulaInsightServices } from '../services';
+import { isApiMode } from '../services/http/apiClient';
+import { bootstrapApiDataset } from '../services/http/httpServices';
 import { createDemoStore, type DemoStore } from './store';
 import type { DemoState } from './reducer';
 
@@ -22,6 +25,13 @@ export function DemoDataProvider({ children }: { children: ReactNode }) {
     const store = createDemoStore();
     return { store, services: createServices(store) };
   }, []);
+
+  useEffect(() => {
+    if (!isApiMode()) return;
+    bootstrapApiDataset(value.store).catch((error: unknown) => {
+      console.error('Failed to load dataset from API', error);
+    });
+  }, [value.store]);
 
   return <DemoContext.Provider value={value}>{children}</DemoContext.Provider>;
 }

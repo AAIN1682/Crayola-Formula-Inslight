@@ -20,7 +20,7 @@ beforeEach(() => {
 const newFormula: FormulaInput = {
   name: 'ColorFlow Test Marker',
   category: 'Markers',
-  ageGroup: '6+',
+  ageGroup: 'Below 12',
   physicalForm: 'Liquid',
   intendedUse: 'Brush-tip marker for lettering and illustration on paper and card.',
   ownerId: 'usr-dana',

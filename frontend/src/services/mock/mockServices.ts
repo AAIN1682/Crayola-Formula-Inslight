@@ -155,6 +155,7 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
       name: ingredient.name.trim(),
       rawMaterialId: ingredient.rawMaterialId,
       concentration: Number.isFinite(ingredient.concentration) ? ingredient.concentration : 0,
+      casNumber: ingredient.casNumber?.trim() || undefined,
       supplier:
         ingredient.supplier?.trim() ||
         state().rawMaterials.find((material) => material.id === ingredient.rawMaterialId)?.supplier,
@@ -168,9 +169,10 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
       name: input.name.trim(),
       version: input.version?.trim() || base?.version || 'v1.0',
       category: input.category ?? base?.category ?? 'Markers',
-      ageGroup: input.ageGroup ?? base?.ageGroup ?? '3+',
+      ageGroup: input.ageGroup ?? base?.ageGroup ?? 'Below 12',
       physicalForm: input.physicalForm ?? base?.physicalForm ?? 'Liquid',
       intendedUse: input.intendedUse.trim(),
+      markets: input.markets?.length ? [...input.markets] : base?.markets,
       ownerId: input.ownerId,
       reviewerId: input.reviewerId,
       lifecycle: input.lifecycle ?? base?.lifecycle ?? 'draft',

@@ -9,5 +9,8 @@ export default defineConfig({
     environment: 'node',
     include: ['src/**/*.test.{ts,tsx}'],
     reporters: ['default'],
+    env: {
+      VITE_API_BASE_URL: '',
+    },
   },
 });

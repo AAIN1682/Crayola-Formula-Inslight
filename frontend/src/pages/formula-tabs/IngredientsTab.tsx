@@ -29,6 +29,7 @@ export function IngredientsTab() {
       formula.ingredients,
       [
         { header: 'Ingredient', value: (row) => row.name },
+        { header: 'CAS No.', value: (row) => row.casNumber ?? '' },
         { header: 'Raw material', value: (row) => row.rawMaterialId ?? 'Not linked' },
         { header: 'Concentration %', value: (row) => row.concentration },
         { header: 'Supplier', value: (row) => row.supplier ?? '' },
@@ -64,6 +65,7 @@ export function IngredientsTab() {
               <THead>
                 <tr>
                   <Th>Ingredient</Th>
+                  <Th>CAS No.</Th>
                   <Th>Raw material</Th>
                   <Th className="text-right">Concentration</Th>
                   <Th>Supplier</Th>
@@ -90,6 +92,7 @@ export function IngredientsTab() {
                           subtitle={ingredient.notes}
                         />
                       </Td>
+                      <Td className="tabular text-muted">{ingredient.casNumber ?? '—'}</Td>
                       <Td>
                         {ingredient.rawMaterialId ? (
                           <Link to={`/materials/${ingredient.rawMaterialId}`} className="fi-link tabular">

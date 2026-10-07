@@ -20,9 +20,18 @@ export type PhysicalForm = 'Liquid' | 'Gel' | 'Paste' | 'Solid stick' | 'Powder'
 
 export const PHYSICAL_FORMS: PhysicalForm[] = ['Liquid', 'Gel', 'Paste', 'Solid stick', 'Powder'];
 
-export type AgeGroup = '3+' | '4+' | '6+' | '8+' | '12+';
+export type AgeGroup = 'Below 12' | 'Above 12';
 
-export const AGE_GROUPS: AgeGroup[] = ['3+', '4+', '6+', '8+', '12+'];
+export const AGE_GROUPS: AgeGroup[] = ['Below 12', 'Above 12'];
+
+export const MARKET_REGIONS = [
+  'United States',
+  'Canada',
+  'European Union',
+  'United Kingdom',
+] as const;
+
+export type MarketRegion = (typeof MARKET_REGIONS)[number];
 
 /** Internal screening outcome produced by the demo rule checks. Never an external certification. */
 export type ScreeningStatus = 'green' | 'amber' | 'red' | 'not-screened';
@@ -81,6 +90,8 @@ export interface Ingredient {
   rawMaterialId?: string;
   /** Percentage of the total formula, 0–100. */
   concentration: number;
+  /** Chemical Abstracts Service registry number, when recorded. */
+  casNumber?: string;
   supplier?: string;
   /** Evidence documents explicitly attached at the ingredient level. */
   evidenceIds: string[];
@@ -97,6 +108,8 @@ export interface Formula {
   ageGroup: AgeGroup;
   physicalForm: PhysicalForm;
   intendedUse: string;
+  /** Target markets for this formula record. */
+  markets?: MarketRegion[];
   ownerId: string;
   reviewerId?: string;
   lifecycle: FormulaLifecycle;

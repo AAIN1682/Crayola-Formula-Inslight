@@ -81,7 +81,7 @@ export function FormulaDetailsPage() {
             <Badge tone="neutral">{formula.id}</Badge>
             <Badge tone="neutral">{formula.version}</Badge>
             <Badge tone="info">{formula.category}</Badge>
-            <Badge tone="neutral">Ages {formula.ageGroup}</Badge>
+            <Badge tone="neutral">{formula.ageGroup}</Badge>
             {formula.lifecycle === 'draft' ? <Badge tone="warning">Draft</Badge> : null}
             {formula.lifecycle === 'archived' ? <Badge tone="neutral">Archived</Badge> : null}
             <ScreeningBadge status={formula.screeningStatus} current={formula.screeningCurrent} />

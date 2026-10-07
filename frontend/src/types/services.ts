@@ -7,6 +7,7 @@ import type {
   Formula,
   FormulaLifecycle,
   LocalAttachment,
+  MarketRegion,
   MonitoringAlert,
   PhysicalForm,
   ProductCategory,
@@ -28,6 +29,7 @@ export interface IngredientInput {
   rawMaterialId?: string;
   /** May be `NaN` while a user is typing; validation reports it as an error. */
   concentration: number;
+  casNumber?: string;
   supplier?: string;
   evidenceIds?: string[];
   addedInVersion?: string;
@@ -40,6 +42,7 @@ export interface FormulaInput {
   ageGroup?: AgeGroup;
   physicalForm?: PhysicalForm;
   intendedUse: string;
+  markets?: MarketRegion[];
   ownerId: string;
   reviewerId?: string;
   version?: string;

@@ -48,6 +48,7 @@ function storageAvailable(): boolean {
  * payload falls back to a fresh seed so the demo always starts in a usable state.
  */
 export function loadDataset(): { dataset: DemoDataset; restored: boolean } {
+  if (apiModeActive()) return { dataset: createSeedDataset(), restored: false };
   if (!storageAvailable()) return { dataset: createSeedDataset(), restored: false };
 
   try {
@@ -71,7 +72,13 @@ export function loadDataset(): { dataset: DemoDataset; restored: boolean } {
   }
 }
 
+function apiModeActive(): boolean {
+  const raw = import.meta.env.VITE_API_BASE_URL;
+  return typeof raw === 'string' && raw.trim().length > 0;
+}
+
 export function saveDataset(dataset: DemoDataset): void {
+  if (apiModeActive()) return;
   if (!storageAvailable()) return;
   try {
     const envelope: Envelope = { version: STORAGE_VERSION, savedAt: new Date().toISOString(), dataset };

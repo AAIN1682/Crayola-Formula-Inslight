@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { AlertTriangle, CheckCircle2, Plus, Sparkles, Trash2 } from 'lucide-react';
-import type { AgeGroup, Formula, PhysicalForm, ProductCategory } from '../../types/domain';
-import { AGE_GROUPS, PHYSICAL_FORMS, PRODUCT_CATEGORIES } from '../../types/domain';
+import type { AgeGroup, Formula, MarketRegion, PhysicalForm, ProductCategory } from '../../types/domain';
+import { AGE_GROUPS, MARKET_REGIONS, PHYSICAL_FORMS, PRODUCT_CATEGORIES } from '../../types/domain';
 import type { FormulaInput } from '../../types/services';
+import { findIngredientCatalogEntry } from '../../data/ingredientCatalog';
 import { SAMPLE_FORMULA } from '../../data/seed';
+import { IngredientCatalogSelect } from './IngredientCatalogSelect';
 import { useDemoSelector, useServices, useSettings } from '../../state/DemoDataProvider';
 import { useAsyncAction } from '../../hooks/useAsyncData';
 import { useToast } from '../ui/Toast';
@@ -34,6 +36,7 @@ interface IngredientRow {
   key: string;
   id?: string;
   name: string;
+  casNumber: string;
   rawMaterialId: string;
   concentrationText: string;
   supplier: string;
@@ -48,6 +51,7 @@ interface FormState {
   ageGroup: string;
   physicalForm: string;
   intendedUse: string;
+  markets: MarketRegion[];
   ownerId: string;
   reviewerId: string;
   description: string;
@@ -62,7 +66,15 @@ const nextKey = () => {
 };
 
 function emptyRow(): IngredientRow {
-  return { key: nextKey(), name: '', rawMaterialId: '', concentrationText: '', supplier: '', notes: '' };
+  return {
+    key: nextKey(),
+    name: '',
+    casNumber: '',
+    rawMaterialId: '',
+    concentrationText: '',
+    supplier: '',
+    notes: '',
+  };
 }
 
 function toFormState(formula: Formula | undefined, defaults: { ownerId: string; reviewerId: string }): FormState {
@@ -74,6 +86,7 @@ function toFormState(formula: Formula | undefined, defaults: { ownerId: string; 
       ageGroup: '',
       physicalForm: '',
       intendedUse: '',
+      markets: [],
       ownerId: defaults.ownerId,
       reviewerId: defaults.reviewerId,
       description: '',
@@ -89,6 +102,7 @@ function toFormState(formula: Formula | undefined, defaults: { ownerId: string; 
     ageGroup: formula.ageGroup,
     physicalForm: formula.physicalForm,
     intendedUse: formula.intendedUse,
+    markets: formula.markets ? [...formula.markets] : [],
     ownerId: formula.ownerId,
     reviewerId: formula.reviewerId ?? '',
     description: formula.description ?? '',
@@ -96,6 +110,7 @@ function toFormState(formula: Formula | undefined, defaults: { ownerId: string; 
       key: nextKey(),
       id: ingredient.id,
       name: ingredient.name,
+      casNumber: ingredient.casNumber ?? '',
       rawMaterialId: ingredient.rawMaterialId ?? '',
       concentrationText: String(ingredient.concentration),
       supplier: ingredient.supplier ?? '',
@@ -114,6 +129,7 @@ function toInput(form: FormState, lifecycle: 'draft' | 'active'): FormulaInput {
     ageGroup: (form.ageGroup || undefined) as AgeGroup | undefined,
     physicalForm: (form.physicalForm || undefined) as PhysicalForm | undefined,
     intendedUse: form.intendedUse,
+    markets: form.markets.length > 0 ? form.markets : undefined,
     ownerId: form.ownerId,
     reviewerId: form.reviewerId || undefined,
     description: form.description || undefined,
@@ -125,6 +141,7 @@ function toInput(form: FormState, lifecycle: 'draft' | 'active'): FormulaInput {
         name: row.name,
         rawMaterialId: row.rawMaterialId || undefined,
         concentration: row.concentrationText.trim() === '' ? Number.NaN : Number(row.concentrationText),
+        casNumber: row.casNumber.trim() || undefined,
         supplier: row.supplier || undefined,
         notes: row.notes || undefined,
         addedInVersion: row.addedInVersion,
@@ -247,6 +264,7 @@ export function FormulaFormDrawer({
       ingredients: SAMPLE_FORMULA.ingredients.map((ingredient) => ({
         key: nextKey(),
         name: ingredient.name,
+        casNumber: findIngredientCatalogEntry(ingredient.name)?.casNumber ?? '',
         rawMaterialId: ingredient.rawMaterialId,
         concentrationText: String(ingredient.concentration),
         supplier: rawMaterials.find((material) => material.id === ingredient.rawMaterialId)?.supplier ?? '',
@@ -401,7 +419,7 @@ export function FormulaFormDrawer({
                   id="formula-age"
                   value={form.ageGroup}
                   placeholder="Select an age group"
-                  options={AGE_GROUPS.map((group) => ({ value: group, label: `${group} years` }))}
+                  options={AGE_GROUPS.map((group) => ({ value: group, label: group }))}
                   onChange={(event) => update('ageGroup', event.target.value)}
                   invalid={Boolean(fieldError(validation, 'ageGroup'))}
                 />
@@ -442,6 +460,27 @@ export function FormulaFormDrawer({
                   onChange={(event) => update('reviewerId', event.target.value)}
                 />
               </Field>
+
+              <div className="sm:col-span-2">
+                <p className="mb-2 text-[13px] font-medium text-ink">Markets</p>
+                <div className="grid gap-2 sm:grid-cols-2">
+                  {MARKET_REGIONS.map((region) => (
+                    <Checkbox
+                      key={region}
+                      checked={form.markets.includes(region)}
+                      onChange={(event) =>
+                        update(
+                          'markets',
+                          event.target.checked
+                            ? [...form.markets, region]
+                            : form.markets.filter((market) => market !== region),
+                        )
+                      }
+                      label={region}
+                    />
+                  ))}
+                </div>
+              </div>
 
               <Field label="Internal note" htmlFor="formula-description" className="sm:col-span-2">
                 <TextArea
@@ -498,16 +537,26 @@ export function FormulaFormDrawer({
                     </div>
 
                     <div className="grid gap-3 sm:grid-cols-12">
-                      <Field label="Ingredient name" className="sm:col-span-5">
-                        <TextInput
-                          value={row.name}
-                          onChange={(event) => updateRow(row.key, { name: event.target.value })}
-                          placeholder="e.g. Cellulose Thickener T-12"
+                      <Field label="Ingredient name" className="sm:col-span-4">
+                        <IngredientCatalogSelect
+                          ingredientName={row.name}
                           invalid={rowErrors.some((issue) => issue.field.endsWith('name'))}
+                          onSelect={(entry) =>
+                            updateRow(row.key, { name: entry.name, casNumber: entry.casNumber })
+                          }
                         />
                       </Field>
 
-                      <Field label="Raw-material reference" className="sm:col-span-4">
+                      <Field label="CAS No." className="sm:col-span-3">
+                        <TextInput
+                          value={row.casNumber}
+                          readOnly
+                          className="tabular bg-neutral-soft/60"
+                          aria-readonly
+                        />
+                      </Field>
+
+                      <Field label="Raw-material reference" className="sm:col-span-3">
                         <Select
                           value={row.rawMaterialId}
                           placeholder="Not linked"
@@ -515,10 +564,13 @@ export function FormulaFormDrawer({
                           onChange={(event) => {
                             const materialId = event.target.value;
                             const material = rawMaterials.find((item) => item.id === materialId);
+                            const nextName = row.name.trim() ? row.name : (material?.name ?? '');
+                            const catalog = nextName ? findIngredientCatalogEntry(nextName) : undefined;
                             updateRow(row.key, {
                               rawMaterialId: materialId,
                               supplier: material?.supplier ?? row.supplier,
-                              name: row.name.trim() ? row.name : (material?.name ?? ''),
+                              name: nextName,
+                              casNumber: catalog?.casNumber ?? row.casNumber,
                             });
                           }}
                         />
@@ -636,6 +688,7 @@ export function FormulaFormDrawer({
                   ['Category', form.category || '—'],
                   ['Age group', form.ageGroup || '—'],
                   ['Physical form', form.physicalForm || '—'],
+                  ['Markets', form.markets.length > 0 ? form.markets.join(', ') : '—'],
                   ['Owner', people.find((person) => person.id === form.ownerId)?.name ?? '—'],
                   ['Ingredients', String(form.ingredients.filter((row) => row.name.trim()).length)],
                   ['Composition total', formatConcentration(total)],
