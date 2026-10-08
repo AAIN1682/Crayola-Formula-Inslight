@@ -1679,13 +1679,18 @@ export function createSeedDataset(): DemoDataset {
       exposureInputs: computation.exposureInputs,
       comparisons: computation.comparisons,
       nextActions: computation.nextActions,
-      outdated: Boolean(previousComposition),
+      outdated: true,
       ingredientSnapshot: snapshotIngredients(subjectFormula.ingredients),
+      legacySample: true,
+      physicalForm: subjectFormula.physicalForm,
+      intendedUse: subjectFormula.intendedUse,
+      category: subjectFormula.category,
+      aiStatus: 'not_requested',
     };
     runs.push(run);
 
     formula.screeningStatus = computation.status;
-    formula.screeningCurrent = !previousComposition;
+    formula.screeningCurrent = false;
     formula.latestRunId = run.id;
     formula.lastScreenedAt = runAt;
   });

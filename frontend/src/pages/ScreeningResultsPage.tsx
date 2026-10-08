@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft, Download, FileJson, Printer } from 'lucide-react';
 import { useAsyncData } from '../hooks/useAsyncData';
@@ -9,6 +10,7 @@ import { Badge, ScreeningBadge } from '../components/ui/Badge';
 import { ErrorState, LoadingState } from '../components/ui/States';
 import { Notice } from '../components/ui/DemoNotice';
 import { FindingsList } from '../components/screening/FindingsList';
+import { FormulaAssessmentPanel } from '../components/screening/FormulaAssessmentPanel';
 import { ExposureReadiness } from '../components/screening/ExposureReadiness';
 import { HistoricalComparisons } from '../components/screening/HistoricalComparisons';
 import { NextActions } from '../components/screening/NextActions';
@@ -31,6 +33,7 @@ export function ScreeningResultsPage() {
   const { formulaId = '', runId = '' } = useParams();
   const services = useServices();
   const toast = useToast();
+  const [retrying, setRetrying] = useState(false);
 
   const { data, loading, error, reload } = useAsyncData(
     () => services.getScreeningResult(runId),
@@ -76,6 +79,13 @@ export function ScreeningResultsPage() {
     downloadJson(timestampedFilename(`${run.id}-result`, 'json'), {
       disclaimer:
         'Internal assessment from Affine Formula Intelligence. Illustrative evidence is not validated. This is not a certification or an external acceptance.',
+      provenance: {
+        legacySample: Boolean(run.legacySample),
+        aiStatus: run.aiStatus ?? 'not_requested',
+        execution: run.formulaAssessment?.execution ?? null,
+        inputHash: run.inputHash,
+        dataHash: run.dataHash,
+      },
       assessmentRequest: run.assessmentRequest,
       marketResults: run.marketResults,
       run,
@@ -132,6 +142,19 @@ export function ScreeningResultsPage() {
         Back to the formula&rsquo;s screening history
       </Link>
 
+      {run.legacySample ? (
+        <Notice tone="warning" title="Legacy sample result">
+          This stored result was produced by the previous demo rule engine. It is not an Azure assessment.
+          Run Assessment again to generate a live, document-grounded result.
+        </Notice>
+      ) : null}
+
+      {run.aiStatus === 'failed' ? (
+        <Notice tone="danger" title="AI analysis failed">
+          {run.formulaAssessment?.execution?.error_message || 'Azure generation did not succeed. Calculated checks are shown as a partial result.'}
+        </Notice>
+      ) : null}
+
       <Card className={`border ${STATUS_TONE[run.status]}`}>
         <CardBody className="space-y-4">
           <div className="flex flex-wrap items-start justify-between gap-4">
@@ -139,6 +162,7 @@ export function ScreeningResultsPage() {
               <div className="flex flex-wrap items-center gap-2">
                 <ScreeningBadge status={run.status} current={isCurrent} />
                 <Badge tone="neutral">{run.id}</Badge>
+                {run.formulaAssessment && run.aiStatus === 'succeeded' ? <Badge tone="info">AI-generated analysis</Badge> : null}
               </div>
               <p className="mt-2.5 max-w-3xl text-sm leading-6 text-ink">{run.summary}</p>
               <p className="mt-1.5 text-[13px] text-muted">{SCREENING_STATUS_HINT[run.status]}</p>
@@ -147,9 +171,9 @@ export function ScreeningResultsPage() {
 
           <dl className="grid grid-cols-2 gap-4 border-t border-line/60 pt-4 sm:grid-cols-4">
             <DataPoint
-              label="Evidence completeness"
+              label="Verified evidence coverage"
               value={`${run.evidenceCompleteness}%`}
-              hint={`${run.presentEvidenceCount} of ${run.requiredEvidenceCount} required documents`}
+              hint={`${run.presentEvidenceCount} of ${run.requiredEvidenceCount} verified applicable evidence checks`}
             />
             <DataPoint
               label="Target markets"
@@ -161,7 +185,15 @@ export function ScreeningResultsPage() {
             <DataPoint
               label="Result currency"
               value={isCurrent ? 'Current' : 'Outdated'}
-              hint={isCurrent ? 'Matches the saved composition' : 'The formula changed after this run'}
+              hint={isCurrent ? 'Matches the saved composition' : 'The formula changed after this run, or this is a legacy sample result'}
+            />
+            <DataPoint
+              label="AP acceptance probability"
+              value="Not estimable from available data"
+            />
+            <DataPoint
+              label="AI status"
+              value={run.aiStatus === 'succeeded' ? 'Azure succeeded' : run.aiStatus === 'failed' ? 'Azure failed' : run.legacySample ? 'Legacy sample' : 'Not requested'}
             />
           </dl>
         </CardBody>
@@ -183,6 +215,23 @@ export function ScreeningResultsPage() {
           </div>
         ))}
       </div>
+
+      {run.formulaAssessment ? (
+        <FormulaAssessmentPanel
+          assessment={run.formulaAssessment}
+          retrying={retrying}
+          onRetryExplanation={() => {
+            setRetrying(true);
+            services
+              .retryExplanation(run.id)
+              .then(() => reload())
+              .catch((cause: unknown) => {
+                toast.error('Explanation was not retried', cause instanceof Error ? cause.message : 'Try again.');
+              })
+              .finally(() => setRetrying(false));
+          }}
+        />
+      ) : null}
 
       <Notice tone="neutral" title="What this result is">
         This is an internal assessment against the configured checks for the selected markets. Illustrative
@@ -294,15 +343,21 @@ export function ScreeningResultsPage() {
             </CardBody>
           </Card>
 
-          <Card>
-            <CardHeader
-              title="Historical comparisons"
-              description="Synthetic submissions that share raw materials with this composition."
-            />
-            <CardBody>
-              <HistoricalComparisons comparisons={run.comparisons} currentFormulaId={formula.id} />
-            </CardBody>
-          </Card>
+          {run.legacySample || run.comparisons.length > 0 ? (
+            <Card>
+              <CardHeader
+                title="Historical comparisons"
+                description={
+                  run.legacySample
+                    ? 'Synthetic submissions stored with this legacy sample result. They are not Azure-generated alternatives.'
+                    : 'Documented history for this exact formula and version only.'
+                }
+              />
+              <CardBody>
+                <HistoricalComparisons comparisons={run.comparisons} currentFormulaId={formula.id} />
+              </CardBody>
+            </Card>
+          ) : null}
         </div>
 
         <div className="space-y-4">

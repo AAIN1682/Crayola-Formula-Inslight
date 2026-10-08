@@ -36,13 +36,12 @@ import type {
   SubmissionDetail,
   SubmissionFilters,
 } from '../../types/services';
-import { SCREENING_STAGES } from '../../types/services';
 import type { DemoStore } from '../../state/store';
 import type { DemoAction } from '../../state/reducer';
 import { ServiceError, type FormulaInsightServices } from '../contracts';
-import { formulaToAssessmentRequest, mapReferenceAssessment, postAssessment, usesReferenceCatalog } from '../../api/assessment';
+import { fetchPackageCatalog, formulaToPackageRequest, isLiveAzureAssessment, mapPackageAssessment, postPackageAssessment } from '../../api/formulaBackend';
+import { catalogIdSet, identityErrorMessage, unresolvedIngredients } from '../../utils/catalog';
 import {
-  computeScreening,
   diffIngredients,
   isRunCurrent,
   mainConcernFor,
@@ -162,6 +161,7 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
       evidenceIds: ingredient.evidenceIds ?? [],
       addedInVersion: ingredient.addedInVersion,
       notes: ingredient.notes,
+      batchId: ingredient.batchId,
     }));
 
     return {
@@ -409,71 +409,53 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
       if (!formula.targetMarkets?.length) {
         throw new ServiceError('Select at least one target market before running an assessment.', false);
       }
-
-      const catalog = usesReferenceCatalog(formula);
-      for (let index = 0; index < SCREENING_STAGES.length; index += 1) {
-        if (options?.signal?.aborted) throw new ServiceError('Screening was cancelled.');
-        options?.onStage?.(SCREENING_STAGES[index]!, index);
-        if (!catalog) await delay(index === 0 ? 260 : 320);
+      if (options?.signal?.aborted) {
+        throw new ServiceError('Screening was cancelled.');
       }
 
+      let catalogMaterials;
+      try {
+        catalogMaterials = await fetchPackageCatalog(options?.signal);
+      } catch (error) {
+        if (options?.signal?.aborted) throw new ServiceError('Screening was cancelled.');
+        const message = error instanceof Error ? error.message : 'The material catalog could not be loaded.';
+        throw new ServiceError(message);
+      }
+      const unresolved = unresolvedIngredients(formula, catalogIdSet(catalogMaterials));
+      if (unresolved.length) {
+        throw new ServiceError(identityErrorMessage(unresolved), false);
+      }
       if (generation !== assessmentGeneration) {
         throw new ServiceError('A newer assessment replaced this result.');
       }
 
-      const current = state();
-      let status: ScreeningRun['status'];
-      let summary: string;
-      let findings: ScreeningRun['findings'];
-      let marketResults: ScreeningRun['marketResults'];
-      let nextActions: ScreeningRun['nextActions'];
-      let evidence: { completeness: number; requiredCount: number; presentCount: number };
-      let exposureInputs: ScreeningRun['exposureInputs'];
-      let comparisons: ScreeningRun['comparisons'];
-      let referenceAssessment: ScreeningRun['referenceAssessment'];
-
-      if (catalog) {
-        let payload: Awaited<ReturnType<typeof postAssessment>>;
-        try {
-          payload = await postAssessment(formulaToAssessmentRequest(formula), options?.signal);
-        } catch (error) {
-          if (options?.signal?.aborted) throw new ServiceError('Screening was cancelled.');
-          const message = error instanceof Error ? error.message : 'The assessment service could not be reached.';
-          throw new ServiceError(message);
-        }
-        if (generation !== assessmentGeneration) {
-          throw new ServiceError('A newer assessment replaced this result.');
-        }
-        const mapped = mapReferenceAssessment(payload);
-        referenceAssessment = payload;
-        status = mapped.status;
-        summary = mapped.summary;
-        findings = mapped.findings;
-        marketResults = mapped.marketResults;
-        nextActions = mapped.nextActions;
-        evidence = {
-          completeness: mapped.evidenceCompleteness,
-          requiredCount: mapped.requiredEvidenceCount,
-          presentCount: mapped.presentEvidenceCount,
-        };
-        exposureInputs = [];
-        comparisons = [];
-      } else {
-        const local = computeScreening({
-          formula,
-          rawMaterials: current.rawMaterials,
-          documents: current.documents,
-          submissions: current.submissions,
-        });
-        status = local.status;
-        summary = local.summary;
-        findings = local.findings;
-        marketResults = local.marketResults;
-        nextActions = local.nextActions;
-        evidence = local.evidence;
-        exposureInputs = local.exposureInputs;
-        comparisons = local.comparisons;
+      let payload: Awaited<ReturnType<typeof postPackageAssessment>>;
+      try {
+        payload = await postPackageAssessment(formulaToPackageRequest(formula, true), options?.signal);
+      } catch (error) {
+        if (options?.signal?.aborted) throw new ServiceError('Screening was cancelled.');
+        const message = error instanceof Error ? error.message : 'The assessment service could not be reached.';
+        throw new ServiceError(message);
       }
+      if (generation !== assessmentGeneration) {
+        throw new ServiceError('A newer assessment replaced this result.');
+      }
+      const mapped = mapPackageAssessment(payload);
+      const formulaAssessment = payload;
+      const status = mapped.status;
+      const summary = mapped.summary;
+      const findings = mapped.findings;
+      const marketResults = mapped.marketResults;
+      const nextActions = mapped.nextActions;
+      const evidence = {
+        completeness: mapped.evidenceCompleteness,
+        requiredCount: mapped.requiredEvidenceCount,
+        presentCount: mapped.presentEvidenceCount,
+      };
+      const exposureInputs: ScreeningRun['exposureInputs'] = [];
+      const comparisons: ScreeningRun['comparisons'] = [];
+      const referenceAssessment: ScreeningRun['referenceAssessment'] = undefined;
+      const live = isLiveAzureAssessment(payload);
 
       const runAt = new Date().toISOString();
       const run: ScreeningRun = {
@@ -502,6 +484,14 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
         outdated: false,
         ingredientSnapshot: snapshotIngredients(formula.ingredients),
         referenceAssessment,
+        formulaAssessment,
+        legacySample: false,
+        physicalForm: formula.physicalForm,
+        intendedUse: formula.intendedUse,
+        category: formula.category,
+        inputHash: payload.input_hash ?? payload.execution?.input_hash,
+        dataHash: payload.data_hash ?? payload.execution?.data_hash,
+        aiStatus: live ? 'succeeded' : payload.execution?.llm_status === 'failed' ? 'failed' : 'not_requested',
       };
 
       const reviewStatus: ReviewStatus =
@@ -525,7 +515,9 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
           activity({
             type: 'screening-run',
             summary: `Screening run completed for ${formula.name} ${formula.version}`,
-            detail: `Result: ${status.toUpperCase()} · evidence completeness ${evidence.completeness}%.`,
+            detail: live
+              ? `Live Azure assessment · ${status.toUpperCase()} · verified evidence coverage ${evidence.completeness}%.`
+              : `Partial calculated result · AI analysis ${payload.execution?.llm_status ?? 'unavailable'} · ${status.toUpperCase()}.`,
             formulaId: formula.id,
             runId: run.id,
           }),
@@ -533,6 +525,31 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
       });
 
       return run;
+    },
+
+    async retryExplanation(runId: string) {
+      const run = state().runs.find((item) => item.id === runId);
+      if (!run?.formulaAssessment) {
+        throw new ServiceError('This result has no server assessment to explain again.', false);
+      }
+      const payload = await postPackageAssessment({ ...run.formulaAssessment.input_snapshot, generate_explanation: true });
+      const mapped = mapPackageAssessment(payload);
+      const updated: ScreeningRun = {
+        ...run,
+        formulaAssessment: payload,
+        summary: mapped.summary,
+        findings: mapped.findings,
+        nextActions: mapped.nextActions,
+        marketResults: mapped.marketResults,
+        evidenceCompleteness: mapped.evidenceCompleteness,
+        requiredEvidenceCount: mapped.requiredEvidenceCount,
+        presentEvidenceCount: mapped.presentEvidenceCount,
+        aiStatus: isLiveAzureAssessment(payload) ? 'succeeded' : payload.execution?.llm_status === 'failed' ? 'failed' : run.aiStatus,
+        inputHash: payload.input_hash ?? payload.execution?.input_hash ?? run.inputHash,
+        dataHash: payload.data_hash ?? payload.execution?.data_hash ?? run.dataHash,
+      };
+      store.dispatch({ type: 'run/add', run: updated });
+      return updated;
     },
 
     async getScreeningResult(runId: string): Promise<ScreeningResultView> {

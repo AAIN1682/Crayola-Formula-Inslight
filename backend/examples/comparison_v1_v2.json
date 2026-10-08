@@ -1,0 +1,1698 @@
+{
+  "previous": {
+    "assessment_id": "fdc672f0-239e-451e-b156-6c9249850a84",
+    "created_at": "2026-10-08T04:25:22.417516+00:00",
+    "data_version": "1.0.0",
+    "data_hash": "73e05fadd04ac1923abded61bbc5b10b831d21d7e73fc7991edbfea9de600c02",
+    "input_snapshot": {
+      "formula_id": "F-PURPLE-PAINT",
+      "name": "Purple Effect Paint",
+      "product_category": "paint",
+      "age_group": "under_12",
+      "regions": [
+        "US",
+        "EU"
+      ],
+      "physical_form": "liquid",
+      "intended_use": "Brush application to paper",
+      "generate_explanation": false,
+      "version_id": "v1",
+      "ingredients": [
+        {
+          "material_id": "water",
+          "concentration_percent": 91.8,
+          "batch_id": null
+        },
+        {
+          "material_id": "glow_purple",
+          "concentration_percent": 8,
+          "batch_id": "230320"
+        },
+        {
+          "material_id": "sodium_benzoate",
+          "concentration_percent": 0.2,
+          "batch_id": null
+        }
+      ]
+    },
+    "screening_status": "changes_required",
+    "regulatory_status": "not_assessed",
+    "ap_cl_decision": null,
+    "acceptance_probability": null,
+    "metrics": {
+      "passed_checks": 4,
+      "failed_checks": 2,
+      "not_assessed_checks": 0,
+      "check_pass_rate_percent": 66.7,
+      "evidence_coverage_percent": 0.0,
+      "metrics_note": "Counts are per rule and region. Pass rate is not safety or acceptance probability."
+    },
+    "regions": {
+      "US": {
+        "screening_status": "changes_required",
+        "regulatory_status": "not_assessed",
+        "ap_cl_decision": null
+      },
+      "EU": {
+        "screening_status": "changes_required",
+        "regulatory_status": "not_assessed",
+        "ap_cl_decision": null
+      }
+    },
+    "llm_context": {
+      "formula": {
+        "formula_id": "F-PURPLE-PAINT",
+        "name": "Purple Effect Paint",
+        "product_category": "paint",
+        "age_group": "under_12",
+        "regions": [
+          "US",
+          "EU"
+        ],
+        "physical_form": "liquid",
+        "intended_use": "Brush application to paper",
+        "generate_explanation": false,
+        "version_id": "v1",
+        "ingredients": [
+          {
+            "material_id": "water",
+            "concentration_percent": 91.8,
+            "batch_id": null
+          },
+          {
+            "material_id": "glow_purple",
+            "concentration_percent": 8,
+            "batch_id": "230320"
+          },
+          {
+            "material_id": "sodium_benzoate",
+            "concentration_percent": 0.2,
+            "batch_id": null
+          }
+        ]
+      },
+      "materials": [
+        {
+          "material_id": "water",
+          "name": "Water",
+          "kind": "substance",
+          "cas": null,
+          "source_document_ids": [],
+          "verified_crayola_ingredient": false,
+          "components": [],
+          "notes": "Supplemental example carrier, not extracted from a disclosed Crayola recipe."
+        },
+        {
+          "material_id": "glow_purple",
+          "name": "Glow in the Dark Purple",
+          "kind": "purchased_mixture",
+          "cas": null,
+          "source_document_ids": [
+            "DOC-GLOW"
+          ],
+          "verified_crayola_ingredient": false,
+          "components": [
+            {
+              "material_id": "zinc_sulfide",
+              "percent": 98.8
+            },
+            {
+              "material_id": "zinc_oxide",
+              "percent": 1.2
+            }
+          ],
+          "notes": "Supplier batch 230320; no evidence supplied of use by Crayola."
+        },
+        {
+          "material_id": "sodium_benzoate",
+          "name": "Sodium benzoate",
+          "kind": "substance",
+          "cas": "532-32-1",
+          "source_document_ids": [
+            "DOC-EU"
+          ],
+          "verified_crayola_ingredient": false,
+          "components": [],
+          "notes": "Name/CAS transcribed from uploaded unverified summary, not a supplier qualification or approval."
+        }
+      ],
+      "applicable_rules": [
+        {
+          "rule_id": "EXAMPLE-MAX-water",
+          "material_id": "water",
+          "product_categories": [
+            "paint",
+            "chalk",
+            "glue_stick",
+            "washable_marker"
+          ],
+          "age_groups": [
+            "under_12",
+            "12_and_above"
+          ],
+          "regions": [
+            "US",
+            "EU"
+          ],
+          "property": "concentration_percent",
+          "operator": "<=",
+          "threshold": 100,
+          "unit": "percent_w_w",
+          "basis": "as_supplied_material_in_finished_formula",
+          "enabled": true,
+          "provenance": "dummy_editable",
+          "is_regulatory_limit": false,
+          "source_document_ids": [],
+          "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+        },
+        {
+          "rule_id": "EXAMPLE-MAX-glow_purple",
+          "material_id": "glow_purple",
+          "product_categories": [
+            "paint",
+            "chalk",
+            "glue_stick",
+            "washable_marker"
+          ],
+          "age_groups": [
+            "under_12",
+            "12_and_above"
+          ],
+          "regions": [
+            "US",
+            "EU"
+          ],
+          "property": "concentration_percent",
+          "operator": "<=",
+          "threshold": 5,
+          "unit": "percent_w_w",
+          "basis": "as_supplied_material_in_finished_formula",
+          "enabled": true,
+          "provenance": "dummy_editable",
+          "is_regulatory_limit": false,
+          "source_document_ids": [],
+          "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+        },
+        {
+          "rule_id": "EXAMPLE-MAX-sodium_benzoate",
+          "material_id": "sodium_benzoate",
+          "product_categories": [
+            "paint",
+            "chalk",
+            "glue_stick",
+            "washable_marker"
+          ],
+          "age_groups": [
+            "under_12",
+            "12_and_above"
+          ],
+          "regions": [
+            "US",
+            "EU"
+          ],
+          "property": "concentration_percent",
+          "operator": "<=",
+          "threshold": 0.3,
+          "unit": "percent_w_w",
+          "basis": "as_supplied_material_in_finished_formula",
+          "enabled": true,
+          "provenance": "dummy_editable",
+          "is_regulatory_limit": false,
+          "source_document_ids": [],
+          "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+        }
+      ],
+      "checks": [
+        {
+          "check_id": "US:water:EXAMPLE-MAX-water",
+          "status": "pass",
+          "material_id": "water",
+          "region": "US",
+          "rule_id": "EXAMPLE-MAX-water",
+          "actual": 91.8,
+          "threshold": 100,
+          "unit": "percent_w_w",
+          "basis": "as_supplied_material_in_finished_formula",
+          "rule_provenance": "dummy_editable",
+          "message": "91.8% is within the configured 100% example maximum. This is not a regulatory verdict."
+        },
+        {
+          "check_id": "US:glow_purple:EXAMPLE-MAX-glow_purple",
+          "status": "fail",
+          "material_id": "glow_purple",
+          "region": "US",
+          "rule_id": "EXAMPLE-MAX-glow_purple",
+          "actual": 8,
+          "threshold": 5,
+          "unit": "percent_w_w",
+          "basis": "as_supplied_material_in_finished_formula",
+          "rule_provenance": "dummy_editable",
+          "message": "8% exceeds the configured 5% example maximum. This is not a regulatory verdict."
+        },
+        {
+          "check_id": "US:sodium_benzoate:EXAMPLE-MAX-sodium_benzoate",
+          "status": "pass",
+          "material_id": "sodium_benzoate",
+          "region": "US",
+          "rule_id": "EXAMPLE-MAX-sodium_benzoate",
+          "actual": 0.2,
+          "threshold": 0.3,
+          "unit": "percent_w_w",
+          "basis": "as_supplied_material_in_finished_formula",
+          "rule_provenance": "dummy_editable",
+          "message": "0.2% is within the configured 0.3% example maximum. This is not a regulatory verdict."
+        },
+        {
+          "check_id": "EU:water:EXAMPLE-MAX-water",
+          "status": "pass",
+          "material_id": "water",
+          "region": "EU",
+          "rule_id": "EXAMPLE-MAX-water",
+          "actual": 91.8,
+          "threshold": 100,
+          "unit": "percent_w_w",
+          "basis": "as_supplied_material_in_finished_formula",
+          "rule_provenance": "dummy_editable",
+          "message": "91.8% is within the configured 100% example maximum. This is not a regulatory verdict."
+        },
+        {
+          "check_id": "EU:glow_purple:EXAMPLE-MAX-glow_purple",
+          "status": "fail",
+          "material_id": "glow_purple",
+          "region": "EU",
+          "rule_id": "EXAMPLE-MAX-glow_purple",
+          "actual": 8,
+          "threshold": 5,
+          "unit": "percent_w_w",
+          "basis": "as_supplied_material_in_finished_formula",
+          "rule_provenance": "dummy_editable",
+          "message": "8% exceeds the configured 5% example maximum. This is not a regulatory verdict."
+        },
+        {
+          "check_id": "EU:sodium_benzoate:EXAMPLE-MAX-sodium_benzoate",
+          "status": "pass",
+          "material_id": "sodium_benzoate",
+          "region": "EU",
+          "rule_id": "EXAMPLE-MAX-sodium_benzoate",
+          "actual": 0.2,
+          "threshold": 0.3,
+          "unit": "percent_w_w",
+          "basis": "as_supplied_material_in_finished_formula",
+          "rule_provenance": "dummy_editable",
+          "message": "0.2% is within the configured 0.3% example maximum. This is not a regulatory verdict."
+        }
+      ],
+      "evidence_checks": [
+        {
+          "check_id": "E:US:REQ-SDS:water",
+          "requirement_id": "REQ-SDS",
+          "document_type": "sds",
+          "scope": "raw_material",
+          "material_id": "water",
+          "region": "US",
+          "status": "missing",
+          "document_ids": [],
+          "message": "Relevant evidence must be verified for this material/batch or formula version and region."
+        },
+        {
+          "check_id": "E:US:REQ-SDS:glow_purple",
+          "requirement_id": "REQ-SDS",
+          "document_type": "sds",
+          "scope": "raw_material",
+          "material_id": "glow_purple",
+          "region": "US",
+          "status": "missing",
+          "document_ids": [],
+          "message": "Relevant evidence must be verified for this material/batch or formula version and region."
+        },
+        {
+          "check_id": "E:US:REQ-SDS:sodium_benzoate",
+          "requirement_id": "REQ-SDS",
+          "document_type": "sds",
+          "scope": "raw_material",
+          "material_id": "sodium_benzoate",
+          "region": "US",
+          "status": "missing",
+          "document_ids": [],
+          "message": "Relevant evidence must be verified for this material/batch or formula version and region."
+        },
+        {
+          "check_id": "E:US:REQ-COA:water",
+          "requirement_id": "REQ-COA",
+          "document_type": "coa",
+          "scope": "raw_material",
+          "material_id": "water",
+          "region": "US",
+          "status": "missing",
+          "document_ids": [],
+          "message": "Relevant evidence must be verified for this material/batch or formula version and region."
+        },
+        {
+          "check_id": "E:US:REQ-COA:glow_purple",
+          "requirement_id": "REQ-COA",
+          "document_type": "coa",
+          "scope": "raw_material",
+          "material_id": "glow_purple",
+          "region": "US",
+          "status": "needs_review",
+          "document_ids": [
+            "DOC-GLOW"
+          ],
+          "message": "Relevant evidence must be verified for this material/batch or formula version and region."
+        },
+        {
+          "check_id": "E:US:REQ-COA:sodium_benzoate",
+          "requirement_id": "REQ-COA",
+          "document_type": "coa",
+          "scope": "raw_material",
+          "material_id": "sodium_benzoate",
+          "region": "US",
+          "status": "missing",
+          "document_ids": [],
+          "message": "Relevant evidence must be verified for this material/batch or formula version and region."
+        },
+        {
+          "check_id": "E:US:REQ-LAB:v1",
+          "requirement_id": "REQ-LAB",
+          "document_type": "lab_report",
+          "scope": "finished_product",
+          "material_id": null,
+          "region": "US",
+          "status": "missing",
+          "document_ids": [],
+          "message": "Relevant evidence must be verified for this material/batch or formula version and region."
+        },
+        {
+          "check_id": "E:US:REQ-LABEL:v1",
+          "requirement_id": "REQ-LABEL",
+          "document_type": "label",
+          "scope": "finished_product",
+          "material_id": null,
+          "region": "US",
+          "status": "missing",
+          "document_ids": [],
+          "message": "Relevant evidence must be verified for this material/batch or formula version and region."
+        },
+        {
+          "check_id": "E:EU:REQ-SDS:water",
+          "requirement_id": "REQ-SDS",
+          "document_type": "sds",
+          "scope": "raw_material",
+          "material_id": "water",
+          "region": "EU",
+          "status": "missing",
+          "document_ids": [],
+          "message": "Relevant evidence must be verified for this material/batch or formula version and region."
+        },
+        {
+          "check_id": "E:EU:REQ-SDS:glow_purple",
+          "requirement_id": "REQ-SDS",
+          "document_type": "sds",
+          "scope": "raw_material",
+          "material_id": "glow_purple",
+          "region": "EU",
+          "status": "missing",
+          "document_ids": [],
+          "message": "Relevant evidence must be verified for this material/batch or formula version and region."
+        },
+        {
+          "check_id": "E:EU:REQ-SDS:sodium_benzoate",
+          "requirement_id": "REQ-SDS",
+          "document_type": "sds",
+          "scope": "raw_material",
+          "material_id": "sodium_benzoate",
+          "region": "EU",
+          "status": "missing",
+          "document_ids": [],
+          "message": "Relevant evidence must be verified for this material/batch or formula version and region."
+        },
+        {
+          "check_id": "E:EU:REQ-COA:water",
+          "requirement_id": "REQ-COA",
+          "document_type": "coa",
+          "scope": "raw_material",
+          "material_id": "water",
+          "region": "EU",
+          "status": "missing",
+          "document_ids": [],
+          "message": "Relevant evidence must be verified for this material/batch or formula version and region."
+        },
+        {
+          "check_id": "E:EU:REQ-COA:glow_purple",
+          "requirement_id": "REQ-COA",
+          "document_type": "coa",
+          "scope": "raw_material",
+          "material_id": "glow_purple",
+          "region": "EU",
+          "status": "needs_review",
+          "document_ids": [
+            "DOC-GLOW"
+          ],
+          "message": "Relevant evidence must be verified for this material/batch or formula version and region."
+        },
+        {
+          "check_id": "E:EU:REQ-COA:sodium_benzoate",
+          "requirement_id": "REQ-COA",
+          "document_type": "coa",
+          "scope": "raw_material",
+          "material_id": "sodium_benzoate",
+          "region": "EU",
+          "status": "missing",
+          "document_ids": [],
+          "message": "Relevant evidence must be verified for this material/batch or formula version and region."
+        },
+        {
+          "check_id": "E:EU:REQ-LAB:v1",
+          "requirement_id": "REQ-LAB",
+          "document_type": "lab_report",
+          "scope": "finished_product",
+          "material_id": null,
+          "region": "EU",
+          "status": "missing",
+          "document_ids": [],
+          "message": "Relevant evidence must be verified for this material/batch or formula version and region."
+        },
+        {
+          "check_id": "E:EU:REQ-LABEL:v1",
+          "requirement_id": "REQ-LABEL",
+          "document_type": "label",
+          "scope": "finished_product",
+          "material_id": null,
+          "region": "EU",
+          "status": "missing",
+          "document_ids": [],
+          "message": "Relevant evidence must be verified for this material/batch or formula version and region."
+        }
+      ],
+      "documents": [
+        {
+          "document_id": "DOC-GLOW",
+          "filename": "COA_GLO_PR_JP.pdf",
+          "file_path": "data/source_documents/COA_GLO_PR_JP.pdf",
+          "sha256": "388d6a27bad607ad434e9eefa3bc8bf9fddbf80733fd6bc6b0575b9a108940a8",
+          "document_type": "coa",
+          "scope": "raw_material",
+          "material_id": "glow_purple",
+          "product_category": null,
+          "batch_id": "230320",
+          "issue_date": "2023-03-21",
+          "formula_id": null,
+          "version_id": null,
+          "regions": [],
+          "review_status": "unverified",
+          "representative_sample": false,
+          "eligible_as_verified_evidence": false,
+          "notes": "Reference only. Product/category similarity does not establish applicability to a new formula."
+        },
+        {
+          "document_id": "DOC-US",
+          "filename": "US.docx",
+          "file_path": "data/source_documents/US.docx",
+          "sha256": "8c958585a08d0dedf6455bbc2d01bdc11840ab8c7b9a7ae78ff4cb6b4deadb77",
+          "document_type": "regulatory_summary",
+          "scope": "region",
+          "material_id": null,
+          "product_category": null,
+          "batch_id": null,
+          "issue_date": null,
+          "formula_id": null,
+          "version_id": null,
+          "regions": [
+            "US"
+          ],
+          "review_status": "unverified",
+          "representative_sample": false,
+          "eligible_as_verified_evidence": false,
+          "notes": "Reference only. Product/category similarity does not establish applicability to a new formula."
+        },
+        {
+          "document_id": "DOC-EU",
+          "filename": "EU.docx",
+          "file_path": "data/source_documents/EU.docx",
+          "sha256": "1e2c726f2d699af8e3bd68098664ca0ec72d0747055dfde526b1e91edd74a793",
+          "document_type": "regulatory_summary",
+          "scope": "region",
+          "material_id": null,
+          "product_category": null,
+          "batch_id": null,
+          "issue_date": null,
+          "formula_id": null,
+          "version_id": null,
+          "regions": [
+            "EU"
+          ],
+          "review_status": "unverified",
+          "representative_sample": false,
+          "eligible_as_verified_evidence": false,
+          "notes": "Reference only. Product/category similarity does not establish applicability to a new formula."
+        }
+      ],
+      "extracted_facts": [
+        {
+          "fact_id": "GLOW-zinc_sulfide",
+          "document_id": "DOC-GLOW",
+          "material_id": "glow_purple",
+          "property": "Zinc sulfide assay",
+          "value": 98.8,
+          "unit": "percent",
+          "operator": "=",
+          "locator": {
+            "page": 1
+          },
+          "basis": "raw_material",
+          "review_status": "extracted_unverified",
+          "supplier_specification": {
+            "min": 98,
+            "max": 100
+          },
+          "batch_id": "230320"
+        },
+        {
+          "fact_id": "GLOW-zinc_oxide",
+          "document_id": "DOC-GLOW",
+          "material_id": "glow_purple",
+          "property": "Zinc oxide assay",
+          "value": 1.2,
+          "unit": "percent",
+          "operator": "=",
+          "locator": {
+            "page": 1
+          },
+          "basis": "raw_material",
+          "review_status": "extracted_unverified",
+          "supplier_specification": {
+            "min": 0,
+            "max": 2
+          },
+          "batch_id": "230320"
+        },
+        {
+          "fact_id": "GLOW-As",
+          "document_id": "DOC-GLOW",
+          "material_id": "glow_purple",
+          "property": "As",
+          "value": 2,
+          "unit": "ppm",
+          "operator": "<=",
+          "locator": {
+            "page": 1
+          },
+          "basis": "raw_material",
+          "review_status": "extracted_unverified",
+          "supplier_specification": {
+            "operator": "<=",
+            "value": 2,
+            "unit": "ppm"
+          },
+          "batch_id": "230320",
+          "test_method": "KT",
+          "measurement_type": "reported_upper_bound_not_exact_result"
+        },
+        {
+          "fact_id": "GLOW-Ba",
+          "document_id": "DOC-GLOW",
+          "material_id": "glow_purple",
+          "property": "Ba",
+          "value": 50,
+          "unit": "ppm",
+          "operator": "<=",
+          "locator": {
+            "page": 1
+          },
+          "basis": "raw_material",
+          "review_status": "extracted_unverified",
+          "supplier_specification": {
+            "operator": "<=",
+            "value": 50,
+            "unit": "ppm"
+          },
+          "batch_id": "230320",
+          "test_method": "KT",
+          "measurement_type": "reported_upper_bound_not_exact_result"
+        },
+        {
+          "fact_id": "GLOW-Cd",
+          "document_id": "DOC-GLOW",
+          "material_id": "glow_purple",
+          "property": "Cd",
+          "value": 3,
+          "unit": "ppm",
+          "operator": "<=",
+          "locator": {
+            "page": 1
+          },
+          "basis": "raw_material",
+          "review_status": "extracted_unverified",
+          "supplier_specification": {
+            "operator": "<=",
+            "value": 3,
+            "unit": "ppm"
+          },
+          "batch_id": "230320",
+          "test_method": "KT",
+          "measurement_type": "reported_upper_bound_not_exact_result"
+        },
+        {
+          "fact_id": "GLOW-Cr",
+          "document_id": "DOC-GLOW",
+          "material_id": "glow_purple",
+          "property": "Cr",
+          "value": 100,
+          "unit": "ppm",
+          "operator": "<=",
+          "locator": {
+            "page": 1
+          },
+          "basis": "raw_material",
+          "review_status": "extracted_unverified",
+          "supplier_specification": {
+            "operator": "<=",
+            "value": 100,
+            "unit": "ppm"
+          },
+          "batch_id": "230320",
+          "test_method": "KT",
+          "measurement_type": "reported_upper_bound_not_exact_result"
+        },
+        {
+          "fact_id": "GLOW-Cu",
+          "document_id": "DOC-GLOW",
+          "material_id": "glow_purple",
+          "property": "Cu",
+          "value": 50,
+          "unit": "ppm",
+          "operator": "<=",
+          "locator": {
+            "page": 1
+          },
+          "basis": "raw_material",
+          "review_status": "extracted_unverified",
+          "supplier_specification": {
+            "operator": "<=",
+            "value": 50,
+            "unit": "ppm"
+          },
+          "batch_id": "230320",
+          "test_method": "KT",
+          "measurement_type": "reported_upper_bound_not_exact_result"
+        },
+        {
+          "fact_id": "GLOW-Hg",
+          "document_id": "DOC-GLOW",
+          "material_id": "glow_purple",
+          "property": "Hg",
+          "value": 1,
+          "unit": "ppm",
+          "operator": "<=",
+          "locator": {
+            "page": 1
+          },
+          "basis": "raw_material",
+          "review_status": "extracted_unverified",
+          "supplier_specification": {
+            "operator": "<=",
+            "value": 1,
+            "unit": "ppm"
+          },
+          "batch_id": "230320",
+          "test_method": "KT",
+          "measurement_type": "reported_upper_bound_not_exact_result"
+        },
+        {
+          "fact_id": "GLOW-Ni",
+          "document_id": "DOC-GLOW",
+          "material_id": "glow_purple",
+          "property": "Ni",
+          "value": 10,
+          "unit": "ppm",
+          "operator": "<=",
+          "locator": {
+            "page": 1
+          },
+          "basis": "raw_material",
+          "review_status": "extracted_unverified",
+          "supplier_specification": {
+            "operator": "<=",
+            "value": 10,
+            "unit": "ppm"
+          },
+          "batch_id": "230320",
+          "test_method": "KT",
+          "measurement_type": "reported_upper_bound_not_exact_result"
+        },
+        {
+          "fact_id": "GLOW-Pb",
+          "document_id": "DOC-GLOW",
+          "material_id": "glow_purple",
+          "property": "Pb",
+          "value": 10,
+          "unit": "ppm",
+          "operator": "<=",
+          "locator": {
+            "page": 1
+          },
+          "basis": "raw_material",
+          "review_status": "extracted_unverified",
+          "supplier_specification": {
+            "operator": "<=",
+            "value": 10,
+            "unit": "ppm"
+          },
+          "batch_id": "230320",
+          "test_method": "KT",
+          "measurement_type": "reported_upper_bound_not_exact_result"
+        },
+        {
+          "fact_id": "GLOW-Sb",
+          "document_id": "DOC-GLOW",
+          "material_id": "glow_purple",
+          "property": "Sb",
+          "value": 1,
+          "unit": "ppm",
+          "operator": "<=",
+          "locator": {
+            "page": 1
+          },
+          "basis": "raw_material",
+          "review_status": "extracted_unverified",
+          "supplier_specification": {
+            "operator": "<=",
+            "value": 1,
+            "unit": "ppm"
+          },
+          "batch_id": "230320",
+          "test_method": "KT",
+          "measurement_type": "reported_upper_bound_not_exact_result"
+        },
+        {
+          "fact_id": "GLOW-Zn",
+          "document_id": "DOC-GLOW",
+          "material_id": "glow_purple",
+          "property": "Zn",
+          "value": 50,
+          "unit": "ppm",
+          "operator": "<=",
+          "locator": {
+            "page": 1
+          },
+          "basis": "raw_material",
+          "review_status": "extracted_unverified",
+          "supplier_specification": {
+            "operator": "<=",
+            "value": 50,
+            "unit": "ppm"
+          },
+          "batch_id": "230320",
+          "test_method": "KT",
+          "measurement_type": "reported_upper_bound_not_exact_result"
+        }
+      ],
+      "source_issues": [
+        {
+          "issue_id": "ISSUE-3",
+          "document_ids": [
+            "DOC-US",
+            "DOC-EU"
+          ],
+          "severity": "warning",
+          "message": "Uploaded summaries are not verified regulations. All extracted rows are disabled for decisions. Verify scope, units, current edition, effective dates and authoritative sources before activation."
+        },
+        {
+          "issue_id": "ISSUE-4",
+          "document_ids": [
+            "DOC-EU"
+          ],
+          "severity": "warning",
+          "message": "Do not compare borax ingredient percentage directly to a boron migration threshold. Compound content, elemental content and laboratory migration are different measurements."
+        },
+        {
+          "issue_id": "ISSUE-5",
+          "document_ids": [
+            "DOC-GLOW",
+            "DOC-MICA"
+          ],
+          "severity": "info",
+          "message": "Supplier assay ranges are raw-material specifications, not maximum allowed use levels in a finished product. Reported <= values are upper bounds."
+        }
+      ],
+      "regulatory_reference_status": "Uploaded summaries retained in data but disabled for decisions; no validated regional rules configured.",
+      "historical_cases": []
+    }
+  },
+  "current": {
+    "assessment_id": "d94cefed-c71a-42ec-8261-ab6c24c68b8d",
+    "created_at": "2026-10-08T04:25:22.418384+00:00",
+    "data_version": "1.0.0",
+    "data_hash": "73e05fadd04ac1923abded61bbc5b10b831d21d7e73fc7991edbfea9de600c02",
+    "input_snapshot": {
+      "formula_id": "F-PURPLE-PAINT",
+      "name": "Purple Effect Paint",
+      "product_category": "paint",
+      "age_group": "under_12",
+      "regions": [
+        "US",
+        "EU"
+      ],
+      "physical_form": "liquid",
+      "intended_use": "Brush application to paper",
+      "generate_explanation": false,
+      "version_id": "v2",
+      "ingredients": [
+        {
+          "material_id": "water",
+          "concentration_percent": 95.8,
+          "batch_id": null
+        },
+        {
+          "material_id": "glow_purple",
+          "concentration_percent": 4,
+          "batch_id": "230320"
+        },
+        {
+          "material_id": "sodium_benzoate",
+          "concentration_percent": 0.2,
+          "batch_id": null
+        }
+      ]
+    },
+    "screening_status": "review_required",
+    "regulatory_status": "not_assessed",
+    "ap_cl_decision": null,
+    "acceptance_probability": null,
+    "metrics": {
+      "passed_checks": 6,
+      "failed_checks": 0,
+      "not_assessed_checks": 0,
+      "check_pass_rate_percent": 100.0,
+      "evidence_coverage_percent": 0.0,
+      "metrics_note": "Counts are per rule and region. Pass rate is not safety or acceptance probability."
+    },
+    "regions": {
+      "US": {
+        "screening_status": "review_required",
+        "regulatory_status": "not_assessed",
+        "ap_cl_decision": null
+      },
+      "EU": {
+        "screening_status": "review_required",
+        "regulatory_status": "not_assessed",
+        "ap_cl_decision": null
+      }
+    },
+    "llm_context": {
+      "formula": {
+        "formula_id": "F-PURPLE-PAINT",
+        "name": "Purple Effect Paint",
+        "product_category": "paint",
+        "age_group": "under_12",
+        "regions": [
+          "US",
+          "EU"
+        ],
+        "physical_form": "liquid",
+        "intended_use": "Brush application to paper",
+        "generate_explanation": false,
+        "version_id": "v2",
+        "ingredients": [
+          {
+            "material_id": "water",
+            "concentration_percent": 95.8,
+            "batch_id": null
+          },
+          {
+            "material_id": "glow_purple",
+            "concentration_percent": 4,
+            "batch_id": "230320"
+          },
+          {
+            "material_id": "sodium_benzoate",
+            "concentration_percent": 0.2,
+            "batch_id": null
+          }
+        ]
+      },
+      "materials": [
+        {
+          "material_id": "water",
+          "name": "Water",
+          "kind": "substance",
+          "cas": null,
+          "source_document_ids": [],
+          "verified_crayola_ingredient": false,
+          "components": [],
+          "notes": "Supplemental example carrier, not extracted from a disclosed Crayola recipe."
+        },
+        {
+          "material_id": "glow_purple",
+          "name": "Glow in the Dark Purple",
+          "kind": "purchased_mixture",
+          "cas": null,
+          "source_document_ids": [
+            "DOC-GLOW"
+          ],
+          "verified_crayola_ingredient": false,
+          "components": [
+            {
+              "material_id": "zinc_sulfide",
+              "percent": 98.8
+            },
+            {
+              "material_id": "zinc_oxide",
+              "percent": 1.2
+            }
+          ],
+          "notes": "Supplier batch 230320; no evidence supplied of use by Crayola."
+        },
+        {
+          "material_id": "sodium_benzoate",
+          "name": "Sodium benzoate",
+          "kind": "substance",
+          "cas": "532-32-1",
+          "source_document_ids": [
+            "DOC-EU"
+          ],
+          "verified_crayola_ingredient": false,
+          "components": [],
+          "notes": "Name/CAS transcribed from uploaded unverified summary, not a supplier qualification or approval."
+        }
+      ],
+      "applicable_rules": [
+        {
+          "rule_id": "EXAMPLE-MAX-water",
+          "material_id": "water",
+          "product_categories": [
+            "paint",
+            "chalk",
+            "glue_stick",
+            "washable_marker"
+          ],
+          "age_groups": [
+            "under_12",
+            "12_and_above"
+          ],
+          "regions": [
+            "US",
+            "EU"
+          ],
+          "property": "concentration_percent",
+          "operator": "<=",
+          "threshold": 100,
+          "unit": "percent_w_w",
+          "basis": "as_supplied_material_in_finished_formula",
+          "enabled": true,
+          "provenance": "dummy_editable",
+          "is_regulatory_limit": false,
+          "source_document_ids": [],
+          "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+        },
+        {
+          "rule_id": "EXAMPLE-MAX-glow_purple",
+          "material_id": "glow_purple",
+          "product_categories": [
+            "paint",
+            "chalk",
+            "glue_stick",
+            "washable_marker"
+          ],
+          "age_groups": [
+            "under_12",
+            "12_and_above"
+          ],
+          "regions": [
+            "US",
+            "EU"
+          ],
+          "property": "concentration_percent",
+          "operator": "<=",
+          "threshold": 5,
+          "unit": "percent_w_w",
+          "basis": "as_supplied_material_in_finished_formula",
+          "enabled": true,
+          "provenance": "dummy_editable",
+          "is_regulatory_limit": false,
+          "source_document_ids": [],
+          "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+        },
+        {
+          "rule_id": "EXAMPLE-MAX-sodium_benzoate",
+          "material_id": "sodium_benzoate",
+          "product_categories": [
+            "paint",
+            "chalk",
+            "glue_stick",
+            "washable_marker"
+          ],
+          "age_groups": [
+            "under_12",
+            "12_and_above"
+          ],
+          "regions": [
+            "US",
+            "EU"
+          ],
+          "property": "concentration_percent",
+          "operator": "<=",
+          "threshold": 0.3,
+          "unit": "percent_w_w",
+          "basis": "as_supplied_material_in_finished_formula",
+          "enabled": true,
+          "provenance": "dummy_editable",
+          "is_regulatory_limit": false,
+          "source_document_ids": [],
+          "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+        }
+      ],
+      "checks": [
+        {
+          "check_id": "US:water:EXAMPLE-MAX-water",
+          "status": "pass",
+          "material_id": "water",
+          "region": "US",
+          "rule_id": "EXAMPLE-MAX-water",
+          "actual": 95.8,
+          "threshold": 100,
+          "unit": "percent_w_w",
+          "basis": "as_supplied_material_in_finished_formula",
+          "rule_provenance": "dummy_editable",
+          "message": "95.8% is within the configured 100% example maximum. This is not a regulatory verdict."
+        },
+        {
+          "check_id": "US:glow_purple:EXAMPLE-MAX-glow_purple",
+          "status": "pass",
+          "material_id": "glow_purple",
+          "region": "US",
+          "rule_id": "EXAMPLE-MAX-glow_purple",
+          "actual": 4,
+          "threshold": 5,
+          "unit": "percent_w_w",
+          "basis": "as_supplied_material_in_finished_formula",
+          "rule_provenance": "dummy_editable",
+          "message": "4% is within the configured 5% example maximum. This is not a regulatory verdict."
+        },
+        {
+          "check_id": "US:sodium_benzoate:EXAMPLE-MAX-sodium_benzoate",
+          "status": "pass",
+          "material_id": "sodium_benzoate",
+          "region": "US",
+          "rule_id": "EXAMPLE-MAX-sodium_benzoate",
+          "actual": 0.2,
+          "threshold": 0.3,
+          "unit": "percent_w_w",
+          "basis": "as_supplied_material_in_finished_formula",
+          "rule_provenance": "dummy_editable",
+          "message": "0.2% is within the configured 0.3% example maximum. This is not a regulatory verdict."
+        },
+        {
+          "check_id": "EU:water:EXAMPLE-MAX-water",
+          "status": "pass",
+          "material_id": "water",
+          "region": "EU",
+          "rule_id": "EXAMPLE-MAX-water",
+          "actual": 95.8,
+          "threshold": 100,
+          "unit": "percent_w_w",
+          "basis": "as_supplied_material_in_finished_formula",
+          "rule_provenance": "dummy_editable",
+          "message": "95.8% is within the configured 100% example maximum. This is not a regulatory verdict."
+        },
+        {
+          "check_id": "EU:glow_purple:EXAMPLE-MAX-glow_purple",
+          "status": "pass",
+          "material_id": "glow_purple",
+          "region": "EU",
+          "rule_id": "EXAMPLE-MAX-glow_purple",
+          "actual": 4,
+          "threshold": 5,
+          "unit": "percent_w_w",
+          "basis": "as_supplied_material_in_finished_formula",
+          "rule_provenance": "dummy_editable",
+          "message": "4% is within the configured 5% example maximum. This is not a regulatory verdict."
+        },
+        {
+          "check_id": "EU:sodium_benzoate:EXAMPLE-MAX-sodium_benzoate",
+          "status": "pass",
+          "material_id": "sodium_benzoate",
+          "region": "EU",
+          "rule_id": "EXAMPLE-MAX-sodium_benzoate",
+          "actual": 0.2,
+          "threshold": 0.3,
+          "unit": "percent_w_w",
+          "basis": "as_supplied_material_in_finished_formula",
+          "rule_provenance": "dummy_editable",
+          "message": "0.2% is within the configured 0.3% example maximum. This is not a regulatory verdict."
+        }
+      ],
+      "evidence_checks": [
+        {
+          "check_id": "E:US:REQ-SDS:water",
+          "requirement_id": "REQ-SDS",
+          "document_type": "sds",
+          "scope": "raw_material",
+          "material_id": "water",
+          "region": "US",
+          "status": "missing",
+          "document_ids": [],
+          "message": "Relevant evidence must be verified for this material/batch or formula version and region."
+        },
+        {
+          "check_id": "E:US:REQ-SDS:glow_purple",
+          "requirement_id": "REQ-SDS",
+          "document_type": "sds",
+          "scope": "raw_material",
+          "material_id": "glow_purple",
+          "region": "US",
+          "status": "missing",
+          "document_ids": [],
+          "message": "Relevant evidence must be verified for this material/batch or formula version and region."
+        },
+        {
+          "check_id": "E:US:REQ-SDS:sodium_benzoate",
+          "requirement_id": "REQ-SDS",
+          "document_type": "sds",
+          "scope": "raw_material",
+          "material_id": "sodium_benzoate",
+          "region": "US",
+          "status": "missing",
+          "document_ids": [],
+          "message": "Relevant evidence must be verified for this material/batch or formula version and region."
+        },
+        {
+          "check_id": "E:US:REQ-COA:water",
+          "requirement_id": "REQ-COA",
+          "document_type": "coa",
+          "scope": "raw_material",
+          "material_id": "water",
+          "region": "US",
+          "status": "missing",
+          "document_ids": [],
+          "message": "Relevant evidence must be verified for this material/batch or formula version and region."
+        },
+        {
+          "check_id": "E:US:REQ-COA:glow_purple",
+          "requirement_id": "REQ-COA",
+          "document_type": "coa",
+          "scope": "raw_material",
+          "material_id": "glow_purple",
+          "region": "US",
+          "status": "needs_review",
+          "document_ids": [
+            "DOC-GLOW"
+          ],
+          "message": "Relevant evidence must be verified for this material/batch or formula version and region."
+        },
+        {
+          "check_id": "E:US:REQ-COA:sodium_benzoate",
+          "requirement_id": "REQ-COA",
+          "document_type": "coa",
+          "scope": "raw_material",
+          "material_id": "sodium_benzoate",
+          "region": "US",
+          "status": "missing",
+          "document_ids": [],
+          "message": "Relevant evidence must be verified for this material/batch or formula version and region."
+        },
+        {
+          "check_id": "E:US:REQ-LAB:v2",
+          "requirement_id": "REQ-LAB",
+          "document_type": "lab_report",
+          "scope": "finished_product",
+          "material_id": null,
+          "region": "US",
+          "status": "missing",
+          "document_ids": [],
+          "message": "Relevant evidence must be verified for this material/batch or formula version and region."
+        },
+        {
+          "check_id": "E:US:REQ-LABEL:v2",
+          "requirement_id": "REQ-LABEL",
+          "document_type": "label",
+          "scope": "finished_product",
+          "material_id": null,
+          "region": "US",
+          "status": "missing",
+          "document_ids": [],
+          "message": "Relevant evidence must be verified for this material/batch or formula version and region."
+        },
+        {
+          "check_id": "E:EU:REQ-SDS:water",
+          "requirement_id": "REQ-SDS",
+          "document_type": "sds",
+          "scope": "raw_material",
+          "material_id": "water",
+          "region": "EU",
+          "status": "missing",
+          "document_ids": [],
+          "message": "Relevant evidence must be verified for this material/batch or formula version and region."
+        },
+        {
+          "check_id": "E:EU:REQ-SDS:glow_purple",
+          "requirement_id": "REQ-SDS",
+          "document_type": "sds",
+          "scope": "raw_material",
+          "material_id": "glow_purple",
+          "region": "EU",
+          "status": "missing",
+          "document_ids": [],
+          "message": "Relevant evidence must be verified for this material/batch or formula version and region."
+        },
+        {
+          "check_id": "E:EU:REQ-SDS:sodium_benzoate",
+          "requirement_id": "REQ-SDS",
+          "document_type": "sds",
+          "scope": "raw_material",
+          "material_id": "sodium_benzoate",
+          "region": "EU",
+          "status": "missing",
+          "document_ids": [],
+          "message": "Relevant evidence must be verified for this material/batch or formula version and region."
+        },
+        {
+          "check_id": "E:EU:REQ-COA:water",
+          "requirement_id": "REQ-COA",
+          "document_type": "coa",
+          "scope": "raw_material",
+          "material_id": "water",
+          "region": "EU",
+          "status": "missing",
+          "document_ids": [],
+          "message": "Relevant evidence must be verified for this material/batch or formula version and region."
+        },
+        {
+          "check_id": "E:EU:REQ-COA:glow_purple",
+          "requirement_id": "REQ-COA",
+          "document_type": "coa",
+          "scope": "raw_material",
+          "material_id": "glow_purple",
+          "region": "EU",
+          "status": "needs_review",
+          "document_ids": [
+            "DOC-GLOW"
+          ],
+          "message": "Relevant evidence must be verified for this material/batch or formula version and region."
+        },
+        {
+          "check_id": "E:EU:REQ-COA:sodium_benzoate",
+          "requirement_id": "REQ-COA",
+          "document_type": "coa",
+          "scope": "raw_material",
+          "material_id": "sodium_benzoate",
+          "region": "EU",
+          "status": "missing",
+          "document_ids": [],
+          "message": "Relevant evidence must be verified for this material/batch or formula version and region."
+        },
+        {
+          "check_id": "E:EU:REQ-LAB:v2",
+          "requirement_id": "REQ-LAB",
+          "document_type": "lab_report",
+          "scope": "finished_product",
+          "material_id": null,
+          "region": "EU",
+          "status": "missing",
+          "document_ids": [],
+          "message": "Relevant evidence must be verified for this material/batch or formula version and region."
+        },
+        {
+          "check_id": "E:EU:REQ-LABEL:v2",
+          "requirement_id": "REQ-LABEL",
+          "document_type": "label",
+          "scope": "finished_product",
+          "material_id": null,
+          "region": "EU",
+          "status": "missing",
+          "document_ids": [],
+          "message": "Relevant evidence must be verified for this material/batch or formula version and region."
+        }
+      ],
+      "documents": [
+        {
+          "document_id": "DOC-GLOW",
+          "filename": "COA_GLO_PR_JP.pdf",
+          "file_path": "data/source_documents/COA_GLO_PR_JP.pdf",
+          "sha256": "388d6a27bad607ad434e9eefa3bc8bf9fddbf80733fd6bc6b0575b9a108940a8",
+          "document_type": "coa",
+          "scope": "raw_material",
+          "material_id": "glow_purple",
+          "product_category": null,
+          "batch_id": "230320",
+          "issue_date": "2023-03-21",
+          "formula_id": null,
+          "version_id": null,
+          "regions": [],
+          "review_status": "unverified",
+          "representative_sample": false,
+          "eligible_as_verified_evidence": false,
+          "notes": "Reference only. Product/category similarity does not establish applicability to a new formula."
+        },
+        {
+          "document_id": "DOC-US",
+          "filename": "US.docx",
+          "file_path": "data/source_documents/US.docx",
+          "sha256": "8c958585a08d0dedf6455bbc2d01bdc11840ab8c7b9a7ae78ff4cb6b4deadb77",
+          "document_type": "regulatory_summary",
+          "scope": "region",
+          "material_id": null,
+          "product_category": null,
+          "batch_id": null,
+          "issue_date": null,
+          "formula_id": null,
+          "version_id": null,
+          "regions": [
+            "US"
+          ],
+          "review_status": "unverified",
+          "representative_sample": false,
+          "eligible_as_verified_evidence": false,
+          "notes": "Reference only. Product/category similarity does not establish applicability to a new formula."
+        },
+        {
+          "document_id": "DOC-EU",
+          "filename": "EU.docx",
+          "file_path": "data/source_documents/EU.docx",
+          "sha256": "1e2c726f2d699af8e3bd68098664ca0ec72d0747055dfde526b1e91edd74a793",
+          "document_type": "regulatory_summary",
+          "scope": "region",
+          "material_id": null,
+          "product_category": null,
+          "batch_id": null,
+          "issue_date": null,
+          "formula_id": null,
+          "version_id": null,
+          "regions": [
+            "EU"
+          ],
+          "review_status": "unverified",
+          "representative_sample": false,
+          "eligible_as_verified_evidence": false,
+          "notes": "Reference only. Product/category similarity does not establish applicability to a new formula."
+        }
+      ],
+      "extracted_facts": [
+        {
+          "fact_id": "GLOW-zinc_sulfide",
+          "document_id": "DOC-GLOW",
+          "material_id": "glow_purple",
+          "property": "Zinc sulfide assay",
+          "value": 98.8,
+          "unit": "percent",
+          "operator": "=",
+          "locator": {
+            "page": 1
+          },
+          "basis": "raw_material",
+          "review_status": "extracted_unverified",
+          "supplier_specification": {
+            "min": 98,
+            "max": 100
+          },
+          "batch_id": "230320"
+        },
+        {
+          "fact_id": "GLOW-zinc_oxide",
+          "document_id": "DOC-GLOW",
+          "material_id": "glow_purple",
+          "property": "Zinc oxide assay",
+          "value": 1.2,
+          "unit": "percent",
+          "operator": "=",
+          "locator": {
+            "page": 1
+          },
+          "basis": "raw_material",
+          "review_status": "extracted_unverified",
+          "supplier_specification": {
+            "min": 0,
+            "max": 2
+          },
+          "batch_id": "230320"
+        },
+        {
+          "fact_id": "GLOW-As",
+          "document_id": "DOC-GLOW",
+          "material_id": "glow_purple",
+          "property": "As",
+          "value": 2,
+          "unit": "ppm",
+          "operator": "<=",
+          "locator": {
+            "page": 1
+          },
+          "basis": "raw_material",
+          "review_status": "extracted_unverified",
+          "supplier_specification": {
+            "operator": "<=",
+            "value": 2,
+            "unit": "ppm"
+          },
+          "batch_id": "230320",
+          "test_method": "KT",
+          "measurement_type": "reported_upper_bound_not_exact_result"
+        },
+        {
+          "fact_id": "GLOW-Ba",
+          "document_id": "DOC-GLOW",
+          "material_id": "glow_purple",
+          "property": "Ba",
+          "value": 50,
+          "unit": "ppm",
+          "operator": "<=",
+          "locator": {
+            "page": 1
+          },
+          "basis": "raw_material",
+          "review_status": "extracted_unverified",
+          "supplier_specification": {
+            "operator": "<=",
+            "value": 50,
+            "unit": "ppm"
+          },
+          "batch_id": "230320",
+          "test_method": "KT",
+          "measurement_type": "reported_upper_bound_not_exact_result"
+        },
+        {
+          "fact_id": "GLOW-Cd",
+          "document_id": "DOC-GLOW",
+          "material_id": "glow_purple",
+          "property": "Cd",
+          "value": 3,
+          "unit": "ppm",
+          "operator": "<=",
+          "locator": {
+            "page": 1
+          },
+          "basis": "raw_material",
+          "review_status": "extracted_unverified",
+          "supplier_specification": {
+            "operator": "<=",
+            "value": 3,
+            "unit": "ppm"
+          },
+          "batch_id": "230320",
+          "test_method": "KT",
+          "measurement_type": "reported_upper_bound_not_exact_result"
+        },
+        {
+          "fact_id": "GLOW-Cr",
+          "document_id": "DOC-GLOW",
+          "material_id": "glow_purple",
+          "property": "Cr",
+          "value": 100,
+          "unit": "ppm",
+          "operator": "<=",
+          "locator": {
+            "page": 1
+          },
+          "basis": "raw_material",
+          "review_status": "extracted_unverified",
+          "supplier_specification": {
+            "operator": "<=",
+            "value": 100,
+            "unit": "ppm"
+          },
+          "batch_id": "230320",
+          "test_method": "KT",
+          "measurement_type": "reported_upper_bound_not_exact_result"
+        },
+        {
+          "fact_id": "GLOW-Cu",
+          "document_id": "DOC-GLOW",
+          "material_id": "glow_purple",
+          "property": "Cu",
+          "value": 50,
+          "unit": "ppm",
+          "operator": "<=",
+          "locator": {
+            "page": 1
+          },
+          "basis": "raw_material",
+          "review_status": "extracted_unverified",
+          "supplier_specification": {
+            "operator": "<=",
+            "value": 50,
+            "unit": "ppm"
+          },
+          "batch_id": "230320",
+          "test_method": "KT",
+          "measurement_type": "reported_upper_bound_not_exact_result"
+        },
+        {
+          "fact_id": "GLOW-Hg",
+          "document_id": "DOC-GLOW",
+          "material_id": "glow_purple",
+          "property": "Hg",
+          "value": 1,
+          "unit": "ppm",
+          "operator": "<=",
+          "locator": {
+            "page": 1
+          },
+          "basis": "raw_material",
+          "review_status": "extracted_unverified",
+          "supplier_specification": {
+            "operator": "<=",
+            "value": 1,
+            "unit": "ppm"
+          },
+          "batch_id": "230320",
+          "test_method": "KT",
+          "measurement_type": "reported_upper_bound_not_exact_result"
+        },
+        {
+          "fact_id": "GLOW-Ni",
+          "document_id": "DOC-GLOW",
+          "material_id": "glow_purple",
+          "property": "Ni",
+          "value": 10,
+          "unit": "ppm",
+          "operator": "<=",
+          "locator": {
+            "page": 1
+          },
+          "basis": "raw_material",
+          "review_status": "extracted_unverified",
+          "supplier_specification": {
+            "operator": "<=",
+            "value": 10,
+            "unit": "ppm"
+          },
+          "batch_id": "230320",
+          "test_method": "KT",
+          "measurement_type": "reported_upper_bound_not_exact_result"
+        },
+        {
+          "fact_id": "GLOW-Pb",
+          "document_id": "DOC-GLOW",
+          "material_id": "glow_purple",
+          "property": "Pb",
+          "value": 10,
+          "unit": "ppm",
+          "operator": "<=",
+          "locator": {
+            "page": 1
+          },
+          "basis": "raw_material",
+          "review_status": "extracted_unverified",
+          "supplier_specification": {
+            "operator": "<=",
+            "value": 10,
+            "unit": "ppm"
+          },
+          "batch_id": "230320",
+          "test_method": "KT",
+          "measurement_type": "reported_upper_bound_not_exact_result"
+        },
+        {
+          "fact_id": "GLOW-Sb",
+          "document_id": "DOC-GLOW",
+          "material_id": "glow_purple",
+          "property": "Sb",
+          "value": 1,
+          "unit": "ppm",
+          "operator": "<=",
+          "locator": {
+            "page": 1
+          },
+          "basis": "raw_material",
+          "review_status": "extracted_unverified",
+          "supplier_specification": {
+            "operator": "<=",
+            "value": 1,
+            "unit": "ppm"
+          },
+          "batch_id": "230320",
+          "test_method": "KT",
+          "measurement_type": "reported_upper_bound_not_exact_result"
+        },
+        {
+          "fact_id": "GLOW-Zn",
+          "document_id": "DOC-GLOW",
+          "material_id": "glow_purple",
+          "property": "Zn",
+          "value": 50,
+          "unit": "ppm",
+          "operator": "<=",
+          "locator": {
+            "page": 1
+          },
+          "basis": "raw_material",
+          "review_status": "extracted_unverified",
+          "supplier_specification": {
+            "operator": "<=",
+            "value": 50,
+            "unit": "ppm"
+          },
+          "batch_id": "230320",
+          "test_method": "KT",
+          "measurement_type": "reported_upper_bound_not_exact_result"
+        }
+      ],
+      "source_issues": [
+        {
+          "issue_id": "ISSUE-3",
+          "document_ids": [
+            "DOC-US",
+            "DOC-EU"
+          ],
+          "severity": "warning",
+          "message": "Uploaded summaries are not verified regulations. All extracted rows are disabled for decisions. Verify scope, units, current edition, effective dates and authoritative sources before activation."
+        },
+        {
+          "issue_id": "ISSUE-4",
+          "document_ids": [
+            "DOC-EU"
+          ],
+          "severity": "warning",
+          "message": "Do not compare borax ingredient percentage directly to a boron migration threshold. Compound content, elemental content and laboratory migration are different measurements."
+        },
+        {
+          "issue_id": "ISSUE-5",
+          "document_ids": [
+            "DOC-GLOW",
+            "DOC-MICA"
+          ],
+          "severity": "info",
+          "message": "Supplier assay ranges are raw-material specifications, not maximum allowed use levels in a finished product. Reported <= values are upper bounds."
+        }
+      ],
+      "regulatory_reference_status": "Uploaded summaries retained in data but disabled for decisions; no validated regional rules configured.",
+      "historical_cases": []
+    }
+  },
+  "ingredient_changes": [
+    {
+      "material_id": "glow_purple",
+      "previous_percent": 8,
+      "current_percent": 4,
+      "delta_percentage_points": -4
+    },
+    {
+      "material_id": "water",
+      "previous_percent": 91.8,
+      "current_percent": 95.8,
+      "delta_percentage_points": 4.0
+    }
+  ],
+  "context_changes": {},
+  "note": "Each version is evaluated independently. No AP/CL prediction. Changed context or batches may require new evidence."
+}

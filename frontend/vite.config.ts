@@ -3,31 +3,13 @@ import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  plugins: [
-    react(),
-    tailwindcss(),
-    {
-      name: 'formula-assessment-api',
-      configureServer(server) {
-        server.middlewares.use(async (req, res, next) => {
-          const url = (req as { url?: string }).url?.split('?')[0] ?? '';
-          if (!url.startsWith('/api/')) {
-            next();
-            return;
-          }
-          // @ts-expect-error Plain JavaScript server module has no declaration file.
-          const serverApi = await import('../server/http.js');
-          const { handleApi } = serverApi as {
-            handleApi: (request: typeof req, response: typeof res) => Promise<void>;
-          };
-          await handleApi(req, res);
-        });
-      },
-    },
-  ],
+  plugins: [react(), tailwindcss()],
   server: {
     port: 5173,
     strictPort: false,
+    proxy: {
+      '/api': 'http://127.0.0.1:8000',
+    },
   },
   build: {
     outDir: 'dist',

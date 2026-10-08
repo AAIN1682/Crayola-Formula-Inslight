@@ -1,0 +1,43 @@
+[
+  {
+    "requirement_id": "REQ-SDS",
+    "scope": "raw_material",
+    "document_type": "sds",
+    "match_fields": [
+      "material_id"
+    ],
+    "policy_basis": "example_internal_workflow"
+  },
+  {
+    "requirement_id": "REQ-COA",
+    "scope": "raw_material",
+    "document_type": "coa",
+    "match_fields": [
+      "material_id",
+      "batch_id"
+    ],
+    "policy_basis": "example_internal_workflow"
+  },
+  {
+    "requirement_id": "REQ-LAB",
+    "scope": "finished_product",
+    "document_type": "lab_report",
+    "match_fields": [
+      "formula_id",
+      "version_id",
+      "region"
+    ],
+    "policy_basis": "example_internal_workflow"
+  },
+  {
+    "requirement_id": "REQ-LABEL",
+    "scope": "finished_product",
+    "document_type": "label",
+    "match_fields": [
+      "formula_id",
+      "version_id",
+      "region"
+    ],
+    "policy_basis": "example_internal_workflow"
+  }
+]

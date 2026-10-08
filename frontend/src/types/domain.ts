@@ -192,6 +192,8 @@ export interface Ingredient {
   /** Version in which this ingredient first appeared — drives "new ingredient" checks. */
   addedInVersion?: string;
   notes?: string;
+  /** Supplier batch used for certificate matching. Not invented when left blank. */
+  batchId?: string;
 }
 
 export interface Formula {
@@ -341,9 +343,19 @@ export interface ScreeningRun {
   /** True once the formula changed after this run completed. */
   outdated: boolean;
   /** Snapshot of the ingredient list at run time. */
-  ingredientSnapshot: { name: string; rawMaterialId?: string; concentration: number }[];
-  /** Present when this run used the server reference catalog. History stays in this browser. */
+  ingredientSnapshot: { name: string; rawMaterialId?: string; concentration: number; batchId?: string }[];
+  /** Present when this run used the earlier reference catalog. */
   referenceAssessment?: ReferenceAssessment;
+  /** Server assessment for this exact version. Stored in this browser, not in packaged JSON. */
+  formulaAssessment?: import('../api/formulaBackend').PackageAssessment;
+  /** Seeded or previously stored demo-engine result. Never relabeled as an Azure result. */
+  legacySample?: boolean;
+  physicalForm?: PhysicalForm;
+  intendedUse?: string;
+  category?: ProductCategory;
+  inputHash?: string;
+  dataHash?: string;
+  aiStatus?: 'succeeded' | 'failed' | 'not_requested';
 }
 
 export type ReviewDecisionKind = 'request-evidence' | 'review-complete' | 'return-for-changes';

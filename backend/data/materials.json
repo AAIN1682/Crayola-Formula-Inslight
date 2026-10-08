@@ -1,0 +1,190 @@
+[
+  {
+    "material_id": "glow_purple",
+    "name": "Glow in the Dark Purple",
+    "kind": "purchased_mixture",
+    "cas": null,
+    "source_document_ids": [
+      "DOC-GLOW"
+    ],
+    "verified_crayola_ingredient": false,
+    "components": [
+      {
+        "material_id": "zinc_sulfide",
+        "percent": 98.8
+      },
+      {
+        "material_id": "zinc_oxide",
+        "percent": 1.2
+      }
+    ],
+    "notes": "Supplier batch 230320; no evidence supplied of use by Crayola."
+  },
+  {
+    "material_id": "mica_patina_silver",
+    "name": "Mica Patina Silver",
+    "kind": "purchased_mixture",
+    "cas": null,
+    "source_document_ids": [
+      "DOC-MICA"
+    ],
+    "verified_crayola_ingredient": false,
+    "components": [
+      {
+        "material_id": "mica",
+        "percent": 61.4
+      },
+      {
+        "material_id": "titanium_dioxide",
+        "percent": 18.1
+      },
+      {
+        "material_id": "iron_oxide_unresolved",
+        "percent": 20.5
+      }
+    ],
+    "notes": "Representative certificate only; iron oxide identity conflicts within source. Do not infer exact composition of another batch."
+  },
+  {
+    "material_id": "zinc_sulfide",
+    "name": "Zinc sulfide",
+    "kind": "substance",
+    "cas": "1314-98-3",
+    "source_document_ids": [
+      "DOC-GLOW"
+    ],
+    "verified_crayola_ingredient": false,
+    "components": [],
+    "notes": ""
+  },
+  {
+    "material_id": "zinc_oxide",
+    "name": "Zinc oxide",
+    "kind": "substance",
+    "cas": "1314-13-2",
+    "source_document_ids": [
+      "DOC-GLOW"
+    ],
+    "verified_crayola_ingredient": false,
+    "components": [],
+    "notes": ""
+  },
+  {
+    "material_id": "mica",
+    "name": "Mica",
+    "kind": "substance",
+    "cas": "12001-26-2",
+    "source_document_ids": [
+      "DOC-MICA"
+    ],
+    "verified_crayola_ingredient": false,
+    "components": [],
+    "notes": ""
+  },
+  {
+    "material_id": "titanium_dioxide",
+    "name": "Titanium dioxide",
+    "kind": "substance",
+    "cas": "13463-67-7",
+    "source_document_ids": [
+      "DOC-MICA"
+    ],
+    "verified_crayola_ingredient": false,
+    "components": [],
+    "notes": ""
+  },
+  {
+    "material_id": "iron_oxide_unresolved",
+    "name": "Iron oxide — identity requires confirmation",
+    "kind": "substance",
+    "cas": null,
+    "source_document_ids": [
+      "DOC-MICA"
+    ],
+    "verified_crayola_ingredient": false,
+    "components": [],
+    "notes": ""
+  },
+  {
+    "material_id": "sodium_benzoate",
+    "name": "Sodium benzoate",
+    "kind": "substance",
+    "cas": "532-32-1",
+    "source_document_ids": [
+      "DOC-EU"
+    ],
+    "verified_crayola_ingredient": false,
+    "components": [],
+    "notes": "Name/CAS transcribed from uploaded unverified summary, not a supplier qualification or approval."
+  },
+  {
+    "material_id": "potassium_sorbate",
+    "name": "Potassium sorbate",
+    "kind": "substance",
+    "cas": "24634-61-5",
+    "source_document_ids": [
+      "DOC-EU"
+    ],
+    "verified_crayola_ingredient": false,
+    "components": [],
+    "notes": "Name/CAS transcribed from uploaded unverified summary, not a supplier qualification or approval."
+  },
+  {
+    "material_id": "phenoxyethanol",
+    "name": "Phenoxyethanol",
+    "kind": "substance",
+    "cas": "122-99-6",
+    "source_document_ids": [
+      "DOC-EU"
+    ],
+    "verified_crayola_ingredient": false,
+    "components": [],
+    "notes": "Name/CAS transcribed from uploaded unverified summary, not a supplier qualification or approval."
+  },
+  {
+    "material_id": "propylene_glycol",
+    "name": "Propylene glycol",
+    "kind": "substance",
+    "cas": "57-55-6",
+    "source_document_ids": [
+      "DOC-EU"
+    ],
+    "verified_crayola_ingredient": false,
+    "components": [],
+    "notes": "Name/CAS transcribed from uploaded unverified summary, not a supplier qualification or approval."
+  },
+  {
+    "material_id": "ethyl_lactate",
+    "name": "Ethyl lactate",
+    "kind": "substance",
+    "cas": "97-64-3",
+    "source_document_ids": [
+      "DOC-EU"
+    ],
+    "verified_crayola_ingredient": false,
+    "components": [],
+    "notes": "Name/CAS transcribed from uploaded unverified summary, not a supplier qualification or approval."
+  },
+  {
+    "material_id": "bismuth_vanadate",
+    "name": "Bismuth vanadate",
+    "kind": "substance",
+    "cas": "14059-33-7",
+    "source_document_ids": [
+      "DOC-EU"
+    ],
+    "verified_crayola_ingredient": false,
+    "components": [],
+    "notes": "Name/CAS transcribed from uploaded unverified summary, not a supplier qualification or approval."
+  },
+  {
+    "material_id": "water",
+    "name": "Water",
+    "kind": "substance",
+    "cas": null,
+    "source_document_ids": [],
+    "verified_crayola_ingredient": false,
+    "components": [],
+    "notes": "Supplemental example carrier, not extracted from a disclosed Crayola recipe."
+  }
+]

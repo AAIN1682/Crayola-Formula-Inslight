@@ -3,7 +3,7 @@ import { createSeedDataset } from '../data/seed';
 import { mapLegacyAge } from '../utils/audience';
 
 export const STORAGE_KEY = 'formula-insight.dataset';
-export const STORAGE_VERSION = 2;
+export const STORAGE_VERSION = 3;
 
 export const PERSISTENCE_DESCRIPTION =
   'Formulas, assessment runs, review decisions, and activity stay in this browser under the key "formula-insight.dataset". That history is not shared server-side storage. A catalog assessment is sent to the application server to run the checks and request an explanation; the server does not keep the run.';
@@ -42,22 +42,36 @@ function migrateDataset(dataset: DemoDataset): DemoDataset {
   const byId = new Map(formulas.map((formula) => [formula.id, formula]));
   const runs = dataset.runs.map((run) => {
     const formula = byId.get(run.formulaId);
-    if (run.assessmentRequest && run.marketResults && run.ageGroup && run.targetMarkets) return run;
     const ageGroup = run.ageGroup ?? formula?.ageGroup;
     const targetMarkets = run.targetMarkets ?? formula?.targetMarkets ?? ['US'];
-    if (!ageGroup) return run;
+    const sampleFindings = run.findings.some((finding) => String(finding.ruleId || '').startsWith('DR-'));
+    const liveAzure = run.formulaAssessment?.execution?.llm_status === 'succeeded' && run.formulaAssessment.explanation?.source === 'azure';
+    const legacySample = Boolean(run.legacySample) || (!liveAzure && (sampleFindings || !run.formulaAssessment));
     const next: ScreeningRun = {
       ...run,
-      ageGroup,
+      ageGroup: ageGroup ?? run.ageGroup,
       targetMarkets,
       marketResults: run.marketResults ?? [
         { market: 'US', status: run.status, findingIds: run.findings.map((finding) => finding.id) },
       ],
-      assessmentRequest: run.assessmentRequest ?? { target_markets: targetMarkets, age_group: ageGroup },
+      assessmentRequest: run.assessmentRequest ?? (ageGroup ? { target_markets: targetMarkets, age_group: ageGroup } : run.assessmentRequest),
+      legacySample,
+      outdated: run.outdated || legacySample,
     };
     return next;
   });
-  return { ...dataset, formulas, runs };
+  const latestLegacy = new Set(
+    formulas
+      .filter((formula) => {
+        const latest = runs.find((run) => run.id === formula.latestRunId);
+        return latest?.legacySample;
+      })
+      .map((formula) => formula.id),
+  );
+  const nextFormulas = formulas.map((formula) =>
+    latestLegacy.has(formula.id) ? { ...formula, screeningCurrent: false } : formula,
+  );
+  return { ...dataset, formulas: nextFormulas, runs };
 }
 
 function isValidDataset(value: unknown): value is DemoDataset {

@@ -1,0 +1,6441 @@
+[
+  {
+    "claim_id": "DOC-US-T1-R2",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 1,
+      "row": 2
+    },
+    "headers": [
+      "",
+      "#",
+      "Element Name",
+      "Symbol",
+      "Soluble Migration Limit (mg/kg or ppm)",
+      "Applicable Material Categories (ASTM F963 Sec 4.3.5)",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "",
+      "1",
+      "Antimony",
+      "Sb",
+      "60 ppm",
+      "Surface coatings, paper, textiles, plastics, modeling clay, paints, crayons, chalk.",
+      "ASTM F963-23, Sec 4.3.5, Table 2"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T1-R3",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 1,
+      "row": 3
+    },
+    "headers": [
+      "",
+      "#",
+      "Element Name",
+      "Symbol",
+      "Soluble Migration Limit (mg/kg or ppm)",
+      "Applicable Material Categories (ASTM F963 Sec 4.3.5)",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "",
+      "2",
+      "Arsenic",
+      "As",
+      "25 ppm",
+      "Surface coatings, paper, textiles, plastics, modeling clay, paints, crayons, chalk.",
+      "ASTM F963-23, Sec 4.3.5, Table 2"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T1-R4",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 1,
+      "row": 4
+    },
+    "headers": [
+      "",
+      "#",
+      "Element Name",
+      "Symbol",
+      "Soluble Migration Limit (mg/kg or ppm)",
+      "Applicable Material Categories (ASTM F963 Sec 4.3.5)",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "",
+      "3",
+      "Barium",
+      "Ba",
+      "1000 ppm",
+      "Surface coatings, paper, textiles, plastics, modeling clay, paints, crayons, chalk.",
+      "ASTM F963-23, Sec 4.3.5, Table 2"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T1-R5",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 1,
+      "row": 5
+    },
+    "headers": [
+      "",
+      "#",
+      "Element Name",
+      "Symbol",
+      "Soluble Migration Limit (mg/kg or ppm)",
+      "Applicable Material Categories (ASTM F963 Sec 4.3.5)",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "",
+      "4",
+      "Cadmium",
+      "Cd",
+      "75 ppm",
+      "Surface coatings, paper, textiles, plastics, modeling clay, paints, crayons, chalk.",
+      "ASTM F963-23, Sec 4.3.5, Table 2"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T1-R6",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 1,
+      "row": 6
+    },
+    "headers": [
+      "",
+      "#",
+      "Element Name",
+      "Symbol",
+      "Soluble Migration Limit (mg/kg or ppm)",
+      "Applicable Material Categories (ASTM F963 Sec 4.3.5)",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "",
+      "5",
+      "Chromium",
+      "Cr",
+      "60 ppm",
+      "Surface coatings, paper, textiles, plastics, modeling clay, paints, crayons, chalk.",
+      "ASTM F963-23, Sec 4.3.5, Table 2"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T1-R7",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 1,
+      "row": 7
+    },
+    "headers": [
+      "",
+      "#",
+      "Element Name",
+      "Symbol",
+      "Soluble Migration Limit (mg/kg or ppm)",
+      "Applicable Material Categories (ASTM F963 Sec 4.3.5)",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "",
+      "6",
+      "Lead",
+      "Pb",
+      "90 ppm",
+      "Surface coatings, paper, textiles, plastics, modeling clay, paints, crayons, chalk.",
+      "ASTM F963-23, Sec 4.3.5, Table 2"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T1-R8",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 1,
+      "row": 8
+    },
+    "headers": [
+      "",
+      "#",
+      "Element Name",
+      "Symbol",
+      "Soluble Migration Limit (mg/kg or ppm)",
+      "Applicable Material Categories (ASTM F963 Sec 4.3.5)",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "",
+      "7",
+      "Mercury",
+      "Hg",
+      "60 ppm",
+      "Surface coatings, paper, textiles, plastics, modeling clay, paints, crayons, chalk.",
+      "ASTM F963-23, Sec 4.3.5, Table 2"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T1-R9",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 1,
+      "row": 9
+    },
+    "headers": [
+      "",
+      "#",
+      "Element Name",
+      "Symbol",
+      "Soluble Migration Limit (mg/kg or ppm)",
+      "Applicable Material Categories (ASTM F963 Sec 4.3.5)",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "",
+      "8",
+      "Selenium",
+      "Se",
+      "500 ppm",
+      "Surface coatings, paper, textiles, plastics, modeling clay, paints, crayons, chalk.",
+      "ASTM F963-23, Sec 4.3.5, Table 2"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T2-R2",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 2,
+      "row": 2
+    },
+    "headers": [
+      "Element",
+      "Material Type",
+      "Maximum Total Limit",
+      "Exact Regulation Source",
+      "CPSC Official Test Method"
+    ],
+    "cells": [
+      "Lead (Pb)",
+      "Paint & Similar Surface Coatings",
+      "90 ppm (0.009%)",
+      "16 CFR § 1303 (Ban of Lead-Containing Paint)",
+      "CPSC-CH-E1003-09.1"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T2-R3",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 2,
+      "row": 3
+    },
+    "headers": [
+      "Element",
+      "Material Type",
+      "Maximum Total Limit",
+      "Exact Regulation Source",
+      "CPSC Official Test Method"
+    ],
+    "cells": [
+      "Lead (Pb)",
+      "Substrate Materials (Plastic, Wood, Textile, etc.)",
+      "100 ppm (0.01%)",
+      "CPSIA Section 101(a)",
+      "CPSC-CH-E1002-08.3 / CPSC-CH-E1003-09.1"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T2-R4",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 2,
+      "row": 4
+    },
+    "headers": [
+      "Element",
+      "Material Type",
+      "Maximum Total Limit",
+      "Exact Regulation Source",
+      "CPSC Official Test Method"
+    ],
+    "cells": [
+      "Lead (Pb)",
+      "Metal Components (Accessible parts)",
+      "100 ppm (0.01%)",
+      "CPSIA Section 101(a)",
+      "CPSC-CH-E1004-11.1 (XRF or Acid Digestion)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T2-R5",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 2,
+      "row": 5
+    },
+    "headers": [
+      "Element",
+      "Material Type",
+      "Maximum Total Limit",
+      "Exact Regulation Source",
+      "CPSC Official Test Method"
+    ],
+    "cells": [
+      "Cadmium (Cd)",
+      "Children's Metal Jewelry (Federal Guidance)",
+      "300 ppm (0.03%)",
+      "CPSC Regulatory Guidance (Based on settlement agreements)",
+      "CPSC-CH-E1004-11.1"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T2-R6",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 2,
+      "row": 6
+    },
+    "headers": [
+      "Element",
+      "Material Type",
+      "Maximum Total Limit",
+      "Exact Regulation Source",
+      "CPSC Official Test Method"
+    ],
+    "cells": [
+      "Mercury (Hg)",
+      "Paint & Surface Coatings",
+      "90 ppm (0.009%)",
+      "16 CFR § 1303",
+      "CPSC-CH-E1003-09.1"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T3-R2",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 3,
+      "row": 2
+    },
+    "headers": [
+      "State",
+      "Element",
+      "Product Category",
+      "Maximum Limit",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "California",
+      "Lead (Pb)",
+      "Jewelry (Novelty/Children's)",
+      "300 ppm (by weight)",
+      "CA Health & Safety Code § 108955"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T3-R3",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 3,
+      "row": 3
+    },
+    "headers": [
+      "State",
+      "Element",
+      "Product Category",
+      "Maximum Limit",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "California",
+      "Cadmium (Cd)",
+      "Jewelry (Novelty/Children's)",
+      "75 ppm (by weight)",
+      "CA Health & Safety Code § 108955"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T3-R4",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 3,
+      "row": 4
+    },
+    "headers": [
+      "State",
+      "Element",
+      "Product Category",
+      "Maximum Limit",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "California",
+      "Lead (Pb)",
+      "Ceramicware (Food contact art kits)",
+      "0.5 µg/mL (leachable)",
+      "CA Title 17, § 27501"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T3-R5",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 3,
+      "row": 5
+    },
+    "headers": [
+      "State",
+      "Element",
+      "Product Category",
+      "Maximum Limit",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "Washington",
+      "Cadmium (Cd)",
+      "All Children's Products",
+      "40 ppm (in any component)",
+      "WA Children's Safe Products Act (RCW 70.240)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T3-R6",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 3,
+      "row": 6
+    },
+    "headers": [
+      "State",
+      "Element",
+      "Product Category",
+      "Maximum Limit",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "Washington",
+      "Lead (Pb)",
+      "All Children's Products",
+      "40 ppm (in any component)",
+      "WA Children's Safe Products Act (RCW 70.240)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T3-R7",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 3,
+      "row": 7
+    },
+    "headers": [
+      "State",
+      "Element",
+      "Product Category",
+      "Maximum Limit",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "Vermont",
+      "Cadmium (Cd)",
+      "Children's Products (under 12)",
+      "40 ppm (in any component)",
+      "18 V.S.A. § 1772"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T3-R8",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 3,
+      "row": 8
+    },
+    "headers": [
+      "State",
+      "Element",
+      "Product Category",
+      "Maximum Limit",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "Vermont",
+      "Lead (Pb)",
+      "Children's Products (under 12)",
+      "40 ppm (in any component)",
+      "18 V.S.A. § 1772"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T3-R9",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 3,
+      "row": 9
+    },
+    "headers": [
+      "State",
+      "Element",
+      "Product Category",
+      "Maximum Limit",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "Maryland",
+      "Cadmium (Cd)",
+      "Children's Jewelry",
+      "75 ppm (by weight)",
+      "MD Code, Commercial Law § 13-3301"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T3-R10",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 3,
+      "row": 10
+    },
+    "headers": [
+      "State",
+      "Element",
+      "Product Category",
+      "Maximum Limit",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "Maryland",
+      "Lead (Pb)",
+      "Children's Jewelry",
+      "300 ppm (by weight)",
+      "MD Code, Commercial Law § 13-3301"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T4-R2",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 4,
+      "row": 2
+    },
+    "headers": [
+      "Element",
+      "Acute Toxicity Threshold (Child)",
+      "Chronic Toxicity Effect (Long-Term)",
+      "Primary Target Organ"
+    ],
+    "cells": [
+      "Antimony (Sb)",
+      "> 500 mg ingestion causes vomiting, diarrhea.",
+      "Lung damage, altered blood lipids, potential carcinogen.",
+      "Lungs, Heart, Liver"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T4-R3",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 4,
+      "row": 3
+    },
+    "headers": [
+      "Element",
+      "Acute Toxicity Threshold (Child)",
+      "Chronic Toxicity Effect (Long-Term)",
+      "Primary Target Organ"
+    ],
+    "cells": [
+      "Arsenic (As)",
+      "> 1 mg/kg body weight causes severe GI distress, death.",
+      "Skin lesions, peripheral neuropathy, diabetes, cancer (skin, lung, bladder).",
+      "Skin, Nervous System, Blood Vessels"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T4-R4",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 4,
+      "row": 4
+    },
+    "headers": [
+      "Element",
+      "Acute Toxicity Threshold (Child)",
+      "Chronic Toxicity Effect (Long-Term)",
+      "Primary Target Organ"
+    ],
+    "cells": [
+      "Barium (Ba)",
+      "> 100 mg ingestion causes muscle weakness, arrhythmia.",
+      "Hypertension, cardiac arrhythmia, muscle paralysis.",
+      "Heart, Muscles, Nervous System"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T4-R5",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 4,
+      "row": 5
+    },
+    "headers": [
+      "Element",
+      "Acute Toxicity Threshold (Child)",
+      "Chronic Toxicity Effect (Long-Term)",
+      "Primary Target Organ"
+    ],
+    "cells": [
+      "Cadmium (Cd)",
+      "> 10 mg ingestion causes severe nausea, vomiting.",
+      "Kidney failure (proximal tubule damage), bone demineralization (Itai-itai disease), lung cancer.",
+      "Kidneys, Bones, Lungs"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T4-R6",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 4,
+      "row": 6
+    },
+    "headers": [
+      "Element",
+      "Acute Toxicity Threshold (Child)",
+      "Chronic Toxicity Effect (Long-Term)",
+      "Primary Target Organ"
+    ],
+    "cells": [
+      "Chromium (Cr)",
+      "Hexavalent Cr (Cr VI) > 5 mg causes GI ulceration, kidney failure.",
+      "Cr VI is a known human carcinogen (lung cancer), severe skin ulcers, asthma.",
+      "Lungs, Kidneys, Skin"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T4-R7",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 4,
+      "row": 7
+    },
+    "headers": [
+      "Element",
+      "Acute Toxicity Threshold (Child)",
+      "Chronic Toxicity Effect (Long-Term)",
+      "Primary Target Organ"
+    ],
+    "cells": [
+      "Lead (Pb)",
+      "NO SAFE LEVEL. > 3.5 µg/dL blood level is CDC reference value.",
+      "Irreversible IQ drop, ADHD, behavioral issues, anemia, developmental delay.",
+      "Brain, Nervous System, Blood"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T4-R8",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 4,
+      "row": 8
+    },
+    "headers": [
+      "Element",
+      "Acute Toxicity Threshold (Child)",
+      "Chronic Toxicity Effect (Long-Term)",
+      "Primary Target Organ"
+    ],
+    "cells": [
+      "Mercury (Hg)",
+      "> 1 mg/kg causes tremors, gingivitis, erethism (mad hatter).",
+      "Neurological damage, kidney failure, Minamata disease (in utero exposure is worst).",
+      "Brain, Kidneys, Fetus"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T4-R9",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 4,
+      "row": 9
+    },
+    "headers": [
+      "Element",
+      "Acute Toxicity Threshold (Child)",
+      "Chronic Toxicity Effect (Long-Term)",
+      "Primary Target Organ"
+    ],
+    "cells": [
+      "Selenium (Se)",
+      "> 5 mg ingestion causes garlic breath, hair loss, nail brittleness.",
+      "Selenosis: neurological abnormalities, liver cirrhosis, respiratory distress.",
+      "Liver, Nervous System, Hair/Nails"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T5-R2",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 5,
+      "row": 2
+    },
+    "headers": [
+      "Material Category",
+      "Exemption Status",
+      "Regulation Source"
+    ],
+    "cells": [
+      "Unfinished, Untreated Wood",
+      "Exempt from ASTM F963 soluble heavy metal testing.",
+      "16 CFR § 1250 (Final Rule)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T5-R3",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 5,
+      "row": 3
+    },
+    "headers": [
+      "Material Category",
+      "Exemption Status",
+      "Regulation Source"
+    ],
+    "cells": [
+      "Textiles (Natural & Synthetic)",
+      "Exempt from ASTM F963 soluble heavy metal testing (unless coated/painted).",
+      "16 CFR § 1250 (Final Rule)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T5-R4",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 5,
+      "row": 4
+    },
+    "headers": [
+      "Material Category",
+      "Exemption Status",
+      "Regulation Source"
+    ],
+    "cells": [
+      "Paper / Cardboard",
+      "Exempt from ASTM F963 soluble heavy metal testing (unless coated/painted).",
+      "16 CFR § 1250 (Final Rule)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T5-R5",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 5,
+      "row": 5
+    },
+    "headers": [
+      "Material Category",
+      "Exemption Status",
+      "Regulation Source"
+    ],
+    "cells": [
+      "Certain Metals (e.g., Stainless Steel, Aluminum)",
+      "Exempt from Total Lead 100 ppm testing if proven inaccessible or naturally <100 ppm.",
+      "16 CFR § 1500.91"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T5-R6",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 5,
+      "row": 6
+    },
+    "headers": [
+      "Material Category",
+      "Exemption Status",
+      "Regulation Source"
+    ],
+    "cells": [
+      "Glass & Ceramics",
+      "Not exempt. Must be tested for soluble lead/cadmium if used as a toy or art material.",
+      "16 CFR § 1303 / FDA guidelines"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T6-R2",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 6,
+      "row": 2
+    },
+    "headers": [
+      "#",
+      "Chemical Name",
+      "Abbreviation",
+      "CAS Number",
+      "Maximum Allowable Limit",
+      "Product Scope",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "1",
+      "Di(2-ethylhexyl) phthalate",
+      "DEHP",
+      "117-81-7",
+      "0.1% (1000 ppm)",
+      "All children's toys & child care articles",
+      "CPSIA Sec 108(a)(1) (Permanent)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T6-R3",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 6,
+      "row": 3
+    },
+    "headers": [
+      "#",
+      "Chemical Name",
+      "Abbreviation",
+      "CAS Number",
+      "Maximum Allowable Limit",
+      "Product Scope",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "2",
+      "Dibutyl phthalate",
+      "DBP",
+      "84-74-2",
+      "0.1% (1000 ppm)",
+      "All children's toys & child care articles",
+      "CPSIA Sec 108(a)(1) (Permanent)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T6-R4",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 6,
+      "row": 4
+    },
+    "headers": [
+      "#",
+      "Chemical Name",
+      "Abbreviation",
+      "CAS Number",
+      "Maximum Allowable Limit",
+      "Product Scope",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "3",
+      "Benzyl butyl phthalate",
+      "BBP",
+      "85-68-7",
+      "0.1% (1000 ppm)",
+      "All children's toys & child care articles",
+      "CPSIA Sec 108(a)(1) (Permanent)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T6-R5",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 6,
+      "row": 5
+    },
+    "headers": [
+      "#",
+      "Chemical Name",
+      "Abbreviation",
+      "CAS Number",
+      "Maximum Allowable Limit",
+      "Product Scope",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "4",
+      "Diisononyl phthalate",
+      "DINP",
+      "28553-12-0 / 68515-48-0",
+      "0.1% (1000 ppm)",
+      "All children's toys & child care articles",
+      "CPSIA Sec 108(a)(2) (Made Permanent 2018)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T6-R6",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 6,
+      "row": 6
+    },
+    "headers": [
+      "#",
+      "Chemical Name",
+      "Abbreviation",
+      "CAS Number",
+      "Maximum Allowable Limit",
+      "Product Scope",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "5",
+      "Diisodecyl phthalate",
+      "DIDP",
+      "26761-40-0 / 68515-49-1",
+      "0.1% (1000 ppm)",
+      "All children's toys & child care articles",
+      "CPSIA Sec 108(a)(2) (Made Permanent 2018)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T6-R7",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 6,
+      "row": 7
+    },
+    "headers": [
+      "#",
+      "Chemical Name",
+      "Abbreviation",
+      "CAS Number",
+      "Maximum Allowable Limit",
+      "Product Scope",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "6",
+      "Di-n-hexyl phthalate",
+      "DnHP (or DNOP)",
+      "84-75-3",
+      "0.1% (1000 ppm)",
+      "All children's toys & child care articles",
+      "CPSIA Sec 108(a)(2) (Made Permanent 2018)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T6-R8",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 6,
+      "row": 8
+    },
+    "headers": [
+      "#",
+      "Chemical Name",
+      "Abbreviation",
+      "CAS Number",
+      "Maximum Allowable Limit",
+      "Product Scope",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "7",
+      "Diisobutyl phthalate",
+      "DIBP",
+      "84-69-5",
+      "0.1% (1000 ppm)",
+      "All children's toys & child care articles",
+      "CPSIA Sec 108(a)(3) (Added via 2018 Final Rule)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T6-R9",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 6,
+      "row": 9
+    },
+    "headers": [
+      "#",
+      "Chemical Name",
+      "Abbreviation",
+      "CAS Number",
+      "Maximum Allowable Limit",
+      "Product Scope",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "8",
+      "Di-n-pentyl phthalate",
+      "DPENP",
+      "131-18-0",
+      "0.1% (1000 ppm)",
+      "All children's toys & child care articles",
+      "CPSIA Sec 108(a)(3) (Added via 2018 Final Rule)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T6-R10",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 6,
+      "row": 10
+    },
+    "headers": [
+      "#",
+      "Chemical Name",
+      "Abbreviation",
+      "CAS Number",
+      "Maximum Allowable Limit",
+      "Product Scope",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "9",
+      "Di-n-hexyl phthalate (Note: DPHP is often grouped here, but DnHP is the strict legal term. DPHP = 117-82-8)",
+      "DPHP",
+      "117-82-8",
+      "0.1% (1000 ppm)",
+      "All children's toys & child care articles",
+      "CPSIA Sec 108(a)(3) (Added via 2018 Final Rule)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T6-R11",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 6,
+      "row": 11
+    },
+    "headers": [
+      "#",
+      "Chemical Name",
+      "Abbreviation",
+      "CAS Number",
+      "Maximum Allowable Limit",
+      "Product Scope",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "10",
+      "Dicyclohexyl phthalate",
+      "DCHP",
+      "84-61-7",
+      "0.1% (1000 ppm)",
+      "All children's toys & child care articles",
+      "CPSIA Sec 108(a)(3) (Added via 2018 Final Rule)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T7-R2",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 7,
+      "row": 2
+    },
+    "headers": [
+      "State",
+      "Chemical(s)",
+      "Product Category",
+      "Maximum Limit",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "California",
+      "All 8 CPSIA Phthalates + others",
+      "Children's Products (< 3 years)",
+      "1000 ppm (0.1%)",
+      "CA Health & Safety Code § 108935 (Prop 65 also requires warning if exposure exceeds MADL)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T7-R3",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 7,
+      "row": 3
+    },
+    "headers": [
+      "State",
+      "Chemical(s)",
+      "Product Category",
+      "Maximum Limit",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "California",
+      "DEHP, DBP, BBP, DINP, DIDP, DnHP",
+      "Cosmetic Art Materials (e.g., nail polish, face paint)",
+      "Banned (0 ppm)",
+      "CA SB 312 (Toxic-Free Cosmetics Act)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T7-R4",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 7,
+      "row": 4
+    },
+    "headers": [
+      "State",
+      "Chemical(s)",
+      "Product Category",
+      "Maximum Limit",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "Washington",
+      "DEHP, DBP, BBP, DINP, DIDP, DnHP, DIBP, DPENP, DPHP, DCHP",
+      "Children's Products (< 12 years)",
+      "1000 ppm (0.1%)",
+      "WA Children's Safe Products Act (RCW 70.240) - Requires reporting if > 100 ppm"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T7-R5",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 7,
+      "row": 5
+    },
+    "headers": [
+      "State",
+      "Chemical(s)",
+      "Product Category",
+      "Maximum Limit",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "Vermont",
+      "DEHP, DBP, BBP, DINP, DIDP, DnHP",
+      "Children's Products (< 12 years)",
+      "1000 ppm (0.1%)",
+      "18 V.S.A. § 1774"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T7-R6",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 7,
+      "row": 6
+    },
+    "headers": [
+      "State",
+      "Chemical(s)",
+      "Product Category",
+      "Maximum Limit",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "New York",
+      "DEHP, DBP, BBP, DINP, DIDP, DnHP",
+      "Children's Products (< 3 years)",
+      "1000 ppm (0.1%)",
+      "NY Environmental Conservation Law § 37-0103"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T7-R7",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 7,
+      "row": 7
+    },
+    "headers": [
+      "State",
+      "Chemical(s)",
+      "Product Category",
+      "Maximum Limit",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "Maryland",
+      "DEHP, DBP, BBP, DINP, DIDP, DnHP",
+      "Children's Products (< 3 years)",
+      "1000 ppm (0.1%)",
+      "MD Code, Environment § 6-801"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T8-R2",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 8,
+      "row": 2
+    },
+    "headers": [
+      "Phthalate",
+      "OEHHA Prop 65 MADL (Oral)",
+      "NOAEL (No Observed Adverse Effect Level)",
+      "Primary Toxicity Effect (If Exceeded)",
+      "Target Organ System"
+    ],
+    "cells": [
+      "DEHP",
+      "410 µg/day (Adult)\n58 µg/day (Child)",
+      "5.0 mg/kg/day",
+      "Reproductive toxicity, reduced sperm count, liver tumors (rodents), developmental delays.",
+      "Reproductive, Liver, Endocrine"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T8-R3",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 8,
+      "row": 3
+    },
+    "headers": [
+      "Phthalate",
+      "OEHHA Prop 65 MADL (Oral)",
+      "NOAEL (No Observed Adverse Effect Level)",
+      "Primary Toxicity Effect (If Exceeded)",
+      "Target Organ System"
+    ],
+    "cells": [
+      "DBP",
+      "40 µg/day",
+      "5.0 mg/kg/day",
+      "Developmental toxicity (male reproductive tract malformations), fetal death.",
+      "Reproductive, Developmental"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T8-R4",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 8,
+      "row": 4
+    },
+    "headers": [
+      "Phthalate",
+      "OEHHA Prop 65 MADL (Oral)",
+      "NOAEL (No Observed Adverse Effect Level)",
+      "Primary Toxicity Effect (If Exceeded)",
+      "Target Organ System"
+    ],
+    "cells": [
+      "BBP",
+      "1000 µg/day",
+      "50 mg/kg/day",
+      "Developmental toxicity, skeletal variations, reduced fetal weight.",
+      "Developmental, Skeletal"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T8-R5",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 8,
+      "row": 5
+    },
+    "headers": [
+      "Phthalate",
+      "OEHHA Prop 65 MADL (Oral)",
+      "NOAEL (No Observed Adverse Effect Level)",
+      "Primary Toxicity Effect (If Exceeded)",
+      "Target Organ System"
+    ],
+    "cells": [
+      "DINP",
+      "Not listed (but restricted by CPSIA)",
+      "15.0 mg/kg/day",
+      "Liver toxicity (hepatomegaly), kidney effects, developmental toxicity at high doses.",
+      "Liver, Kidneys"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T8-R6",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 8,
+      "row": 6
+    },
+    "headers": [
+      "Phthalate",
+      "OEHHA Prop 65 MADL (Oral)",
+      "NOAEL (No Observed Adverse Effect Level)",
+      "Primary Toxicity Effect (If Exceeded)",
+      "Target Organ System"
+    ],
+    "cells": [
+      "DIDP",
+      "Not listed (but restricted by CPSIA)",
+      "15.0 mg/kg/day",
+      "Liver toxicity, kidney weight increase, developmental effects.",
+      "Liver, Kidneys"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T8-R7",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 8,
+      "row": 7
+    },
+    "headers": [
+      "Phthalate",
+      "OEHHA Prop 65 MADL (Oral)",
+      "NOAEL (No Observed Adverse Effect Level)",
+      "Primary Toxicity Effect (If Exceeded)",
+      "Target Organ System"
+    ],
+    "cells": [
+      "DnHP",
+      "Not listed (but restricted by CPSIA)",
+      "5.0 mg/kg/day",
+      "Developmental toxicity, testicular atrophy, reduced anogenital distance.",
+      "Reproductive, Developmental"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T8-R8",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 8,
+      "row": 8
+    },
+    "headers": [
+      "Phthalate",
+      "OEHHA Prop 65 MADL (Oral)",
+      "NOAEL (No Observed Adverse Effect Level)",
+      "Primary Toxicity Effect (If Exceeded)",
+      "Target Organ System"
+    ],
+    "cells": [
+      "DIBP",
+      "Not listed (but restricted by CPSIA)",
+      "5.0 mg/kg/day",
+      "Similar to DBP: male reproductive tract malformations, developmental toxicity.",
+      "Reproductive, Developmental"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T8-R9",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 8,
+      "row": 9
+    },
+    "headers": [
+      "Phthalate",
+      "OEHHA Prop 65 MADL (Oral)",
+      "NOAEL (No Observed Adverse Effect Level)",
+      "Primary Toxicity Effect (If Exceeded)",
+      "Target Organ System"
+    ],
+    "cells": [
+      "DCHP",
+      "Not listed (but restricted by CPSIA)",
+      "50 mg/kg/day",
+      "Endocrine disruption, developmental toxicity, liver effects.",
+      "Endocrine, Liver"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T9-R2",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 9,
+      "row": 2
+    },
+    "headers": [
+      "Alternative Plasticizer",
+      "Abbreviation",
+      "CAS Number",
+      "Typical Usage %",
+      "Regulatory Status (USA/EU)",
+      "Performance Profile"
+    ],
+    "cells": [
+      "Acetyl Tributyl Citrate",
+      "ATBC",
+      "77-90-7",
+      "10% - 40%",
+      "SAFE. FDA approved for food contact. CPSIA/REACH compliant.",
+      "Excellent flexibility, low odor, good for PVC and inks."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T9-R3",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 9,
+      "row": 3
+    },
+    "headers": [
+      "Alternative Plasticizer",
+      "Abbreviation",
+      "CAS Number",
+      "Typical Usage %",
+      "Regulatory Status (USA/EU)",
+      "Performance Profile"
+    ],
+    "cells": [
+      "Diisononyl cyclohexane-1,2-dicarboxylate",
+      "DINCH",
+      "166412-78-8",
+      "15% - 40%",
+      "SAFE. Approved for toys (EU) and children's products (USA).",
+      "High molecular weight, zero migration, excellent for soft vinyl/clay."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T9-R4",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 9,
+      "row": 4
+    },
+    "headers": [
+      "Alternative Plasticizer",
+      "Abbreviation",
+      "CAS Number",
+      "Typical Usage %",
+      "Regulatory Status (USA/EU)",
+      "Performance Profile"
+    ],
+    "cells": [
+      "Dioctyl terephthalate",
+      "DOTP (or DEHT)",
+      "6422-86-2",
+      "15% - 40%",
+      "SAFE. Not classified as toxic. CPSIA/REACH compliant.",
+      "Similar performance to DEHP but without reproductive toxicity."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T9-R5",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 9,
+      "row": 5
+    },
+    "headers": [
+      "Alternative Plasticizer",
+      "Abbreviation",
+      "CAS Number",
+      "Typical Usage %",
+      "Regulatory Status (USA/EU)",
+      "Performance Profile"
+    ],
+    "cells": [
+      "Epoxidized Soybean Oil",
+      "ESBO",
+      "8013-07-8",
+      "5% - 15%",
+      "SAFE. FDA approved. Often used as a secondary plasticizer/stabilizer.",
+      "Good heat stability, slightly yellowish tint, eco-friendly."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T9-R6",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 9,
+      "row": 6
+    },
+    "headers": [
+      "Alternative Plasticizer",
+      "Abbreviation",
+      "CAS Number",
+      "Typical Usage %",
+      "Regulatory Status (USA/EU)",
+      "Performance Profile"
+    ],
+    "cells": [
+      "Polyester Polyols",
+      "N/A",
+      "Varies",
+      "10% - 30%",
+      "SAFE. Non-migratory, high molecular weight.",
+      "Permanent plasticization, zero leaching, ideal for premium clays."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T10-R2",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 10,
+      "row": 2
+    },
+    "headers": [
+      "Material / Scenario",
+      "Exemption Status",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "Inaccessible Component Parts",
+      "EXEMPT. If a phthalate-containing part is completely encased and cannot be touched, mouthed, or ingested by a child (e.g., internal motor wiring).",
+      "16 CFR § 1193 (Inaccessible Component Parts)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T10-R3",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 10,
+      "row": 3
+    },
+    "headers": [
+      "Material / Scenario",
+      "Exemption Status",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "Natural Rubber / Latex",
+      "EXEMPT. Natural rubber does not require phthalates for plasticization.",
+      "CPSC Testing Guidelines"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T10-R4",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 10,
+      "row": 4
+    },
+    "headers": [
+      "Material / Scenario",
+      "Exemption Status",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "Silicone",
+      "EXEMPT. Silicone is inherently flexible and does not require phthalate plasticizers.",
+      "CPSC Testing Guidelines"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T10-R5",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 10,
+      "row": 5
+    },
+    "headers": [
+      "Material / Scenario",
+      "Exemption Status",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "Paper, Wood, Metal",
+      "EXEMPT. These substrates do not require plasticizers. (Unless coated with a phthalate-containing ink/paint).",
+      "CPSC Testing Guidelines"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T10-R6",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 10,
+      "row": 6
+    },
+    "headers": [
+      "Material / Scenario",
+      "Exemption Status",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "Electronics (e.g., tablets, keyboards)",
+      "EXEMPT from phthalate limits, BUT still subject to Lead (Pb) limits.",
+      "CPSC Statement on Electronics"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T11-R2",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 11,
+      "row": 2
+    },
+    "headers": [
+      "#",
+      "Pigment / Colorant Class",
+      "Chemical Basis / CAS",
+      "USA Regulatory Status",
+      "Exact Regulation Source",
+      "Toxicity Concern if Exceeded"
+    ],
+    "cells": [
+      "1",
+      "Lead Chromate (Chrome Yellow/Orange)",
+      "Lead + Hexavalent Chromium (CAS: 7758-97-6)",
+      "BANNED in children's art materials & toys.",
+      "16 CFR § 1500.14(a)(1) (FHSA)",
+      "Neurotoxicity (Pb), Carcinogenicity (Cr VI)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T11-R3",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 11,
+      "row": 3
+    },
+    "headers": [
+      "#",
+      "Pigment / Colorant Class",
+      "Chemical Basis / CAS",
+      "USA Regulatory Status",
+      "Exact Regulation Source",
+      "Toxicity Concern if Exceeded"
+    ],
+    "cells": [
+      "2",
+      "Cadmium Pigments (Cadmium Red/Yellow)",
+      "Cadmium Sulfide / Selenide (CAS: 1306-23-6)",
+      "RESTRICTED. Requires mandatory chronic hazard warning label.",
+      "ASTM D4236 / CA Prop 65",
+      "Carcinogenic, kidney toxicity, bone damage"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T11-R4",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 11,
+      "row": 4
+    },
+    "headers": [
+      "#",
+      "Pigment / Colorant Class",
+      "Chemical Basis / CAS",
+      "USA Regulatory Status",
+      "Exact Regulation Source",
+      "Toxicity Concern if Exceeded"
+    ],
+    "cells": [
+      "3",
+      "Cobalt Pigments (Cobalt Blue)",
+      "Cobalt Aluminate / Cobalt Compounds (CAS: 1345-16-0)",
+      "RESTRICTED. Requires chronic hazard warning if > limit.",
+      "CA Prop 65 / ASTM D4236",
+      "Respiratory sensitization, possible carcinogen"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T11-R5",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 11,
+      "row": 5
+    },
+    "headers": [
+      "#",
+      "Pigment / Colorant Class",
+      "Chemical Basis / CAS",
+      "USA Regulatory Status",
+      "Exact Regulation Source",
+      "Toxicity Concern if Exceeded"
+    ],
+    "cells": [
+      "4",
+      "Hexavalent Chromium (Zinc Chromate)",
+      "Cr(VI) Compounds (CAS: 13530-65-9)",
+      "BANNED / Requires strict warning.",
+      "16 CFR § 1500.14(a)(1)",
+      "Severe skin ulcers, asthma, lung cancer"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T11-R6",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 11,
+      "row": 6
+    },
+    "headers": [
+      "#",
+      "Pigment / Colorant Class",
+      "Chemical Basis / CAS",
+      "USA Regulatory Status",
+      "Exact Regulation Source",
+      "Toxicity Concern if Exceeded"
+    ],
+    "cells": [
+      "5",
+      "Benzidine-Based Azo Dyes",
+      "Various (e.g., CAS: 92-87-5)",
+      "BANNED in consumer products.",
+      "CPSC / FHSA",
+      "Cleaves into carcinogenic aromatic amines"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T11-R7",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 11,
+      "row": 7
+    },
+    "headers": [
+      "#",
+      "Pigment / Colorant Class",
+      "Chemical Basis / CAS",
+      "USA Regulatory Status",
+      "Exact Regulation Source",
+      "Toxicity Concern if Exceeded"
+    ],
+    "cells": [
+      "6",
+      "Antimony Trioxide",
+      "Sb₂O₃ (CAS: 1309-64-4)",
+      "RESTRICTED. Requires warning if present above threshold.",
+      "CA Prop 65 / ASTM D4236",
+      "Possible human carcinogen, respiratory irritant"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T11-R8",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 11,
+      "row": 8
+    },
+    "headers": [
+      "#",
+      "Pigment / Colorant Class",
+      "Chemical Basis / CAS",
+      "USA Regulatory Status",
+      "Exact Regulation Source",
+      "Toxicity Concern if Exceeded"
+    ],
+    "cells": [
+      "7",
+      "Nickel Compounds",
+      "Metallic Nickel / Nickel Sulfate",
+      "RESTRICTED. Requires warning for dermal exposure.",
+      "CA Prop 65",
+      "Severe allergic contact dermatitis, carcinogen"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T11-R9",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 11,
+      "row": 9
+    },
+    "headers": [
+      "#",
+      "Pigment / Colorant Class",
+      "Chemical Basis / CAS",
+      "USA Regulatory Status",
+      "Exact Regulation Source",
+      "Toxicity Concern if Exceeded"
+    ],
+    "cells": [
+      "8",
+      "Free Formaldehyde in Pigments",
+      "H₂CO (CAS: 50-00-0)",
+      "RESTRICTED. Must be < 0.1% to avoid Prop 65 warning.",
+      "CA Prop 65 / FDA",
+      "Carcinogenic, severe respiratory/skin irritant"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T12-R2",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 12,
+      "row": 2
+    },
+    "headers": [
+      "#",
+      "Solvent / VOC",
+      "CAS Number",
+      "Max Allowable Limit / Status",
+      "Exact Regulation Source",
+      "Toxicity Concern if Exceeded"
+    ],
+    "cells": [
+      "1",
+      "Toluene",
+      "108-88-3",
+      "< 1% in children's art materials (CA CARB).",
+      "CA Code of Regulations, Title 17, § 94509",
+      "CNS depression, hearing loss, developmental toxicity"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T12-R3",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 12,
+      "row": 3
+    },
+    "headers": [
+      "#",
+      "Solvent / VOC",
+      "CAS Number",
+      "Max Allowable Limit / Status",
+      "Exact Regulation Source",
+      "Toxicity Concern if Exceeded"
+    ],
+    "cells": [
+      "2",
+      "Xylene (o-, m-, p-)",
+      "1330-20-7",
+      "< 1% in children's art materials (CA CARB).",
+      "CA Code of Regulations, Title 17, § 94509",
+      "Respiratory irritation, neurological effects"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T12-R4",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 12,
+      "row": 4
+    },
+    "headers": [
+      "#",
+      "Solvent / VOC",
+      "CAS Number",
+      "Max Allowable Limit / Status",
+      "Exact Regulation Source",
+      "Toxicity Concern if Exceeded"
+    ],
+    "cells": [
+      "3",
+      "Methanol (Methyl Alcohol)",
+      "67-56-1",
+      "WARNING REQUIRED if > 4%. Banned in cosmetics.",
+      "FHSA 16 CFR § 1500.14(a)(1)",
+      "Blindness, optic nerve damage, metabolic acidosis"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T12-R5",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 12,
+      "row": 5
+    },
+    "headers": [
+      "#",
+      "Solvent / VOC",
+      "CAS Number",
+      "Max Allowable Limit / Status",
+      "Exact Regulation Source",
+      "Toxicity Concern if Exceeded"
+    ],
+    "cells": [
+      "4",
+      "Ethylene Glycol",
+      "107-21-1",
+      "WARNING REQUIRED if > 10% (or lower for kids).",
+      "FHSA 16 CFR § 1500.14(a)(12)",
+      "Kidney failure, CNS depression, metabolic acidosis"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T12-R6",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 12,
+      "row": 6
+    },
+    "headers": [
+      "#",
+      "Solvent / VOC",
+      "CAS Number",
+      "Max Allowable Limit / Status",
+      "Exact Regulation Source",
+      "Toxicity Concern if Exceeded"
+    ],
+    "cells": [
+      "5",
+      "Formaldehyde",
+      "50-00-0",
+      "< 0.1% (Free). Warning required if > 0.1%.",
+      "CA Prop 65 / FHSA",
+      "Carcinogenic, asthma trigger, severe sensitizer"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T12-R7",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 12,
+      "row": 7
+    },
+    "headers": [
+      "#",
+      "Solvent / VOC",
+      "CAS Number",
+      "Max Allowable Limit / Status",
+      "Exact Regulation Source",
+      "Toxicity Concern if Exceeded"
+    ],
+    "cells": [
+      "6",
+      "Benzene",
+      "71-43-2",
+      "BANNED as an intentional ingredient.",
+      "FHSA / OSHA",
+      "Leukemia, bone marrow failure, aplastic anemia"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T12-R8",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 12,
+      "row": 8
+    },
+    "headers": [
+      "#",
+      "Solvent / VOC",
+      "CAS Number",
+      "Max Allowable Limit / Status",
+      "Exact Regulation Source",
+      "Toxicity Concern if Exceeded"
+    ],
+    "cells": [
+      "7",
+      "Mineral Spirits / Naphtha",
+      "8052-41-3",
+      "WARNING REQUIRED (Aspiration hazard).",
+      "FHSA 16 CFR § 1500.14(a)(1)",
+      "Chemical pneumonia if aspirated into lungs"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T12-R9",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 12,
+      "row": 9
+    },
+    "headers": [
+      "#",
+      "Solvent / VOC",
+      "CAS Number",
+      "Max Allowable Limit / Status",
+      "Exact Regulation Source",
+      "Toxicity Concern if Exceeded"
+    ],
+    "cells": [
+      "8",
+      "Acetone",
+      "67-64-1",
+      "Generally Recognized as Safe (GRAS) in low amounts, but high VOC.",
+      "EPA / CA CARB",
+      "Eye/respiratory irritation, CNS depression at high doses"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T12-R10",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 12,
+      "row": 10
+    },
+    "headers": [
+      "#",
+      "Solvent / VOC",
+      "CAS Number",
+      "Max Allowable Limit / Status",
+      "Exact Regulation Source",
+      "Toxicity Concern if Exceeded"
+    ],
+    "cells": [
+      "9",
+      "Ethyl Acetate",
+      "141-78-6",
+      "Allowed, but contributes to total VOC limits.",
+      "CA CARB Art Materials Rule",
+      "Mild eye/respiratory irritation"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T13-R2",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 13,
+      "row": 2
+    },
+    "headers": [
+      "#",
+      "Preservative / Biocide",
+      "CAS Number",
+      "Max Allowable Limit / Status",
+      "Exact Regulation Source",
+      "Toxicity Concern if Exceeded"
+    ],
+    "cells": [
+      "1",
+      "Formaldehyde Releasers (e.g., DMDM Hydantoin, Bronopol, Quaternium-15, Imidazolidinyl Urea)",
+      "Varies",
+      "WARNING REQUIRED if free formaldehyde > 0.1%.",
+      "CA Prop 65 / FDA",
+      "Carcinogenic, severe allergic contact dermatitis"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T13-R3",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 13,
+      "row": 3
+    },
+    "headers": [
+      "#",
+      "Preservative / Biocide",
+      "CAS Number",
+      "Max Allowable Limit / Status",
+      "Exact Regulation Source",
+      "Toxicity Concern if Exceeded"
+    ],
+    "cells": [
+      "2",
+      "Methylisothiazolinone (MIT)",
+      "2682-20-4",
+      "RESTRICTED. Not banned federally, but requires warning. Banned in EU leave-on cosmetics.",
+      "CPSC Guidance / FDA",
+      "Severe skin sensitization, contact dermatitis"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T13-R4",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 13,
+      "row": 4
+    },
+    "headers": [
+      "#",
+      "Preservative / Biocide",
+      "CAS Number",
+      "Max Allowable Limit / Status",
+      "Exact Regulation Source",
+      "Toxicity Concern if Exceeded"
+    ],
+    "cells": [
+      "3",
+      "Methylchloroisothiazolinone (CMIT)",
+      "26172-55-4",
+      "RESTRICTED. Often used with MIT (Kathon CG). Requires warning.",
+      "CPSC Guidance / FDA",
+      "Severe skin sensitization, contact dermatitis"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T13-R5",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 13,
+      "row": 5
+    },
+    "headers": [
+      "#",
+      "Preservative / Biocide",
+      "CAS Number",
+      "Max Allowable Limit / Status",
+      "Exact Regulation Source",
+      "Toxicity Concern if Exceeded"
+    ],
+    "cells": [
+      "4",
+      "Boric Acid / Borates (e.g., Sodium Borate)",
+      "10043-35-3 / 1303-96-4",
+      "BANNED in cosmetics. Restricted in toys if accessible.",
+      "FDA / CPSIA / FHSA",
+      "Reproductive toxicity, developmental harm"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T13-R6",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 13,
+      "row": 6
+    },
+    "headers": [
+      "#",
+      "Preservative / Biocide",
+      "CAS Number",
+      "Max Allowable Limit / Status",
+      "Exact Regulation Source",
+      "Toxicity Concern if Exceeded"
+    ],
+    "cells": [
+      "5",
+      "Sodium Benzoate",
+      "532-32-1",
+      "SAFE up to 0.5% (FDA approved for food/art).",
+      "FDA 21 CFR § 184.1733",
+      "Generally safe; can form trace benzene if mixed with Vitamin C + heat"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T13-R7",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 13,
+      "row": 7
+    },
+    "headers": [
+      "#",
+      "Preservative / Biocide",
+      "CAS Number",
+      "Max Allowable Limit / Status",
+      "Exact Regulation Source",
+      "Toxicity Concern if Exceeded"
+    ],
+    "cells": [
+      "6",
+      "Potassium Sorbate",
+      "24634-61-5",
+      "SAFE up to 0.5% (FDA approved for food/art).",
+      "FDA 21 CFR § 182.3640",
+      "Generally safe, mild skin irritant at high concentrations"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T13-R8",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 13,
+      "row": 8
+    },
+    "headers": [
+      "#",
+      "Preservative / Biocide",
+      "CAS Number",
+      "Max Allowable Limit / Status",
+      "Exact Regulation Source",
+      "Toxicity Concern if Exceeded"
+    ],
+    "cells": [
+      "7",
+      "Phenoxyethanol",
+      "122-99-6",
+      "SAFE up to 1.0% (FDA/EU cosmetic limit).",
+      "FDA / EU Cosmetics Reg",
+      "Mild irritant; restricted in products for infants < 3 yrs in some jurisdictions"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T14-R2",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 14,
+      "row": 2
+    },
+    "headers": [
+      "Chemical Compound",
+      "Oral MADL / Safe Daily Limit",
+      "Inhalation MADL / Limit",
+      "Primary Toxicity Effect (If Exceeded)",
+      "Source"
+    ],
+    "cells": [
+      "Formaldehyde",
+      "N/A",
+      "40 µg/day",
+      "Carcinogenic, respiratory irritation, asthma trigger",
+      "OEHHA Prop 65"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T14-R3",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 14,
+      "row": 3
+    },
+    "headers": [
+      "Chemical Compound",
+      "Oral MADL / Safe Daily Limit",
+      "Inhalation MADL / Limit",
+      "Primary Toxicity Effect (If Exceeded)",
+      "Source"
+    ],
+    "cells": [
+      "Toluene",
+      "N/A",
+      "13,000 µg/day",
+      "CNS depression, hearing loss, developmental toxicity",
+      "OEHHA Prop 65"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T14-R4",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 14,
+      "row": 4
+    },
+    "headers": [
+      "Chemical Compound",
+      "Oral MADL / Safe Daily Limit",
+      "Inhalation MADL / Limit",
+      "Primary Toxicity Effect (If Exceeded)",
+      "Source"
+    ],
+    "cells": [
+      "Benzene",
+      "N/A",
+      "49 µg/day",
+      "Leukemia, bone marrow failure, aplastic anemia",
+      "OEHHA Prop 65"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T14-R5",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 14,
+      "row": 5
+    },
+    "headers": [
+      "Chemical Compound",
+      "Oral MADL / Safe Daily Limit",
+      "Inhalation MADL / Limit",
+      "Primary Toxicity Effect (If Exceeded)",
+      "Source"
+    ],
+    "cells": [
+      "Ethylene Glycol",
+      "~200 µg/day (Estimated NOAEL)",
+      "N/A",
+      "Kidney failure, CNS depression, metabolic acidosis",
+      "EPA / FHSA"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T14-R6",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 14,
+      "row": 6
+    },
+    "headers": [
+      "Chemical Compound",
+      "Oral MADL / Safe Daily Limit",
+      "Inhalation MADL / Limit",
+      "Primary Toxicity Effect (If Exceeded)",
+      "Source"
+    ],
+    "cells": [
+      "Methanol",
+      "~2,000 µg/day",
+      "N/A",
+      "Blindness, optic nerve damage, metabolic acidosis",
+      "FHSA / OEHHA"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T14-R7",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 14,
+      "row": 7
+    },
+    "headers": [
+      "Chemical Compound",
+      "Oral MADL / Safe Daily Limit",
+      "Inhalation MADL / Limit",
+      "Primary Toxicity Effect (If Exceeded)",
+      "Source"
+    ],
+    "cells": [
+      "MIT / CMIT",
+      "N/A (Sensitizer, no MADL)",
+      "N/A",
+      "Severe allergic contact dermatitis (Type IV hypersensitivity)",
+      "FDA / SCCS"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T15-R2",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 15,
+      "row": 2
+    },
+    "headers": [
+      "Requirement",
+      "Rule / Threshold",
+      "Mandatory Labeling Text (if exceeded)"
+    ],
+    "cells": [
+      "Acute Hazard",
+      "Meets FHSA 16 CFR § 1500.3 criteria (e.g., flammable, corrosive).",
+      "\"DANGER\", \"WARNING\", or \"CAUTION\" + specific hazard statement."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T15-R3",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 15,
+      "row": 3
+    },
+    "headers": [
+      "Requirement",
+      "Rule / Threshold",
+      "Mandatory Labeling Text (if exceeded)"
+    ],
+    "cells": [
+      "Chronic Hazard",
+      "Contains ingredients known to cause cancer, reproductive toxicity, or organ damage over time (per NTP, IARC, or OSHA).",
+      "\"WARNING: Contains [Chemical Name], a chemical known to the State of California to cause cancer/reproductive harm.\""
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T15-R4",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 15,
+      "row": 4
+    },
+    "headers": [
+      "Requirement",
+      "Rule / Threshold",
+      "Mandatory Labeling Text (if exceeded)"
+    ],
+    "cells": [
+      "Safe for Children",
+      "Passes all ASTM D4236 toxicological review criteria.",
+      "\"Conforms to ASTM D4236\" (Must be printed on the product)."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T15-R5",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 15,
+      "row": 5
+    },
+    "headers": [
+      "Requirement",
+      "Rule / Threshold",
+      "Mandatory Labeling Text (if exceeded)"
+    ],
+    "cells": [
+      "AP Seal (ACMI)",
+      "Voluntary but highly recommended. Certified by Art & Creative Materials Institute.",
+      "\"AP\" (Approved Product) Seal. Guarantees no toxic materials in quantities sufficient to be harmful."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T16-R2",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 16,
+      "row": 2
+    },
+    "headers": [
+      "Material / Scenario",
+      "Exemption Status",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "Food-Grade Preservatives (Sodium Benzoate, Potassium Sorbate)",
+      "EXEMPT from chronic hazard labeling if used within FDA GRAS limits.",
+      "FDA 21 CFR / ASTM D4236 Guidelines"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T16-R3",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 16,
+      "row": 3
+    },
+    "headers": [
+      "Material / Scenario",
+      "Exemption Status",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "Water",
+      "EXEMPT. Not considered a hazardous ingredient.",
+      "ASTM D4236"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T16-R4",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 16,
+      "row": 4
+    },
+    "headers": [
+      "Material / Scenario",
+      "Exemption Status",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "Natural Waxes (Beeswax, Carnauba)",
+      "EXEMPT from VOC and solvent limits.",
+      "CA CARB / ASTM D4236"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T16-R5",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 16,
+      "row": 5
+    },
+    "headers": [
+      "Material / Scenario",
+      "Exemption Status",
+      "Exact Regulation Source"
+    ],
+    "cells": [
+      "Permanently Encapsulated Pigments",
+      "EXEMPT from heavy metal migration testing IF the binder prevents leaching (must be proven by lab test).",
+      "ASTM F963 Sec 4.3.5 (Note: Total lead limits still apply)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T17-R2",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 17,
+      "row": 2
+    },
+    "headers": [
+      "Pigment / Colorant Class",
+      "Chemical Basis",
+      "USA Regulatory Status",
+      "Reason for Restriction",
+      "Regulation Source"
+    ],
+    "cells": [
+      "Lead Chromate",
+      "Lead + Hexavalent Chromium",
+      "BANNED in children's art materials",
+      "Neurotoxicity (Pb) + Carcinogenicity (Cr VI)",
+      "LHAMA / 16 CFR 1500.14"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T17-R3",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 17,
+      "row": 3
+    },
+    "headers": [
+      "Pigment / Colorant Class",
+      "Chemical Basis",
+      "USA Regulatory Status",
+      "Reason for Restriction",
+      "Regulation Source"
+    ],
+    "cells": [
+      "Cadmium Pigments",
+      "Cadmium Sulfide/Selenide",
+      "Restricted / Requires Warning",
+      "Carcinogenic, kidney toxicity, environmental hazard",
+      "ASTM D4236 / Prop 65"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T17-R4",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 17,
+      "row": 4
+    },
+    "headers": [
+      "Pigment / Colorant Class",
+      "Chemical Basis",
+      "USA Regulatory Status",
+      "Reason for Restriction",
+      "Regulation Source"
+    ],
+    "cells": [
+      "Cobalt Pigments",
+      "Cobalt Aluminate/Compounds",
+      "Requires Warning if > limit",
+      "Respiratory sensitization, possible carcinogen",
+      "Prop 65 / ASTM D4236"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T17-R5",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 17,
+      "row": 5
+    },
+    "headers": [
+      "Pigment / Colorant Class",
+      "Chemical Basis",
+      "USA Regulatory Status",
+      "Reason for Restriction",
+      "Regulation Source"
+    ],
+    "cells": [
+      "Certain Azo Dyes",
+      "Benzidine-based derivatives",
+      "BANNED",
+      "Cleaves into carcinogenic aromatic amines",
+      "CPSC / FHSA"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T17-R6",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 17,
+      "row": 6
+    },
+    "headers": [
+      "Pigment / Colorant Class",
+      "Chemical Basis",
+      "USA Regulatory Status",
+      "Reason for Restriction",
+      "Regulation Source"
+    ],
+    "cells": [
+      "Antimony Trioxide",
+      "Sb₂O₃ (Flame retardant/pigment)",
+      "Requires Warning",
+      "Possible human carcinogen, respiratory irritant",
+      "Prop 65 / ASTM D4236"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T18-R2",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 18,
+      "row": 2
+    },
+    "headers": [
+      "Chemical Compound",
+      "Function",
+      "Maximum Allowable Limit / Status",
+      "Toxicity Concern",
+      "Regulation Source"
+    ],
+    "cells": [
+      "Formaldehyde Releasers (e.g., DMDM Hydantoin, Bronopol, Quaternium-15)",
+      "Preservative",
+      "Must be < 0.1% free formaldehyde; requires Prop 65 warning if exposed",
+      "Carcinogenic, severe skin sensitizer (allergy)",
+      "CA Prop 65 / FDA"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T18-R3",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 18,
+      "row": 3
+    },
+    "headers": [
+      "Chemical Compound",
+      "Function",
+      "Maximum Allowable Limit / Status",
+      "Toxicity Concern",
+      "Regulation Source"
+    ],
+    "cells": [
+      "Methylisothiazolinone (MIT)",
+      "Preservative",
+      "Not federally banned, but heavily restricted in leave-on products; requires warning",
+      "Severe contact dermatitis, skin sensitization",
+      "FDA / CPSC Guidance"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-US-T18-R4",
+    "document_id": "DOC-US",
+    "region": "US",
+    "locator": {
+      "table": 18,
+      "row": 4
+    },
+    "headers": [
+      "Chemical Compound",
+      "Function",
+      "Maximum Allowable Limit / Status",
+      "Toxicity Concern",
+      "Regulation Source"
+    ],
+    "cells": [
+      "Boric Acid / Borates",
+      "Cross-linker (e.g., in Slime/Clay)",
+      "Banned in cosmetics; restricted in toys if accessible",
+      "Reproductive toxicity, developmental harm",
+      "CPSIA / FHSA"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T1-R2",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 1,
+      "row": 2
+    },
+    "headers": [
+      "Category",
+      "Physical State Definition",
+      "Real-World Product Examples",
+      "Why the Limit is Set This Way"
+    ],
+    "cells": [
+      "Category I",
+      "Dry, brittle, powder-like, or pliable materials.",
+      "Chalk, wax crayons, modeling clay, compressed paint tablets, colored pencil cores, dry pastels.",
+      "High ingestion risk, but lower surface-area-to-volume ratio for rapid leaching compared to liquids."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T1-R3",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 1,
+      "row": 3
+    },
+    "headers": [
+      "Category",
+      "Physical State Definition",
+      "Real-World Product Examples",
+      "Why the Limit is Set This Way"
+    ],
+    "cells": [
+      "Category II",
+      "Liquid or sticky materials.",
+      "Finger paints, liquid tempera, slime, liquid ink in pens, bubble solution, glue sticks, wet modeling dough.",
+      "STRICTEST LIMITS. Highest risk because liquids are swallowed easily and elements are already in a highly bioavailable state."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T1-R4",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 1,
+      "row": 4
+    },
+    "headers": [
+      "Category",
+      "Physical State Definition",
+      "Real-World Product Examples",
+      "Why the Limit is Set This Way"
+    ],
+    "cells": [
+      "Category III",
+      "Scraped-off materials (coatings on a base).",
+      "Painted wood, printed cardboard, coated plastic toys, metallic finishes, laminated surfaces.",
+      "Tested by physically scraping the coating off the base material. Limits are higher because the total mass of the coating is small."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T2-R2",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 2,
+      "row": 2
+    },
+    "headers": [
+      "#",
+      "Element",
+      "CAS Number",
+      "Category I Limit (mg/kg)",
+      "Category II Limit (mg/kg)",
+      "Category III Limit (mg/kg)",
+      "Primary Toxicity Concern"
+    ],
+    "cells": [
+      "1",
+      "Aluminium (Al)",
+      "7429-90-5",
+      "2,250 (Updated 2021)",
+      "560 (Updated 2021)",
+      "28,130 (Updated 2021)",
+      "Neurotoxicity, bone disease"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T2-R3",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 2,
+      "row": 3
+    },
+    "headers": [
+      "#",
+      "Element",
+      "CAS Number",
+      "Category I Limit (mg/kg)",
+      "Category II Limit (mg/kg)",
+      "Category III Limit (mg/kg)",
+      "Primary Toxicity Concern"
+    ],
+    "cells": [
+      "2",
+      "Antimony (Sb)",
+      "7440-36-0",
+      "45",
+      "11.3",
+      "560",
+      "Respiratory, cardiovascular"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T2-R4",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 2,
+      "row": 4
+    },
+    "headers": [
+      "#",
+      "Element",
+      "CAS Number",
+      "Category I Limit (mg/kg)",
+      "Category II Limit (mg/kg)",
+      "Category III Limit (mg/kg)",
+      "Primary Toxicity Concern"
+    ],
+    "cells": [
+      "3",
+      "Arsenic (As)",
+      "7440-38-2",
+      "3.8",
+      "0.9",
+      "47",
+      "Carcinogenic, skin lesions"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T2-R5",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 2,
+      "row": 5
+    },
+    "headers": [
+      "#",
+      "Element",
+      "CAS Number",
+      "Category I Limit (mg/kg)",
+      "Category II Limit (mg/kg)",
+      "Category III Limit (mg/kg)",
+      "Primary Toxicity Concern"
+    ],
+    "cells": [
+      "4",
+      "Barium (Ba)",
+      "7440-39-3",
+      "1,500",
+      "375",
+      "18,750",
+      "Muscle paralysis, cardiac arrhythmia"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T2-R6",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 2,
+      "row": 6
+    },
+    "headers": [
+      "#",
+      "Element",
+      "CAS Number",
+      "Category I Limit (mg/kg)",
+      "Category II Limit (mg/kg)",
+      "Category III Limit (mg/kg)",
+      "Primary Toxicity Concern"
+    ],
+    "cells": [
+      "5",
+      "Boron (B)",
+      "7440-42-8",
+      "1,200",
+      "300",
+      "15,000",
+      "Reproductive toxicity, developmental harm"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T2-R7",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 2,
+      "row": 7
+    },
+    "headers": [
+      "#",
+      "Element",
+      "CAS Number",
+      "Category I Limit (mg/kg)",
+      "Category II Limit (mg/kg)",
+      "Category III Limit (mg/kg)",
+      "Primary Toxicity Concern"
+    ],
+    "cells": [
+      "6",
+      "Cadmium (Cd)",
+      "7440-43-9",
+      "1.3",
+      "0.3",
+      "17",
+      "Kidney failure, bone demineralization"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T2-R8",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 2,
+      "row": 8
+    },
+    "headers": [
+      "#",
+      "Element",
+      "CAS Number",
+      "Category I Limit (mg/kg)",
+      "Category II Limit (mg/kg)",
+      "Category III Limit (mg/kg)",
+      "Primary Toxicity Concern"
+    ],
+    "cells": [
+      "7",
+      "Chromium (III)",
+      "16065-83-1",
+      "37.5",
+      "9.4",
+      "460",
+      "Low toxicity, but regulated"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T2-R9",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 2,
+      "row": 9
+    },
+    "headers": [
+      "#",
+      "Element",
+      "CAS Number",
+      "Category I Limit (mg/kg)",
+      "Category II Limit (mg/kg)",
+      "Category III Limit (mg/kg)",
+      "Primary Toxicity Concern"
+    ],
+    "cells": [
+      "8",
+      "Chromium (VI)",
+      "18540-29-9",
+      "0.02",
+      "0.005",
+      "0.053",
+      "Known human carcinogen, severe ulcers"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T2-R10",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 2,
+      "row": 10
+    },
+    "headers": [
+      "#",
+      "Element",
+      "CAS Number",
+      "Category I Limit (mg/kg)",
+      "Category II Limit (mg/kg)",
+      "Category III Limit (mg/kg)",
+      "Primary Toxicity Concern"
+    ],
+    "cells": [
+      "9",
+      "Cobalt (Co)",
+      "7440-48-4",
+      "10.5",
+      "2.6",
+      "130",
+      "Cardiomyopathy, respiratory sensitizer"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T2-R11",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 2,
+      "row": 11
+    },
+    "headers": [
+      "#",
+      "Element",
+      "CAS Number",
+      "Category I Limit (mg/kg)",
+      "Category II Limit (mg/kg)",
+      "Category III Limit (mg/kg)",
+      "Primary Toxicity Concern"
+    ],
+    "cells": [
+      "10",
+      "Copper (Cu)",
+      "7440-50-8",
+      "622.5",
+      "156",
+      "7,700",
+      "Liver damage, GI distress"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T2-R12",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 2,
+      "row": 12
+    },
+    "headers": [
+      "#",
+      "Element",
+      "CAS Number",
+      "Category I Limit (mg/kg)",
+      "Category II Limit (mg/kg)",
+      "Category III Limit (mg/kg)",
+      "Primary Toxicity Concern"
+    ],
+    "cells": [
+      "11",
+      "Lead (Pb)",
+      "7439-92-1",
+      "2.0",
+      "0.5",
+      "23",
+      "Irreversible neurodevelopmental damage"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T2-R13",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 2,
+      "row": 13
+    },
+    "headers": [
+      "#",
+      "Element",
+      "CAS Number",
+      "Category I Limit (mg/kg)",
+      "Category II Limit (mg/kg)",
+      "Category III Limit (mg/kg)",
+      "Primary Toxicity Concern"
+    ],
+    "cells": [
+      "12",
+      "Manganese (Mn)",
+      "7439-96-5",
+      "1,200",
+      "300",
+      "15,000",
+      "Neurological damage (manganism)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T2-R14",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 2,
+      "row": 14
+    },
+    "headers": [
+      "#",
+      "Element",
+      "CAS Number",
+      "Category I Limit (mg/kg)",
+      "Category II Limit (mg/kg)",
+      "Category III Limit (mg/kg)",
+      "Primary Toxicity Concern"
+    ],
+    "cells": [
+      "13",
+      "Mercury (Hg)",
+      "7439-97-6",
+      "7.5",
+      "1.9",
+      "94",
+      "Severe neurotoxicity, Minamata disease"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T2-R15",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 2,
+      "row": 15
+    },
+    "headers": [
+      "#",
+      "Element",
+      "CAS Number",
+      "Category I Limit (mg/kg)",
+      "Category II Limit (mg/kg)",
+      "Category III Limit (mg/kg)",
+      "Primary Toxicity Concern"
+    ],
+    "cells": [
+      "14",
+      "Nickel (Ni)",
+      "7440-02-0",
+      "75",
+      "18.8",
+      "930",
+      "Severe allergic contact dermatitis"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T2-R16",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 2,
+      "row": 16
+    },
+    "headers": [
+      "#",
+      "Element",
+      "CAS Number",
+      "Category I Limit (mg/kg)",
+      "Category II Limit (mg/kg)",
+      "Category III Limit (mg/kg)",
+      "Primary Toxicity Concern"
+    ],
+    "cells": [
+      "15",
+      "Selenium (Se)",
+      "7782-49-2",
+      "37.5",
+      "9.4",
+      "460",
+      "Selenosis, hair/nail loss, nerve damage"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T2-R17",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 2,
+      "row": 17
+    },
+    "headers": [
+      "#",
+      "Element",
+      "CAS Number",
+      "Category I Limit (mg/kg)",
+      "Category II Limit (mg/kg)",
+      "Category III Limit (mg/kg)",
+      "Primary Toxicity Concern"
+    ],
+    "cells": [
+      "16",
+      "Strontium (Sr)",
+      "7440-24-6",
+      "4,500",
+      "1,125",
+      "56,000",
+      "Bone growth interference"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T2-R18",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 2,
+      "row": 18
+    },
+    "headers": [
+      "#",
+      "Element",
+      "CAS Number",
+      "Category I Limit (mg/kg)",
+      "Category II Limit (mg/kg)",
+      "Category III Limit (mg/kg)",
+      "Primary Toxicity Concern"
+    ],
+    "cells": [
+      "17",
+      "Tin (Sn)",
+      "7440-31-5",
+      "15,000",
+      "3,750",
+      "180,000",
+      "GI irritation, low systemic toxicity"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T2-R19",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 2,
+      "row": 19
+    },
+    "headers": [
+      "#",
+      "Element",
+      "CAS Number",
+      "Category I Limit (mg/kg)",
+      "Category II Limit (mg/kg)",
+      "Category III Limit (mg/kg)",
+      "Primary Toxicity Concern"
+    ],
+    "cells": [
+      "18",
+      "Organic Tin",
+      "Varies",
+      "0.9",
+      "0.2",
+      "12",
+      "Immunotoxicity, neurotoxicity"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T2-R20",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 2,
+      "row": 20
+    },
+    "headers": [
+      "#",
+      "Element",
+      "CAS Number",
+      "Category I Limit (mg/kg)",
+      "Category II Limit (mg/kg)",
+      "Category III Limit (mg/kg)",
+      "Primary Toxicity Concern"
+    ],
+    "cells": [
+      "19",
+      "Zinc (Zn)",
+      "7440-66-6",
+      "3,750",
+      "938",
+      "46,000",
+      "Copper deficiency, immune suppression"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T3-R2",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 3,
+      "row": 2
+    },
+    "headers": [
+      "High-Risk Ingredient",
+      "Common Use",
+      "EN 71-3 Risk Element",
+      "R&D Action Required"
+    ],
+    "cells": [
+      "Borax / Sodium Tetraborate",
+      "Slime, activator, cross-linker",
+      "Boron",
+      "EXTREME RISK. Category II limit is only 300 ppm. Most slime recipes exceed this by 100x. Replace with: Saline + baking soda, or guar gum."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T3-R3",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 3,
+      "row": 3
+    },
+    "headers": [
+      "High-Risk Ingredient",
+      "Common Use",
+      "EN 71-3 Risk Element",
+      "R&D Action Required"
+    ],
+    "cells": [
+      "Chrome Yellow / Orange Pigments",
+      "Paints, crayons, plastics",
+      "Lead (Pb) & Chromium (VI)",
+      "BANNED. Will fail the 0.5 ppm (Cat II) or 2.0 ppm (Cat I) Lead limit, and the 0.005 ppm Cr(VI) limit. Replace with: Bismuth Vanadate or organic yellow pigments."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T3-R4",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 3,
+      "row": 4
+    },
+    "headers": [
+      "High-Risk Ingredient",
+      "Common Use",
+      "EN 71-3 Risk Element",
+      "R&D Action Required"
+    ],
+    "cells": [
+      "Cadmium Red/Yellow Pigments",
+      "High-end artist paints, plastics",
+      "Cadmium (Cd)",
+      "RESTRICTED. Cat II limit is 0.3 ppm. Requires strict supplier COA verification. Replace with: Azo pigments or Bismuth-based pigments."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T3-R5",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 3,
+      "row": 5
+    },
+    "headers": [
+      "High-Risk Ingredient",
+      "Common Use",
+      "EN 71-3 Risk Element",
+      "R&D Action Required"
+    ],
+    "cells": [
+      "Talc (unpurified)",
+      "Modeling clay, chalk, cosmetics",
+      "Asbestos (not in EN71-3, but regulated) & trace heavy metals",
+      "Must be certified \"Asbestos-Free\" and tested for trace Lead/Arsenic."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T3-R6",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 3,
+      "row": 6
+    },
+    "headers": [
+      "High-Risk Ingredient",
+      "Common Use",
+      "EN 71-3 Risk Element",
+      "R&D Action Required"
+    ],
+    "cells": [
+      "Recycled Plastics / Rubber",
+      "Toy bodies, grips, erasers",
+      "Lead, Cadmium, Organic Tin",
+      "High risk of contamination from previous life cycles. Require: Virgin material or strictly audited recycled streams with full migration testing."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T3-R7",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 3,
+      "row": 7
+    },
+    "headers": [
+      "High-Risk Ingredient",
+      "Common Use",
+      "EN 71-3 Risk Element",
+      "R&D Action Required"
+    ],
+    "cells": [
+      "Metallic Inks / Glitters",
+      "Craft supplies, markers",
+      "Aluminium, Antimony, Nickel",
+      "Aluminium limit was drastically lowered in 2021 (Cat II is now 560 ppm). Verify supplier COA for the specific glitter batch."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T4-R2",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 4,
+      "row": 2
+    },
+    "headers": [
+      "#",
+      "Aromatic Amine Name (Released by Cleavage)",
+      "CAS Number",
+      "EC Number",
+      "Toxicity Profile"
+    ],
+    "cells": [
+      "1",
+      "Biphenyl-4-ylamine (4-aminobiphenyl, xenylamine)",
+      "92-67-1",
+      "202-177-1",
+      "Known human carcinogen (bladder)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T4-R3",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 4,
+      "row": 3
+    },
+    "headers": [
+      "#",
+      "Aromatic Amine Name (Released by Cleavage)",
+      "CAS Number",
+      "EC Number",
+      "Toxicity Profile"
+    ],
+    "cells": [
+      "2",
+      "Benzidine",
+      "92-87-5",
+      "202-199-1",
+      "Known human carcinogen (bladder)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T4-R4",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 4,
+      "row": 4
+    },
+    "headers": [
+      "#",
+      "Aromatic Amine Name (Released by Cleavage)",
+      "CAS Number",
+      "EC Number",
+      "Toxicity Profile"
+    ],
+    "cells": [
+      "3",
+      "4-chloro-o-toluidine",
+      "95-69-2",
+      "202-441-6",
+      "Known human carcinogen"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T4-R5",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 4,
+      "row": 5
+    },
+    "headers": [
+      "#",
+      "Aromatic Amine Name (Released by Cleavage)",
+      "CAS Number",
+      "EC Number",
+      "Toxicity Profile"
+    ],
+    "cells": [
+      "4",
+      "2-naphthylamine",
+      "91-59-8",
+      "202-080-4",
+      "Known human carcinogen (bladder)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T4-R6",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 4,
+      "row": 6
+    },
+    "headers": [
+      "#",
+      "Aromatic Amine Name (Released by Cleavage)",
+      "CAS Number",
+      "EC Number",
+      "Toxicity Profile"
+    ],
+    "cells": [
+      "5",
+      "o-aminoazotoluene (4-amino-2',3-dimethylazobenzene)",
+      "97-56-3",
+      "202-591-2",
+      "Known human carcinogen (liver)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T4-R7",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 4,
+      "row": 7
+    },
+    "headers": [
+      "#",
+      "Aromatic Amine Name (Released by Cleavage)",
+      "CAS Number",
+      "EC Number",
+      "Toxicity Profile"
+    ],
+    "cells": [
+      "6",
+      "5-nitro-o-toluidine",
+      "99-55-8",
+      "202-765-8",
+      "Suspected carcinogen, mutagen"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T4-R8",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 4,
+      "row": 8
+    },
+    "headers": [
+      "#",
+      "Aromatic Amine Name (Released by Cleavage)",
+      "CAS Number",
+      "EC Number",
+      "Toxicity Profile"
+    ],
+    "cells": [
+      "7",
+      "4-chloroaniline",
+      "106-47-8",
+      "203-401-0",
+      "Known human carcinogen, toxic to organs"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T4-R9",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 4,
+      "row": 9
+    },
+    "headers": [
+      "#",
+      "Aromatic Amine Name (Released by Cleavage)",
+      "CAS Number",
+      "EC Number",
+      "Toxicity Profile"
+    ],
+    "cells": [
+      "8",
+      "4-methoxy-m-phenylenediamine",
+      "615-05-4",
+      "210-406-1",
+      "Skin sensitizer, suspected carcinogen"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T4-R10",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 4,
+      "row": 10
+    },
+    "headers": [
+      "#",
+      "Aromatic Amine Name (Released by Cleavage)",
+      "CAS Number",
+      "EC Number",
+      "Toxicity Profile"
+    ],
+    "cells": [
+      "9",
+      "4,4'-methylenedianiline (4,4'-diaminodiphenylmethane)",
+      "101-77-9",
+      "202-974-4",
+      "Known human carcinogen (liver)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T4-R11",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 4,
+      "row": 11
+    },
+    "headers": [
+      "#",
+      "Aromatic Amine Name (Released by Cleavage)",
+      "CAS Number",
+      "EC Number",
+      "Toxicity Profile"
+    ],
+    "cells": [
+      "10",
+      "3,3'-dichlorobenzidine",
+      "91-94-1",
+      "202-109-0",
+      "Known human carcinogen (bladder)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T4-R12",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 4,
+      "row": 12
+    },
+    "headers": [
+      "#",
+      "Aromatic Amine Name (Released by Cleavage)",
+      "CAS Number",
+      "EC Number",
+      "Toxicity Profile"
+    ],
+    "cells": [
+      "11",
+      "3,3'-dimethoxybenzidine (o-dianisidine)",
+      "119-90-4",
+      "204-355-4",
+      "Known human carcinogen"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T4-R13",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 4,
+      "row": 13
+    },
+    "headers": [
+      "#",
+      "Aromatic Amine Name (Released by Cleavage)",
+      "CAS Number",
+      "EC Number",
+      "Toxicity Profile"
+    ],
+    "cells": [
+      "12",
+      "3,3'-dimethylbenzidine (4,4'-bi-o-toluidine)",
+      "119-93-7",
+      "204-358-0",
+      "Known human carcinogen"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T4-R14",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 4,
+      "row": 14
+    },
+    "headers": [
+      "#",
+      "Aromatic Amine Name (Released by Cleavage)",
+      "CAS Number",
+      "EC Number",
+      "Toxicity Profile"
+    ],
+    "cells": [
+      "13",
+      "4,4'-methylenedi-o-toluidine",
+      "838-88-0",
+      "212-658-8",
+      "Suspected carcinogen, reproductive toxin"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T4-R15",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 4,
+      "row": 15
+    },
+    "headers": [
+      "#",
+      "Aromatic Amine Name (Released by Cleavage)",
+      "CAS Number",
+      "EC Number",
+      "Toxicity Profile"
+    ],
+    "cells": [
+      "14",
+      "6-methoxy-m-toluidine (p-cresidine)",
+      "120-71-8",
+      "204-419-1",
+      "Known human carcinogen (bladder)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T4-R16",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 4,
+      "row": 16
+    },
+    "headers": [
+      "#",
+      "Aromatic Amine Name (Released by Cleavage)",
+      "CAS Number",
+      "EC Number",
+      "Toxicity Profile"
+    ],
+    "cells": [
+      "15",
+      "4,4'-methylene-bis-(2-chloro-aniline)",
+      "101-14-4",
+      "202-918-9",
+      "Known human carcinogen"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T4-R17",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 4,
+      "row": 17
+    },
+    "headers": [
+      "#",
+      "Aromatic Amine Name (Released by Cleavage)",
+      "CAS Number",
+      "EC Number",
+      "Toxicity Profile"
+    ],
+    "cells": [
+      "16",
+      "4,4'-oxydianiline",
+      "101-80-4",
+      "202-977-0",
+      "Known human carcinogen (liver)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T4-R18",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 4,
+      "row": 18
+    },
+    "headers": [
+      "#",
+      "Aromatic Amine Name (Released by Cleavage)",
+      "CAS Number",
+      "EC Number",
+      "Toxicity Profile"
+    ],
+    "cells": [
+      "17",
+      "4,4'-thiodianiline",
+      "139-65-1",
+      "205-370-9",
+      "Known human carcinogen (liver)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T4-R19",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 4,
+      "row": 19
+    },
+    "headers": [
+      "#",
+      "Aromatic Amine Name (Released by Cleavage)",
+      "CAS Number",
+      "EC Number",
+      "Toxicity Profile"
+    ],
+    "cells": [
+      "18",
+      "o-toluidine (2-aminotoluene)",
+      "95-53-4",
+      "202-429-0",
+      "Known human carcinogen (bladder)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T4-R20",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 4,
+      "row": 20
+    },
+    "headers": [
+      "#",
+      "Aromatic Amine Name (Released by Cleavage)",
+      "CAS Number",
+      "EC Number",
+      "Toxicity Profile"
+    ],
+    "cells": [
+      "19",
+      "4-methyl-m-phenylenediamine",
+      "95-80-7",
+      "202-453-1",
+      "Skin sensitizer, suspected carcinogen"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T4-R21",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 4,
+      "row": 21
+    },
+    "headers": [
+      "#",
+      "Aromatic Amine Name (Released by Cleavage)",
+      "CAS Number",
+      "EC Number",
+      "Toxicity Profile"
+    ],
+    "cells": [
+      "20",
+      "2,4,5-trimethylaniline",
+      "137-17-7",
+      "205-282-0",
+      "Suspected carcinogen, toxic to organs"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T4-R22",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 4,
+      "row": 22
+    },
+    "headers": [
+      "#",
+      "Aromatic Amine Name (Released by Cleavage)",
+      "CAS Number",
+      "EC Number",
+      "Toxicity Profile"
+    ],
+    "cells": [
+      "21",
+      "o-anisidine (2-methoxyaniline)",
+      "90-04-0",
+      "201-963-1",
+      "Known human carcinogen (bladder)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T4-R23",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 4,
+      "row": 23
+    },
+    "headers": [
+      "#",
+      "Aromatic Amine Name (Released by Cleavage)",
+      "CAS Number",
+      "EC Number",
+      "Toxicity Profile"
+    ],
+    "cells": [
+      "22",
+      "4-aminoazobenzene",
+      "60-09-3",
+      "200-453-6",
+      "Known human carcinogen (liver, bladder)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T5-R2",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 5,
+      "row": 2
+    },
+    "headers": [
+      "#",
+      "PAH Name",
+      "CAS Number",
+      "Limit: Toys & Childcare Articles",
+      "Limit: General Skin Contact Articles",
+      "Limit: Tyres/Extender Oils"
+    ],
+    "cells": [
+      "1",
+      "Benzo[a]pyrene (BaP)",
+      "50-32-8",
+      "≤ 0.5 mg/kg",
+      "≤ 1.0 mg/kg",
+      "≤ 1.0 mg/kg"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T5-R3",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 5,
+      "row": 3
+    },
+    "headers": [
+      "#",
+      "PAH Name",
+      "CAS Number",
+      "Limit: Toys & Childcare Articles",
+      "Limit: General Skin Contact Articles",
+      "Limit: Tyres/Extender Oils"
+    ],
+    "cells": [
+      "2",
+      "Benzo[e]pyrene (BeP)",
+      "192-97-2",
+      "≤ 0.5 mg/kg",
+      "≤ 1.0 mg/kg",
+      "-"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T5-R4",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 5,
+      "row": 4
+    },
+    "headers": [
+      "#",
+      "PAH Name",
+      "CAS Number",
+      "Limit: Toys & Childcare Articles",
+      "Limit: General Skin Contact Articles",
+      "Limit: Tyres/Extender Oils"
+    ],
+    "cells": [
+      "3",
+      "Benzo[a]anthracene (BaA)",
+      "56-55-3",
+      "≤ 0.5 mg/kg",
+      "≤ 1.0 mg/kg",
+      "-"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T5-R5",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 5,
+      "row": 5
+    },
+    "headers": [
+      "#",
+      "PAH Name",
+      "CAS Number",
+      "Limit: Toys & Childcare Articles",
+      "Limit: General Skin Contact Articles",
+      "Limit: Tyres/Extender Oils"
+    ],
+    "cells": [
+      "4",
+      "Chrysene (CHR)",
+      "218-01-9",
+      "≤ 0.5 mg/kg",
+      "≤ 1.0 mg/kg",
+      "-"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T5-R6",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 5,
+      "row": 6
+    },
+    "headers": [
+      "#",
+      "PAH Name",
+      "CAS Number",
+      "Limit: Toys & Childcare Articles",
+      "Limit: General Skin Contact Articles",
+      "Limit: Tyres/Extender Oils"
+    ],
+    "cells": [
+      "5",
+      "Benzo[b]fluoranthene (BbFA)",
+      "205-99-2",
+      "≤ 0.5 mg/kg",
+      "≤ 1.0 mg/kg",
+      "-"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T5-R7",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 5,
+      "row": 7
+    },
+    "headers": [
+      "#",
+      "PAH Name",
+      "CAS Number",
+      "Limit: Toys & Childcare Articles",
+      "Limit: General Skin Contact Articles",
+      "Limit: Tyres/Extender Oils"
+    ],
+    "cells": [
+      "6",
+      "Benzo[j]fluoranthene (BjFA)",
+      "205-82-3",
+      "≤ 0.5 mg/kg",
+      "≤ 1.0 mg/kg",
+      "-"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T5-R8",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 5,
+      "row": 8
+    },
+    "headers": [
+      "#",
+      "PAH Name",
+      "CAS Number",
+      "Limit: Toys & Childcare Articles",
+      "Limit: General Skin Contact Articles",
+      "Limit: Tyres/Extender Oils"
+    ],
+    "cells": [
+      "7",
+      "Benzo[k]fluoranthene (BkFA)",
+      "207-08-9",
+      "≤ 0.5 mg/kg",
+      "≤ 1.0 mg/kg",
+      "-"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T5-R9",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 5,
+      "row": 9
+    },
+    "headers": [
+      "#",
+      "PAH Name",
+      "CAS Number",
+      "Limit: Toys & Childcare Articles",
+      "Limit: General Skin Contact Articles",
+      "Limit: Tyres/Extender Oils"
+    ],
+    "cells": [
+      "8",
+      "Dibenzo[a,h]anthracene (DBAhA)",
+      "53-70-3",
+      "≤ 0.5 mg/kg",
+      "≤ 1.0 mg/kg",
+      "-"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T5-R10",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 5,
+      "row": 10
+    },
+    "headers": [
+      "#",
+      "PAH Name",
+      "CAS Number",
+      "Limit: Toys & Childcare Articles",
+      "Limit: General Skin Contact Articles",
+      "Limit: Tyres/Extender Oils"
+    ],
+    "cells": [
+      "9",
+      "Acenaphthylene",
+      "208-96-8",
+      "≤ 0.5 mg/kg (Entry 50a)",
+      "≤ 1.0 mg/kg (Entry 50a)",
+      "-"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T5-R11",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 5,
+      "row": 11
+    },
+    "headers": [
+      "#",
+      "PAH Name",
+      "CAS Number",
+      "Limit: Toys & Childcare Articles",
+      "Limit: General Skin Contact Articles",
+      "Limit: Tyres/Extender Oils"
+    ],
+    "cells": [
+      "10",
+      "Acenaphthene",
+      "83-32-9",
+      "≤ 0.5 mg/kg (Entry 50a)",
+      "≤ 1.0 mg/kg (Entry 50a)",
+      "-"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T5-R12",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 5,
+      "row": 12
+    },
+    "headers": [
+      "#",
+      "PAH Name",
+      "CAS Number",
+      "Limit: Toys & Childcare Articles",
+      "Limit: General Skin Contact Articles",
+      "Limit: Tyres/Extender Oils"
+    ],
+    "cells": [
+      "11",
+      "Fluorene",
+      "86-73-7",
+      "≤ 0.5 mg/kg (Entry 50a)",
+      "≤ 1.0 mg/kg (Entry 50a)",
+      "-"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T5-R13",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 5,
+      "row": 13
+    },
+    "headers": [
+      "#",
+      "PAH Name",
+      "CAS Number",
+      "Limit: Toys & Childcare Articles",
+      "Limit: General Skin Contact Articles",
+      "Limit: Tyres/Extender Oils"
+    ],
+    "cells": [
+      "12",
+      "Phenanthrene",
+      "85-01-8",
+      "≤ 0.5 mg/kg (Entry 50a)",
+      "≤ 1.0 mg/kg (Entry 50a)",
+      "-"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T5-R14",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 5,
+      "row": 14
+    },
+    "headers": [
+      "#",
+      "PAH Name",
+      "CAS Number",
+      "Limit: Toys & Childcare Articles",
+      "Limit: General Skin Contact Articles",
+      "Limit: Tyres/Extender Oils"
+    ],
+    "cells": [
+      "13",
+      "Anthracene",
+      "120-12-7",
+      "≤ 0.5 mg/kg (Entry 50a)",
+      "≤ 1.0 mg/kg (Entry 50a)",
+      "-"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T5-R15",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 5,
+      "row": 15
+    },
+    "headers": [
+      "#",
+      "PAH Name",
+      "CAS Number",
+      "Limit: Toys & Childcare Articles",
+      "Limit: General Skin Contact Articles",
+      "Limit: Tyres/Extender Oils"
+    ],
+    "cells": [
+      "14",
+      "Fluoranthene",
+      "206-44-0",
+      "≤ 0.5 mg/kg (Entry 50a)",
+      "≤ 1.0 mg/kg (Entry 50a)",
+      "-"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T5-R16",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 5,
+      "row": 16
+    },
+    "headers": [
+      "#",
+      "PAH Name",
+      "CAS Number",
+      "Limit: Toys & Childcare Articles",
+      "Limit: General Skin Contact Articles",
+      "Limit: Tyres/Extender Oils"
+    ],
+    "cells": [
+      "15",
+      "Pyrene",
+      "129-00-0",
+      "≤ 0.5 mg/kg (Entry 50a)",
+      "≤ 1.0 mg/kg (Entry 50a)",
+      "-"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T5-R17",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 5,
+      "row": 17
+    },
+    "headers": [
+      "#",
+      "PAH Name",
+      "CAS Number",
+      "Limit: Toys & Childcare Articles",
+      "Limit: General Skin Contact Articles",
+      "Limit: Tyres/Extender Oils"
+    ],
+    "cells": [
+      "16",
+      "Benzo[ghi]perylene",
+      "191-24-2",
+      "≤ 0.5 mg/kg (Entry 50a)",
+      "≤ 1.0 mg/kg (Entry 50a)",
+      "-"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T5-R18",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 5,
+      "row": 18
+    },
+    "headers": [
+      "#",
+      "PAH Name",
+      "CAS Number",
+      "Limit: Toys & Childcare Articles",
+      "Limit: General Skin Contact Articles",
+      "Limit: Tyres/Extender Oils"
+    ],
+    "cells": [
+      "17",
+      "Indeno[1,2,3-cd]pyrene",
+      "193-39-5",
+      "≤ 0.5 mg/kg (Entry 50a)",
+      "≤ 1.0 mg/kg (Entry 50a)",
+      "-"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T5-R19",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 5,
+      "row": 19
+    },
+    "headers": [
+      "#",
+      "PAH Name",
+      "CAS Number",
+      "Limit: Toys & Childcare Articles",
+      "Limit: General Skin Contact Articles",
+      "Limit: Tyres/Extender Oils"
+    ],
+    "cells": [
+      "18",
+      "Naphthalene",
+      "91-20-3",
+      "≤ 0.5 mg/kg (Entry 50a)",
+      "≤ 1.0 mg/kg (Entry 50a)",
+      "-"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T6-R2",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 6,
+      "row": 2
+    },
+    "headers": [
+      "CMR Classification",
+      "Definition",
+      "Maximum Allowable Limit in Textile/Toy Components",
+      "Regulatory Consequence if Exceeded"
+    ],
+    "cells": [
+      "Category 1A",
+      "Known to have CMR potential for humans (based on human evidence).",
+      "0.01% (100 ppm) by weight",
+      "STRICT BAN. Product cannot be placed on the EU market."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T6-R3",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 6,
+      "row": 3
+    },
+    "headers": [
+      "CMR Classification",
+      "Definition",
+      "Maximum Allowable Limit in Textile/Toy Components",
+      "Regulatory Consequence if Exceeded"
+    ],
+    "cells": [
+      "Category 1B",
+      "Presumed to have CMR potential for humans (based on animal evidence).",
+      "0.01% (100 ppm) by weight",
+      "STRICT BAN. Product cannot be placed on the EU market."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T6-R4",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 6,
+      "row": 4
+    },
+    "headers": [
+      "CMR Classification",
+      "Definition",
+      "Maximum Allowable Limit in Textile/Toy Components",
+      "Regulatory Consequence if Exceeded"
+    ],
+    "cells": [
+      "Category 2",
+      "Suspected of having CMR potential for humans.",
+      "0.1% (1000 ppm) by weight",
+      "RESTRICTED. Requires explicit warning label or must be removed."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T7-R2",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 7,
+      "row": 2
+    },
+    "headers": [
+      "Entry #",
+      "Chemical Class / Name",
+      "Exact Scope & Limit",
+      "Regulation Source",
+      "Toxicity Rationale"
+    ],
+    "cells": [
+      "Entry 20",
+      "Organotin Compounds (TBT, TPT, DBT, DOT)",
+      "≤ 0.1% (1000 ppm) as Tin (Sn) in toys, childcare articles, textiles, and footwear coming into skin contact.",
+      "REACH Annex XVII, Entry 20",
+      "Immunotoxicity, neurotoxicity, endocrine disruption."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T7-R3",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 7,
+      "row": 3
+    },
+    "headers": [
+      "Entry #",
+      "Chemical Class / Name",
+      "Exact Scope & Limit",
+      "Regulation Source",
+      "Toxicity Rationale"
+    ],
+    "cells": [
+      "Entry 23",
+      "Cadmium (Cd) & Compounds",
+      "≤ 0.01% (100 ppm) in plastics (PVC, PUR, LDPE, etc.). ≤ 0.1% (1000 ppm) in paints/coatings.",
+      "REACH Annex XVII, Entry 23",
+      "Kidney failure, bone demineralization, carcinogen."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T7-R4",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 7,
+      "row": 4
+    },
+    "headers": [
+      "Entry #",
+      "Chemical Class / Name",
+      "Exact Scope & Limit",
+      "Regulation Source",
+      "Toxicity Rationale"
+    ],
+    "cells": [
+      "Entry 27",
+      "Nickel (Ni)",
+      "≤ 0.5 µg/cm²/week migration rate for piercing posts and items with prolonged skin contact.",
+      "REACH Annex XVII, Entry 27",
+      "Severe allergic contact dermatitis (Type IV hypersensitivity)."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T7-R5",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 7,
+      "row": 5
+    },
+    "headers": [
+      "Entry #",
+      "Chemical Class / Name",
+      "Exact Scope & Limit",
+      "Regulation Source",
+      "Toxicity Rationale"
+    ],
+    "cells": [
+      "Entry 46",
+      "Nonylphenol Ethoxylates (NPE)",
+      "≤ 100 mg/kg (100 ppm) in textile articles that can reasonably be expected to be washed.",
+      "REACH Annex XVII, Entry 46",
+      "Endocrine disruptor, highly toxic to aquatic life."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T7-R6",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 7,
+      "row": 6
+    },
+    "headers": [
+      "Entry #",
+      "Chemical Class / Name",
+      "Exact Scope & Limit",
+      "Regulation Source",
+      "Toxicity Rationale"
+    ],
+    "cells": [
+      "Entry 63",
+      "Lead (Pb) in Jewelry",
+      "≤ 0.05% (500 ppm) in any individual part of jewelry or hair accessories.",
+      "REACH Annex XVII, Entry 63",
+      "Neurotoxicity, developmental harm."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T7-R7",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 7,
+      "row": 7
+    },
+    "headers": [
+      "Entry #",
+      "Chemical Class / Name",
+      "Exact Scope & Limit",
+      "Regulation Source",
+      "Toxicity Rationale"
+    ],
+    "cells": [
+      "Entry 75",
+      "Bisphenol A (BPA)",
+      "≤ 0.04 mg/kg/day migration limit in toys and childcare articles (aligned with TSD Appendix C).",
+      "REACH / TSD Appendix C",
+      "Endocrine disruptor, reproductive toxicity."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T7-R8",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 7,
+      "row": 8
+    },
+    "headers": [
+      "Entry #",
+      "Chemical Class / Name",
+      "Exact Scope & Limit",
+      "Regulation Source",
+      "Toxicity Rationale"
+    ],
+    "cells": [
+      "Entry 77",
+      "Formaldehyde",
+      "≤ 20 mg/kg in textile/leather toys. ≤ 30 mg/kg in wood toys.",
+      "REACH Annex XVII, Entry 77",
+      "Carcinogen, severe respiratory and skin sensitizer."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T8-R2",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 8,
+      "row": 2
+    },
+    "headers": [
+      "Chemical",
+      "ECHA DNEL (Long-term Oral, General Population)",
+      "Primary Toxicity Effect if Exceeded",
+      "Target Organ System"
+    ],
+    "cells": [
+      "Benzo[a]pyrene (BaP)",
+      "No safe threshold (Genotoxic carcinogen)",
+      "DNA mutation, tumor formation",
+      "Lungs, Skin, Bladder"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T8-R3",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 8,
+      "row": 3
+    },
+    "headers": [
+      "Chemical",
+      "ECHA DNEL (Long-term Oral, General Population)",
+      "Primary Toxicity Effect if Exceeded",
+      "Target Organ System"
+    ],
+    "cells": [
+      "Benzidine",
+      "No safe threshold (Genotoxic carcinogen)",
+      "Bladder cancer",
+      "Bladder, Urinary Tract"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T8-R4",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 8,
+      "row": 4
+    },
+    "headers": [
+      "Chemical",
+      "ECHA DNEL (Long-term Oral, General Population)",
+      "Primary Toxicity Effect if Exceeded",
+      "Target Organ System"
+    ],
+    "cells": [
+      "Tributyltin (TBT)",
+      "0.0025 mg/kg bw/day",
+      "Immune system suppression, hormonal imbalance",
+      "Immune, Endocrine"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T8-R5",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 8,
+      "row": 5
+    },
+    "headers": [
+      "Chemical",
+      "ECHA DNEL (Long-term Oral, General Population)",
+      "Primary Toxicity Effect if Exceeded",
+      "Target Organ System"
+    ],
+    "cells": [
+      "Nonylphenol (NP)",
+      "0.01 mg/kg bw/day",
+      "Feminization of aquatic life, human endocrine disruption",
+      "Reproductive, Endocrine"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T8-R6",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 8,
+      "row": 6
+    },
+    "headers": [
+      "Chemical",
+      "ECHA DNEL (Long-term Oral, General Population)",
+      "Primary Toxicity Effect if Exceeded",
+      "Target Organ System"
+    ],
+    "cells": [
+      "Formaldehyde",
+      "0.3 mg/kg bw/day (oral)",
+      "Nasopharyngeal cancer, severe asthma trigger",
+      "Respiratory, Nasal Cavity"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T9-R2",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 9,
+      "row": 2
+    },
+    "headers": [
+      "Pathway",
+      "When to Use It",
+      "R&D Application"
+    ],
+    "cells": [
+      "1. Bridging Principles",
+      "Used when you have actual test data for the final mixture itself, or when you are modifying an already-tested mixture slightly (e.g., diluting it with a non-hazardous solvent).",
+      "If the mixture itself has been tested in a lab for Acute Toxicity or Skin Corrosion, use the lab result. Do not calculate."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T9-R3",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 9,
+      "row": 3
+    },
+    "headers": [
+      "Pathway",
+      "When to Use It",
+      "R&D Application"
+    ],
+    "cells": [
+      "2. Calculation Method",
+      "Used when no test data exists for the final mixture. This is the standard for 99% of new R&D formulations. You calculate the hazard of the mixture based on the % of each hazardous ingredient.",
+      "This is the core of this document. You must use the Cut-Off Values, Additivity Formula, or Summation Method detailed below."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T10-R2",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 10,
+      "row": 2
+    },
+    "headers": [
+      "Hazard Class",
+      "Hazard Category",
+      "Generic Cut-Off Value (Concentration of Ingredient)",
+      "Mandatory Signal Word Triggered"
+    ],
+    "cells": [
+      "Acute Toxicity (Oral/Dermal/Inhalation)",
+      "Category 1, 2, or 3",
+      "≥ 0.1% (1,000 ppm)",
+      "DANGER"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T10-R3",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 10,
+      "row": 3
+    },
+    "headers": [
+      "Hazard Class",
+      "Hazard Category",
+      "Generic Cut-Off Value (Concentration of Ingredient)",
+      "Mandatory Signal Word Triggered"
+    ],
+    "cells": [
+      "Acute Toxicity (Oral/Dermal/Inhalation)",
+      "Category 4",
+      "≥ 1.0% (10,000 ppm)",
+      "WARNING"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T10-R4",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 10,
+      "row": 4
+    },
+    "headers": [
+      "Hazard Class",
+      "Hazard Category",
+      "Generic Cut-Off Value (Concentration of Ingredient)",
+      "Mandatory Signal Word Triggered"
+    ],
+    "cells": [
+      "Skin Corrosion",
+      "Category 1A, 1B, or 1C",
+      "≥ 1.0% (for 1A/1B) \n≥ 5.0% (for 1C)",
+      "DANGER"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T10-R5",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 10,
+      "row": 5
+    },
+    "headers": [
+      "Hazard Class",
+      "Hazard Category",
+      "Generic Cut-Off Value (Concentration of Ingredient)",
+      "Mandatory Signal Word Triggered"
+    ],
+    "cells": [
+      "Skin Irritation",
+      "Category 2",
+      "≥ 10.0%",
+      "WARNING"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T10-R6",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 10,
+      "row": 6
+    },
+    "headers": [
+      "Hazard Class",
+      "Hazard Category",
+      "Generic Cut-Off Value (Concentration of Ingredient)",
+      "Mandatory Signal Word Triggered"
+    ],
+    "cells": [
+      "Serious Eye Damage",
+      "Category 1",
+      "≥ 1.0% (if Cat 1A/1B) \n≥ 3.0% (if Cat 1C) \n≥ 10.0% (if other)",
+      "DANGER"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T10-R7",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 10,
+      "row": 7
+    },
+    "headers": [
+      "Hazard Class",
+      "Hazard Category",
+      "Generic Cut-Off Value (Concentration of Ingredient)",
+      "Mandatory Signal Word Triggered"
+    ],
+    "cells": [
+      "Eye Irritation",
+      "Category 2",
+      "≥ 10.0%",
+      "WARNING"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T10-R8",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 10,
+      "row": 8
+    },
+    "headers": [
+      "Hazard Class",
+      "Hazard Category",
+      "Generic Cut-Off Value (Concentration of Ingredient)",
+      "Mandatory Signal Word Triggered"
+    ],
+    "cells": [
+      "Respiratory / Skin Sensitisation",
+      "Category 1 (1A or 1B)",
+      "≥ 0.1% (for Cat 1A) \n≥ 1.0% (for Cat 1B)",
+      "WARNING (Skin) / DANGER (Resp)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T10-R9",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 10,
+      "row": 9
+    },
+    "headers": [
+      "Hazard Class",
+      "Hazard Category",
+      "Generic Cut-Off Value (Concentration of Ingredient)",
+      "Mandatory Signal Word Triggered"
+    ],
+    "cells": [
+      "Specific Target Organ Toxicity (STOT)",
+      "Category 1 (Single or Repeated)",
+      "≥ 1.0%",
+      "DANGER"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T10-R10",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 10,
+      "row": 10
+    },
+    "headers": [
+      "Hazard Class",
+      "Hazard Category",
+      "Generic Cut-Off Value (Concentration of Ingredient)",
+      "Mandatory Signal Word Triggered"
+    ],
+    "cells": [
+      "Specific Target Organ Toxicity (STOT)",
+      "Category 2 (Single or Repeated)",
+      "≥ 10.0%",
+      "WARNING"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T10-R11",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 10,
+      "row": 11
+    },
+    "headers": [
+      "Hazard Class",
+      "Hazard Category",
+      "Generic Cut-Off Value (Concentration of Ingredient)",
+      "Mandatory Signal Word Triggered"
+    ],
+    "cells": [
+      "Aspiration Hazard",
+      "Category 1",
+      "≥ 10.0%",
+      "DANGER"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T10-R12",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 10,
+      "row": 12
+    },
+    "headers": [
+      "Hazard Class",
+      "Hazard Category",
+      "Generic Cut-Off Value (Concentration of Ingredient)",
+      "Mandatory Signal Word Triggered"
+    ],
+    "cells": [
+      "Hazardous to the Ozone Layer",
+      "Category 1",
+      "≥ 0.1%",
+      "WARNING"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T11-R2",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 11,
+      "row": 2
+    },
+    "headers": [
+      "Highly Toxic Chemical (Examples)",
+      "Hazard Class",
+      "Assigned M-Factor",
+      "Effective Cut-Off Limit in Mixture"
+    ],
+    "cells": [
+      "Ethylene Oxide",
+      "Acute Tox Cat 2",
+      "100",
+      "0.001% (10 ppm)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T11-R3",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 11,
+      "row": 3
+    },
+    "headers": [
+      "Highly Toxic Chemical (Examples)",
+      "Hazard Class",
+      "Assigned M-Factor",
+      "Effective Cut-Off Limit in Mixture"
+    ],
+    "cells": [
+      "Hydrogen Cyanide",
+      "Acute Tox Cat 2",
+      "100",
+      "0.001% (10 ppm)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T11-R4",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 11,
+      "row": 4
+    },
+    "headers": [
+      "Highly Toxic Chemical (Examples)",
+      "Hazard Class",
+      "Assigned M-Factor",
+      "Effective Cut-Off Limit in Mixture"
+    ],
+    "cells": [
+      "Sodium Fluoride",
+      "Acute Tox Cat 3",
+      "10",
+      "0.01% (100 ppm)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T11-R5",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 11,
+      "row": 5
+    },
+    "headers": [
+      "Highly Toxic Chemical (Examples)",
+      "Hazard Class",
+      "Assigned M-Factor",
+      "Effective Cut-Off Limit in Mixture"
+    ],
+    "cells": [
+      "Methanol",
+      "Acute Tox Cat 3",
+      "2",
+      "0.05% (500 ppm)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T11-R6",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 11,
+      "row": 6
+    },
+    "headers": [
+      "Highly Toxic Chemical (Examples)",
+      "Hazard Class",
+      "Assigned M-Factor",
+      "Effective Cut-Off Limit in Mixture"
+    ],
+    "cells": [
+      "Toluene",
+      "Acute Tox Cat 4",
+      "1 (No multiplier)",
+      "1.0% (10,000 ppm)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T11-R7",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 11,
+      "row": 7
+    },
+    "headers": [
+      "Highly Toxic Chemical (Examples)",
+      "Hazard Class",
+      "Assigned M-Factor",
+      "Effective Cut-Off Limit in Mixture"
+    ],
+    "cells": [
+      "Formaldehyde",
+      "Skin Corr 1B",
+      "10",
+      "0.1% (1,000 ppm)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T12-R2",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 12,
+      "row": 2
+    },
+    "headers": [
+      "Pictogram",
+      "Symbol Name",
+      "Triggered By (Hazard Classes)"
+    ],
+    "cells": [
+      "GHS01",
+      "Exploding Bomb",
+      "Explosives, Self-reactive, Organic peroxides"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T12-R3",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 12,
+      "row": 3
+    },
+    "headers": [
+      "Pictogram",
+      "Symbol Name",
+      "Triggered By (Hazard Classes)"
+    ],
+    "cells": [
+      "GHS02",
+      "Flame",
+      "Flammables, Pyrophorics, Self-heating, Emits flammable gas"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T12-R4",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 12,
+      "row": 4
+    },
+    "headers": [
+      "Pictogram",
+      "Symbol Name",
+      "Triggered By (Hazard Classes)"
+    ],
+    "cells": [
+      "GHS03",
+      "Flame Over Circle",
+      "Oxidizing gases, liquids, solids"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T12-R5",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 12,
+      "row": 5
+    },
+    "headers": [
+      "Pictogram",
+      "Symbol Name",
+      "Triggered By (Hazard Classes)"
+    ],
+    "cells": [
+      "GHS04",
+      "Gas Cylinder",
+      "Gases under pressure"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T12-R6",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 12,
+      "row": 6
+    },
+    "headers": [
+      "Pictogram",
+      "Symbol Name",
+      "Triggered By (Hazard Classes)"
+    ],
+    "cells": [
+      "GHS05",
+      "Corrosion",
+      "Skin Corrosion 1A/1B/1C, Serious Eye Damage 1, Corrosive to metals"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T12-R7",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 12,
+      "row": 7
+    },
+    "headers": [
+      "Pictogram",
+      "Symbol Name",
+      "Triggered By (Hazard Classes)"
+    ],
+    "cells": [
+      "GHS06",
+      "Skull and Crossbones",
+      "Acute Toxicity (Cat 1, 2, 3)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T12-R8",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 12,
+      "row": 8
+    },
+    "headers": [
+      "Pictogram",
+      "Symbol Name",
+      "Triggered By (Hazard Classes)"
+    ],
+    "cells": [
+      "GHS07",
+      "Exclamation Mark",
+      "Acute Tox Cat 4, Skin/Eye Irrit Cat 2, Skin Sensitiser Cat 1, STOT SE Cat 3"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T12-R9",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 12,
+      "row": 9
+    },
+    "headers": [
+      "Pictogram",
+      "Symbol Name",
+      "Triggered By (Hazard Classes)"
+    ],
+    "cells": [
+      "GHS08",
+      "Health Hazard",
+      "Respiratory Sensitiser, Germ Cell Mutagenicity, Carcinogenicity, Reproductive Tox, STOT RE, Aspiration Hazard"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T12-R10",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 12,
+      "row": 10
+    },
+    "headers": [
+      "Pictogram",
+      "Symbol Name",
+      "Triggered By (Hazard Classes)"
+    ],
+    "cells": [
+      "GHS09",
+      "Environment (Dead tree/fish)",
+      "Aquatic Toxicity (Acute or Chronic)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T13-R2",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 13,
+      "row": 2
+    },
+    "headers": [
+      "Toxic Original",
+      "Safe Alternative Name",
+      "Exact CAS Number",
+      "Typical Usage %",
+      "Performance Impact",
+      "Toxicity Profile of Alternative",
+      "Global Regulatory Status"
+    ],
+    "cells": [
+      "DEHP / DBP / DINP",
+      "DINCH (Diisononyl cyclohexane-1,2-dicarboxylate)",
+      "166412-78-8",
+      "15% – 40%",
+      "Excellent. Identical flexibility and low-temperature performance to DEHP. Zero migration.",
+      "LD50 Oral (Rat) > 5,000 mg/kg. Non-endocrine disrupting.",
+      "✅ REACH, CPSIA, FDA 21 CFR 175.300 (Food Contact)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T13-R3",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 13,
+      "row": 3
+    },
+    "headers": [
+      "Toxic Original",
+      "Safe Alternative Name",
+      "Exact CAS Number",
+      "Typical Usage %",
+      "Performance Impact",
+      "Toxicity Profile of Alternative",
+      "Global Regulatory Status"
+    ],
+    "cells": [
+      "DEHP / DBP / DINP",
+      "ATBC (Acetyl Tributyl Citrate)",
+      "77-90-7",
+      "10% – 30%",
+      "Very Good. Slightly less flexible than DINCH, but superior heat stability and low odor.",
+      "LD50 Oral (Rat) > 8,000 mg/kg. Biodegradable.",
+      "✅ REACH, CPSIA, FDA GRAS, EN 71-3 Compliant"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T13-R4",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 13,
+      "row": 4
+    },
+    "headers": [
+      "Toxic Original",
+      "Safe Alternative Name",
+      "Exact CAS Number",
+      "Typical Usage %",
+      "Performance Impact",
+      "Toxicity Profile of Alternative",
+      "Global Regulatory Status"
+    ],
+    "cells": [
+      "DEHP / DBP / DINP",
+      "DOTP / DEHT (Dioctyl terephthalate)",
+      "6422-86-2",
+      "15% – 40%",
+      "Excellent. Direct drop-in for PVC. Lower volatility, excellent for extruded toys.",
+      "LD50 Oral (Rat) > 10,000 mg/kg. No reproductive toxicity.",
+      "✅ REACH, CPSIA, UKCA Compliant"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T13-R5",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 13,
+      "row": 5
+    },
+    "headers": [
+      "Toxic Original",
+      "Safe Alternative Name",
+      "Exact CAS Number",
+      "Typical Usage %",
+      "Performance Impact",
+      "Toxicity Profile of Alternative",
+      "Global Regulatory Status"
+    ],
+    "cells": [
+      "Chlorinated Paraffins (SCCPs/MCCPs)",
+      "Epoxidized Soybean Oil (ESBO)",
+      "8013-07-8",
+      "5% – 15%",
+      "Good. Acts as both secondary plasticizer and heat stabilizer. May impart slight yellow tint.",
+      "LD50 Oral (Rat) > 10,000 mg/kg. Non-toxic.",
+      "✅ REACH, FDA 21 CFR 175.300, EN 71-3 Compliant"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T14-R2",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 14,
+      "row": 2
+    },
+    "headers": [
+      "Toxic Original",
+      "Safe Alternative Name",
+      "Exact CAS Number / CI Number",
+      "Typical Usage %",
+      "Performance Impact",
+      "Toxicity Profile of Alternative",
+      "Global Regulatory Status"
+    ],
+    "cells": [
+      "Lead Chromate (Chrome Yellow/Orange)",
+      "Bismuth Vanadate (CI Pigment Yellow 184)",
+      "14059-33-7 / 77316",
+      "5% – 15%",
+      "Excellent. Bright, opaque yellow/orange with superior lightfastness and weatherability.",
+      "LD50 Oral (Rat) > 5,000 mg/kg. Zero heavy metal toxicity.",
+      "✅ REACH, CPSIA, EN 71-3, ACMI AP Seal"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T14-R3",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 14,
+      "row": 3
+    },
+    "headers": [
+      "Toxic Original",
+      "Safe Alternative Name",
+      "Exact CAS Number / CI Number",
+      "Typical Usage %",
+      "Performance Impact",
+      "Toxicity Profile of Alternative",
+      "Global Regulatory Status"
+    ],
+    "cells": [
+      "Lead Chromate (Alternative Organic)",
+      "Benzimidazolone Yellow (CI Pigment Yellow 151)",
+      "54688-10-5 / 11741",
+      "3% – 10%",
+      "Very Good. High tinting strength, transparent. Requires careful dispersion.",
+      "Non-carcinogenic, non-mutagenic.",
+      "✅ REACH, CPSIA, EN 71-3 Compliant"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T14-R4",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 14,
+      "row": 4
+    },
+    "headers": [
+      "Toxic Original",
+      "Safe Alternative Name",
+      "Exact CAS Number / CI Number",
+      "Typical Usage %",
+      "Performance Impact",
+      "Toxicity Profile of Alternative",
+      "Global Regulatory Status"
+    ],
+    "cells": [
+      "Cadmium Sulfide/Selenide (Cadmium Red/Yellow)",
+      "Bismuth Molybdate (CI Pigment Orange 24)",
+      "13595-81-8 / 77315",
+      "2% – 10%",
+      "Excellent. Matches the bright, opaque red/orange hue of cadmium without toxicity.",
+      "LD50 Oral (Rat) > 5,000 mg/kg. Non-toxic.",
+      "✅ REACH, CPSIA, EN 71-3 Compliant"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T14-R5",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 14,
+      "row": 5
+    },
+    "headers": [
+      "Toxic Original",
+      "Safe Alternative Name",
+      "Exact CAS Number / CI Number",
+      "Typical Usage %",
+      "Performance Impact",
+      "Toxicity Profile of Alternative",
+      "Global Regulatory Status"
+    ],
+    "cells": [
+      "Cadmium Pigments (Alternative Organic)",
+      "Diketopyrrolopyrrole (DPP) Red (CI Pigment Red 254)",
+      "84632-65-5 / 12730",
+      "1% – 5%",
+      "Superior. Exceptional opacity, brightness, and thermal stability. Higher cost, but lower usage rate.",
+      "Non-carcinogenic, non-mutagenic.",
+      "✅ REACH, CPSIA, EN 71-3 Compliant"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T14-R6",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 14,
+      "row": 6
+    },
+    "headers": [
+      "Toxic Original",
+      "Safe Alternative Name",
+      "Exact CAS Number / CI Number",
+      "Typical Usage %",
+      "Performance Impact",
+      "Toxicity Profile of Alternative",
+      "Global Regulatory Status"
+    ],
+    "cells": [
+      "Cobalt Aluminate (Cobalt Blue)",
+      "Ultramarine Blue (Synthetic)",
+      "57455-37-5 / 77007",
+      "2% – 8%",
+      "Very Good. Bright blue, excellent for watercolors and clays. Not suitable for high-heat plastics.",
+      "LD50 Oral (Rat) > 5,000 mg/kg. Non-sensitizing.",
+      "✅ REACH, CPSIA, EN 71-3 Compliant"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T15-R2",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 15,
+      "row": 2
+    },
+    "headers": [
+      "Toxic Original",
+      "Safe Alternative Name",
+      "Exact CAS Number",
+      "Typical Usage %",
+      "Performance Impact",
+      "Toxicity Profile of Alternative",
+      "Global Regulatory Status"
+    ],
+    "cells": [
+      "Toluene / Xylene",
+      "D-Limonene (d-Limonene)",
+      "5989-27-5",
+      "5% – 30%",
+      "Excellent. Powerful solvent for inks and adhesives. Pleasant citrus odor.",
+      "LD50 Oral (Rat) ~ 5,000 mg/kg. Mild skin irritant at high concentrations.",
+      "✅ REACH, CPSIA, FDA GRAS (Flavoring)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T15-R3",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 15,
+      "row": 3
+    },
+    "headers": [
+      "Toxic Original",
+      "Safe Alternative Name",
+      "Exact CAS Number",
+      "Typical Usage %",
+      "Performance Impact",
+      "Toxicity Profile of Alternative",
+      "Global Regulatory Status"
+    ],
+    "cells": [
+      "Toluene / Xylene",
+      "Ethyl Lactate",
+      "97-64-3",
+      "10% – 40%",
+      "Superior. \"Green\" solvent. Evaporates cleanly, excellent for acrylics and markers.",
+      "LD50 Oral (Rat) > 3,000 mg/kg. Biodegradable, non-toxic.",
+      "✅ REACH, CPSIA, EPA Safer Choice"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T15-R4",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 15,
+      "row": 4
+    },
+    "headers": [
+      "Toxic Original",
+      "Safe Alternative Name",
+      "Exact CAS Number",
+      "Typical Usage %",
+      "Performance Impact",
+      "Toxicity Profile of Alternative",
+      "Global Regulatory Status"
+    ],
+    "cells": [
+      "Methanol (in markers)",
+      "Ethanol (Denatured, non-toxic denaturant) or 1,2-Propanediol",
+      "64-17-5 (Ethanol) / 57-55-6 (Propanediol)",
+      "5% – 20%",
+      "Very Good. Propanediol prevents tip drying in markers without neurotoxicity.",
+      "Propanediol LD50 Oral (Rat) > 20,000 mg/kg. Non-toxic.",
+      "✅ REACH, CPSIA, EN 71-3 Compliant"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T15-R5",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 15,
+      "row": 5
+    },
+    "headers": [
+      "Toxic Original",
+      "Safe Alternative Name",
+      "Exact CAS Number",
+      "Typical Usage %",
+      "Performance Impact",
+      "Toxicity Profile of Alternative",
+      "Global Regulatory Status"
+    ],
+    "cells": [
+      "Mineral Spirits / Naphtha",
+      "Isoparaffinic Hydrocarbons (High Purity)",
+      "64742-48-9",
+      "10% – 30%",
+      "Good. Low odor, low aromatic content (<0.1%), eliminates aspiration hazard labeling.",
+      "LD50 Oral (Rat) > 5,000 mg/kg. Non-carcinogenic.",
+      "✅ REACH, CPSIA, CLP (Non-classified)"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T16-R2",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 16,
+      "row": 2
+    },
+    "headers": [
+      "Toxic Original",
+      "Safe Alternative Name",
+      "Exact CAS Number",
+      "Typical Usage %",
+      "Performance Impact",
+      "Toxicity Profile of Alternative",
+      "Global Regulatory Status"
+    ],
+    "cells": [
+      "Formaldehyde Releasers (e.g., Bronopol, DMDM Hydantoin)",
+      "Sodium Benzoate",
+      "532-32-1",
+      "0.1% – 0.5%",
+      "Good. Effective against yeast/mold in acidic formulations (pH < 4.5).",
+      "LD50 Oral (Rat) > 2,000 mg/kg. FDA GRAS.",
+      "✅ REACH, CPSIA, FDA 21 CFR 184.1733"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T16-R3",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 16,
+      "row": 3
+    },
+    "headers": [
+      "Toxic Original",
+      "Safe Alternative Name",
+      "Exact CAS Number",
+      "Typical Usage %",
+      "Performance Impact",
+      "Toxicity Profile of Alternative",
+      "Global Regulatory Status"
+    ],
+    "cells": [
+      "Formaldehyde Releasers",
+      "Potassium Sorbate",
+      "24634-61-5",
+      "0.1% – 0.5%",
+      "Good. Synergistic with Sodium Benzoate. Broad-spectrum in water-based systems.",
+      "LD50 Oral (Rat) > 4,000 mg/kg. FDA GRAS.",
+      "✅ REACH, CPSIA, FDA 21 CFR 182.3640"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T16-R4",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 16,
+      "row": 4
+    },
+    "headers": [
+      "Toxic Original",
+      "Safe Alternative Name",
+      "Exact CAS Number",
+      "Typical Usage %",
+      "Performance Impact",
+      "Toxicity Profile of Alternative",
+      "Global Regulatory Status"
+    ],
+    "cells": [
+      "MIT / CMIT (Kathon)",
+      "Phenoxyethanol",
+      "122-99-6",
+      "0.5% – 1.0%",
+      "Excellent. Broad-spectrum, stable across wide pH range. Max 1.0% to avoid sensitization.",
+      "LD50 Oral (Rat) ~ 3,000 mg/kg. Non-carcinogenic.",
+      "✅ REACH, EU Cosmetics Reg, CPSIA"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T16-R5",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 16,
+      "row": 5
+    },
+    "headers": [
+      "Toxic Original",
+      "Safe Alternative Name",
+      "Exact CAS Number",
+      "Typical Usage %",
+      "Performance Impact",
+      "Toxicity Profile of Alternative",
+      "Global Regulatory Status"
+    ],
+    "cells": [
+      "Boric Acid / Borax (in slime/clay)",
+      "Guar Gum + Saline + Baking Soda",
+      "9000-30-0 (Guar) / 7647-14-5 (NaCl) / 144-55-8 (NaHCO3)",
+      "1% – 3% total",
+      "Superior. Creates identical cross-linked \"slime\" texture without reproductive toxicity.",
+      "All components are Food Grade / GRAS. Zero toxicity.",
+      "✅ REACH, CPSIA, EN 71-3 Compliant"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T17-R2",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 17,
+      "row": 2
+    },
+    "headers": [
+      "Toxic Original",
+      "Safe Alternative Name",
+      "Exact CAS Number",
+      "Typical Usage %",
+      "Performance Impact",
+      "Toxicity Profile of Alternative",
+      "Global Regulatory Status"
+    ],
+    "cells": [
+      "Nonylphenol Ethoxylates (NPE)",
+      "Alkyl Polyglucosides (APG) (e.g., Decyl Glucoside)",
+      "68515-73-1 (Decyl) / 54549-25-6 (Lauryl)",
+      "1% – 5%",
+      "Excellent. High foaming, excellent wetting, biodegradable, derived from corn/coconut.",
+      "LD50 Oral (Rat) > 5,000 mg/kg. Non-endocrine disrupting.",
+      "✅ REACH, EPA Safer Choice, ECOCERT"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T17-R3",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 17,
+      "row": 3
+    },
+    "headers": [
+      "Toxic Original",
+      "Safe Alternative Name",
+      "Exact CAS Number",
+      "Typical Usage %",
+      "Performance Impact",
+      "Toxicity Profile of Alternative",
+      "Global Regulatory Status"
+    ],
+    "cells": [
+      "NPE / SLS (Harsh)",
+      "Sodium Lauryl Sulfoacetate (SLSA)",
+      "1847-58-1",
+      "1% – 10%",
+      "Very Good. Mild, high-foaming, derived from palm/coconut. Excellent for washable paints.",
+      "LD50 Oral (Rat) > 5,000 mg/kg. Non-irritating.",
+      "✅ REACH, CPSIA, ECOCERT"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T18-R2",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 18,
+      "row": 2
+    },
+    "headers": [
+      "Toxic Original",
+      "Safe Alternative Name",
+      "Exact CAS Number",
+      "Typical Usage %",
+      "Performance Impact",
+      "Toxicity Profile of Alternative",
+      "Global Regulatory Status"
+    ],
+    "cells": [
+      "Dibutyltin (DBT) / Tributyltin (TBT)",
+      "Calcium-Zinc (Ca-Zn) Stabilizers (e.g., Calcium Stearate + Zinc Stearate)",
+      "1592-23-0 (Ca) / 557-05-1 (Zn)",
+      "1% – 3%",
+      "Excellent. Non-toxic, FDA-approved for food contact, excellent long-term heat stability.",
+      "LD50 Oral (Rat) > 5,000 mg/kg. Non-toxic.",
+      "✅ REACH, CPSIA, FDA 21 CFR 178.3870"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T18-R3",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 18,
+      "row": 3
+    },
+    "headers": [
+      "Toxic Original",
+      "Safe Alternative Name",
+      "Exact CAS Number",
+      "Typical Usage %",
+      "Performance Impact",
+      "Toxicity Profile of Alternative",
+      "Global Regulatory Status"
+    ],
+    "cells": [
+      "Lead-based Stabilizers",
+      "Hydrotalcite (Synthetic Magnesium Aluminum Carbonate)",
+      "11097-59-9",
+      "1% – 4%",
+      "Very Good. Excellent acid scavenger, prevents HCl release in PVC, highly transparent.",
+      "LD50 Oral (Rat) > 5,000 mg/kg. Non-toxic.",
+      "✅ REACH, CPSIA, EN 71-3 Compliant"
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T19-R2",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 19,
+      "row": 2
+    },
+    "headers": [
+      "IF Formulation Contains...",
+      "AND Target Market is...",
+      "THEN AI/R&D MUST Suggest...",
+      "BECAUSE..."
+    ],
+    "cells": [
+      "Borax / Sodium Tetraborate",
+      "EU (EN 71-3) or USA (CPSIA)",
+      "Guar Gum + Saline + Baking Soda",
+      "Boron migration in Category II (slime) exceeds 300 ppm limit, causing reproductive toxicity."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T19-R3",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 19,
+      "row": 3
+    },
+    "headers": [
+      "IF Formulation Contains...",
+      "AND Target Market is...",
+      "THEN AI/R&D MUST Suggest...",
+      "BECAUSE..."
+    ],
+    "cells": [
+      "Lead Chromate (Pigment)",
+      "Global (Any)",
+      "Bismuth Vanadate (CI 77316)",
+      "Lead total content exceeds REACH 500 ppm and EN 71-3 migration limits (0.5 - 2.0 ppm)."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T19-R4",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 19,
+      "row": 4
+    },
+    "headers": [
+      "IF Formulation Contains...",
+      "AND Target Market is...",
+      "THEN AI/R&D MUST Suggest...",
+      "BECAUSE..."
+    ],
+    "cells": [
+      "DEHP / DINP",
+      "Global (Any)",
+      "DINCH (CAS 166412-78-8)",
+      "Phthalates > 0.1% violate REACH Entry 51 and CPSIA Sec 108. DINCH is the global gold standard."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T19-R5",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 19,
+      "row": 5
+    },
+    "headers": [
+      "IF Formulation Contains...",
+      "AND Target Market is...",
+      "THEN AI/R&D MUST Suggest...",
+      "BECAUSE..."
+    ],
+    "cells": [
+      "Formaldehyde / Bronopol",
+      "EU (TSD) or USA (Prop 65)",
+      "Sodium Benzoate + Potassium Sorbate",
+      "Formaldehyde releasers trigger CA Prop 65 warnings and EU CMR restrictions in toys."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T19-R6",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 19,
+      "row": 6
+    },
+    "headers": [
+      "IF Formulation Contains...",
+      "AND Target Market is...",
+      "THEN AI/R&D MUST Suggest...",
+      "BECAUSE..."
+    ],
+    "cells": [
+      "Toluene / Xylene",
+      "USA (CARB) or EU (CLP)",
+      "Ethyl Lactate or D-Limonene",
+      "Toluene/Xylene trigger CLP \"DANGER\" (STOT) and CARB VOC limits, making the product illegal for children."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  },
+  {
+    "claim_id": "DOC-EU-T19-R7",
+    "document_id": "DOC-EU",
+    "region": "EU",
+    "locator": {
+      "table": 19,
+      "row": 7
+    },
+    "headers": [
+      "IF Formulation Contains...",
+      "AND Target Market is...",
+      "THEN AI/R&D MUST Suggest...",
+      "BECAUSE..."
+    ],
+    "cells": [
+      "Nonylphenol Ethoxylate (NPE)",
+      "EU (REACH)",
+      "Decyl Glucoside (APG)",
+      "NPEs are restricted under REACH Entry 46 (>100 ppm) due to endocrine disruption."
+    ],
+    "review_status": "unverified",
+    "enabled_for_decisions": false
+  }
+]

@@ -5,11 +5,11 @@ import { AGE_GROUP_LABEL, AGE_GROUPS, PHYSICAL_FORMS, PRODUCT_CATEGORIES, TARGET
 import type { FormulaInput } from '../../types/services';
 import {
   categoryForExample,
-  fetchCatalogIngredients,
-  fetchExamples,
+  fetchPackageCatalog,
+  fetchPackageExamples,
   physicalFormForExample,
-  type ExampleFormula,
-} from '../../api/assessment';
+  type PackageExample,
+} from '../../api/formulaBackend';
 import { useDemoSelector, useServices, useSettings } from '../../state/DemoDataProvider';
 import { useAsyncAction } from '../../hooks/useAsyncData';
 import { useToast } from '../ui/Toast';
@@ -44,6 +44,7 @@ interface IngredientRow {
   concentrationText: string;
   supplier: string;
   notes: string;
+  batchId: string;
   addedInVersion?: string;
 }
 
@@ -69,7 +70,7 @@ const nextKey = () => {
 };
 
 function emptyRow(): IngredientRow {
-  return { key: nextKey(), name: '', rawMaterialId: '', concentrationText: '', supplier: '', notes: '' };
+  return { key: nextKey(), name: '', rawMaterialId: '', concentrationText: '', supplier: '', notes: '', batchId: '' };
 }
 
 function toFormState(formula: Formula | undefined, defaults: { ownerId: string; reviewerId: string }): FormState {
@@ -109,6 +110,7 @@ function toFormState(formula: Formula | undefined, defaults: { ownerId: string; 
       concentrationText: String(ingredient.concentration),
       supplier: ingredient.supplier ?? '',
       notes: ingredient.notes ?? '',
+      batchId: ingredient.batchId ?? '',
       addedInVersion: ingredient.addedInVersion,
     })),
     evidenceIds: [...formula.evidenceIds],
@@ -137,6 +139,7 @@ function toInput(form: FormState, lifecycle: 'draft' | 'active'): FormulaInput {
         concentration: row.concentrationText.trim() === '' ? Number.NaN : Number(row.concentrationText),
         supplier: row.supplier || undefined,
         notes: row.notes || undefined,
+        batchId: row.batchId.trim() || undefined,
         addedInVersion: row.addedInVersion,
       })),
     evidenceIds: form.evidenceIds,
@@ -198,7 +201,7 @@ export function FormulaFormDrawer({
     toFormState(formula, { ownerId: settings.currentUserId, reviewerId: settings.defaultReviewerId }),
   );
   const [showAllIssues, setShowAllIssues] = useState(false);
-  const [examples, setExamples] = useState<ExampleFormula[]>([]);
+  const [examples, setExamples] = useState<PackageExample[]>([]);
   const [catalogOptions, setCatalogOptions] = useState<{ value: string; label: string }[]>([]);
   const [examplesLoading, setExamplesLoading] = useState(false);
   const [examplesError, setExamplesError] = useState<string>();
@@ -217,14 +220,14 @@ export function FormulaFormDrawer({
     const controller = new AbortController();
     setExamplesLoading(true);
     setExamplesError(undefined);
-    Promise.all([fetchExamples(controller.signal), fetchCatalogIngredients(controller.signal)])
+    Promise.all([fetchPackageExamples(controller.signal), fetchPackageCatalog(controller.signal)])
       .then(([loaded, ingredients]) => {
         setExamples(loaded);
-        setSelectedExampleId((current) => current || loaded[0]?.formula_id || '');
+        setSelectedExampleId((current) => current || loaded[0]?.example_id || '');
         setCatalogOptions(
           ingredients.map((item) => ({
-            value: item.ingredient_id,
-            label: `${item.ingredient_id} — ${item.name}`,
+            value: item.material_id,
+            label: `${item.material_id} — ${item.name}`,
           })),
         );
       })
@@ -240,14 +243,24 @@ export function FormulaFormDrawer({
 
   const validation = useMemo(() => validateFormulaInput(toInput(form, 'active')), [form]);
 
+  const catalogIds = useMemo(() => new Set(catalogOptions.map((item) => item.value)), [catalogOptions]);
   const materialOptions = useMemo(() => {
-    const demo = rawMaterials.map((material) => ({
-      value: material.id,
-      label: `${material.id} — ${material.name}`,
-    }));
-    const seen = new Set(demo.map((item) => item.value));
-    return [...demo, ...catalogOptions.filter((item) => !seen.has(item.value))];
-  }, [rawMaterials, catalogOptions]);
+    const extras = form.ingredients
+      .filter((row) => row.rawMaterialId && !catalogIds.has(row.rawMaterialId))
+      .map((row) => ({
+        value: row.rawMaterialId,
+        label: `${row.rawMaterialId} — legacy, remapping required`,
+      }));
+    const seen = new Set(catalogOptions.map((item) => item.value));
+    return [
+      ...catalogOptions,
+      ...extras.filter((item) => {
+        if (seen.has(item.value)) return false;
+        seen.add(item.value);
+        return true;
+      }),
+    ];
+  }, [catalogOptions, catalogIds, form.ingredients]);
 
   const linkableDocuments = useMemo(
     () =>
@@ -277,27 +290,35 @@ export function FormulaFormDrawer({
     }));
 
   const loadSample = () => {
-    const example = examples.find((item) => item.formula_id === selectedExampleId) ?? examples[0];
+    const example = examples.find((item) => item.example_id === selectedExampleId) ?? examples[0];
     if (!example) {
       toast.error('Reference formula unavailable', examplesError ?? 'The reference formulas have not loaded yet.');
       return;
     }
+    const source = example.input;
+    const nameFor = (materialId: string) => {
+      const option = catalogOptions.find((item) => item.value === materialId);
+      const label = option?.label.split(' — ').slice(1).join(' — ').trim();
+      return label || materialId;
+    };
     setForm((current) => ({
       ...current,
-      name: example.formula_name,
-      category: categoryForExample(example.product_category),
-      ageGroup: example.age_group,
-      targetMarkets: [...example.target_markets],
-      physicalForm: physicalFormForExample(example.product_category),
-      intendedUse: 'Illustrative reference composition for internal screening. Not a product recipe.',
-      description: 'Illustrative composition for the assessment walkthrough. Not a Crayola recipe.',
-      ingredients: example.ingredients.map((ingredient) => ({
+      name: source.name,
+      version: source.version_id,
+      category: categoryForExample(source.product_category),
+      ageGroup: source.age_group,
+      targetMarkets: [...source.regions],
+      physicalForm: physicalFormForExample(source.physical_form),
+      intendedUse: source.intended_use,
+      description: example.description,
+      ingredients: source.ingredients.map((ingredient) => ({
         key: nextKey(),
-        name: ingredient.name,
-        rawMaterialId: ingredient.ingredient_id,
-        concentrationText: String(ingredient.concentration_pct),
+        name: nameFor(ingredient.material_id),
+        rawMaterialId: ingredient.material_id,
+        concentrationText: String(ingredient.concentration_percent),
         supplier: '',
         notes: '',
+        batchId: ingredient.batch_id ?? '',
       })),
     }));
     setFurthest((value) => Math.max(value, 2));
@@ -570,7 +591,7 @@ export function FormulaFormDrawer({
                 <Select
                   value={selectedExampleId}
                   placeholder={examplesLoading ? 'Loading formulas…' : 'No formulas loaded'}
-                  options={examples.map((item) => ({ value: item.formula_id, label: item.formula_name }))}
+                  options={examples.map((item) => ({ value: item.example_id, label: item.input.name }))}
                   onChange={(event) => setSelectedExampleId(event.target.value)}
                   disabled={examplesLoading || examples.length === 0}
                 />
@@ -586,7 +607,12 @@ export function FormulaFormDrawer({
           <div className="space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <p className="text-[13px] text-muted">
-                Concentrations must total 100% within ±{CONCENTRATION_TOLERANCE}%.
+                Concentrations must total 100% within ±
+                {form.ingredients.some((row) => row.rawMaterialId) &&
+                form.ingredients.every((row) => !row.rawMaterialId || /^[a-z][a-z0-9_]*$/.test(row.rawMaterialId))
+                  ? '0.01'
+                  : CONCENTRATION_TOLERANCE}
+                %.
               </p>
               <Badge tone={withinTolerance ? 'success' : 'warning'}>
                 Total {formatConcentration(total)}
@@ -596,12 +622,13 @@ export function FormulaFormDrawer({
             <div className="space-y-3">
               {form.ingredients.map((row, index) => {
                 const rowErrors = validation.errors.filter((issue) => issue.ingredientIndex === index);
+                const unmapped = Boolean(row.rawMaterialId && catalogOptions.length > 0 && !catalogIds.has(row.rawMaterialId));
                 return (
                   <div
                     key={row.key}
                     className={cn(
                       'rounded-lg border p-3',
-                      rowErrors.length > 0 ? 'border-danger-line bg-danger-soft/30' : 'border-line bg-canvas/50',
+                      rowErrors.length > 0 || unmapped ? 'border-danger-line bg-danger-soft/30' : 'border-line bg-canvas/50',
                     )}
                   >
                     <div className="mb-2 flex items-center justify-between">
@@ -634,13 +661,20 @@ export function FormulaFormDrawer({
                           value={row.rawMaterialId}
                           placeholder="Not linked"
                           options={materialOptions}
+                          invalid={rowErrors.some((issue) => issue.field.endsWith('rawMaterialId'))}
                           onChange={(event) => {
                             const materialId = event.target.value;
                             const material = rawMaterials.find((item) => item.id === materialId);
+                            const catalogName = catalogOptions
+                              .find((item) => item.value === materialId)
+                              ?.label.split(' — ')
+                              .slice(1)
+                              .join(' — ')
+                              .trim();
                             updateRow(row.key, {
                               rawMaterialId: materialId,
                               supplier: material?.supplier ?? row.supplier,
-                              name: row.name.trim() ? row.name : (material?.name ?? ''),
+                              name: row.name.trim() ? row.name : (material?.name ?? catalogName ?? ''),
                             });
                           }}
                         />
@@ -659,7 +693,7 @@ export function FormulaFormDrawer({
                         />
                       </Field>
 
-                      <Field label="Supplier" className="sm:col-span-6">
+                      <Field label="Supplier" className="sm:col-span-4">
                         <TextInput
                           value={row.supplier}
                           onChange={(event) => updateRow(row.key, { supplier: event.target.value })}
@@ -667,7 +701,15 @@ export function FormulaFormDrawer({
                         />
                       </Field>
 
-                      <Field label="Note" className="sm:col-span-6">
+                      <Field label="Batch" className="sm:col-span-3">
+                        <TextInput
+                          value={row.batchId}
+                          onChange={(event) => updateRow(row.key, { batchId: event.target.value })}
+                          placeholder="Optional"
+                        />
+                      </Field>
+
+                      <Field label="Note" className="sm:col-span-5">
                         <TextInput
                           value={row.notes}
                           onChange={(event) => updateRow(row.key, { notes: event.target.value })}
@@ -675,6 +717,11 @@ export function FormulaFormDrawer({
                         />
                       </Field>
                     </div>
+                    {unmapped ? (
+                      <p className="mt-2 text-xs text-danger">
+                        This row still uses a legacy identity. Select the correct catalog material. Names are not matched by similarity.
+                      </p>
+                    ) : null}
                   </div>
                 );
               })}
@@ -688,7 +735,7 @@ export function FormulaFormDrawer({
                 aria-label="Illustrative formula"
                 value={selectedExampleId}
                 placeholder={examplesLoading ? 'Loading formulas…' : 'No formulas loaded'}
-                options={examples.map((item) => ({ value: item.formula_id, label: item.formula_name }))}
+                options={examples.map((item) => ({ value: item.example_id, label: item.input.name }))}
                 onChange={(event) => setSelectedExampleId(event.target.value)}
                 disabled={examplesLoading || examples.length === 0}
                 className="max-w-xs"

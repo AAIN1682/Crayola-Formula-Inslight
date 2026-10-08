@@ -33,6 +33,7 @@ export interface IngredientInput {
   evidenceIds?: string[];
   addedInVersion?: string;
   notes?: string;
+  batchId?: string;
 }
 
 export interface FormulaInput {

@@ -1,0 +1,594 @@
+[
+  {
+    "fact_id": "GLOW-zinc_sulfide",
+    "document_id": "DOC-GLOW",
+    "material_id": "glow_purple",
+    "property": "Zinc sulfide assay",
+    "value": 98.8,
+    "unit": "percent",
+    "operator": "=",
+    "locator": {
+      "page": 1
+    },
+    "basis": "raw_material",
+    "review_status": "extracted_unverified",
+    "supplier_specification": {
+      "min": 98,
+      "max": 100
+    },
+    "batch_id": "230320"
+  },
+  {
+    "fact_id": "GLOW-zinc_oxide",
+    "document_id": "DOC-GLOW",
+    "material_id": "glow_purple",
+    "property": "Zinc oxide assay",
+    "value": 1.2,
+    "unit": "percent",
+    "operator": "=",
+    "locator": {
+      "page": 1
+    },
+    "basis": "raw_material",
+    "review_status": "extracted_unverified",
+    "supplier_specification": {
+      "min": 0,
+      "max": 2
+    },
+    "batch_id": "230320"
+  },
+  {
+    "fact_id": "MICA-mica",
+    "document_id": "DOC-MICA",
+    "material_id": "mica_patina_silver",
+    "property": "Mica assay",
+    "value": 61.4,
+    "unit": "percent",
+    "operator": "=",
+    "locator": {
+      "page": 1
+    },
+    "basis": "raw_material",
+    "review_status": "extracted_unverified",
+    "supplier_specification": {
+      "min": 51,
+      "max": 71
+    },
+    "representative_sample": true
+  },
+  {
+    "fact_id": "MICA-titanium_dioxide",
+    "document_id": "DOC-MICA",
+    "material_id": "mica_patina_silver",
+    "property": "TiO2 assay",
+    "value": 18.1,
+    "unit": "percent",
+    "operator": "=",
+    "locator": {
+      "page": 1
+    },
+    "basis": "raw_material",
+    "review_status": "extracted_unverified",
+    "supplier_specification": {
+      "min": 11,
+      "max": 21
+    },
+    "representative_sample": true
+  },
+  {
+    "fact_id": "MICA-iron_oxide_unresolved",
+    "document_id": "DOC-MICA",
+    "material_id": "mica_patina_silver",
+    "property": "Fe3O4 as printed assay",
+    "value": 20.5,
+    "unit": "percent",
+    "operator": "=",
+    "locator": {
+      "page": 1
+    },
+    "basis": "raw_material",
+    "review_status": "extracted_unverified",
+    "supplier_specification": {
+      "min": 18,
+      "max": 28
+    },
+    "representative_sample": true
+  },
+  {
+    "fact_id": "GLOW-As",
+    "document_id": "DOC-GLOW",
+    "material_id": "glow_purple",
+    "property": "As",
+    "value": 2,
+    "unit": "ppm",
+    "operator": "<=",
+    "locator": {
+      "page": 1
+    },
+    "basis": "raw_material",
+    "review_status": "extracted_unverified",
+    "supplier_specification": {
+      "operator": "<=",
+      "value": 2,
+      "unit": "ppm"
+    },
+    "batch_id": "230320",
+    "test_method": "KT",
+    "measurement_type": "reported_upper_bound_not_exact_result"
+  },
+  {
+    "fact_id": "MICA-As",
+    "document_id": "DOC-MICA",
+    "material_id": "mica_patina_silver",
+    "property": "As",
+    "value": 0.0002,
+    "unit": "percent",
+    "operator": "<=",
+    "locator": {
+      "page": 1
+    },
+    "basis": "raw_material",
+    "review_status": "extracted_unverified",
+    "supplier_specification": {
+      "operator": "<=",
+      "value": 0.0002,
+      "unit": "percent"
+    },
+    "representative_sample": true,
+    "measurement_type": "reported_upper_bound_not_exact_result",
+    "normalized": {
+      "operator": "<=",
+      "value": 2,
+      "unit": "ppm"
+    }
+  },
+  {
+    "fact_id": "GLOW-Ba",
+    "document_id": "DOC-GLOW",
+    "material_id": "glow_purple",
+    "property": "Ba",
+    "value": 50,
+    "unit": "ppm",
+    "operator": "<=",
+    "locator": {
+      "page": 1
+    },
+    "basis": "raw_material",
+    "review_status": "extracted_unverified",
+    "supplier_specification": {
+      "operator": "<=",
+      "value": 50,
+      "unit": "ppm"
+    },
+    "batch_id": "230320",
+    "test_method": "KT",
+    "measurement_type": "reported_upper_bound_not_exact_result"
+  },
+  {
+    "fact_id": "MICA-Ba",
+    "document_id": "DOC-MICA",
+    "material_id": "mica_patina_silver",
+    "property": "Ba",
+    "value": 0.005,
+    "unit": "percent",
+    "operator": "<=",
+    "locator": {
+      "page": 1
+    },
+    "basis": "raw_material",
+    "review_status": "extracted_unverified",
+    "supplier_specification": {
+      "operator": "<=",
+      "value": 0.005,
+      "unit": "percent"
+    },
+    "representative_sample": true,
+    "measurement_type": "reported_upper_bound_not_exact_result",
+    "normalized": {
+      "operator": "<=",
+      "value": 50,
+      "unit": "ppm"
+    }
+  },
+  {
+    "fact_id": "GLOW-Cd",
+    "document_id": "DOC-GLOW",
+    "material_id": "glow_purple",
+    "property": "Cd",
+    "value": 3,
+    "unit": "ppm",
+    "operator": "<=",
+    "locator": {
+      "page": 1
+    },
+    "basis": "raw_material",
+    "review_status": "extracted_unverified",
+    "supplier_specification": {
+      "operator": "<=",
+      "value": 3,
+      "unit": "ppm"
+    },
+    "batch_id": "230320",
+    "test_method": "KT",
+    "measurement_type": "reported_upper_bound_not_exact_result"
+  },
+  {
+    "fact_id": "MICA-Cd",
+    "document_id": "DOC-MICA",
+    "material_id": "mica_patina_silver",
+    "property": "Cd",
+    "value": 0.0003,
+    "unit": "percent",
+    "operator": "<=",
+    "locator": {
+      "page": 1
+    },
+    "basis": "raw_material",
+    "review_status": "extracted_unverified",
+    "supplier_specification": {
+      "operator": "<=",
+      "value": 0.0003,
+      "unit": "percent"
+    },
+    "representative_sample": true,
+    "measurement_type": "reported_upper_bound_not_exact_result",
+    "normalized": {
+      "operator": "<=",
+      "value": 3,
+      "unit": "ppm"
+    }
+  },
+  {
+    "fact_id": "GLOW-Cr",
+    "document_id": "DOC-GLOW",
+    "material_id": "glow_purple",
+    "property": "Cr",
+    "value": 100,
+    "unit": "ppm",
+    "operator": "<=",
+    "locator": {
+      "page": 1
+    },
+    "basis": "raw_material",
+    "review_status": "extracted_unverified",
+    "supplier_specification": {
+      "operator": "<=",
+      "value": 100,
+      "unit": "ppm"
+    },
+    "batch_id": "230320",
+    "test_method": "KT",
+    "measurement_type": "reported_upper_bound_not_exact_result"
+  },
+  {
+    "fact_id": "MICA-Cr",
+    "document_id": "DOC-MICA",
+    "material_id": "mica_patina_silver",
+    "property": "Cr",
+    "value": 0.01,
+    "unit": "percent",
+    "operator": "<=",
+    "locator": {
+      "page": 1
+    },
+    "basis": "raw_material",
+    "review_status": "extracted_unverified",
+    "supplier_specification": {
+      "operator": "<=",
+      "value": 0.01,
+      "unit": "percent"
+    },
+    "representative_sample": true,
+    "measurement_type": "reported_upper_bound_not_exact_result",
+    "normalized": {
+      "operator": "<=",
+      "value": 100,
+      "unit": "ppm"
+    }
+  },
+  {
+    "fact_id": "GLOW-Cu",
+    "document_id": "DOC-GLOW",
+    "material_id": "glow_purple",
+    "property": "Cu",
+    "value": 50,
+    "unit": "ppm",
+    "operator": "<=",
+    "locator": {
+      "page": 1
+    },
+    "basis": "raw_material",
+    "review_status": "extracted_unverified",
+    "supplier_specification": {
+      "operator": "<=",
+      "value": 50,
+      "unit": "ppm"
+    },
+    "batch_id": "230320",
+    "test_method": "KT",
+    "measurement_type": "reported_upper_bound_not_exact_result"
+  },
+  {
+    "fact_id": "MICA-Cu",
+    "document_id": "DOC-MICA",
+    "material_id": "mica_patina_silver",
+    "property": "Cu",
+    "value": 0.005,
+    "unit": "percent",
+    "operator": "<=",
+    "locator": {
+      "page": 1
+    },
+    "basis": "raw_material",
+    "review_status": "extracted_unverified",
+    "supplier_specification": {
+      "operator": "<=",
+      "value": 0.005,
+      "unit": "percent"
+    },
+    "representative_sample": true,
+    "measurement_type": "reported_upper_bound_not_exact_result",
+    "normalized": {
+      "operator": "<=",
+      "value": 50,
+      "unit": "ppm"
+    }
+  },
+  {
+    "fact_id": "GLOW-Hg",
+    "document_id": "DOC-GLOW",
+    "material_id": "glow_purple",
+    "property": "Hg",
+    "value": 1,
+    "unit": "ppm",
+    "operator": "<=",
+    "locator": {
+      "page": 1
+    },
+    "basis": "raw_material",
+    "review_status": "extracted_unverified",
+    "supplier_specification": {
+      "operator": "<=",
+      "value": 1,
+      "unit": "ppm"
+    },
+    "batch_id": "230320",
+    "test_method": "KT",
+    "measurement_type": "reported_upper_bound_not_exact_result"
+  },
+  {
+    "fact_id": "MICA-Hg",
+    "document_id": "DOC-MICA",
+    "material_id": "mica_patina_silver",
+    "property": "Hg",
+    "value": 0.0001,
+    "unit": "percent",
+    "operator": "<=",
+    "locator": {
+      "page": 1
+    },
+    "basis": "raw_material",
+    "review_status": "extracted_unverified",
+    "supplier_specification": {
+      "operator": "<=",
+      "value": 0.0001,
+      "unit": "percent"
+    },
+    "representative_sample": true,
+    "measurement_type": "reported_upper_bound_not_exact_result",
+    "normalized": {
+      "operator": "<=",
+      "value": 1,
+      "unit": "ppm"
+    }
+  },
+  {
+    "fact_id": "GLOW-Ni",
+    "document_id": "DOC-GLOW",
+    "material_id": "glow_purple",
+    "property": "Ni",
+    "value": 10,
+    "unit": "ppm",
+    "operator": "<=",
+    "locator": {
+      "page": 1
+    },
+    "basis": "raw_material",
+    "review_status": "extracted_unverified",
+    "supplier_specification": {
+      "operator": "<=",
+      "value": 10,
+      "unit": "ppm"
+    },
+    "batch_id": "230320",
+    "test_method": "KT",
+    "measurement_type": "reported_upper_bound_not_exact_result"
+  },
+  {
+    "fact_id": "MICA-Ni",
+    "document_id": "DOC-MICA",
+    "material_id": "mica_patina_silver",
+    "property": "Ni",
+    "value": 0.001,
+    "unit": "percent",
+    "operator": "<=",
+    "locator": {
+      "page": 2
+    },
+    "basis": "raw_material",
+    "review_status": "extracted_unverified",
+    "supplier_specification": {
+      "operator": "<=",
+      "value": 0.001,
+      "unit": "percent"
+    },
+    "representative_sample": true,
+    "measurement_type": "reported_upper_bound_not_exact_result",
+    "normalized": {
+      "operator": "<=",
+      "value": 10,
+      "unit": "ppm"
+    }
+  },
+  {
+    "fact_id": "GLOW-Pb",
+    "document_id": "DOC-GLOW",
+    "material_id": "glow_purple",
+    "property": "Pb",
+    "value": 10,
+    "unit": "ppm",
+    "operator": "<=",
+    "locator": {
+      "page": 1
+    },
+    "basis": "raw_material",
+    "review_status": "extracted_unverified",
+    "supplier_specification": {
+      "operator": "<=",
+      "value": 10,
+      "unit": "ppm"
+    },
+    "batch_id": "230320",
+    "test_method": "KT",
+    "measurement_type": "reported_upper_bound_not_exact_result"
+  },
+  {
+    "fact_id": "MICA-Pb",
+    "document_id": "DOC-MICA",
+    "material_id": "mica_patina_silver",
+    "property": "Pb",
+    "value": 0.001,
+    "unit": "percent",
+    "operator": "<=",
+    "locator": {
+      "page": 2
+    },
+    "basis": "raw_material",
+    "review_status": "extracted_unverified",
+    "supplier_specification": {
+      "operator": "<=",
+      "value": 0.001,
+      "unit": "percent"
+    },
+    "representative_sample": true,
+    "measurement_type": "reported_upper_bound_not_exact_result",
+    "normalized": {
+      "operator": "<=",
+      "value": 10,
+      "unit": "ppm"
+    }
+  },
+  {
+    "fact_id": "GLOW-Sb",
+    "document_id": "DOC-GLOW",
+    "material_id": "glow_purple",
+    "property": "Sb",
+    "value": 1,
+    "unit": "ppm",
+    "operator": "<=",
+    "locator": {
+      "page": 1
+    },
+    "basis": "raw_material",
+    "review_status": "extracted_unverified",
+    "supplier_specification": {
+      "operator": "<=",
+      "value": 1,
+      "unit": "ppm"
+    },
+    "batch_id": "230320",
+    "test_method": "KT",
+    "measurement_type": "reported_upper_bound_not_exact_result"
+  },
+  {
+    "fact_id": "MICA-Sb",
+    "document_id": "DOC-MICA",
+    "material_id": "mica_patina_silver",
+    "property": "Sb",
+    "value": 0.0001,
+    "unit": "percent",
+    "operator": "<=",
+    "locator": {
+      "page": 2
+    },
+    "basis": "raw_material",
+    "review_status": "extracted_unverified",
+    "supplier_specification": {
+      "operator": "<=",
+      "value": 0.0001,
+      "unit": "percent"
+    },
+    "representative_sample": true,
+    "measurement_type": "reported_upper_bound_not_exact_result",
+    "normalized": {
+      "operator": "<=",
+      "value": 1,
+      "unit": "ppm"
+    }
+  },
+  {
+    "fact_id": "GLOW-Zn",
+    "document_id": "DOC-GLOW",
+    "material_id": "glow_purple",
+    "property": "Zn",
+    "value": 50,
+    "unit": "ppm",
+    "operator": "<=",
+    "locator": {
+      "page": 1
+    },
+    "basis": "raw_material",
+    "review_status": "extracted_unverified",
+    "supplier_specification": {
+      "operator": "<=",
+      "value": 50,
+      "unit": "ppm"
+    },
+    "batch_id": "230320",
+    "test_method": "KT",
+    "measurement_type": "reported_upper_bound_not_exact_result"
+  },
+  {
+    "fact_id": "MICA-Zn",
+    "document_id": "DOC-MICA",
+    "material_id": "mica_patina_silver",
+    "property": "Zn",
+    "value": 0.005,
+    "unit": "percent",
+    "operator": "<=",
+    "locator": {
+      "page": 2
+    },
+    "basis": "raw_material",
+    "review_status": "extracted_unverified",
+    "supplier_specification": {
+      "operator": "<=",
+      "value": 0.005,
+      "unit": "percent"
+    },
+    "representative_sample": true,
+    "measurement_type": "reported_upper_bound_not_exact_result",
+    "normalized": {
+      "operator": "<=",
+      "value": 50,
+      "unit": "ppm"
+    }
+  },
+  {
+    "fact_id": "GLUE-PH",
+    "document_id": "DOC-GLUE",
+    "material_id": null,
+    "property": "pH",
+    "value": {
+      "min": 11.5,
+      "max": 12.5
+    },
+    "unit": "pH",
+    "operator": "=",
+    "locator": {
+      "page": 3
+    },
+    "basis": "finished_product",
+    "review_status": "extracted_unverified"
+  }
+]

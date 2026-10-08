@@ -1,0 +1,394 @@
+[
+  {
+    "rule_id": "EXAMPLE-MAX-water",
+    "material_id": "water",
+    "product_categories": [
+      "paint",
+      "chalk",
+      "glue_stick",
+      "washable_marker"
+    ],
+    "age_groups": [
+      "under_12",
+      "12_and_above"
+    ],
+    "regions": [
+      "US",
+      "EU"
+    ],
+    "property": "concentration_percent",
+    "operator": "<=",
+    "threshold": 100,
+    "unit": "percent_w_w",
+    "basis": "as_supplied_material_in_finished_formula",
+    "enabled": true,
+    "provenance": "dummy_editable",
+    "is_regulatory_limit": false,
+    "source_document_ids": [],
+    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+  },
+  {
+    "rule_id": "EXAMPLE-MAX-glow_purple",
+    "material_id": "glow_purple",
+    "product_categories": [
+      "paint",
+      "chalk",
+      "glue_stick",
+      "washable_marker"
+    ],
+    "age_groups": [
+      "under_12",
+      "12_and_above"
+    ],
+    "regions": [
+      "US",
+      "EU"
+    ],
+    "property": "concentration_percent",
+    "operator": "<=",
+    "threshold": 5,
+    "unit": "percent_w_w",
+    "basis": "as_supplied_material_in_finished_formula",
+    "enabled": true,
+    "provenance": "dummy_editable",
+    "is_regulatory_limit": false,
+    "source_document_ids": [],
+    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+  },
+  {
+    "rule_id": "EXAMPLE-MAX-mica_patina_silver",
+    "material_id": "mica_patina_silver",
+    "product_categories": [
+      "paint",
+      "chalk",
+      "glue_stick",
+      "washable_marker"
+    ],
+    "age_groups": [
+      "under_12",
+      "12_and_above"
+    ],
+    "regions": [
+      "US",
+      "EU"
+    ],
+    "property": "concentration_percent",
+    "operator": "<=",
+    "threshold": 10,
+    "unit": "percent_w_w",
+    "basis": "as_supplied_material_in_finished_formula",
+    "enabled": true,
+    "provenance": "dummy_editable",
+    "is_regulatory_limit": false,
+    "source_document_ids": [],
+    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+  },
+  {
+    "rule_id": "EXAMPLE-MAX-zinc_sulfide",
+    "material_id": "zinc_sulfide",
+    "product_categories": [
+      "paint",
+      "chalk",
+      "glue_stick",
+      "washable_marker"
+    ],
+    "age_groups": [
+      "under_12",
+      "12_and_above"
+    ],
+    "regions": [
+      "US",
+      "EU"
+    ],
+    "property": "concentration_percent",
+    "operator": "<=",
+    "threshold": 5,
+    "unit": "percent_w_w",
+    "basis": "as_supplied_material_in_finished_formula",
+    "enabled": true,
+    "provenance": "dummy_editable",
+    "is_regulatory_limit": false,
+    "source_document_ids": [],
+    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+  },
+  {
+    "rule_id": "EXAMPLE-MAX-zinc_oxide",
+    "material_id": "zinc_oxide",
+    "product_categories": [
+      "paint",
+      "chalk",
+      "glue_stick",
+      "washable_marker"
+    ],
+    "age_groups": [
+      "under_12",
+      "12_and_above"
+    ],
+    "regions": [
+      "US",
+      "EU"
+    ],
+    "property": "concentration_percent",
+    "operator": "<=",
+    "threshold": 2,
+    "unit": "percent_w_w",
+    "basis": "as_supplied_material_in_finished_formula",
+    "enabled": true,
+    "provenance": "dummy_editable",
+    "is_regulatory_limit": false,
+    "source_document_ids": [],
+    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+  },
+  {
+    "rule_id": "EXAMPLE-MAX-mica",
+    "material_id": "mica",
+    "product_categories": [
+      "paint",
+      "chalk",
+      "glue_stick",
+      "washable_marker"
+    ],
+    "age_groups": [
+      "under_12",
+      "12_and_above"
+    ],
+    "regions": [
+      "US",
+      "EU"
+    ],
+    "property": "concentration_percent",
+    "operator": "<=",
+    "threshold": 10,
+    "unit": "percent_w_w",
+    "basis": "as_supplied_material_in_finished_formula",
+    "enabled": true,
+    "provenance": "dummy_editable",
+    "is_regulatory_limit": false,
+    "source_document_ids": [],
+    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+  },
+  {
+    "rule_id": "EXAMPLE-MAX-titanium_dioxide",
+    "material_id": "titanium_dioxide",
+    "product_categories": [
+      "paint",
+      "chalk",
+      "glue_stick",
+      "washable_marker"
+    ],
+    "age_groups": [
+      "under_12",
+      "12_and_above"
+    ],
+    "regions": [
+      "US",
+      "EU"
+    ],
+    "property": "concentration_percent",
+    "operator": "<=",
+    "threshold": 5,
+    "unit": "percent_w_w",
+    "basis": "as_supplied_material_in_finished_formula",
+    "enabled": true,
+    "provenance": "dummy_editable",
+    "is_regulatory_limit": false,
+    "source_document_ids": [],
+    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+  },
+  {
+    "rule_id": "EXAMPLE-MAX-iron_oxide_unresolved",
+    "material_id": "iron_oxide_unresolved",
+    "product_categories": [
+      "paint",
+      "chalk",
+      "glue_stick",
+      "washable_marker"
+    ],
+    "age_groups": [
+      "under_12",
+      "12_and_above"
+    ],
+    "regions": [
+      "US",
+      "EU"
+    ],
+    "property": "concentration_percent",
+    "operator": "<=",
+    "threshold": 3,
+    "unit": "percent_w_w",
+    "basis": "as_supplied_material_in_finished_formula",
+    "enabled": true,
+    "provenance": "dummy_editable",
+    "is_regulatory_limit": false,
+    "source_document_ids": [],
+    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+  },
+  {
+    "rule_id": "EXAMPLE-MAX-sodium_benzoate",
+    "material_id": "sodium_benzoate",
+    "product_categories": [
+      "paint",
+      "chalk",
+      "glue_stick",
+      "washable_marker"
+    ],
+    "age_groups": [
+      "under_12",
+      "12_and_above"
+    ],
+    "regions": [
+      "US",
+      "EU"
+    ],
+    "property": "concentration_percent",
+    "operator": "<=",
+    "threshold": 0.3,
+    "unit": "percent_w_w",
+    "basis": "as_supplied_material_in_finished_formula",
+    "enabled": true,
+    "provenance": "dummy_editable",
+    "is_regulatory_limit": false,
+    "source_document_ids": [],
+    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+  },
+  {
+    "rule_id": "EXAMPLE-MAX-potassium_sorbate",
+    "material_id": "potassium_sorbate",
+    "product_categories": [
+      "paint",
+      "chalk",
+      "glue_stick",
+      "washable_marker"
+    ],
+    "age_groups": [
+      "under_12",
+      "12_and_above"
+    ],
+    "regions": [
+      "US",
+      "EU"
+    ],
+    "property": "concentration_percent",
+    "operator": "<=",
+    "threshold": 0.3,
+    "unit": "percent_w_w",
+    "basis": "as_supplied_material_in_finished_formula",
+    "enabled": true,
+    "provenance": "dummy_editable",
+    "is_regulatory_limit": false,
+    "source_document_ids": [],
+    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+  },
+  {
+    "rule_id": "EXAMPLE-MAX-phenoxyethanol",
+    "material_id": "phenoxyethanol",
+    "product_categories": [
+      "paint",
+      "chalk",
+      "glue_stick",
+      "washable_marker"
+    ],
+    "age_groups": [
+      "under_12",
+      "12_and_above"
+    ],
+    "regions": [
+      "US",
+      "EU"
+    ],
+    "property": "concentration_percent",
+    "operator": "<=",
+    "threshold": 0.5,
+    "unit": "percent_w_w",
+    "basis": "as_supplied_material_in_finished_formula",
+    "enabled": true,
+    "provenance": "dummy_editable",
+    "is_regulatory_limit": false,
+    "source_document_ids": [],
+    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+  },
+  {
+    "rule_id": "EXAMPLE-MAX-propylene_glycol",
+    "material_id": "propylene_glycol",
+    "product_categories": [
+      "paint",
+      "chalk",
+      "glue_stick",
+      "washable_marker"
+    ],
+    "age_groups": [
+      "under_12",
+      "12_and_above"
+    ],
+    "regions": [
+      "US",
+      "EU"
+    ],
+    "property": "concentration_percent",
+    "operator": "<=",
+    "threshold": 8,
+    "unit": "percent_w_w",
+    "basis": "as_supplied_material_in_finished_formula",
+    "enabled": true,
+    "provenance": "dummy_editable",
+    "is_regulatory_limit": false,
+    "source_document_ids": [],
+    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+  },
+  {
+    "rule_id": "EXAMPLE-MAX-ethyl_lactate",
+    "material_id": "ethyl_lactate",
+    "product_categories": [
+      "paint",
+      "chalk",
+      "glue_stick",
+      "washable_marker"
+    ],
+    "age_groups": [
+      "under_12",
+      "12_and_above"
+    ],
+    "regions": [
+      "US",
+      "EU"
+    ],
+    "property": "concentration_percent",
+    "operator": "<=",
+    "threshold": 5,
+    "unit": "percent_w_w",
+    "basis": "as_supplied_material_in_finished_formula",
+    "enabled": true,
+    "provenance": "dummy_editable",
+    "is_regulatory_limit": false,
+    "source_document_ids": [],
+    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+  },
+  {
+    "rule_id": "EXAMPLE-MAX-bismuth_vanadate",
+    "material_id": "bismuth_vanadate",
+    "product_categories": [
+      "paint",
+      "chalk",
+      "glue_stick",
+      "washable_marker"
+    ],
+    "age_groups": [
+      "under_12",
+      "12_and_above"
+    ],
+    "regions": [
+      "US",
+      "EU"
+    ],
+    "property": "concentration_percent",
+    "operator": "<=",
+    "threshold": 5,
+    "unit": "percent_w_w",
+    "basis": "as_supplied_material_in_finished_formula",
+    "enabled": true,
+    "provenance": "dummy_editable",
+    "is_regulatory_limit": false,
+    "source_document_ids": [],
+    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+  }
+]

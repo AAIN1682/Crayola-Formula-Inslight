@@ -1,0 +1,129 @@
+{
+  "$defs": {
+    "Ingredient": {
+      "additionalProperties": false,
+      "properties": {
+        "material_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Material Id",
+          "type": "string"
+        },
+        "concentration_percent": {
+          "exclusiveMinimum": 0,
+          "maximum": 100,
+          "title": "Concentration Percent",
+          "type": "number"
+        },
+        "batch_id": {
+          "anyOf": [
+            {
+              "maxLength": 100,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Batch Id"
+        }
+      },
+      "required": [
+        "material_id",
+        "concentration_percent"
+      ],
+      "title": "Ingredient",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "formula_id": {
+      "maxLength": 100,
+      "minLength": 1,
+      "title": "Formula Id",
+      "type": "string"
+    },
+    "version_id": {
+      "maxLength": 100,
+      "minLength": 1,
+      "title": "Version Id",
+      "type": "string"
+    },
+    "name": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Name",
+      "type": "string"
+    },
+    "product_category": {
+      "maxLength": 100,
+      "minLength": 1,
+      "title": "Product Category",
+      "type": "string"
+    },
+    "age_group": {
+      "enum": [
+        "under_12",
+        "12_and_above"
+      ],
+      "title": "Age Group",
+      "type": "string"
+    },
+    "regions": {
+      "items": {
+        "enum": [
+          "US",
+          "EU",
+          "UK",
+          "CA"
+        ],
+        "type": "string"
+      },
+      "maxItems": 4,
+      "minItems": 1,
+      "title": "Regions",
+      "type": "array"
+    },
+    "physical_form": {
+      "maxLength": 100,
+      "minLength": 1,
+      "title": "Physical Form",
+      "type": "string"
+    },
+    "intended_use": {
+      "maxLength": 1000,
+      "minLength": 1,
+      "title": "Intended Use",
+      "type": "string"
+    },
+    "ingredients": {
+      "items": {
+        "$ref": "#/$defs/Ingredient"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Ingredients",
+      "type": "array"
+    },
+    "generate_explanation": {
+      "default": false,
+      "title": "Generate Explanation",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "formula_id",
+    "version_id",
+    "name",
+    "product_category",
+    "age_group",
+    "regions",
+    "physical_form",
+    "intended_use",
+    "ingredients"
+  ],
+  "title": "Formula",
+  "type": "object"
+}

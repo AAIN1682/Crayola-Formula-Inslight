@@ -158,7 +158,7 @@ export function summarizeEvidence(
 
 /* ------------------------------------------------------------ comparison */
 
-type DiffIngredient = { name: string; rawMaterialId?: string; concentration: number };
+type DiffIngredient = { name: string; rawMaterialId?: string; concentration: number; batchId?: string };
 
 function diffKey(ingredient: DiffIngredient): string {
   return ingredient.rawMaterialId ?? ingredient.name.trim().toLowerCase();
@@ -762,7 +762,7 @@ function buildSummary(args: {
 
 export function ingredientSignature(ingredients: DiffIngredient[]): string {
   return ingredients
-    .map((ingredient) => `${diffKey(ingredient)}@${ingredient.concentration}`)
+    .map((ingredient) => `${diffKey(ingredient)}@${ingredient.concentration}@${ingredient.batchId ?? ''}`)
     .sort()
     .join('|');
 }
@@ -770,9 +770,13 @@ export function ingredientSignature(ingredients: DiffIngredient[]): string {
 /** A run stops being current as soon as the version or the composition changes. */
 export function isRunCurrent(formula: Formula, run: ScreeningRun | undefined): boolean {
   if (!run) return false;
+  if (run.legacySample) return false;
   if (run.formulaVersion !== formula.version) return false;
   if (run.ageGroup && run.ageGroup !== formula.ageGroup) return false;
   if (run.targetMarkets && !sameMarkets(run.targetMarkets, formula.targetMarkets)) return false;
+  if (run.physicalForm && run.physicalForm !== formula.physicalForm) return false;
+  if (run.intendedUse && run.intendedUse !== formula.intendedUse) return false;
+  if (run.category && run.category !== formula.category) return false;
   return ingredientSignature(formula.ingredients) === ingredientSignature(run.ingredientSnapshot);
 }
 
@@ -781,6 +785,7 @@ export function snapshotIngredients(ingredients: Ingredient[]) {
     name: ingredient.name,
     rawMaterialId: ingredient.rawMaterialId,
     concentration: ingredient.concentration,
+    batchId: ingredient.batchId,
   }));
 }
 

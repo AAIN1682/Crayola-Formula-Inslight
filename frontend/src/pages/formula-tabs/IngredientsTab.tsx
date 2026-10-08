@@ -75,8 +75,9 @@ export function IngredientsTab() {
                   const requirements = requirementsFor(ingredient.id);
                   const satisfied = requirements.filter((requirement) => requirement.satisfied).length;
                   const incomplete = !ingredient.rawMaterialId;
+                  const unmapped = Boolean(ingredient.rawMaterialId && !/^[a-z][a-z0-9_]*$/.test(ingredient.rawMaterialId));
                   return (
-                    <Tr key={ingredient.id} className={incomplete ? 'bg-warning-soft/40' : undefined}>
+                    <Tr key={ingredient.id} className={incomplete || unmapped ? 'bg-warning-soft/40' : undefined}>
                       <Td>
                         <PrimaryCell
                           title={
@@ -91,7 +92,11 @@ export function IngredientsTab() {
                         />
                       </Td>
                       <Td>
-                        {ingredient.rawMaterialId ? (
+                        {unmapped ? (
+                          <Badge tone="warning" icon={<AlertTriangle aria-hidden className="size-3.5" />}>
+                            {ingredient.rawMaterialId} · remapping required
+                          </Badge>
+                        ) : ingredient.rawMaterialId ? (
                           <Link to={`/materials/${ingredient.rawMaterialId}`} className="fi-link tabular">
                             {ingredient.rawMaterialId}
                           </Link>
@@ -166,10 +171,10 @@ export function IngredientsTab() {
         </div>
       </div>
 
-      {formula.ingredients.some((ingredient) => !ingredient.rawMaterialId) ? (
-        <Notice tone="warning" title="Some ingredient records are incomplete">
-          Rows highlighted above have no raw-material reference, so the demo checks cannot resolve which
-          supporting documents are required. Edit the formula to link them to the catalog.
+      {formula.ingredients.some((ingredient) => !ingredient.rawMaterialId || (ingredient.rawMaterialId && !/^[a-z][a-z0-9_]*$/.test(ingredient.rawMaterialId))) ? (
+        <Notice tone="warning" title="Some ingredient identities are unresolved">
+          Highlighted rows are not linked to the backend catalog. Select the correct catalog material before
+          running a completed assessment. Legacy IDs are not mapped by name similarity.
         </Notice>
       ) : null}
     </div>

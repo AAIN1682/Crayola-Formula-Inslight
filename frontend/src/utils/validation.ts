@@ -103,6 +103,7 @@ export function validateFormulaInput(input: FormulaInput): ValidationResult {
   }
 
   const seenNames = new Map<string, number>();
+  const seenMaterials = new Set<string>();
 
   input.ingredients.forEach((ingredient, index) => {
     const name = ingredient.name.trim();
@@ -157,6 +158,19 @@ export function validateFormulaInput(input: FormulaInput): ValidationResult {
       });
     }
 
+    if (ingredient.rawMaterialId) {
+      if (seenMaterials.has(ingredient.rawMaterialId)) {
+        issues.push({
+          field: `ingredients.${index}.rawMaterialId`,
+          step: 2,
+          severity: 'error',
+          message: `Row ${index + 1}: ${ingredient.rawMaterialId} is already in the formula. Combine the rows.`,
+          ingredientIndex: index,
+        });
+      }
+      seenMaterials.add(ingredient.rawMaterialId);
+    }
+
     if (!ingredient.rawMaterialId) {
       issues.push({
         field: `ingredients.${index}.rawMaterialId`,
@@ -179,14 +193,18 @@ export function validateFormulaInput(input: FormulaInput): ValidationResult {
   });
 
   const total = sumConcentrations(input.ingredients);
-  const totalWithinTolerance = isTotalWithinTolerance(total);
+  const packageCatalog =
+    input.ingredients.length > 0 &&
+    input.ingredients.every((ingredient) => Boolean(ingredient.rawMaterialId && /^[a-z][a-z0-9_]*$/.test(ingredient.rawMaterialId)));
+  const tolerance = packageCatalog ? 0.01 : CONCENTRATION_TOLERANCE;
+  const totalWithinTolerance = Math.abs(total - CONCENTRATION_TOTAL) <= tolerance + 1e-9;
 
   if (input.ingredients.length > 0 && !totalWithinTolerance) {
     issues.push({
       field: 'ingredients.total',
       step: 2,
       severity: 'error',
-      message: `Concentrations total ${total}%. They must reach ${CONCENTRATION_TOTAL}% within ±${CONCENTRATION_TOLERANCE}%.`,
+      message: `Concentrations total ${total}%. They must reach ${CONCENTRATION_TOTAL}% within ±${tolerance}%.`,
     });
     missingFieldLabels.push('Balanced composition');
   }

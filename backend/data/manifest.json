@@ -1,0 +1,23 @@
+{
+  "dataset_version": "1.0.0",
+  "purpose": "Document-linked prototype data",
+  "source_documents": 7,
+  "materials": 14,
+  "active_regulatory_rules": 0,
+  "active_example_rules": 14,
+  "regions": [
+    "US",
+    "EU"
+  ],
+  "age_groups": [
+    "under_12",
+    "12_and_above"
+  ],
+  "limitations": [
+    "No actual new-formula AP/CL decisions",
+    "No validated acceptance probability model",
+    "Age bands are UI choices, not universal legal age definitions",
+    "No disclosed complete Crayola recipes",
+    "Original uploaded documents retained unchanged"
+  ]
+}

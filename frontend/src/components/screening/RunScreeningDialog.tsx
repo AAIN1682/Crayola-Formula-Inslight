@@ -1,28 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { ShieldCheck } from 'lucide-react';
 import type { Formula, ScreeningRun } from '../../types/domain';
-import { SCREENING_STAGES } from '../../types/services';
 import { useServices } from '../../state/DemoDataProvider';
 import { Modal } from '../ui/Modal';
 import { Button } from '../ui/Button';
-import { ProgressStepper, type StepDescriptor, type StepState } from '../ui/Stepper';
 import { Notice } from '../ui/DemoNotice';
 import { ScreeningBadge } from '../ui/Badge';
 import { useToast } from '../ui/Toast';
-
-const STAGE_DETAIL: Record<string, string> = {
-  'Validate formula inputs': 'Checks required fields, ingredient links and the composition total.',
-  'Check illustrative rules': 'Applies the demo rule set to each ingredient and to the formula as a whole.',
-  'Check exposure-data readiness': 'Records which assessment inputs are available and which are not assessed.',
-  'Retrieve historical comparisons': 'Finds synthetic submissions with overlapping raw materials.',
-  'Prepare review summary': 'Assembles findings, next actions and the result summary.',
-};
-
-const STEPS: StepDescriptor[] = SCREENING_STAGES.map((stage) => ({
-  id: stage,
-  label: stage,
-  description: STAGE_DETAIL[stage],
-}));
+import { isLiveAzureAssessment } from '../../api/formulaBackend';
 
 export function RunScreeningDialog({
   open,
@@ -37,7 +22,6 @@ export function RunScreeningDialog({
 }) {
   const services = useServices();
   const toast = useToast();
-  const [stageIndex, setStageIndex] = useState(-1);
   const [attempt, setAttempt] = useState(0);
   const [run, setRun] = useState<ScreeningRun | undefined>();
   const [error, setError] = useState<string | undefined>();
@@ -50,7 +34,6 @@ export function RunScreeningDialog({
       abortRef.current?.abort();
       abortRef.current = null;
       startedKeyRef.current = '';
-      setStageIndex(-1);
       setRun(undefined);
       setError(undefined);
       return;
@@ -63,23 +46,28 @@ export function RunScreeningDialog({
     const controller = new AbortController();
     abortRef.current = controller;
 
-    setStageIndex(0);
     setRun(undefined);
     setError(undefined);
 
     services
       .runScreening(formula.id, {
         signal: controller.signal,
-        onStage: (_stage, index) => setStageIndex(index),
       })
       .then((result) => {
         if (controller.signal.aborted) return;
-        setStageIndex(SCREENING_STAGES.length);
         setRun(result);
-        toast.success(
-          `Screening complete — ${result.status.toUpperCase()}`,
-          `${result.presentEvidenceCount} of ${result.requiredEvidenceCount} required documents on file.`,
-        );
+        const live = isLiveAzureAssessment(result.formulaAssessment);
+        if (live) {
+          toast.success(
+            'Assessment complete',
+            `Azure analysis stored for ${result.formulaVersion}. Verified evidence coverage ${result.evidenceCompleteness}%.`,
+          );
+        } else {
+          toast.error(
+            'AI analysis failed',
+            result.formulaAssessment?.execution?.error_message || result.summary,
+          );
+        }
       })
       .catch((cause: unknown) => {
         if (controller.signal.aborted) return;
@@ -87,21 +75,16 @@ export function RunScreeningDialog({
       });
   }, [open, attempt, formula.id, services, toast]);
 
-  const stateFor = (_step: StepDescriptor, index: number): StepState => {
-    if (error && index === stageIndex) return 'error';
-    if (index < stageIndex) return 'done';
-    if (index === stageIndex) return 'active';
-    return 'pending';
-  };
-
   const finished = Boolean(run);
+  const live = isLiveAzureAssessment(run?.formulaAssessment);
+  const aiFailed = Boolean(run && !live);
 
   return (
     <Modal
       open={open}
       onClose={onClose}
       dismissible={finished || Boolean(error)}
-      title={finished ? 'Assessment complete' : 'Running assessment'}
+      title={error ? 'Assessment did not finish' : live ? 'Assessment complete' : finished ? 'AI analysis failed' : 'Running assessment'}
       description={`${formula.name} ${formula.version} · ${(formula.targetMarkets ?? []).join(', ') || 'No market selected'}`}
       footer={
         finished && run ? (
@@ -119,16 +102,24 @@ export function RunScreeningDialog({
             </Button>
           </>
         ) : (
-          <p className="text-xs text-muted">This usually takes a couple of seconds.</p>
+          <p className="text-xs text-muted">Analyzing the formula against the packaged source documents.</p>
         )
       }
     >
       <div className="space-y-4">
-        <ProgressStepper steps={STEPS} stateFor={stateFor} />
+        {!finished && !error ? (
+          <p className="text-sm text-ink">Analyzing formula and supporting documents…</p>
+        ) : null}
 
         {error ? (
           <Notice tone="danger" title="The screening run did not complete">
             {error}
+          </Notice>
+        ) : null}
+
+        {aiFailed && run ? (
+          <Notice tone="danger" title="AI analysis failed">
+            {run.formulaAssessment?.execution?.error_message || 'Azure generation did not succeed. Calculated checks are shown as a partial result.'}
           </Notice>
         ) : null}
 
@@ -137,7 +128,7 @@ export function RunScreeningDialog({
             <div className="flex flex-wrap items-center gap-2">
               <ScreeningBadge status={run.status} />
               <span className="text-[13px] text-muted tabular">
-                Evidence completeness {run.evidenceCompleteness}%
+                Verified evidence coverage {run.evidenceCompleteness}%
               </span>
             </div>
             <p className="mt-2 text-[13px] leading-6 text-ink">{run.summary}</p>

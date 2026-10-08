@@ -47,6 +47,7 @@ export interface FormulaInsightServices {
   archiveFormula(id: string): Promise<Formula>;
 
   runScreening(formulaId: string, options?: RunScreeningOptions): Promise<ScreeningRun>;
+  retryExplanation(runId: string): Promise<ScreeningRun>;
   getScreeningResult(runId: string): Promise<ScreeningResultView>;
   saveReviewDecision(input: ReviewDecisionInput): Promise<ReviewDecision>;
 

@@ -1,0 +1,31 @@
+{
+  "formula_id": "F-PURPLE-PAINT",
+  "name": "Purple Effect Paint",
+  "product_category": "paint",
+  "age_group": "under_12",
+  "regions": [
+    "US",
+    "EU"
+  ],
+  "physical_form": "liquid",
+  "intended_use": "Brush application to paper",
+  "generate_explanation": false,
+  "version_id": "v1",
+  "ingredients": [
+    {
+      "material_id": "water",
+      "concentration_percent": 91.8,
+      "batch_id": null
+    },
+    {
+      "material_id": "glow_purple",
+      "concentration_percent": 8,
+      "batch_id": "230320"
+    },
+    {
+      "material_id": "sodium_benzoate",
+      "concentration_percent": 0.2,
+      "batch_id": null
+    }
+  ]
+}

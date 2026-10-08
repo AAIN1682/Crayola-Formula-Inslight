@@ -1,0 +1,46 @@
+[
+  {
+    "issue_id": "ISSUE-1",
+    "document_ids": [
+      "DOC-GLUE",
+      "DOC-CHALK",
+      "DOC-MARKER"
+    ],
+    "severity": "warning",
+    "message": "Full chemical recipes are not disclosed. The 100% certification-description row is not an ingredient or a formula."
+  },
+  {
+    "issue_id": "ISSUE-2",
+    "document_ids": [
+      "DOC-MICA"
+    ],
+    "severity": "warning",
+    "message": "Representative sample certificate has no lot number. INCI lists iron oxide CI 77491 and CAS 1345-25-1; assay/footer say Fe3O4 and CI 77499. Supplier clarification needed."
+  },
+  {
+    "issue_id": "ISSUE-3",
+    "document_ids": [
+      "DOC-US",
+      "DOC-EU"
+    ],
+    "severity": "warning",
+    "message": "Uploaded summaries are not verified regulations. All extracted rows are disabled for decisions. Verify scope, units, current edition, effective dates and authoritative sources before activation."
+  },
+  {
+    "issue_id": "ISSUE-4",
+    "document_ids": [
+      "DOC-EU"
+    ],
+    "severity": "warning",
+    "message": "Do not compare borax ingredient percentage directly to a boron migration threshold. Compound content, elemental content and laboratory migration are different measurements."
+  },
+  {
+    "issue_id": "ISSUE-5",
+    "document_ids": [
+      "DOC-GLOW",
+      "DOC-MICA"
+    ],
+    "severity": "info",
+    "message": "Supplier assay ranges are raw-material specifications, not maximum allowed use levels in a finished product. Reported <= values are upper bounds."
+  }
+]
