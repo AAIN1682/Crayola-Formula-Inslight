@@ -49,26 +49,26 @@ export function SettingsPage() {
   const reset = useAsyncAction(async () => {
     await services.resetDemoData();
     setConfirmReset(false);
-    toast.success('Demo data reset', 'The original seed dataset was restored.');
+    toast.success('Reference data reset', 'The original reference dataset was restored.');
     navigate('/');
   });
 
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Settings & Demo Data"
-        description="Preferences for this demo workspace and controls for the locally stored dataset. There is no sign-in and nothing here changes any real system."
+        title="Preferences"
+        description="Workspace preferences and the reference dataset stored in this browser."
       />
 
       <div className="grid gap-4 lg:grid-cols-2">
         <Card>
           <CardHeader
-            title="Demo user"
-            description="Sets which person is recorded as the actor on new activity entries."
+            title="User"
+            description="Sets which person is recorded on new activity entries."
             icon={<UserRound aria-hidden className="size-4" />}
           />
           <CardBody className="space-y-4">
-            <Field label="Current demo user" htmlFor="current-user">
+            <Field label="Current user" htmlFor="current-user">
               <Select
                 id="current-user"
                 value={settings.currentUserId}
@@ -97,8 +97,7 @@ export function SettingsPage() {
             </Field>
 
             <Notice tone="neutral">
-              Switching the demo user only changes the name recorded against new activity. It is not
-              authentication and grants no permissions.
+              Switching the user only changes the name recorded on new activity. It is not authentication.
             </Notice>
           </CardBody>
         </Card>
@@ -131,8 +130,8 @@ export function SettingsPage() {
 
       <Card>
         <CardHeader
-          title="Demo data"
-          description="Where your changes are stored, and how to start over."
+          title="Reference data"
+          description="Where your changes are stored, and how to restore the original records."
           icon={<Database aria-hidden className="size-4" />}
         />
         <CardBody className="space-y-4">
@@ -153,7 +152,7 @@ export function SettingsPage() {
               onClick={() => setConfirmReset(true)}
               icon={<RotateCcw aria-hidden className="size-4" />}
             >
-              Reset demo data
+              Reset reference data
             </Button>
             <span className="text-xs text-muted">
               Storage key <code className="rounded bg-neutral-soft px-1 py-0.5 font-mono">{STORAGE_KEY}</code>
@@ -163,22 +162,21 @@ export function SettingsPage() {
         </CardBody>
       </Card>
 
-      <Notice tone="neutral" title="About this demo workspace">
-        Formula Insight is a front-end demonstration by Affine Analytics. All formulas, raw materials,
-        documents, findings, thresholds, references and historical outcomes are synthetic. Screening results
-        are internal only and are not ACMI certifications, approvals, or safety assessments.
+      <Notice tone="neutral" title="Evidence status">
+        Illustrative records stay labeled as not validated. An assessment result is not a certification or an
+        external acceptance.
       </Notice>
 
       <ConfirmDialog
         open={confirmReset}
-        title="Reset demo data?"
+        title="Reset reference data?"
         body={
           <>
             Every change you have made — new formulas, drafts, screening runs, review decisions, alerts and
             activity — will be discarded and the original seed dataset restored. This cannot be undone.
           </>
         }
-        confirmLabel="Reset demo data"
+        confirmLabel="Reset reference data"
         pending={reset.pending}
         onCancel={() => setConfirmReset(false)}
         onConfirm={() => void reset.run()}

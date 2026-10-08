@@ -121,7 +121,7 @@ export function MoleculeNetwork({ className }: { className?: string }) {
 /** Compact product mark used in the sidebar. */
 export function BrandMark({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 32 32" className={className} role="img" aria-label="Affine Analytics">
+    <svg viewBox="0 0 32 32" className={className} role="img" aria-label="Affine">
       <rect width="32" height="32" rx="9" fill="var(--color-brand-500)" />
       <g stroke="#ffffff" strokeWidth="1.7" strokeLinecap="round" opacity="0.85">
         <path d="M16 10.5v5M16 16.6 11.2 19.6M16 16.6 20.8 19.6" />

@@ -257,7 +257,7 @@ export function FormulaLibraryPage() {
     <div className="space-y-6">
       <PageHeader
         title="Formula Library"
-        description="Every formula recorded in this demo workspace, with its internal screening status, internal review status and evidence completeness."
+        description="Formulas with assessment status, review status, and evidence completeness."
         actions={
           <>
             <Button

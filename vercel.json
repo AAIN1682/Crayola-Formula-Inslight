@@ -1,0 +1,19 @@
+{
+  "buildCommand": "npm install && npm --prefix frontend install && npm --prefix frontend run build",
+  "outputDirectory": "frontend/dist",
+  "rewrites": [
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
+  ],
+  "functions": {
+    "api/assess.js": {
+      "maxDuration": 30,
+      "includeFiles": "data/**"
+    },
+    "api/examples.js": {
+      "includeFiles": "data/**"
+    },
+    "api/ingredients.js": {
+      "includeFiles": "data/**"
+    }
+  }
+}

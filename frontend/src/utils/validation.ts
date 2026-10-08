@@ -76,6 +76,15 @@ export function validateFormulaInput(input: FormulaInput): ValidationResult {
     issues.push({ field: 'ageGroup', step: 1, severity: 'error', message: 'Intended age group is required.' });
     missingFieldLabels.push('Intended age group');
   }
+  if (!input.targetMarkets || input.targetMarkets.length === 0) {
+    issues.push({
+      field: 'targetMarkets',
+      step: 1,
+      severity: 'error',
+      message: 'Select at least one target market before assessment.',
+    });
+    missingFieldLabels.push('Target markets');
+  }
   if (!input.physicalForm) {
     issues.push({ field: 'physicalForm', step: 1, severity: 'error', message: 'Physical form is required.' });
     missingFieldLabels.push('Physical form');

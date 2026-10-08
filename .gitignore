@@ -10,7 +10,11 @@ backend/dist
 backend/.env
 backend/.env.*
 
+# Repo-root server dependencies
+node_modules
+
 # Shared
 *.local
 .DS_Store
 *.log
+!.env.example

@@ -10,7 +10,7 @@ export function NotFoundPage() {
       <Card>
         <EmptyState
           variant="search"
-          title="That page is not part of the demo workspace"
+          title="That page is not available"
           message="The address you opened does not match a formula, submission, alert or raw material in this workspace."
           action={
             <div className="flex items-center gap-2">

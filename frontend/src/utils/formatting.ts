@@ -107,10 +107,10 @@ export const SCREENING_STATUS_LABEL: Record<ScreeningStatus, string> = {
 };
 
 export const SCREENING_STATUS_HINT: Record<ScreeningStatus, string> = {
-  green: 'Demo checks found no open concerns and required evidence is on file.',
-  amber: 'Demo checks found missing evidence or inputs that need reviewer attention.',
-  red: 'Demo checks surfaced a high-priority concern that requires expert assessment.',
-  'not-screened': 'This formula has not been screened in the demo workspace yet.',
+  green: 'Configured checks found no open concerns and required evidence is on file.',
+  amber: 'Configured checks found missing evidence or inputs that need reviewer attention.',
+  red: 'Configured checks found a high-priority concern that requires expert assessment.',
+  'not-screened': 'This formula has not been assessed yet.',
 };
 
 export const REVIEW_STATUS_LABEL: Record<ReviewStatus, string> = {

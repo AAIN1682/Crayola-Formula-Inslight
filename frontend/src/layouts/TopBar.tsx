@@ -12,7 +12,6 @@ import {
 } from 'lucide-react';
 import type { SearchResult } from '../types/services';
 import { useCurrentUser, useDemoSelector, useServices } from '../state/DemoDataProvider';
-import { DemoWorkspaceTag } from '../components/ui/DemoNotice';
 import { AlertStatusBadge } from '../components/ui/Badge';
 import { ALERT_TYPE_LABEL, formatRelative } from '../utils/formatting';
 import { cn } from '../utils/cn';
@@ -27,7 +26,7 @@ const STATIC_LABELS: Record<string, string> = {
   submissions: 'Submission History',
   monitoring: 'Monitoring',
   materials: 'Raw Materials',
-  settings: 'Settings & Demo Data',
+  settings: 'Preferences',
   ingredients: 'Ingredients',
   evidence: 'Evidence',
   screening: 'Screening',
@@ -301,9 +300,9 @@ function UserMenu() {
         </span>
         <span className="hidden min-w-0 text-left sm:block">
           <span className="block truncate text-[13px] leading-4 font-medium text-ink">
-            {currentUser?.name ?? 'Demo user'}
+            {currentUser?.name ?? 'Affine'}
           </span>
-          <span className="block truncate text-[11px] text-muted">{currentUser?.role ?? 'Demo'}</span>
+          <span className="block truncate text-[11px] text-muted">{currentUser?.role ?? 'Product Safety'}</span>
         </span>
       </button>
 
@@ -315,13 +314,10 @@ function UserMenu() {
           <div className="border-b border-line px-4 py-3">
             <p className="text-[13px] font-semibold text-ink">{currentUser?.name}</p>
             <p className="text-xs text-muted">{currentUser?.role}</p>
-            <p className="mt-1.5 text-[11px] leading-4 text-subtle">
-              Demo user selection only. This workspace has no sign-in.
-            </p>
           </div>
           <div className="px-2 py-1.5">
             <p className="px-2 py-1 text-[11px] font-semibold tracking-wide text-subtle uppercase">
-              Switch demo user
+              Switch user
             </p>
             {people.map((person) => (
               <button
@@ -352,7 +348,7 @@ function UserMenu() {
               className="flex items-center gap-2.5 rounded-md px-2 py-2 text-[13px] text-ink transition-colors hover:bg-brand-50"
             >
               <UserRound aria-hidden className="size-4 text-muted" />
-              Settings &amp; Demo Data
+              Preferences
             </Link>
           </div>
         </div>
@@ -401,7 +397,6 @@ export function TopBar({ onOpenNav }: { onOpenNav: () => void }) {
           <div className="hidden w-64 xl:block 2xl:w-80">
             <GlobalSearch />
           </div>
-          <DemoWorkspaceTag className="hidden lg:inline-flex" />
           <NotificationBell />
           <UserMenu />
         </div>

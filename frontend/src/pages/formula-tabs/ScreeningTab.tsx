@@ -67,7 +67,7 @@ export function ScreeningTab() {
 
             {!formula.screeningCurrent ? (
               <Notice tone="warning" title="This result is outdated">
-                The formula changed after this run. Run screening again for a current result.
+                Reassessment required. Run the assessment again for a current result.
               </Notice>
             ) : null}
           </CardBody>
@@ -77,10 +77,10 @@ export function ScreeningTab() {
           <EmptyState
             variant="shield"
             title="This formula has not been screened yet"
-            message="Running screening applies the illustrative demo rule checks and records a result you can review."
+            message="Run an assessment to record the configured checks for the selected markets and age group."
             action={
               <Button variant="primary" onClick={() => setRunOpen(true)} icon={<PlayCircle aria-hidden className="size-4" />}>
-                Run Screening
+                Run Assessment
               </Button>
             }
           />

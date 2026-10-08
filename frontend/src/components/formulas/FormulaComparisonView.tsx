@@ -73,6 +73,10 @@ export function FormulaComparisonView({ comparison }: { comparison: FormulaCompa
           </p>
           <p className="text-xs text-muted tabular">
             {currentFormula.id} · {currentFormula.ingredients.length} ingredients
+            {currentFormula.targetMarkets?.length
+              ? ` · Markets ${currentFormula.targetMarkets.join(', ')}`
+              : ''}
+            {currentFormula.ageGroup ? ` · ${currentFormula.ageGroup === 'under_12' ? 'Under 12 years' : '12 years and above'}` : ''}
           </p>
         </div>
         <div className="rounded-lg border border-line bg-canvas p-3">

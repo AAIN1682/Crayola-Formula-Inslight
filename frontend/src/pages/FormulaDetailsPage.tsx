@@ -101,7 +101,7 @@ export function FormulaDetailsPage() {
               onClick={() => setRunOpen(true)}
               icon={<PlayCircle aria-hidden className="size-4" />}
             >
-              Run Screening
+              Run Assessment
             </Button>
           </>
         }
@@ -139,8 +139,8 @@ export function FormulaDetailsPage() {
 
       {screeningOutdated ? (
         <Notice tone="warning" title="The latest screening result is outdated">
-          This formula changed after its last screening run. Run screening again to produce a current result
-          before recording a review decision.
+          Reassessment required. Markets, age group, or composition changed after the last result. Run the
+          assessment again before recording a review decision.
         </Notice>
       ) : null}
 

@@ -107,6 +107,40 @@ describe('screening status', () => {
   });
 });
 
+describe('market applicability', () => {
+  it('uses European Union colorant laboratory criteria only when EU is selected', () => {
+    const base = formula('FML-1001');
+    const unitedStates = screen(base);
+    const europeanUnion = screen({ ...base, targetMarkets: ['EU'] });
+
+    expect(unitedStates.marketResults.find((result) => result.market === 'US')?.status).toBe('green');
+    expect(unitedStates.findings.some((finding) => finding.ruleId === 'EU-LAB')).toBe(false);
+    expect(europeanUnion.findings.some((finding) => finding.ruleId === 'EU-LAB')).toBe(true);
+    expect(europeanUnion.status).not.toBe('green');
+  });
+
+  it('returns Not Assessed when criteria are not configured for the market', () => {
+    const result = screen({ ...formula('FML-1001'), targetMarkets: ['UK'] });
+    expect(result.marketResults).toEqual([
+      expect.objectContaining({
+        market: 'UK',
+        status: 'not-assessed',
+        message: 'Assessment criteria are not configured for this market.',
+      }),
+    ]);
+    expect(result.findings).toHaveLength(0);
+  });
+
+  it('requires reassessment when the age group or markets change', () => {
+    const subject = formula('FML-1001');
+    const run = dataset.runs.find((item) => item.id === subject.latestRunId);
+    expect(run).toBeDefined();
+    expect(isRunCurrent({ ...subject, ageGroup: '12_and_above' }, run)).toBe(false);
+    expect(isRunCurrent({ ...subject, targetMarkets: ['EU'] }, run)).toBe(false);
+    expect(isRunCurrent(subject, run)).toBe(subject.screeningCurrent);
+  });
+});
+
 describe('evidence summary', () => {
   it('cannot resolve requirements for an ingredient with no raw-material reference', () => {
     const draft = formula('FML-1012');
@@ -124,6 +158,10 @@ describe('screening result invalidation', () => {
     formulaId: subject.id,
     formulaName: subject.name,
     formulaVersion: subject.version,
+    ageGroup: subject.ageGroup,
+    targetMarkets: subject.targetMarkets,
+    marketResults: [],
+    assessmentRequest: { target_markets: subject.targetMarkets, age_group: subject.ageGroup },
     status: 'green',
     evidenceCompleteness: 100,
     requiredEvidenceCount: 1,

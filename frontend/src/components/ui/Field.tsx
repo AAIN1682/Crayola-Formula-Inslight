@@ -52,7 +52,7 @@ export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
 export function TextInput({ invalid, className, ...rest }: TextInputProps) {
   return (
     <input
-      className={cn(CONTROL, 'h-9.5', invalid && 'border-danger-line bg-danger-soft/40', className)}
+      className={cn(CONTROL, 'h-10', invalid && 'border-danger-line bg-danger-soft/40', className)}
       aria-invalid={invalid || undefined}
       {...rest}
     />
@@ -91,7 +91,7 @@ export function Select({ options, placeholder, invalid, className, ...rest }: Se
     <select
       className={cn(
         CONTROL,
-        'h-9.5 cursor-pointer appearance-none bg-[length:16px] bg-[right_10px_center] bg-no-repeat pr-9',
+        'h-10 cursor-pointer appearance-none bg-[length:16px] bg-[right_10px_center] bg-no-repeat pr-9',
         invalid && 'border-danger-line bg-danger-soft/40',
         className,
       )}

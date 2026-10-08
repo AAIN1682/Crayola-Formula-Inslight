@@ -45,10 +45,8 @@ export function Sidebar({
         <BrandMark className="size-9 shrink-0" />
         {!collapsed ? (
           <div className="min-w-0">
-            <p className="truncate text-[11px] font-medium tracking-wide text-slate-400 uppercase">
-              Affine Analytics
-            </p>
-            <p className="truncate text-[15px] leading-5 font-semibold text-white">Formula Insight</p>
+            <p className="truncate text-[11px] font-medium tracking-wide text-slate-400 uppercase">Affine</p>
+            <p className="truncate text-[15px] leading-5 font-semibold text-white">Formula Intelligence</p>
           </div>
         ) : null}
       </div>
@@ -59,18 +57,18 @@ export function Sidebar({
             'flex items-center gap-2.5 rounded-lg bg-navy-700/70 p-2',
             collapsed && 'justify-center p-1.5',
           )}
-          title="Workspace: Crayola · Product Safety"
+          title="Welcome back, Affine"
         >
           <span
             className="flex size-7 shrink-0 items-center justify-center rounded-md bg-accent-500 text-[13px] font-bold text-white"
             aria-hidden
           >
-            C
+            A
           </span>
           {!collapsed ? (
             <div className="min-w-0">
-              <p className="truncate text-[13px] leading-4 font-medium text-white">Crayola</p>
-              <p className="truncate text-[11px] text-slate-400">Product Safety</p>
+              <p className="truncate text-[13px] leading-4 font-medium text-white">Welcome back, Affine</p>
+              <p className="truncate text-[11px] text-slate-400">Product Safety & Formulation</p>
             </div>
           ) : null}
         </div>
@@ -115,7 +113,7 @@ export function Sidebar({
         <NavLink
           to="/settings"
           onClick={onNavigate}
-          title={collapsed ? 'Settings & Demo Data' : undefined}
+          title={collapsed ? 'Preferences' : undefined}
           className={({ isActive }) =>
             cn(
               'flex items-center gap-3 rounded-lg px-3 py-2 text-[13px] font-medium transition-colors',
@@ -125,7 +123,7 @@ export function Sidebar({
           }
         >
           <Settings2 aria-hidden className="size-4.5 shrink-0" />
-          {!collapsed ? <span className="truncate">Settings &amp; Demo Data</span> : null}
+          {!collapsed ? <span className="truncate">Preferences</span> : null}
         </NavLink>
 
         <button
@@ -147,7 +145,7 @@ export function Sidebar({
 
         {!collapsed ? (
           <p className="mt-3 px-1 text-[11px] leading-4 text-slate-500">
-            Affine Analytics — Formula Insight v1.0
+            Affine · Formula Intelligence
           </p>
         ) : null}
       </div>

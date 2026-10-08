@@ -1,0 +1,58 @@
+{
+  "illustrative": true,
+  "note": "Illustrative compositions for assessment walkthroughs. They are not Crayola recipes.",
+  "formulas": [
+    {
+      "formula_id": "EX-001",
+      "formula_name": "Water-Based Marker Ink — Blue",
+      "product_category": "water_based_marker_ink",
+      "target_markets": ["US"],
+      "age_group": "under_12",
+      "composition_basis": "percent_w_w",
+      "scenario": "within_configured_thresholds",
+      "ingredients": [
+        {"ingredient_id": "ING-001", "concentration_pct": 84},
+        {"ingredient_id": "ING-002", "concentration_pct": 6},
+        {"ingredient_id": "ING-018", "concentration_pct": 3},
+        {"ingredient_id": "ING-007", "concentration_pct": 5.5},
+        {"ingredient_id": "ING-011", "concentration_pct": 1},
+        {"ingredient_id": "ING-020", "concentration_pct": 0.3},
+        {"ingredient_id": "ING-022", "concentration_pct": 0.2}
+      ]
+    },
+    {
+      "formula_id": "EX-002",
+      "formula_name": "Water-Based Marker Ink — High Glycerol",
+      "product_category": "water_based_marker_ink",
+      "target_markets": ["US"],
+      "age_group": "under_12",
+      "composition_basis": "percent_w_w",
+      "scenario": "exceeds_concentration_threshold",
+      "ingredients": [
+        {"ingredient_id": "ING-001", "concentration_pct": 72},
+        {"ingredient_id": "ING-002", "concentration_pct": 18},
+        {"ingredient_id": "ING-018", "concentration_pct": 3},
+        {"ingredient_id": "ING-007", "concentration_pct": 5.5},
+        {"ingredient_id": "ING-011", "concentration_pct": 1},
+        {"ingredient_id": "ING-020", "concentration_pct": 0.3},
+        {"ingredient_id": "ING-022", "concentration_pct": 0.2}
+      ]
+    },
+    {
+      "formula_id": "EX-003",
+      "formula_name": "Water-Based Marker Ink — Unconfigured Wax",
+      "product_category": "water_based_marker_ink",
+      "target_markets": ["US"],
+      "age_group": "under_12",
+      "composition_basis": "percent_w_w",
+      "scenario": "missing_criterion_or_evidence",
+      "ingredients": [
+        {"ingredient_id": "ING-001", "concentration_pct": 80},
+        {"ingredient_id": "ING-002", "concentration_pct": 5},
+        {"ingredient_id": "ING-006", "concentration_pct": 8},
+        {"ingredient_id": "ING-017", "concentration_pct": 5},
+        {"ingredient_id": "ING-007", "concentration_pct": 2}
+      ]
+    }
+  ]
+}

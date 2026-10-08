@@ -19,7 +19,7 @@ const VARIANTS: Record<ButtonVariant, string> = {
 
 const SIZES: Record<ButtonSize, string> = {
   sm: 'h-8 px-3 text-[13px]',
-  md: 'h-9.5 px-4 text-sm',
+  md: 'h-10 px-4 text-sm',
 };
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -67,7 +67,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(functio
       className={cn(
         BASE,
         VARIANTS[variant],
-        size === 'sm' ? 'size-8' : 'size-9.5',
+        size === 'sm' ? 'size-8' : 'size-10',
         'px-0',
         className,
       )}

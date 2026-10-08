@@ -1,9 +1,15 @@
 import { useEffect, useMemo, useState } from 'react';
 import { AlertTriangle, CheckCircle2, Plus, Sparkles, Trash2 } from 'lucide-react';
-import type { AgeGroup, Formula, PhysicalForm, ProductCategory } from '../../types/domain';
-import { AGE_GROUPS, PHYSICAL_FORMS, PRODUCT_CATEGORIES } from '../../types/domain';
+import type { AgeGroup, Formula, PhysicalForm, ProductCategory, TargetMarket } from '../../types/domain';
+import { AGE_GROUP_LABEL, AGE_GROUPS, PHYSICAL_FORMS, PRODUCT_CATEGORIES, TARGET_MARKETS } from '../../types/domain';
 import type { FormulaInput } from '../../types/services';
-import { SAMPLE_FORMULA } from '../../data/seed';
+import {
+  categoryForExample,
+  fetchCatalogIngredients,
+  fetchExamples,
+  physicalFormForExample,
+  type ExampleFormula,
+} from '../../api/assessment';
 import { useDemoSelector, useServices, useSettings } from '../../state/DemoDataProvider';
 import { useAsyncAction } from '../../hooks/useAsyncData';
 import { useToast } from '../ui/Toast';
@@ -46,6 +52,7 @@ interface FormState {
   version: string;
   category: string;
   ageGroup: string;
+  targetMarkets: TargetMarket[];
   physicalForm: string;
   intendedUse: string;
   ownerId: string;
@@ -72,6 +79,7 @@ function toFormState(formula: Formula | undefined, defaults: { ownerId: string; 
       version: 'v1.0',
       category: '',
       ageGroup: '',
+      targetMarkets: [],
       physicalForm: '',
       intendedUse: '',
       ownerId: defaults.ownerId,
@@ -86,7 +94,8 @@ function toFormState(formula: Formula | undefined, defaults: { ownerId: string; 
     name: formula.name,
     version: formula.version,
     category: formula.category,
-    ageGroup: formula.ageGroup,
+    ageGroup: formula.ageGroupNeedsSelection ? '' : formula.ageGroup,
+    targetMarkets: [...(formula.targetMarkets ?? [])],
     physicalForm: formula.physicalForm,
     intendedUse: formula.intendedUse,
     ownerId: formula.ownerId,
@@ -112,6 +121,7 @@ function toInput(form: FormState, lifecycle: 'draft' | 'active'): FormulaInput {
     version: form.version,
     category: (form.category || undefined) as ProductCategory | undefined,
     ageGroup: (form.ageGroup || undefined) as AgeGroup | undefined,
+    targetMarkets: form.targetMarkets,
     physicalForm: (form.physicalForm || undefined) as PhysicalForm | undefined,
     intendedUse: form.intendedUse,
     ownerId: form.ownerId,
@@ -188,6 +198,11 @@ export function FormulaFormDrawer({
     toFormState(formula, { ownerId: settings.currentUserId, reviewerId: settings.defaultReviewerId }),
   );
   const [showAllIssues, setShowAllIssues] = useState(false);
+  const [examples, setExamples] = useState<ExampleFormula[]>([]);
+  const [catalogOptions, setCatalogOptions] = useState<{ value: string; label: string }[]>([]);
+  const [examplesLoading, setExamplesLoading] = useState(false);
+  const [examplesError, setExamplesError] = useState<string>();
+  const [selectedExampleId, setSelectedExampleId] = useState('');
 
   useEffect(() => {
     if (!open) return;
@@ -197,17 +212,42 @@ export function FormulaFormDrawer({
     setShowAllIssues(false);
   }, [open, formula, settings.currentUserId, settings.defaultReviewerId]);
 
+  useEffect(() => {
+    if (!open) return;
+    const controller = new AbortController();
+    setExamplesLoading(true);
+    setExamplesError(undefined);
+    Promise.all([fetchExamples(controller.signal), fetchCatalogIngredients(controller.signal)])
+      .then(([loaded, ingredients]) => {
+        setExamples(loaded);
+        setSelectedExampleId((current) => current || loaded[0]?.formula_id || '');
+        setCatalogOptions(
+          ingredients.map((item) => ({
+            value: item.ingredient_id,
+            label: `${item.ingredient_id} — ${item.name}`,
+          })),
+        );
+      })
+      .catch((cause: unknown) => {
+        if (controller.signal.aborted) return;
+        setExamplesError(cause instanceof Error ? cause.message : 'Reference formulas could not be loaded.');
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setExamplesLoading(false);
+      });
+    return () => controller.abort();
+  }, [open]);
+
   const validation = useMemo(() => validateFormulaInput(toInput(form, 'active')), [form]);
 
-  const materialOptions = useMemo(
-    () => [
-      ...rawMaterials.map((material) => ({
-        value: material.id,
-        label: `${material.id} — ${material.name}`,
-      })),
-    ],
-    [rawMaterials],
-  );
+  const materialOptions = useMemo(() => {
+    const demo = rawMaterials.map((material) => ({
+      value: material.id,
+      label: `${material.id} — ${material.name}`,
+    }));
+    const seen = new Set(demo.map((item) => item.value));
+    return [...demo, ...catalogOptions.filter((item) => !seen.has(item.value))];
+  }, [rawMaterials, catalogOptions]);
 
   const linkableDocuments = useMemo(
     () =>
@@ -237,24 +277,31 @@ export function FormulaFormDrawer({
     }));
 
   const loadSample = () => {
+    const example = examples.find((item) => item.formula_id === selectedExampleId) ?? examples[0];
+    if (!example) {
+      toast.error('Reference formula unavailable', examplesError ?? 'The reference formulas have not loaded yet.');
+      return;
+    }
     setForm((current) => ({
       ...current,
-      name: current.name || SAMPLE_FORMULA.name,
-      category: SAMPLE_FORMULA.category,
-      ageGroup: SAMPLE_FORMULA.ageGroup,
-      physicalForm: SAMPLE_FORMULA.physicalForm,
-      intendedUse: SAMPLE_FORMULA.intendedUse,
-      ingredients: SAMPLE_FORMULA.ingredients.map((ingredient) => ({
+      name: example.formula_name,
+      category: categoryForExample(example.product_category),
+      ageGroup: example.age_group,
+      targetMarkets: [...example.target_markets],
+      physicalForm: physicalFormForExample(example.product_category),
+      intendedUse: 'Illustrative reference composition for internal screening. Not a product recipe.',
+      description: 'Illustrative composition for the assessment walkthrough. Not a Crayola recipe.',
+      ingredients: example.ingredients.map((ingredient) => ({
         key: nextKey(),
         name: ingredient.name,
-        rawMaterialId: ingredient.rawMaterialId,
-        concentrationText: String(ingredient.concentration),
-        supplier: rawMaterials.find((material) => material.id === ingredient.rawMaterialId)?.supplier ?? '',
+        rawMaterialId: ingredient.ingredient_id,
+        concentrationText: String(ingredient.concentration_pct),
+        supplier: '',
         notes: '',
       })),
     }));
     setFurthest((value) => Math.max(value, 2));
-    toast.info('Sample formula loaded', 'A complete synthetic composition was filled in. Adjust anything you like.');
+    toast.info('Reference formula loaded', 'An illustrative composition was filled in. Adjust anything you need to.');
   };
 
   const save = useAsyncAction(async (lifecycle: 'draft' | 'active') => {
@@ -291,7 +338,7 @@ export function FormulaFormDrawer({
       width="lg"
       eyebrow={mode === 'edit' ? 'Edit formula' : 'New formula'}
       title={mode === 'edit' ? (formula?.name ?? 'Edit formula') : 'Create a formula'}
-      subtitle="Synthetic demo record. Drafts can be saved with missing fields and completed later."
+      subtitle="Drafts can be saved with missing fields and completed later."
       footer={
         <div className="flex w-full flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2 text-xs text-muted">
@@ -396,15 +443,73 @@ export function FormulaFormDrawer({
                 htmlFor="formula-age"
                 required
                 error={fieldError(validation, 'ageGroup')}
+                hint="Audience category for this application. It is not a legal age definition for every market."
               >
-                <Select
-                  id="formula-age"
-                  value={form.ageGroup}
-                  placeholder="Select an age group"
-                  options={AGE_GROUPS.map((group) => ({ value: group, label: `${group} years` }))}
-                  onChange={(event) => update('ageGroup', event.target.value)}
-                  invalid={Boolean(fieldError(validation, 'ageGroup'))}
-                />
+                <div id="formula-age" className="flex flex-col gap-2 sm:flex-row" role="radiogroup" aria-label="Intended age group">
+                  {AGE_GROUPS.map((group) => {
+                    const selected = form.ageGroup === group;
+                    return (
+                      <button
+                        key={group}
+                        type="button"
+                        role="radio"
+                        aria-checked={selected}
+                        onClick={() => update('ageGroup', group)}
+                        className={cn(
+                          'h-10 flex-1 rounded-lg border px-3 text-left text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400',
+                          selected
+                            ? 'border-brand-500 bg-brand-50 text-brand-600'
+                            : 'border-line bg-white text-ink hover:border-brand-200',
+                        )}
+                      >
+                        {AGE_GROUP_LABEL[group]}
+                      </button>
+                    );
+                  })}
+                </div>
+                {formula?.recordedAgeGroup ? (
+                  <p className="mt-1.5 text-xs text-muted">Previously recorded age: {formula.recordedAgeGroup}</p>
+                ) : null}
+                {formula?.ageGroupNeedsSelection ? (
+                  <p className="mt-1.5 text-xs text-warning">The previous age range covers both categories. Select one.</p>
+                ) : null}
+              </Field>
+
+              <Field
+                label="Target markets"
+                htmlFor="formula-markets"
+                required
+                className="sm:col-span-2"
+                error={fieldError(validation, 'targetMarkets')}
+              >
+                <div id="formula-markets" className="flex flex-wrap gap-2" role="group" aria-label="Target markets">
+                  {TARGET_MARKETS.map((market) => {
+                    const selected = form.targetMarkets.includes(market.code);
+                    return (
+                      <button
+                        key={market.code}
+                        type="button"
+                        aria-pressed={selected}
+                        onClick={() =>
+                          update(
+                            'targetMarkets',
+                            selected
+                              ? form.targetMarkets.filter((code) => code !== market.code)
+                              : [...form.targetMarkets, market.code],
+                          )
+                        }
+                        className={cn(
+                          'h-10 rounded-full border px-3 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400',
+                          selected
+                            ? 'border-brand-500 bg-brand-500 text-white'
+                            : 'border-line bg-white text-ink hover:border-brand-200 hover:bg-brand-50',
+                        )}
+                      >
+                        {market.label}
+                      </button>
+                    );
+                  })}
+                </div>
               </Field>
 
               <Field
@@ -454,9 +559,26 @@ export function FormulaFormDrawer({
               </Field>
             </div>
 
-            <Button variant="subtle" onClick={loadSample} icon={<Sparkles aria-hidden className="size-4" />}>
-              Load sample formula
-            </Button>
+            {examplesError ? (
+              <Notice tone="danger" title="Reference formulas could not be loaded">
+                {examplesError}
+              </Notice>
+            ) : null}
+
+            <div className="flex flex-wrap items-end gap-2">
+              <Field label="Illustrative formula" className="min-w-56 flex-1">
+                <Select
+                  value={selectedExampleId}
+                  placeholder={examplesLoading ? 'Loading formulas…' : 'No formulas loaded'}
+                  options={examples.map((item) => ({ value: item.formula_id, label: item.formula_name }))}
+                  onChange={(event) => setSelectedExampleId(event.target.value)}
+                  disabled={examplesLoading || examples.length === 0}
+                />
+              </Field>
+              <Button variant="subtle" onClick={loadSample} disabled={examplesLoading} icon={<Sparkles aria-hidden className="size-4" />}>
+                Load reference formula
+              </Button>
+            </div>
           </div>
         ) : null}
 
@@ -562,10 +684,20 @@ export function FormulaFormDrawer({
               <Button onClick={addRow} icon={<Plus aria-hidden className="size-4" />}>
                 Add ingredient
               </Button>
-              <Button variant="ghost" onClick={loadSample} icon={<Sparkles aria-hidden className="size-4" />}>
-                Load sample formula
+              <Select
+                aria-label="Illustrative formula"
+                value={selectedExampleId}
+                placeholder={examplesLoading ? 'Loading formulas…' : 'No formulas loaded'}
+                options={examples.map((item) => ({ value: item.formula_id, label: item.formula_name }))}
+                onChange={(event) => setSelectedExampleId(event.target.value)}
+                disabled={examplesLoading || examples.length === 0}
+                className="max-w-xs"
+              />
+              <Button variant="ghost" onClick={loadSample} disabled={examplesLoading} icon={<Sparkles aria-hidden className="size-4" />}>
+                Load reference formula
               </Button>
             </div>
+            {examplesError ? <p className="text-[13px] text-danger">{examplesError}</p> : null}
 
             <IssueList issues={stepIssues} />
           </div>
@@ -631,10 +763,11 @@ export function FormulaFormDrawer({
             <div className="rounded-lg border border-line">
               <dl className="grid grid-cols-2 gap-x-4 gap-y-3 p-4 sm:grid-cols-3">
                 {[
-                  ['Name', form.name || '—'],
+                  ['Name', form.name || 'New Formula'],
                   ['Version', form.version || '—'],
                   ['Category', form.category || '—'],
-                  ['Age group', form.ageGroup || '—'],
+                  ['Age group', form.ageGroup ? AGE_GROUP_LABEL[form.ageGroup as AgeGroup] : '—'],
+                  ['Target markets', form.targetMarkets.map((code) => TARGET_MARKETS.find((market) => market.code === code)?.label ?? code).join(', ') || '—'],
                   ['Physical form', form.physicalForm || '—'],
                   ['Owner', people.find((person) => person.id === form.ownerId)?.name ?? '—'],
                   ['Ingredients', String(form.ingredients.filter((row) => row.name.trim()).length)],

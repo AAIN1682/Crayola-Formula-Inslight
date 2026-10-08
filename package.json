@@ -1,0 +1,13 @@
+{
+  "name": "affine-formula-intelligence",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "test:server": "node --test server/assess.test.js"
+  },
+  "dependencies": {
+    "openai": "^5.23.2"
+  }
+}

@@ -22,6 +22,7 @@ import type {
 } from '../types/domain';
 import { shiftDays, startOfToday } from '../utils/formatting';
 import { computeScreening, snapshotIngredients } from '../utils/screening';
+import { mapLegacyAge } from '../utils/audience';
 
 /**
  * Synthetic seed dataset for the Formula Insight demo workspace.
@@ -353,7 +354,7 @@ interface FormulaSeed {
   name: string;
   version: string;
   category: ProductCategory;
-  ageGroup: AgeGroup;
+  ageGroup: string;
   physicalForm: PhysicalForm;
   intendedUse: string;
   ownerId: string;
@@ -1507,12 +1508,16 @@ export function createSeedDataset(): DemoDataset {
       evidenceIds.push(id);
     });
 
+    const mappedAge = mapLegacyAge(seed.ageGroup);
     return {
       id: seed.id,
       name: seed.name,
       version: seed.version,
       category: seed.category,
-      ageGroup: seed.ageGroup,
+      ageGroup: mappedAge.ageGroup ?? 'under_12',
+      recordedAgeGroup: mappedAge.recordedAgeGroup,
+      ageGroupNeedsSelection: mappedAge.needsSelection,
+      targetMarkets: ['US'],
       physicalForm: seed.physicalForm,
       intendedUse: seed.intendedUse,
       ownerId: seed.ownerId,
@@ -1656,6 +1661,13 @@ export function createSeedDataset(): DemoDataset {
       formulaId: formula.id,
       formulaName: formula.name,
       formulaVersion: runVersion,
+      ageGroup: subjectFormula.ageGroup,
+      targetMarkets: subjectFormula.targetMarkets,
+      marketResults: computation.marketResults,
+      assessmentRequest: {
+        target_markets: subjectFormula.targetMarkets,
+        age_group: subjectFormula.ageGroup,
+      },
       status: computation.status,
       evidenceCompleteness: computation.evidence.completeness,
       requiredEvidenceCount: computation.evidence.requiredCount,
@@ -1995,7 +2007,8 @@ export function createSeedDataset(): DemoDataset {
 export const SAMPLE_FORMULA = {
   name: 'ColorFlow Brush Marker',
   category: 'Markers' as ProductCategory,
-  ageGroup: '6+' as AgeGroup,
+  ageGroup: 'under_12' as AgeGroup,
+  targetMarkets: ['US'] as const,
   physicalForm: 'Liquid' as PhysicalForm,
   intendedUse: 'Brush-tip marker for lettering and illustration on paper and card.',
   ingredients: [

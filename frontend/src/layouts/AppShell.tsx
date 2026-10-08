@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { TopBar } from './TopBar';
-import { DemoWorkspaceTag } from '../components/ui/DemoNotice';
 
 export function AppShell() {
   const [collapsed, setCollapsed] = useState(false);
@@ -51,8 +50,7 @@ export function AppShell() {
 
         <footer className="fi-no-print border-t border-line px-4 py-4 lg:px-8">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <p className="text-xs text-muted">Affine Analytics — Formula Insight v1.0</p>
-            <DemoWorkspaceTag />
+            <p className="text-xs text-muted">Affine · Formula Intelligence</p>
           </div>
         </footer>
       </div>

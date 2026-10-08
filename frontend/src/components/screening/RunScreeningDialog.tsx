@@ -42,11 +42,13 @@ export function RunScreeningDialog({
   const [run, setRun] = useState<ScreeningRun | undefined>();
   const [error, setError] = useState<string | undefined>();
 
-  /* Keyed guard: a run starts once per open/attempt, even when effects are replayed. */
+  const abortRef = useRef<AbortController | null>(null);
   const startedKeyRef = useRef('');
 
   useEffect(() => {
     if (!open) {
+      abortRef.current?.abort();
+      abortRef.current = null;
       startedKeyRef.current = '';
       setStageIndex(-1);
       setRun(undefined);
@@ -57,14 +59,21 @@ export function RunScreeningDialog({
     const key = `${formula.id}:${attempt}`;
     if (startedKeyRef.current === key) return;
     startedKeyRef.current = key;
+    abortRef.current?.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
 
     setStageIndex(0);
     setRun(undefined);
     setError(undefined);
 
     services
-      .runScreening(formula.id, { onStage: (_stage, index) => setStageIndex(index) })
+      .runScreening(formula.id, {
+        signal: controller.signal,
+        onStage: (_stage, index) => setStageIndex(index),
+      })
       .then((result) => {
+        if (controller.signal.aborted) return;
         setStageIndex(SCREENING_STAGES.length);
         setRun(result);
         toast.success(
@@ -73,6 +82,7 @@ export function RunScreeningDialog({
         );
       })
       .catch((cause: unknown) => {
+        if (controller.signal.aborted) return;
         setError(cause instanceof Error ? cause.message : 'The screening run did not complete.');
       });
   }, [open, attempt, formula.id, services, toast]);
@@ -91,8 +101,8 @@ export function RunScreeningDialog({
       open={open}
       onClose={onClose}
       dismissible={finished || Boolean(error)}
-      title={finished ? 'Screening complete' : 'Running screening'}
-      description={`${formula.name} ${formula.version} · demo rule checks`}
+      title={finished ? 'Assessment complete' : 'Running assessment'}
+      description={`${formula.name} ${formula.version} · ${(formula.targetMarkets ?? []).join(', ') || 'No market selected'}`}
       footer={
         finished && run ? (
           <>
@@ -135,8 +145,8 @@ export function RunScreeningDialog({
         ) : null}
 
         <Notice tone="neutral" icon={<ShieldCheck aria-hidden className="size-4" />}>
-          These are illustrative demo rule checks. No scientific toxicity model or regulatory evaluation is
-          involved, and the result is internal to this workspace.
+          Configured checks for the selected markets. This is not a toxicity model, a regulatory evaluation,
+          or a certification.
         </Notice>
       </div>
     </Modal>

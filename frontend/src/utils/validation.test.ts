@@ -11,7 +11,8 @@ function baseInput(overrides: Partial<FormulaInput> = {}): FormulaInput {
   return {
     name: 'ColorFlow Test Marker',
     category: 'Markers',
-    ageGroup: '3+',
+    ageGroup: 'under_12',
+    targetMarkets: ['US'],
     physicalForm: 'Liquid',
     intendedUse: 'Broad-line colouring marker for classroom use on paper.',
     ownerId: 'usr-dana',

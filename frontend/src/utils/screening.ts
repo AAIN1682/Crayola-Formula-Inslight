@@ -6,6 +6,8 @@ import type {
   Formula,
   HistoricalComparisonRecord,
   Ingredient,
+  MarketAssessment,
+  TargetMarket,
   MaterialRole,
   NextActionRecord,
   ProductCategory,
@@ -21,6 +23,8 @@ import type {
 } from '../types/services';
 import { SEVERITY_ORDER } from './formatting';
 import { isTotalWithinTolerance, sumConcentrations } from './validation';
+import { ageGroupLabel, sameMarkets } from './audience';
+import { assessMarkets, europeanColorantLabFindings } from './markets';
 
 /**
  * Demo screening engine.
@@ -294,6 +298,7 @@ export interface ScreeningComputation {
   comparisons: HistoricalComparisonRecord[];
   nextActions: NextActionRecord[];
   evidence: FormulaEvidenceSummary;
+  marketResults: MarketAssessment[];
 }
 
 function buildExposureInputs(
@@ -329,7 +334,7 @@ function buildExposureInputs(
       label: 'Intended age group',
       unit: 'years',
       available: Boolean(formula.ageGroup),
-      value: formula.ageGroup,
+      value: ageGroupLabel(formula.ageGroup),
       source: 'Formula record',
     },
     {
@@ -415,7 +420,7 @@ export function computeScreening(context: ScreeningContext): ScreeningComputatio
   const { formula, rawMaterials, documents, submissions } = context;
   const materialById = new Map(rawMaterials.map((material) => [material.id, material]));
   const evidence = summarizeEvidence(formula, rawMaterials, documents);
-  const findings: FindingRecord[] = [];
+  let findings: FindingRecord[] = [];
   const nextActions: NextActionRecord[] = [];
 
   const pushAction = (action: NextActionRecord) => {
@@ -668,22 +673,35 @@ export function computeScreening(context: ScreeningContext): ScreeningComputatio
     (a, b) => SEVERITY_ORDER[a.severity] - SEVERITY_ORDER[b.severity] || a.id.localeCompare(b.id),
   );
 
-  const highCount = findings.filter((finding) => finding.severity === 'high').length;
-  const mediumCount = findings.filter((finding) => finding.severity === 'medium').length;
-
   let status: 'green' | 'amber' | 'red';
-  if (highCount > 0) {
+  if (findings.some((finding) => finding.severity === 'high')) {
     status = 'red';
-  } else if (mediumCount > 0 || evidence.missingCount > 0 || unavailableInputs.length > 0) {
+  } else if (
+    findings.some((finding) => finding.severity === 'medium') ||
+    evidence.missingCount > 0 ||
+    unavailableInputs.length > 0
+  ) {
     status = 'amber';
   } else {
     status = 'green';
   }
 
+  const selectedMarkets: TargetMarket[] = formula.targetMarkets?.length ? formula.targetMarkets : ['US'];
+  const euFindings = selectedMarkets.includes('EU')
+    ? europeanColorantLabFindings(formula, rawMaterials, documents)
+    : [];
+  const marketAssessment = assessMarkets(selectedMarkets, findings, { EU: euFindings }, status);
+  const marketResults = marketAssessment.results;
+  const usOnly = selectedMarkets.length === 1 && selectedMarkets[0] === 'US';
+  if (!usOnly) {
+    status = marketAssessment.status;
+    findings = marketAssessment.applicableFindings;
+  }
+
   const summary = buildSummary({
     status,
-    highCount,
-    mediumCount,
+    highCount: findings.filter((finding) => finding.severity === 'high').length,
+    mediumCount: findings.filter((finding) => finding.severity === 'medium').length,
     evidence,
     unavailableInputCount: unavailableInputs.length,
   });
@@ -697,7 +715,7 @@ export function computeScreening(context: ScreeningContext): ScreeningComputatio
   };
   nextActions.sort((a, b) => actionOrder[a.kind] - actionOrder[b.kind] || a.label.localeCompare(b.label));
 
-  return { status, summary, findings, exposureInputs, comparisons, nextActions, evidence };
+  return { status, summary, findings, exposureInputs, comparisons, nextActions, evidence, marketResults };
 }
 
 function buildSummary(args: {
@@ -753,6 +771,8 @@ export function ingredientSignature(ingredients: DiffIngredient[]): string {
 export function isRunCurrent(formula: Formula, run: ScreeningRun | undefined): boolean {
   if (!run) return false;
   if (run.formulaVersion !== formula.version) return false;
+  if (run.ageGroup && run.ageGroup !== formula.ageGroup) return false;
+  if (run.targetMarkets && !sameMarkets(run.targetMarkets, formula.targetMarkets)) return false;
   return ingredientSignature(formula.ingredients) === ingredientSignature(run.ingredientSnapshot);
 }
 

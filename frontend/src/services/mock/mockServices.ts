@@ -40,6 +40,7 @@ import { SCREENING_STAGES } from '../../types/services';
 import type { DemoStore } from '../../state/store';
 import type { DemoAction } from '../../state/reducer';
 import { ServiceError, type FormulaInsightServices } from '../contracts';
+import { formulaToAssessmentRequest, mapReferenceAssessment, postAssessment, usesReferenceCatalog } from '../../api/assessment';
 import {
   computeScreening,
   diffIngredients,
@@ -168,7 +169,10 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
       name: input.name.trim(),
       version: input.version?.trim() || base?.version || 'v1.0',
       category: input.category ?? base?.category ?? 'Markers',
-      ageGroup: input.ageGroup ?? base?.ageGroup ?? '3+',
+      ageGroup: input.ageGroup ?? base?.ageGroup ?? 'under_12',
+      recordedAgeGroup: base?.recordedAgeGroup,
+      ageGroupNeedsSelection: false,
+      targetMarkets: input.targetMarkets ?? base?.targetMarkets ?? ['US'],
       physicalForm: input.physicalForm ?? base?.physicalForm ?? 'Liquid',
       intendedUse: input.intendedUse.trim(),
       ownerId: input.ownerId,
@@ -195,6 +199,8 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
     if (!formula) throw new ServiceError(`Formula ${id} was not found in the demo workspace.`, false);
     return formula;
   };
+
+  let assessmentGeneration = 0;
 
   return {
     /* ------------------------------------------------------------ formulas */
@@ -320,9 +326,9 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
         activity({
           type: 'formula-updated',
           summary: `${formula.name} updated${formula.version !== base.version ? ` to ${formula.version}` : ''}`,
-          detail:
+            detail:
             latestRun && !stillCurrent
-              ? 'The composition changed, so the previous screening result is marked outdated until screening runs again.'
+              ? 'Reassessment required. The saved result no longer matches the composition, age group, or target markets.'
               : 'Formula record updated.',
           formulaId: formula.id,
         }),
@@ -395,21 +401,79 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
     /* ----------------------------------------------------------- screening */
 
     async runScreening(formulaId: string, options?: RunScreeningOptions) {
+      const generation = ++assessmentGeneration;
       const formula = requireFormula(formulaId);
+      if (formula.ageGroupNeedsSelection || !formula.ageGroup) {
+        throw new ServiceError('Select an age group before running an assessment.', false);
+      }
+      if (!formula.targetMarkets?.length) {
+        throw new ServiceError('Select at least one target market before running an assessment.', false);
+      }
 
+      const catalog = usesReferenceCatalog(formula);
       for (let index = 0; index < SCREENING_STAGES.length; index += 1) {
         if (options?.signal?.aborted) throw new ServiceError('Screening was cancelled.');
         options?.onStage?.(SCREENING_STAGES[index]!, index);
-        await delay(index === 0 ? 260 : 320);
+        if (!catalog) await delay(index === 0 ? 260 : 320);
+      }
+
+      if (generation !== assessmentGeneration) {
+        throw new ServiceError('A newer assessment replaced this result.');
       }
 
       const current = state();
-      const computation = computeScreening({
-        formula,
-        rawMaterials: current.rawMaterials,
-        documents: current.documents,
-        submissions: current.submissions,
-      });
+      let status: ScreeningRun['status'];
+      let summary: string;
+      let findings: ScreeningRun['findings'];
+      let marketResults: ScreeningRun['marketResults'];
+      let nextActions: ScreeningRun['nextActions'];
+      let evidence: { completeness: number; requiredCount: number; presentCount: number };
+      let exposureInputs: ScreeningRun['exposureInputs'];
+      let comparisons: ScreeningRun['comparisons'];
+      let referenceAssessment: ScreeningRun['referenceAssessment'];
+
+      if (catalog) {
+        let payload: Awaited<ReturnType<typeof postAssessment>>;
+        try {
+          payload = await postAssessment(formulaToAssessmentRequest(formula), options?.signal);
+        } catch (error) {
+          if (options?.signal?.aborted) throw new ServiceError('Screening was cancelled.');
+          const message = error instanceof Error ? error.message : 'The assessment service could not be reached.';
+          throw new ServiceError(message);
+        }
+        if (generation !== assessmentGeneration) {
+          throw new ServiceError('A newer assessment replaced this result.');
+        }
+        const mapped = mapReferenceAssessment(payload);
+        referenceAssessment = payload;
+        status = mapped.status;
+        summary = mapped.summary;
+        findings = mapped.findings;
+        marketResults = mapped.marketResults;
+        nextActions = mapped.nextActions;
+        evidence = {
+          completeness: mapped.evidenceCompleteness,
+          requiredCount: mapped.requiredEvidenceCount,
+          presentCount: mapped.presentEvidenceCount,
+        };
+        exposureInputs = [];
+        comparisons = [];
+      } else {
+        const local = computeScreening({
+          formula,
+          rawMaterials: current.rawMaterials,
+          documents: current.documents,
+          submissions: current.submissions,
+        });
+        status = local.status;
+        summary = local.summary;
+        findings = local.findings;
+        marketResults = local.marketResults;
+        nextActions = local.nextActions;
+        evidence = local.evidence;
+        exposureInputs = local.exposureInputs;
+        comparisons = local.comparisons;
+      }
 
       const runAt = new Date().toISOString();
       const run: ScreeningRun = {
@@ -417,19 +481,27 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
         formulaId: formula.id,
         formulaName: formula.name,
         formulaVersion: formula.version,
-        status: computation.status,
-        evidenceCompleteness: computation.evidence.completeness,
-        requiredEvidenceCount: computation.evidence.requiredCount,
-        presentEvidenceCount: computation.evidence.presentCount,
+        ageGroup: formula.ageGroup,
+        targetMarkets: [...formula.targetMarkets],
+        marketResults,
+        assessmentRequest: {
+          target_markets: [...formula.targetMarkets],
+          age_group: formula.ageGroup,
+        },
+        status,
+        evidenceCompleteness: evidence.completeness,
+        requiredEvidenceCount: evidence.requiredCount,
+        presentEvidenceCount: evidence.presentCount,
         runAt,
         runBy: currentUserId(),
-        summary: computation.summary,
-        findings: computation.findings,
-        exposureInputs: computation.exposureInputs,
-        comparisons: computation.comparisons,
-        nextActions: computation.nextActions,
+        summary,
+        findings,
+        exposureInputs,
+        comparisons,
+        nextActions,
         outdated: false,
         ingredientSnapshot: snapshotIngredients(formula.ingredients),
+        referenceAssessment,
       };
 
       const reviewStatus: ReviewStatus =
@@ -437,7 +509,7 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
 
       const updatedFormula: Formula = {
         ...formula,
-        screeningStatus: computation.status,
+        screeningStatus: status,
         screeningCurrent: true,
         latestRunId: run.id,
         lastScreenedAt: runAt,
@@ -453,7 +525,7 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
           activity({
             type: 'screening-run',
             summary: `Screening run completed for ${formula.name} ${formula.version}`,
-            detail: `Result: ${computation.status.toUpperCase()} · evidence completeness ${computation.evidence.completeness}%.`,
+            detail: `Result: ${status.toUpperCase()} · evidence completeness ${evidence.completeness}%.`,
             formulaId: formula.id,
             runId: run.id,
           }),

@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 import type { ActivityEvent } from '../types/domain';
 import { useAsyncData } from '../hooks/useAsyncData';
-import { useCurrentUser, useServices } from '../state/DemoDataProvider';
+import { useServices } from '../state/DemoDataProvider';
 import { PageHeader } from '../components/ui/PageHeader';
 import { Button, ButtonLink } from '../components/ui/Button';
 import { Card, CardBody, CardHeader } from '../components/ui/Card';
@@ -56,7 +56,6 @@ function activityLink(event: ActivityEvent): string | undefined {
 export function OverviewPage() {
   const services = useServices();
   const navigate = useNavigate();
-  const currentUser = useCurrentUser();
   const [formOpen, setFormOpen] = useState(false);
 
   const { data, loading, error, reload } = useAsyncData(() => services.getDashboardSummary(), []);
@@ -83,7 +82,7 @@ export function OverviewPage() {
     <div className="space-y-6">
       <PageHeader
         title="Overview"
-        description="Current screening workload for the Crayola product safety workspace, and the items that need attention before anything is prepared for an external submission."
+        description="Assessments and formulas that need attention."
         actions={
           <>
             <ButtonLink to="/formulas" variant="secondary">
@@ -99,16 +98,10 @@ export function OverviewPage() {
       <Card className="overflow-hidden">
         <div className="relative flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
           <div className="relative z-10 max-w-xl">
-            <p className="text-[11px] font-semibold tracking-wide text-brand-400 uppercase">
-              Crayola · Product Safety
-            </p>
-            <h2 className="mt-1 text-xl leading-7 font-semibold text-navy-800">
-              Welcome back{currentUser ? `, ${currentUser.name.split(' ')[0]}` : ''}
-            </h2>
+            <p className="text-[11px] font-semibold tracking-wide text-brand-400 uppercase">Affine</p>
+            <h2 className="mt-1 text-xl leading-7 font-semibold text-navy-800">Welcome back, Affine</h2>
             <p className="mt-1.5 text-[13px] leading-6 text-muted">
-              Screen formulas against the illustrative demo rule checks, confirm the supporting evidence is on
-              file, and record an internal review decision before anything is prepared for Duke&rsquo;s ACMI
-              review. Screening results are internal only.
+              Review formulas, evidence, and assessment results for Product Safety & Formulation.
             </p>
             {data ? (
               <p className="mt-3 text-[13px] text-ink">
@@ -159,7 +152,7 @@ export function OverviewPage() {
         <Card className="lg:col-span-2">
           <CardHeader
             title="Screening status"
-            description="Internal demo screening results across active formulas."
+            description="Assessment status across active formulas."
           />
           <CardBody>
             {data ? (
@@ -173,8 +166,8 @@ export function OverviewPage() {
                   onSegmentClick={(key) => navigate(`/formulas?screening=${key}`)}
                 />
                 <Notice tone="neutral" className="mt-4">
-                  A Green screening result means the demo checks found no open concerns. It is not an AP
-                  certification and does not guarantee acceptance.
+                  A Green result means the configured checks found no open concerns. It is not a certification
+                  and does not guarantee acceptance.
                 </Notice>
               </>
             ) : (
@@ -186,7 +179,7 @@ export function OverviewPage() {
         <Card className="lg:col-span-3">
           <CardHeader
             title="Submission outcome trend"
-            description="Recorded outcomes from the synthetic submission history, by quarter."
+            description="Recorded external outcomes, by quarter."
           />
           <CardBody>
             {data ? <OutcomeTrendChart points={data.outcomeTrend} /> : <LoadingState label="Loading trend…" rows={3} />}
@@ -268,7 +261,7 @@ export function OverviewPage() {
           {!data ? (
             <LoadingState label="Loading activity…" rows={4} />
           ) : data.recentActivity.length === 0 ? (
-            <EmptyState title="No activity yet" message="Actions you take in the demo will appear here." />
+            <EmptyState title="No activity yet" message="Actions you take will appear here." />
           ) : (
             <ul className="divide-y divide-line">
               {data.recentActivity.map((event) => {

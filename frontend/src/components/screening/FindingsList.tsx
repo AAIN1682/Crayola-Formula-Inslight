@@ -33,6 +33,7 @@ function FindingCard({ finding }: { finding: FindingRecord }) {
             {finding.ruleId}
           </span>
         </span>
+        <span className="text-xs font-medium text-brand-600">{open ? 'Hide finding' : 'View finding'}</span>
         <ChevronDown
           aria-hidden
           className={cn('mt-1 size-4 shrink-0 text-muted transition-transform', open && 'rotate-180')}

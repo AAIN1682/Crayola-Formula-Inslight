@@ -105,9 +105,9 @@ export function ScreeningBadge({
         <Badge
           tone="neutral"
           icon={<RotateCcw aria-hidden className="size-3.5" />}
-          title="The formula changed after this result was produced."
+          title="Reassessment required. Markets, age group, or composition no longer match this result."
         >
-          Outdated
+          Reassessment required
         </Badge>
       ) : null}
     </span>

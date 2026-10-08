@@ -95,7 +95,7 @@ describe('application entry point', () => {
     });
     await settle();
 
-    expect(text()).toContain('Formula Insight');
+    expect(text()).toContain('Formula Intelligence');
     expect(text()).toContain('Overview');
   });
 });
@@ -104,12 +104,11 @@ describe('routes', () => {
   it('renders the Overview route by default with branding and derived metrics', async () => {
     await mountAt('/');
 
-    expect(text()).toContain('Affine Analytics');
-    expect(text()).toContain('Formula Insight');
-    expect(text()).toContain('Crayola');
+    expect(text()).toContain('Affine');
+    expect(text()).toContain('Formula Intelligence');
+    expect(text()).toContain('Welcome back, Affine');
     expect(text()).toContain('Product Safety');
-    expect(text()).toContain('Demo workspace · Synthetic data');
-    expect(text()).toContain('Affine Analytics — Formula Insight v1.0');
+    expect(text()).toContain('Affine · Formula Intelligence');
 
     expect(text()).toContain('Total formulas');
     expect(text()).toContain('Awaiting review');
@@ -125,7 +124,7 @@ describe('routes', () => {
 
   it('never presents a Green result as a certification', async () => {
     await mountAt('/');
-    expect(text()).toContain('not an AP certification');
+    expect(text()).toContain('not a certification');
   });
 
   it('renders the Formula Library with seeded, paginated rows', async () => {
@@ -152,15 +151,14 @@ describe('routes', () => {
   it('opens a seeded screening result directly with all result sections', async () => {
     await mountAt('/formulas/FML-1005/results/RUN-1005-01');
 
-    expect(text()).toContain('Screening result');
+    expect(text()).toContain('Assessment Results');
     expect(text()).toContain('Findings');
     expect(text()).toContain('Exposure assessment readiness');
     expect(text()).toContain('Historical comparisons');
     expect(text()).toContain('Next actions');
     expect(text()).toContain('Reviewer actions');
     expect(text()).toContain('Demo ingredient-overlap score');
-    expect(text()).toContain('not an AP certification, not an ACMI review outcome');
-    expect(text()).toContain('No acceptance probability is calculated');
+    expect(text()).toContain('not a certification');
     expect(text()).toContain('Not assessed');
   });
 
@@ -192,8 +190,8 @@ describe('routes', () => {
   it('renders Settings with the local persistence description', async () => {
     await mountAt('/settings');
 
-    expect(text()).toContain('Settings & Demo Data');
-    expect(text()).toContain('Reset demo data');
+    expect(text()).toContain('Preferences');
+    expect(text()).toContain('Reset reference data');
     expect(text()).toContain('formula-insight.dataset');
   });
 
@@ -207,6 +205,6 @@ describe('routes', () => {
   it('shows a not-found page for an unknown address', async () => {
     await mountAt('/does-not-exist');
 
-    expect(text()).toContain('not part of the demo workspace');
+    expect(text()).toContain('That page is not available');
   });
 });

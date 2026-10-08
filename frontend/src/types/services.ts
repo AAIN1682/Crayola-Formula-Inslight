@@ -2,6 +2,7 @@ import type {
   ActivityEvent,
   AgeGroup,
   AlertStatus,
+  TargetMarket,
   AlertType,
   EvidenceDocument,
   Formula,
@@ -38,6 +39,7 @@ export interface FormulaInput {
   name: string;
   category?: ProductCategory;
   ageGroup?: AgeGroup;
+  targetMarkets?: TargetMarket[];
   physicalForm?: PhysicalForm;
   intendedUse: string;
   ownerId: string;

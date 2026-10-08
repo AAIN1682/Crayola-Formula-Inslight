@@ -20,9 +20,114 @@ export type PhysicalForm = 'Liquid' | 'Gel' | 'Paste' | 'Solid stick' | 'Powder'
 
 export const PHYSICAL_FORMS: PhysicalForm[] = ['Liquid', 'Gel', 'Paste', 'Solid stick', 'Powder'];
 
-export type AgeGroup = '3+' | '4+' | '6+' | '8+' | '12+';
+/** Application audience category. Not a claim that the value matches every jurisdiction's legal age definition. */
+export type AgeGroup = 'under_12' | '12_and_above';
 
-export const AGE_GROUPS: AgeGroup[] = ['3+', '4+', '6+', '8+', '12+'];
+export const AGE_GROUPS: AgeGroup[] = ['under_12', '12_and_above'];
+
+export const AGE_GROUP_LABEL: Record<AgeGroup, string> = {
+  under_12: 'Under 12 years',
+  '12_and_above': '12 years and above',
+};
+
+export type TargetMarket = 'US' | 'EU' | 'UK' | 'CA';
+
+export const TARGET_MARKETS: { code: TargetMarket; label: string }[] = [
+  { code: 'US', label: 'United States' },
+  { code: 'EU', label: 'European Union' },
+  { code: 'UK', label: 'United Kingdom' },
+  { code: 'CA', label: 'Canada' },
+];
+
+export type MarketAssessmentStatus = 'green' | 'amber' | 'red' | 'not-assessed';
+
+export interface MarketAssessment {
+  market: TargetMarket;
+  status: MarketAssessmentStatus;
+  message?: string;
+  findingIds: string[];
+}
+
+export interface AssessmentRequest {
+  target_markets: TargetMarket[];
+  age_group: AgeGroup;
+}
+
+export type ReferenceCheckResult = 'pass' | 'fail' | 'not_assessed' | 'not_applicable';
+
+export interface ReferenceFinding {
+  check_id: string;
+  ingredient_id: string | null;
+  ingredient_name: string;
+  result: ReferenceCheckResult;
+  entered_value: number | null;
+  criterion: string | null;
+  unit: string | null;
+  basis: string | null;
+  source_type: string;
+  evidence_ids: string[];
+  reason: string;
+  recommended_action: string;
+}
+
+export interface ReferenceMetricGroup {
+  applicable: number;
+  passed: number;
+  failed: number;
+  not_assessed: number;
+  coverage: number | null;
+  pass_rate: number | null;
+}
+
+export interface ReferenceAssessment {
+  assessment_id: string;
+  overall_status: 'meets_reference_criteria' | 'changes_required' | 'additional_information_required' | 'not_assessed';
+  reference_data_version: string;
+  explanation_source: 'azure' | 'standard';
+  acceptance_probability: null;
+  concentration_findings: ReferenceFinding[];
+  evidence_findings: ReferenceFinding[];
+  missing_documents: {
+    requirement_id: string;
+    market: string;
+    ingredient_id: string | null;
+    ingredient_name: string;
+    document_type: string;
+    scope: string;
+    linked_document_ids: string[];
+    status: 'absent' | 'pending_review';
+  }[];
+  configuration_gaps: { market: string; ingredient_id: string; ingredient_name: string; message: string }[];
+  metrics: {
+    concentration: ReferenceMetricGroup;
+    evidence: ReferenceMetricGroup;
+    acceptance_probability: null;
+  };
+  explanation: {
+    summary: string;
+    finding_explanations: {
+      check_id: string;
+      explanation: string;
+      recommended_action: string;
+      evidence_ids: string[];
+    }[];
+    alerts: string[];
+    next_steps: string[];
+  };
+  historical_cases: {
+    case_id: string;
+    name: string;
+    internal_outcome: string;
+    synthetic: true;
+    reviewer_note: string;
+    findings: string[];
+  }[];
+  results_by_market: {
+    market: TargetMarket;
+    status: 'meets_reference_criteria' | 'changes_required' | 'additional_information_required' | 'not_assessed';
+    message?: string;
+  }[];
+}
 
 /** Internal screening outcome produced by the demo rule checks. Never an external certification. */
 export type ScreeningStatus = 'green' | 'amber' | 'red' | 'not-screened';
@@ -95,6 +200,11 @@ export interface Formula {
   version: string;
   category: ProductCategory;
   ageGroup: AgeGroup;
+  /** Original age label when an older record was mapped into an audience category. */
+  recordedAgeGroup?: string;
+  /** True when an older age range spans both audience categories and must be chosen again. */
+  ageGroupNeedsSelection?: boolean;
+  targetMarkets: TargetMarket[];
   physicalForm: PhysicalForm;
   intendedUse: string;
   ownerId: string;
@@ -212,6 +322,10 @@ export interface ScreeningRun {
   formulaId: string;
   formulaName: string;
   formulaVersion: string;
+  ageGroup: AgeGroup;
+  targetMarkets: TargetMarket[];
+  marketResults: MarketAssessment[];
+  assessmentRequest: AssessmentRequest;
   status: Exclude<ScreeningStatus, 'not-screened'>;
   /** 0–100, share of required demo evidence that is present. */
   evidenceCompleteness: number;
@@ -228,6 +342,8 @@ export interface ScreeningRun {
   outdated: boolean;
   /** Snapshot of the ingredient list at run time. */
   ingredientSnapshot: { name: string; rawMaterialId?: string; concentration: number }[];
+  /** Present when this run used the server reference catalog. History stays in this browser. */
+  referenceAssessment?: ReferenceAssessment;
 }
 
 export type ReviewDecisionKind = 'request-evidence' | 'review-complete' | 'return-for-changes';
