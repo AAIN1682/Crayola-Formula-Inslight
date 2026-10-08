@@ -10,6 +10,13 @@ import {
   physicalFormForExample,
   type ExampleFormula,
 } from '../../api/assessment';
+import {
+  FALLBACK_REFERENCE_CATALOG,
+  findIngredientCatalogEntryById,
+  mapReferenceCatalogIngredients,
+  type IngredientCatalogEntry,
+} from '../../data/ingredientCatalog';
+import { IngredientCatalogSelect } from './IngredientCatalogSelect';
 import { useDemoSelector, useServices, useSettings } from '../../state/DemoDataProvider';
 import { useAsyncAction } from '../../hooks/useAsyncData';
 import { useToast } from '../ui/Toast';
@@ -40,6 +47,8 @@ interface IngredientRow {
   key: string;
   id?: string;
   name: string;
+  casNumber: string;
+  catalogIngredientId: string;
   rawMaterialId: string;
   concentrationText: string;
   supplier: string;
@@ -69,7 +78,16 @@ const nextKey = () => {
 };
 
 function emptyRow(): IngredientRow {
-  return { key: nextKey(), name: '', rawMaterialId: '', concentrationText: '', supplier: '', notes: '' };
+  return {
+    key: nextKey(),
+    name: '',
+    casNumber: '',
+    catalogIngredientId: '',
+    rawMaterialId: '',
+    concentrationText: '',
+    supplier: '',
+    notes: '',
+  };
 }
 
 function toFormState(formula: Formula | undefined, defaults: { ownerId: string; reviewerId: string }): FormState {
@@ -105,6 +123,8 @@ function toFormState(formula: Formula | undefined, defaults: { ownerId: string; 
       key: nextKey(),
       id: ingredient.id,
       name: ingredient.name,
+      casNumber: ingredient.casNumber ?? '',
+      catalogIngredientId: ingredient.catalogIngredientId ?? '',
       rawMaterialId: ingredient.rawMaterialId ?? '',
       concentrationText: String(ingredient.concentration),
       supplier: ingredient.supplier ?? '',
@@ -133,6 +153,8 @@ function toInput(form: FormState, lifecycle: 'draft' | 'active'): FormulaInput {
       .map((row) => ({
         id: row.id,
         name: row.name,
+        casNumber: row.casNumber.trim() || undefined,
+        catalogIngredientId: row.catalogIngredientId || undefined,
         rawMaterialId: row.rawMaterialId || undefined,
         concentration: row.concentrationText.trim() === '' ? Number.NaN : Number(row.concentrationText),
         supplier: row.supplier || undefined,
@@ -199,7 +221,10 @@ export function FormulaFormDrawer({
   );
   const [showAllIssues, setShowAllIssues] = useState(false);
   const [examples, setExamples] = useState<ExampleFormula[]>([]);
-  const [catalogOptions, setCatalogOptions] = useState<{ value: string; label: string }[]>([]);
+  const [referenceCatalog, setReferenceCatalog] = useState<IngredientCatalogEntry[]>(
+    () => FALLBACK_REFERENCE_CATALOG,
+  );
+  const [catalogLoading, setCatalogLoading] = useState(false);
   const [examplesLoading, setExamplesLoading] = useState(false);
   const [examplesError, setExamplesError] = useState<string>();
   const [selectedExampleId, setSelectedExampleId] = useState('');
@@ -216,17 +241,27 @@ export function FormulaFormDrawer({
     if (!open) return;
     const controller = new AbortController();
     setExamplesLoading(true);
+    setCatalogLoading(true);
     setExamplesError(undefined);
-    Promise.all([fetchExamples(controller.signal), fetchCatalogIngredients(controller.signal)])
-      .then(([loaded, ingredients]) => {
+
+    fetchCatalogIngredients(controller.signal)
+      .then((ingredients) => {
+        if (controller.signal.aborted) return;
+        setReferenceCatalog(mapReferenceCatalogIngredients(ingredients));
+      })
+      .catch(() => {
+        if (controller.signal.aborted) return;
+        setReferenceCatalog(FALLBACK_REFERENCE_CATALOG);
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setCatalogLoading(false);
+      });
+
+    fetchExamples(controller.signal)
+      .then((loaded) => {
+        if (controller.signal.aborted) return;
         setExamples(loaded);
         setSelectedExampleId((current) => current || loaded[0]?.formula_id || '');
-        setCatalogOptions(
-          ingredients.map((item) => ({
-            value: item.ingredient_id,
-            label: `${item.ingredient_id} — ${item.name}`,
-          })),
-        );
       })
       .catch((cause: unknown) => {
         if (controller.signal.aborted) return;
@@ -240,14 +275,14 @@ export function FormulaFormDrawer({
 
   const validation = useMemo(() => validateFormulaInput(toInput(form, 'active')), [form]);
 
-  const materialOptions = useMemo(() => {
-    const demo = rawMaterials.map((material) => ({
-      value: material.id,
-      label: `${material.id} — ${material.name}`,
-    }));
-    const seen = new Set(demo.map((item) => item.value));
-    return [...demo, ...catalogOptions.filter((item) => !seen.has(item.value))];
-  }, [rawMaterials, catalogOptions]);
+  const materialOptions = useMemo(
+    () =>
+      rawMaterials.map((material) => ({
+        value: material.id,
+        label: `${material.id} — ${material.name}`,
+      })),
+    [rawMaterials],
+  );
 
   const linkableDocuments = useMemo(
     () =>
@@ -291,14 +326,19 @@ export function FormulaFormDrawer({
       physicalForm: physicalFormForExample(example.product_category),
       intendedUse: 'Illustrative reference composition for internal screening. Not a product recipe.',
       description: 'Illustrative composition for the assessment walkthrough. Not a Crayola recipe.',
-      ingredients: example.ingredients.map((ingredient) => ({
-        key: nextKey(),
-        name: ingredient.name,
-        rawMaterialId: ingredient.ingredient_id,
-        concentrationText: String(ingredient.concentration_pct),
-        supplier: '',
-        notes: '',
-      })),
+      ingredients: example.ingredients.map((ingredient) => {
+        const catalogEntry = findIngredientCatalogEntryById(referenceCatalog, ingredient.ingredient_id);
+        return {
+          key: nextKey(),
+          name: catalogEntry?.name ?? ingredient.name,
+          casNumber: catalogEntry?.casNumber ?? '',
+          catalogIngredientId: ingredient.ingredient_id,
+          rawMaterialId: '',
+          concentrationText: String(ingredient.concentration_pct),
+          supplier: '',
+          notes: '',
+        };
+      }),
     }));
     setFurthest((value) => Math.max(value, 2));
     toast.info('Reference formula loaded', 'An illustrative composition was filled in. Adjust anything you need to.');
@@ -620,16 +660,33 @@ export function FormulaFormDrawer({
                     </div>
 
                     <div className="grid gap-3 sm:grid-cols-12">
-                      <Field label="Ingredient name" className="sm:col-span-5">
-                        <TextInput
-                          value={row.name}
-                          onChange={(event) => updateRow(row.key, { name: event.target.value })}
-                          placeholder="e.g. Cellulose Thickener T-12"
+                      <Field label="Ingredient name" className="sm:col-span-4">
+                        <IngredientCatalogSelect
+                          catalog={referenceCatalog}
+                          catalogIngredientId={row.catalogIngredientId}
+                          fallbackName={row.name}
+                          catalogLoading={catalogLoading}
                           invalid={rowErrors.some((issue) => issue.field.endsWith('name'))}
+                          onSelect={(entry) =>
+                            updateRow(row.key, {
+                              name: entry.name,
+                              casNumber: entry.casNumber,
+                              catalogIngredientId: entry.id,
+                            })
+                          }
                         />
                       </Field>
 
-                      <Field label="Raw-material reference" className="sm:col-span-4">
+                      <Field label="CAS No." className="sm:col-span-3">
+                        <TextInput
+                          value={row.casNumber}
+                          readOnly
+                          className="tabular bg-neutral-soft/60"
+                          aria-readonly
+                        />
+                      </Field>
+
+                      <Field label="Raw-material reference" className="sm:col-span-3">
                         <Select
                           value={row.rawMaterialId}
                           placeholder="Not linked"
@@ -640,13 +697,12 @@ export function FormulaFormDrawer({
                             updateRow(row.key, {
                               rawMaterialId: materialId,
                               supplier: material?.supplier ?? row.supplier,
-                              name: row.name.trim() ? row.name : (material?.name ?? ''),
                             });
                           }}
                         />
                       </Field>
 
-                      <Field label="Concentration %" className="sm:col-span-3">
+                      <Field label="Concentration %" className="sm:col-span-2">
                         <TextInput
                           inputMode="decimal"
                           value={row.concentrationText}

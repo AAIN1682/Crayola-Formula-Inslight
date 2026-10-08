@@ -182,6 +182,9 @@ export interface Person {
 export interface Ingredient {
   id: string;
   name: string;
+  casNumber?: string;
+  /** Reference catalog id from `data/ingredients.json` (e.g. ING-001). */
+  catalogIngredientId?: string;
   /** Link into the raw-material catalog. Absent means the record is incomplete. */
   rawMaterialId?: string;
   /** Percentage of the total formula, 0–100. */

@@ -26,6 +26,8 @@ import type {
 export interface IngredientInput {
   id?: string;
   name: string;
+  casNumber?: string;
+  catalogIngredientId?: string;
   rawMaterialId?: string;
   /** May be `NaN` while a user is typing; validation reports it as an error. */
   concentration: number;

@@ -460,6 +460,7 @@ export function listIngredientCatalog(reference = loadReference()) {
   return reference.ingredients.map((item) => ({
     ingredient_id: item.ingredient_id,
     name: item.name,
+    cas_number: item.cas_number ?? '',
     functional_role: item.functional_role,
   }));
 }

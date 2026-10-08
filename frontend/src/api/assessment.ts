@@ -37,6 +37,7 @@ const API_TO_FORM: Record<string, Formula['physicalForm']> = {
 export interface CatalogIngredient {
   ingredient_id: string;
   name: string;
+  cas_number?: string;
   functional_role: string;
 }
 
@@ -60,7 +61,10 @@ async function readJson(response: Response) {
 }
 
 export function usesReferenceCatalog(formula: Formula) {
-  return formula.ingredients.length > 0 && formula.ingredients.every((item) => item.rawMaterialId?.startsWith('ING-'));
+  return (
+    formula.ingredients.length > 0 &&
+    formula.ingredients.every((item) => item.catalogIngredientId?.startsWith('ING-'))
+  );
 }
 
 export function formulaToAssessmentRequest(formula: Formula) {
@@ -71,7 +75,7 @@ export function formulaToAssessmentRequest(formula: Formula) {
     age_group: formula.ageGroup,
     composition_basis: 'percent_w_w',
     ingredients: formula.ingredients.map((ingredient) => ({
-      ingredient_id: ingredient.rawMaterialId,
+      ingredient_id: ingredient.catalogIngredientId ?? ingredient.rawMaterialId,
       concentration_pct: ingredient.concentration,
     })),
   };

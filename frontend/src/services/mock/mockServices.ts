@@ -154,6 +154,8 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
     const ingredients: Ingredient[] = input.ingredients.map((ingredient, index) => ({
       id: ingredient.id ?? `${id}-ING-${String(index + 1).padStart(2, '0')}`,
       name: ingredient.name.trim(),
+      casNumber: ingredient.casNumber?.trim() || undefined,
+      catalogIngredientId: ingredient.catalogIngredientId,
       rawMaterialId: ingredient.rawMaterialId,
       concentration: Number.isFinite(ingredient.concentration) ? ingredient.concentration : 0,
       supplier:
