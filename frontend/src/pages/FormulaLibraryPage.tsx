@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { Archive, Copy, Download, MoreHorizontal, Plus, SquareArrowOutUpRight } from 'lucide-react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Archive, Copy, MoreHorizontal, Plus, SquareArrowOutUpRight } from 'lucide-react';
 import type { Formula, ProductCategory, ReviewStatus, ScreeningStatus } from '../types/domain';
 import { PRODUCT_CATEGORIES } from '../types/domain';
 import type { FormulaFilters, FormulaRow, FormulaSortKey, SortDirection } from '../types/services';
 import { useAsyncData, useAsyncAction } from '../hooks/useAsyncData';
-import { useDemoSelector, useServices } from '../state/DemoDataProvider';
+import { useServices } from '../state/DemoDataProvider';
 import { PageHeader } from '../components/ui/PageHeader';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
@@ -22,22 +22,15 @@ import {
   Tr,
 } from '../components/ui/Table';
 import { Pagination } from '../components/ui/Pagination';
-import { Badge, ReviewBadge, ScreeningBadge } from '../components/ui/Badge';
+import { ScreeningBadge } from '../components/ui/Badge';
 import { EmptyState, ErrorState, LoadingState } from '../components/ui/States';
 import { ConfirmDialog } from '../components/ui/Modal';
 import { useToast } from '../components/ui/Toast';
 import { FormulaFormDrawer } from '../components/formulas/FormulaFormDrawer';
-import { REVIEW_STATUS_LABEL, SCREENING_STATUS_LABEL, formatDate } from '../utils/formatting';
-import { downloadCsv, timestampedFilename } from '../utils/export';
+import { SCREENING_STATUS_LABEL } from '../utils/formatting';
 
 const SCREENING_OPTIONS: ScreeningStatus[] = ['green', 'amber', 'red', 'not-screened'];
-const REVIEW_OPTIONS: ReviewStatus[] = [
-  'not-started',
-  'in-review',
-  'awaiting-evidence',
-  'complete',
-  'returned',
-];
+const PENDING_REVIEW: ReviewStatus[] = ['not-started', 'in-review', 'awaiting-evidence', 'returned'];
 
 function RowActions({
   row,
@@ -112,14 +105,11 @@ export function FormulaLibraryPage() {
   const services = useServices();
   const navigate = useNavigate();
   const toast = useToast();
-  const people = useDemoSelector((state) => state.people);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [query, setQuery] = useState('');
   const [categories, setCategories] = useState<string[]>([]);
   const [screeningStatuses, setScreeningStatuses] = useState<string[]>([]);
-  const [reviewStatuses, setReviewStatuses] = useState<string[]>([]);
-  const [owners, setOwners] = useState<string[]>([]);
   const [onlyMissingEvidence, setOnlyMissingEvidence] = useState(false);
   const [onlyPendingReview, setOnlyPendingReview] = useState(false);
   const [includeArchived, setIncludeArchived] = useState(false);
@@ -130,7 +120,7 @@ export function FormulaLibraryPage() {
   const [formOpen, setFormOpen] = useState(false);
   const [archiveTarget, setArchiveTarget] = useState<Formula | undefined>();
 
-  /* Deep links from the dashboard metric cards pre-apply a filter. */
+  /* Deep links from Overview metric cards pre-apply a filter. */
   useEffect(() => {
     const screening = searchParams.get('screening');
     const review = searchParams.get('review');
@@ -146,10 +136,7 @@ export function FormulaLibraryPage() {
       query,
       categories: categories as ProductCategory[],
       screeningStatuses: screeningStatuses as ScreeningStatus[],
-      reviewStatuses: (onlyPendingReview
-        ? REVIEW_OPTIONS.filter((status) => status !== 'complete')
-        : reviewStatuses) as ReviewStatus[],
-      ownerIds: owners,
+      reviewStatuses: onlyPendingReview ? PENDING_REVIEW : undefined,
       onlyMissingEvidence,
       lifecycle: includeArchived ? ['draft', 'active', 'archived'] : undefined,
       sortKey,
@@ -161,8 +148,6 @@ export function FormulaLibraryPage() {
       query,
       categories,
       screeningStatuses,
-      reviewStatuses,
-      owners,
       onlyMissingEvidence,
       onlyPendingReview,
       includeArchived,
@@ -173,8 +158,6 @@ export function FormulaLibraryPage() {
   );
 
   const { data, loading, error, reload } = useAsyncData(() => services.listFormulas(filters), [filters]);
-
-  const exportQuery = useMemo<FormulaFilters>(() => ({ ...filters, page: 1, pageSize: 1000 }), [filters]);
 
   const handleSort = useCallback(
     (key: FormulaSortKey) => {
@@ -201,38 +184,14 @@ export function FormulaLibraryPage() {
     toast.success('Formula archived', `${formula.name} is hidden from the default library view.`);
   });
 
-  const exportCsv = useAsyncAction(async () => {
-    const all = await services.listFormulas(exportQuery);
-    downloadCsv(timestampedFilename('formula-library', 'csv'), all.items, [
-      { header: 'Formula ID', value: (row) => row.formula.id },
-      { header: 'Name', value: (row) => row.formula.name },
-      { header: 'Version', value: (row) => row.formula.version },
-      { header: 'Category', value: (row) => row.formula.category },
-      { header: 'Ingredients', value: (row) => row.ingredientCount },
-      { header: 'Screening status', value: (row) => SCREENING_STATUS_LABEL[row.formula.screeningStatus] },
-      { header: 'Screening current', value: (row) => (row.formula.screeningCurrent ? 'Yes' : 'No') },
-      { header: 'Review status', value: (row) => REVIEW_STATUS_LABEL[row.formula.reviewStatus] },
-      { header: 'Missing evidence items', value: (row) => row.missingEvidenceCount },
-      { header: 'Owner', value: (row) => row.ownerName },
-      { header: 'Reviewer', value: (row) => row.reviewerName },
-      { header: 'Updated', value: (row) => formatDate(row.formula.updatedAt) },
-    ]);
-    toast.success('CSV downloaded', `${all.items.length} filtered records exported.`);
-  });
-
   const activeFilters = [
-    ...categories.map((value) => ({ label: `Category: ${value}`, clear: () => setCategories((v) => v.filter((x) => x !== value)) })),
+    ...categories.map((value) => ({
+      label: `Category: ${value}`,
+      clear: () => setCategories((v) => v.filter((x) => x !== value)),
+    })),
     ...screeningStatuses.map((value) => ({
       label: `Screening: ${SCREENING_STATUS_LABEL[value as ScreeningStatus]}`,
       clear: () => setScreeningStatuses((v) => v.filter((x) => x !== value)),
-    })),
-    ...reviewStatuses.map((value) => ({
-      label: `Review: ${REVIEW_STATUS_LABEL[value as ReviewStatus]}`,
-      clear: () => setReviewStatuses((v) => v.filter((x) => x !== value)),
-    })),
-    ...owners.map((value) => ({
-      label: `Owner: ${people.find((person) => person.id === value)?.name ?? value}`,
-      clear: () => setOwners((v) => v.filter((x) => x !== value)),
     })),
     ...(onlyMissingEvidence
       ? [{ label: 'Missing evidence only', clear: () => setOnlyMissingEvidence(false) }]
@@ -245,8 +204,6 @@ export function FormulaLibraryPage() {
     setQuery('');
     setCategories([]);
     setScreeningStatuses([]);
-    setReviewStatuses([]);
-    setOwners([]);
     setOnlyMissingEvidence(false);
     setOnlyPendingReview(false);
     setIncludeArchived(false);
@@ -257,20 +214,11 @@ export function FormulaLibraryPage() {
     <div className="space-y-6">
       <PageHeader
         title="Formula Library"
-        description="Formulas with assessment status, review status, and evidence completeness."
+        description="Formulas with assessment status."
         actions={
-          <>
-            <Button
-              onClick={() => void exportCsv.run()}
-              loading={exportCsv.pending}
-              icon={<Download aria-hidden className="size-4" />}
-            >
-              Export CSV
-            </Button>
-            <Button variant="primary" onClick={() => setFormOpen(true)} icon={<Plus aria-hidden className="size-4" />}>
-              New Formula
-            </Button>
-          </>
+          <Button variant="primary" onClick={() => setFormOpen(true)} icon={<Plus aria-hidden className="size-4" />}>
+            New Formula
+          </Button>
         }
       />
 
@@ -305,27 +253,6 @@ export function FormulaLibraryPage() {
               setPage(1);
             }}
             width="w-44"
-          />
-          <MultiSelectFilter
-            label="Review"
-            options={REVIEW_OPTIONS.map((status) => ({ value: status, label: REVIEW_STATUS_LABEL[status] }))}
-            selected={reviewStatuses}
-            onChange={(values) => {
-              setReviewStatuses(values);
-              setOnlyPendingReview(false);
-              setPage(1);
-            }}
-            width="w-48"
-          />
-          <MultiSelectFilter
-            label="Owner"
-            options={people.map((person) => ({ value: person.id, label: person.name }))}
-            selected={owners}
-            onChange={(values) => {
-              setOwners(values);
-              setPage(1);
-            }}
-            width="w-48"
           />
           <Button
             size="sm"
@@ -385,17 +312,6 @@ export function FormulaLibraryPage() {
                     <SortableTh columnKey="version" activeKey={sortKey} direction={sortDirection} onSort={handleSort}>
                       Version
                     </SortableTh>
-                    <SortableTh columnKey="category" activeKey={sortKey} direction={sortDirection} onSort={handleSort}>
-                      Category
-                    </SortableTh>
-                    <SortableTh
-                      columnKey="ingredientCount"
-                      activeKey={sortKey}
-                      direction={sortDirection}
-                      onSort={handleSort}
-                    >
-                      Ingredients
-                    </SortableTh>
                     <SortableTh
                       columnKey="screeningStatus"
                       activeKey={sortKey}
@@ -403,25 +319,6 @@ export function FormulaLibraryPage() {
                       onSort={handleSort}
                     >
                       Screening
-                    </SortableTh>
-                    <SortableTh
-                      columnKey="reviewStatus"
-                      activeKey={sortKey}
-                      direction={sortDirection}
-                      onSort={handleSort}
-                    >
-                      Review
-                    </SortableTh>
-                    <SortableTh columnKey="owner" activeKey={sortKey} direction={sortDirection} onSort={handleSort}>
-                      Owner
-                    </SortableTh>
-                    <SortableTh
-                      columnKey="updatedAt"
-                      activeKey={sortKey}
-                      direction={sortDirection}
-                      onSort={handleSort}
-                    >
-                      Updated
                     </SortableTh>
                     <Th className="text-right">Actions</Th>
                   </tr>
@@ -433,29 +330,11 @@ export function FormulaLibraryPage() {
                         <PrimaryCell title={row.formula.name} subtitle={row.formula.id} />
                       </Td>
                       <Td className="whitespace-nowrap tabular">{row.formula.version}</Td>
-                      <Td className="whitespace-nowrap text-muted">{row.formula.category}</Td>
-                      <Td className="tabular">
-                        <span className="inline-flex items-center gap-2">
-                          {row.ingredientCount}
-                          {row.missingEvidenceCount > 0 ? (
-                            <Badge tone="warning" title="Required supporting documents are missing or outdated">
-                              {row.missingEvidenceCount} gap{row.missingEvidenceCount === 1 ? '' : 's'}
-                            </Badge>
-                          ) : null}
-                        </span>
-                      </Td>
                       <Td>
                         <ScreeningBadge
                           status={row.formula.screeningStatus}
                           current={row.formula.screeningCurrent}
                         />
-                      </Td>
-                      <Td>
-                        <ReviewBadge status={row.formula.reviewStatus} />
-                      </Td>
-                      <Td className="whitespace-nowrap text-muted">{row.ownerName}</Td>
-                      <Td className="whitespace-nowrap text-muted tabular">
-                        {formatDate(row.formula.updatedAt)}
                       </Td>
                       <Td>
                         <RowActions
@@ -483,15 +362,6 @@ export function FormulaLibraryPage() {
         )}
       </Card>
 
-      <p className="text-xs text-muted">
-        Screening status is an internal demo result. Review status is an internal decision recorded by your
-        team. Neither reflects an external certification outcome — those are recorded under{' '}
-        <Link to="/submissions" className="fi-link">
-          Submission History
-        </Link>
-        .
-      </p>
-
       <FormulaFormDrawer
         open={formOpen}
         mode="create"
@@ -505,7 +375,7 @@ export function FormulaLibraryPage() {
         body={
           <>
             <strong>{archiveTarget?.name}</strong> will be hidden from the default library view. You can bring
-            it back with the “Show archived” control. Its screening runs and activity history are kept.
+            it back with the “Show archived” control. Its screening runs are kept.
           </>
         }
         confirmLabel="Archive formula"

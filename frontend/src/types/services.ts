@@ -208,7 +208,7 @@ export interface FormulaDetail {
 }
 
 export interface DashboardMetric {
-  key: 'total' | 'awaiting-review' | 'missing-evidence' | 'open-alerts';
+  key: 'total' | 'awaiting-review' | 'missing-evidence';
   label: string;
   value: number;
   caption: string;

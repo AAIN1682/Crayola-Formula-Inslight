@@ -61,10 +61,6 @@ function delay(ms: number): Promise<void> {
   });
 }
 
-function monthKey(date: Date): string {
-  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-}
-
 function lastMonths(count: number): Date[] {
   const months: Date[] = [];
   const cursor = new Date();
@@ -76,10 +72,6 @@ function lastMonths(count: number): Date[] {
     months.push(month);
   }
   return months;
-}
-
-function quarterLabel(date: Date): string {
-  return `Q${Math.floor(date.getMonth() / 3) + 1} ${date.getFullYear()}`;
 }
 
 export function createMockServices(store: DemoStore): FormulaInsightServices {
@@ -961,14 +953,9 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
         (row) => row.formula.screeningStatus !== 'not-screened' && row.formula.reviewStatus !== 'complete',
       );
       const missingEvidence = rows.filter((row) => row.missingEvidenceCount > 0);
-      const openAlerts = current.alerts.filter((alert) => alert.status === 'open');
       const outdated = rows.filter(
         (row) => row.formula.screeningStatus !== 'not-screened' && !row.formula.screeningCurrent,
       );
-      const dueForReview = active.filter((formula) => {
-        const days = daysUntil(formula.nextReviewDate);
-        return days !== undefined && days <= 30;
-      });
 
       const months = lastMonths(6);
       const totalTrend = months.map(
@@ -980,10 +967,6 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
             return created.getTime() < end.getTime();
           }).length,
       );
-      const alertTrend = months.map((month) => {
-        const key = monthKey(month);
-        return current.alerts.filter((alert) => monthKey(new Date(alert.createdAt)) === key).length;
-      });
 
       const metrics: DashboardMetric[] = [
         {
@@ -1008,14 +991,6 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
           caption: 'At least one required document absent',
           to: '/formulas?evidence=missing',
         },
-        {
-          key: 'open-alerts',
-          label: 'Open monitoring alerts',
-          value: openAlerts.length,
-          caption: `${new Set(openAlerts.flatMap((alert) => alert.affectedFormulaIds)).size} formulas affected`,
-          to: '/monitoring?status=open',
-          trend: alertTrend,
-        },
       ];
 
       const statuses: ScreeningStatus[] = ['green', 'amber', 'red', 'not-screened'];
@@ -1023,30 +998,6 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
         const count = active.filter((formula) => formula.screeningStatus === status).length;
         return { status, count, share: active.length === 0 ? 0 : count / active.length };
       });
-
-      /* Historical outcome trend, grouped by calendar quarter. */
-      const byQuarter = new Map<string, OutcomeTrendPoint>();
-      const sortedSubmissions = [...current.submissions].sort(
-        (a, b) => new Date(a.submittedAt).getTime() - new Date(b.submittedAt).getTime(),
-      );
-      for (const submission of sortedSubmissions) {
-        const date = new Date(submission.submittedAt);
-        const start = new Date(date.getFullYear(), Math.floor(date.getMonth() / 3) * 3, 1);
-        const label = quarterLabel(date);
-        const point =
-          byQuarter.get(label) ??
-          ({
-            period: label,
-            periodStart: start.toISOString(),
-            AP: 0,
-            CL: 0,
-            'More Data Needed': 0,
-            total: 0,
-          } satisfies OutcomeTrendPoint);
-        point[submission.outcome] += 1;
-        point.total += 1;
-        byQuarter.set(label, point);
-      }
 
       const priorityQueue: PriorityQueueRow[] = rows
         .map((row) => {
@@ -1057,8 +1008,6 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
           if (row.missingEvidenceCount > 0) priority += 45;
           if (formula.screeningStatus === 'amber' && formula.reviewStatus !== 'complete') priority += 40;
           if (formula.screeningStatus === 'not-screened') priority += 30;
-          const days = daysUntil(formula.nextReviewDate);
-          if (days !== undefined && days <= 30) priority += 35;
           if (formula.reviewStatus === 'returned') priority += 25;
           return {
             formulaId: formula.id,
@@ -1083,11 +1032,11 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
       return {
         metrics,
         statusDistribution,
-        outcomeTrend: Array.from(byQuarter.values()),
+        outcomeTrend: [],
         priorityQueue,
-        recentActivity: current.activities.slice(0, 8),
+        recentActivity: [],
         outdatedCount: outdated.length,
-        dueForReviewCount: dueForReview.length,
+        dueForReviewCount: 0,
       };
     },
 

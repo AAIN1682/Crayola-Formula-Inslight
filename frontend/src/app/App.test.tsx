@@ -113,9 +113,12 @@ describe('routes', () => {
     expect(text()).toContain('Total formulas');
     expect(text()).toContain('Awaiting review');
     expect(text()).toContain('Missing evidence');
-    expect(text()).toContain('Open monitoring alerts');
     expect(text()).toContain('Priority review queue');
-    expect(text()).toContain('Recent activity');
+    expect(text()).toContain('changed since the last screening');
+    expect(text()).not.toContain('Open monitoring alerts');
+    expect(text()).not.toContain('Recent activity');
+    expect(text()).not.toContain('Submission outcome trend');
+    expect(text()).not.toContain('due for reassessment');
 
     // The screening-status split must add up to the seeded 18 active formulas.
     expect(text()).toContain('Total formulas18');

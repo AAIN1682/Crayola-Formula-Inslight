@@ -346,7 +346,12 @@ describe('dashboard summary', () => {
 
     expect(totalAfter).toBe(totalBefore + 1);
     expect(after.statusDistribution.reduce((sum, entry) => sum + entry.count, 0)).toBe(totalAfter);
-    expect(after.outcomeTrend.length).toBeGreaterThan(0);
+    expect(after.metrics.some((metric) => metric.key === 'open-alerts' as never)).toBe(false);
+    expect(after.metrics.map((metric) => metric.key)).toEqual([
+      'total',
+      'awaiting-review',
+      'missing-evidence',
+    ]);
   });
 });
 
