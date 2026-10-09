@@ -15,33 +15,71 @@ logger = logging.getLogger("affine.engine")
 TOLERANCE = 0.01
 REGIONS = ("US", "EU", "UK", "CA")
 AGES = ("under_12", "12_and_above")
+REGION_ALIASES = {"usa": "US", "united_states": "US", "europe": "EU", "united_kingdom": "UK", "gb": "UK", "canada": "CA"}
+AGE_ALIASES = {"under12": "under_12", "12+": "12_and_above", "12_and_over": "12_and_above"}
+EXPECTED_CONCENTRATION_UNIT = "percent_w_w"
+EXPECTED_BASIS = "as_supplied_material_in_finished_formula"
 MAX_EXCERPTS = 12
 MAX_EXCERPT_CHARS = 700
 MAX_REFERENCE_CLAIMS = 16
+ASSESSMENT_MODES = ("evidence", "scenario")
 
 
-def _load(name: str):
-    return json.loads((DATA / name).read_text(encoding="utf-8"))
+def _read_json(directory: Path, name: str, default):
+    path = directory / name
+    if not path.is_file():
+        if default is None:
+            raise FileNotFoundError(path)
+        return default
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _read_store(directory: Path, dataset_kind: str) -> dict:
+    materials = _read_json(directory, "materials.json", None)
+    rules = _read_json(directory, "rules.json", None)
+    aliases = {}
+    for item in materials:
+        aliases[item["material_id"]] = item["material_id"]
+        for alias in item.get("aliases") or []:
+            if alias:
+                aliases[str(alias)] = item["material_id"]
+    manifest = _read_json(directory, "manifest.json", {})
+    return {
+        "version": manifest.get("dataset_version", "1.0.0"),
+        "dataset_kind": dataset_kind,
+        "materials": materials,
+        "materials_by_id": {item["material_id"]: item for item in materials},
+        "material_aliases": aliases,
+        "rules": rules,
+        "documents": _read_json(directory, "documents.json", None),
+        "facts": _read_json(directory, "extracted_facts.json", []),
+        "requirements": _read_json(directory, "evidence_requirements.json", None),
+        "issues": _read_json(directory, "source_issues.json", []),
+        "history": _read_json(directory, "historical_cases.json", []),
+        "examples": _read_json(directory, "example_formulas.json", []),
+        "chunks": _read_json(directory, "source_chunks.json", []),
+        "regulatory_rows": _read_json(directory, "regulatory_reference_rows.json", []),
+        "data_dir": str(directory),
+    }
 
 
 def load_store() -> dict:
-    materials = _load("materials.json")
-    rules = [rule for rule in _load("rules.json") if rule.get("enabled")]
-    return {
-        "version": _load("manifest.json").get("dataset_version", "1.0.0"),
-        "materials": materials,
-        "materials_by_id": {item["material_id"]: item for item in materials},
-        "rules": rules,
-        "documents": _load("documents.json"),
-        "facts": _load("extracted_facts.json"),
-        "requirements": _load("evidence_requirements.json"),
-        "issues": _load("source_issues.json"),
-        "history": _load("historical_cases.json"),
-        "examples": _load("example_formulas.json"),
-        "chunks": _load("source_chunks.json"),
-        "regulatory_rows": _load("regulatory_reference_rows.json"),
-        "data_dir": str(DATA),
-    }
+    return _read_store(DATA, "evidence")
+
+
+def load_scenario_store() -> dict:
+    return _read_store(DATA / "scenario", "scenario")
+
+
+def store_for_mode(formula: dict, store: dict | None = None) -> dict:
+    mode = _assessment_mode(formula)
+    if mode == "scenario":
+        if store and store.get("dataset_kind") == "scenario":
+            return store
+        return load_scenario_store()
+    if store and store.get("dataset_kind") != "scenario":
+        return store
+    return load_store()
 
 
 def data_hash(store: dict | None = None) -> str:
@@ -85,6 +123,7 @@ def input_hash(formula: dict) -> str:
             }
             for row in formula.get("ingredients") or []
         ],
+        "assessment_mode": formula.get("assessment_mode") or "evidence",
     }
     payload = json.dumps(snapshot, sort_keys=True, separators=(",", ":"), default=str)
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
@@ -113,9 +152,15 @@ def _within(actual: float, rule: dict) -> bool:
 def _is_dummy(rule: dict) -> bool:
     provenance = str(rule.get("provenance") or "").lower()
     return (
-        provenance in {"dummy_editable", "dummy", "illustrative", "example"}
+        provenance in {"dummy_editable", "dummy", "illustrative", "example", "synthetic_scenario"}
         or rule.get("is_regulatory_limit") is not True
+        or rule.get("is_regulatory_requirement") is False
     )
+
+
+def _is_scenario_rule(rule: dict) -> bool:
+    provenance = str(rule.get("provenance") or "").lower()
+    return provenance in {"synthetic_scenario", "dummy_editable", "dummy", "illustrative", "example"} or _is_dummy(rule)
 
 
 def _is_verified_rule(rule: dict) -> bool:
@@ -127,8 +172,64 @@ def _is_verified_rule(rule: dict) -> bool:
     )
 
 
+def _assessment_mode(formula: dict) -> str:
+    mode = str(formula.get("assessment_mode") or "evidence").strip().lower()
+    return mode if mode in ASSESSMENT_MODES else "evidence"
+
+
+def _normalize_region(value: str) -> str:
+    text = str(value or "").strip()
+    return REGION_ALIASES.get(text.lower(), text)
+
+
+def _normalize_age(value: str) -> str:
+    text = str(value or "").strip()
+    return AGE_ALIASES.get(text.lower(), text)
+
+
+def _canonical_material_id(material_id: str | None, store: dict) -> str | None:
+    if not material_id:
+        return None
+    return store.get("material_aliases", {}).get(material_id) or (material_id if material_id in store["materials_by_id"] else None)
+
+
+def _units_compatible(rule: dict) -> bool:
+    unit = str(rule.get("unit") or EXPECTED_CONCENTRATION_UNIT)
+    basis = str(rule.get("measurement_basis") or rule.get("basis") or EXPECTED_BASIS)
+    property_name = str(rule.get("property") or "concentration_percent")
+    if property_name != "concentration_percent":
+        return False
+    if unit not in {EXPECTED_CONCENTRATION_UNIT, "%", "percent"}:
+        return False
+    if basis not in {EXPECTED_BASIS, "finished_formula_concentration"}:
+        return False
+    return True
+
+
+def _context_matches(rule: dict, category: str, age: str, region: str) -> bool:
+    return (
+        category in (rule.get("product_categories") or [])
+        and age in (rule.get("age_groups") or [])
+        and region in (rule.get("regions") or [])
+    )
+
+
+def _reason_payload(code: str, message: str, action: str, **extra) -> dict:
+    return {"reason_code": code, "message": message, "action": action, **extra}
+
+
 def validate_formula(formula: dict, store: dict) -> list[dict]:
     errors: list[dict] = []
+    formula["assessment_mode"] = _assessment_mode(formula)
+    formula["age_group"] = _normalize_age(str(formula.get("age_group") or ""))
+    if isinstance(formula.get("regions"), list):
+        formula["regions"] = [_normalize_region(str(item)) for item in formula["regions"]]
+    ingredients = formula.get("ingredients")
+    if isinstance(ingredients, list):
+        for row in ingredients:
+            canonical = _canonical_material_id(row.get("material_id"), store)
+            if canonical:
+                row["material_id"] = canonical
     if not str(formula.get("formula_id") or "").strip():
         errors.append({"loc": ["formula_id"], "msg": "A formula id is required.", "type": "missing"})
     if not str(formula.get("version_id") or "").strip():
@@ -199,11 +300,23 @@ def _rules_for(store: dict, material_id: str, category: str, age: str, region: s
     return [
         rule
         for rule in store["rules"]
-        if rule["material_id"] == material_id
-        and category in rule.get("product_categories", [])
-        and age in rule.get("age_groups", [])
-        and region in rule.get("regions", [])
+        if rule["material_id"] == material_id and _context_matches(rule, category, age, region)
     ]
+
+
+def _material_rules(store: dict, material_id: str) -> list[dict]:
+    return [rule for rule in store["rules"] if rule["material_id"] == material_id]
+
+
+def _match_fields(requirement: dict) -> list[str]:
+    return list(requirement.get("required_match_fields") or requirement.get("match_fields") or [])
+
+
+def _identity_value(store: dict, ingredient: dict | None, field: str):
+    material = store["materials_by_id"].get((ingredient or {}).get("material_id") or "") or {}
+    if ingredient and ingredient.get(field):
+        return ingredient.get(field)
+    return material.get(field)
 
 
 def _match_documents(store: dict, requirement: dict, formula: dict, ingredient: dict | None, region: str) -> list[dict]:
@@ -214,10 +327,12 @@ def _match_documents(store: dict, requirement: dict, formula: dict, ingredient: 
         if document.get("scope") != requirement["scope"]:
             continue
         ok = True
-        for field in requirement.get("match_fields", []):
+        for field in _match_fields(requirement):
             if field == "material_id" and document.get("material_id") != (ingredient or {}).get("material_id"):
                 ok = False
             elif field == "batch_id" and document.get("batch_id") != (ingredient or {}).get("batch_id"):
+                ok = False
+            elif field in {"supplier_id", "grade_id"} and document.get(field) != _identity_value(store, ingredient, field):
                 ok = False
             elif field == "formula_id" and document.get("formula_id") != formula.get("formula_id"):
                 ok = False
@@ -230,17 +345,70 @@ def _match_documents(store: dict, requirement: dict, formula: dict, ingredient: 
     return matched
 
 
-def _evidence_message(status: str, near: list[dict], ingredient: dict | None) -> str:
+def _requirement_applicable(requirement: dict, formula: dict, ingredient: dict | None, region: str, store: dict) -> tuple[str | None, str]:
+    categories = requirement.get("applicable_categories") or []
+    regions = requirement.get("applicable_regions") or []
+    if categories and formula.get("product_category") not in categories:
+        return "not_applicable", "This requirement is not configured for the selected product category."
+    if regions and region not in regions:
+        return "not_applicable", "This requirement is not configured for the selected region."
+    if requirement.get("review_status") == "applicability_unknown":
+        return "applicability_unknown", "Applicability review needed."
+    if ingredient and requirement.get("scope") == "raw_material":
+        allowed_ids = requirement.get("material_ids") or []
+        roles = requirement.get("material_roles") or []
+        material = store["materials_by_id"].get(ingredient["material_id"]) or {}
+        if allowed_ids and ingredient["material_id"] not in allowed_ids:
+            return "not_applicable", "This requirement is not configured for this material identity."
+        if roles and material.get("kind") not in roles:
+            return "not_applicable", "This requirement is not configured for this material role."
+    return None, ""
+
+
+def _evidence_message(status: str, near: list[dict], ingredient: dict | None, requirement: dict | None = None, scenario: bool = False) -> str:
+    scope = (requirement or {}).get("scope")
+    document_type = (requirement or {}).get("document_type")
+    if status == "applicability_unknown":
+        return "Applicability review needed."
+    if status == "not_applicable":
+        return "This requirement is not applicable to the current formula context."
+    if status == "satisfied" and scenario:
+        return "Matching scenario evidence is complete for this scope. It is illustrative configuration, not verified real-world evidence."
+    if status == "satisfied":
+        return "Verified evidence matches this identity and scope."
+    if near and status == "mismatched":
+        names = ", ".join(item["document_id"] for item in near)
+        entered = (ingredient or {}).get("batch_id") or "the entered batch"
+        on_file = next((item.get("batch_id") for item in near if item.get("batch_id")), None)
+        representative = any(item.get("representative_sample") for item in near)
+        if representative:
+            return f"{names} is a representative sample and does not cover batch {entered}."
+        if document_type == "coa" or on_file:
+            available = f" for batch {on_file}" if on_file else ""
+            return (
+                f"{names}{available} does not match batch {entered}. "
+                "Obtain the correct batch CoA or correct the entered batch."
+            )
+        if representative:
+            return f"{names} is a representative sample and does not cover batch {entered}."
+        return f"{names} does not match this formula version or region."
     if near and status == "missing":
         names = ", ".join(item["document_id"] for item in near)
         batch = (ingredient or {}).get("batch_id") or "the entered batch"
-        representative = any(item.get("representative_sample") for item in near)
-        if representative:
-            return f"{names} is a representative sample and does not cover batch {batch}."
         return f"{names} does not cover batch {batch}."
     if status == "needs_review":
-        return "A matching document is on file but is not verified evidence for this material, batch, formula version, and region."
-    return "Relevant evidence must be verified for this material/batch or formula version and region."
+        if scope == "raw_material":
+            return "A matching document is on file for this material and batch but is not verified evidence. Present—awaiting review."
+        return "A matching finished-product document is on file for this formula version and market but is not verified evidence. Present—awaiting review."
+    if status == "missing" and document_type == "lab_report":
+        return "The finished-formula test summary for this version and region is missing."
+    if scenario and scope == "raw_material":
+        return "Scenario evidence matching this material and batch is missing."
+    if scenario:
+        return "Scenario evidence matching this formula version and region is missing."
+    if scope == "raw_material":
+        return "Verified material evidence matching this identity and batch is required."
+    return "Verified finished-product evidence matching this formula version and market is required."
 
 
 def _composition_total(formula: dict) -> float:
@@ -290,13 +458,38 @@ def _relevant_document_ids(store: dict, formula: dict, materials: list[dict], re
         for document_id in check.get("document_ids") or []:
             add(document_id)
     material_ids = {item["material_id"] for item in materials}
+    cited = set(document_ids)
+    entered_batches = {
+        row.get("material_id"): row.get("batch_id")
+        for row in formula.get("ingredients") or []
+    }
     for document in store["documents"]:
+        document_id = document.get("document_id")
+        if document.get("formula_id") and document.get("formula_id") != formula.get("formula_id"):
+            continue
+        if document.get("version_id") and document.get("version_id") != formula.get("version_id") and document_id not in cited:
+            continue
+        document_regions = document.get("regions") or []
+        if document_regions and not set(document_regions).intersection(regions) and document_id not in cited:
+            continue
         if document.get("material_id") in material_ids:
-            add(document["document_id"])
-        if document.get("document_type") == "regulatory_summary" and set(document.get("regions") or []).intersection(regions):
-            add(document["document_id"])
+            material = store["materials_by_id"].get(document.get("material_id")) or {}
+            batch = document.get("batch_id")
+            entered = entered_batches.get(document.get("material_id"))
+            if batch and entered and batch != entered and document_id not in cited:
+                continue
+            if (
+                document.get("supplier_id")
+                and material.get("supplier_id")
+                and document.get("supplier_id") != material.get("supplier_id")
+                and document_id not in cited
+            ):
+                continue
+            add(document_id)
+        if document.get("document_type") == "regulatory_summary" and set(document_regions).intersection(regions):
+            add(document_id)
         if document.get("formula_id") == formula.get("formula_id") and document.get("version_id") in {None, formula.get("version_id")}:
-            add(document["document_id"])
+            add(document_id)
     return document_ids
 
 
@@ -381,6 +574,13 @@ def _select_excerpts(store: dict, formula: dict, materials: list[dict], document
                 "eligible_as_verified_evidence": bool(document.get("eligible_as_verified_evidence")),
                 "representative_sample": bool(document.get("representative_sample")),
             },
+            "applicability_explanation": (
+                f"{document.get('document_type')} scoped to {document.get('scope')}"
+                + (f" for {document.get('material_id')}" if document.get("material_id") else "")
+                + (f", batch {document.get('batch_id')}" if document.get("batch_id") else "")
+                + ("; representative sample only" if document.get("representative_sample") else "")
+                + ("; unverified reference, not enabled for decisions" if document.get("document_type") == "regulatory_summary" else "")
+            ),
             "relevance_score": score,
         })
     return excerpts
@@ -423,8 +623,192 @@ def _reference_claims(store: dict, formula: dict, materials: list[dict], regions
     return claims[:MAX_REFERENCE_CLAIMS]
 
 
+def _check_base(region: str, row: dict, actual: float, rule: dict | None = None) -> dict:
+    return {
+        "check_id": f"{region}:{row['material_id']}:{(rule or {}).get('rule_id') or 'NO-RULE'}",
+        "material_id": row["material_id"],
+        "region": region,
+        "rule_id": (rule or {}).get("rule_id"),
+        "actual": actual,
+        "threshold": None if not rule else rule.get("threshold"),
+        "unit": None if not rule else rule.get("unit"),
+        "basis": None if not rule else (rule.get("measurement_basis") or rule.get("basis")),
+        "rule_provenance": None if not rule else rule.get("provenance"),
+        "verified_limit_available": False,
+        "illustrative_comparison": None,
+        "priority": "medium",
+    }
+
+
+def _illustrative(rule: dict, actual: float) -> dict:
+    return {
+        "rule_id": rule["rule_id"],
+        "threshold": rule["threshold"],
+        "unit": rule.get("unit"),
+        "basis": rule.get("measurement_basis") or rule.get("basis"),
+        "provenance": rule.get("provenance"),
+        "within_example": _within(actual, rule),
+        "note": "Illustrative software-testing threshold. Not used as a regulatory verdict.",
+    }
+
+
+def _evaluate_material_region(store: dict, formula: dict, row: dict, region: str) -> list[dict]:
+    mode = _assessment_mode(formula)
+    actual = float(row["concentration_percent"])
+    category = formula["product_category"]
+    age = formula["age_group"]
+    material_rules = _material_rules(store, row["material_id"])
+    context_rules = [rule for rule in material_rules if _context_matches(rule, category, age, region)]
+    dummy_context = [rule for rule in context_rules if _is_dummy(rule)]
+    checks = []
+
+    if mode == "scenario":
+        executable = [rule for rule in context_rules if rule.get("enabled") is not False and _is_scenario_rule(rule) and _units_compatible(rule)]
+        if executable:
+            material_name = store["materials_by_id"].get(row["material_id"], {}).get("name") or row["material_id"]
+            for rule in executable:
+                passed = _within(actual, rule)
+                priority = "high" if not passed else "medium"
+                if not passed and str(rule.get("criticality") or "").lower() == "critical":
+                    priority = "critical"
+                check = _check_base(region, row, actual, rule)
+                check.update({
+                    "check_id": f"{region}:{row['material_id']}:{rule['rule_id']}",
+                    "status": "pass" if passed else "fail",
+                    "verified_limit_available": False,
+                    "priority": priority,
+                    "check_kind": "concentration",
+                    **_reason_payload(
+                        "scenario_threshold",
+                        (
+                            f"{material_name} at {_fmt(actual)}% w/w is within the configured scenario maximum of {_fmt(rule['threshold'])}% w/w."
+                            if passed
+                            else (
+                                f"{material_name} at {_fmt(actual)}% w/w exceeds the configured scenario maximum of {_fmt(rule['threshold'])}% w/w. "
+                                "Configured scenario limit exceeded."
+                            )
+                        ),
+                        (
+                            "No concentration change is required for this configured scenario check."
+                            if passed
+                            else "Rebalance the formula at or below the configured maximum and assess the new total again. This is not a toxicity or legal finding."
+                        ),
+                    ),
+                })
+                checks.append(check)
+            return checks
+        disabled = [rule for rule in context_rules if rule.get("enabled") is False]
+        incompatible = [rule for rule in context_rules if not _units_compatible(rule)]
+        if disabled:
+            rule = disabled[0]
+            check = _check_base(region, row, actual, rule)
+            check.update({
+                "status": "not_assessed",
+                **_reason_payload("rule_disabled", "A configured example rule exists but is disabled.", "Enable the example rule only if you intend to run a scenario check."),
+            })
+            return [check]
+        if incompatible:
+            rule = incompatible[0]
+            check = _check_base(region, row, actual, rule)
+            check.update({
+                "status": "not_assessed",
+                **_reason_payload("incompatible_units_or_basis", "A configured rule exists but uses incompatible units or measurement basis.", "Supply a concentration percent rule with a finished-formula basis before evaluating."),
+            })
+            return [check]
+        if material_rules and not context_rules:
+            check = _check_base(region, row, actual)
+            check.update({
+                "check_id": f"{region}:{row['material_id']}:APPLICABILITY-UNKNOWN",
+                "status": "not_assessed",
+                **_reason_payload("applicability_unknown", "Applicability review needed.", "Review whether any configured example rule applies to this category, age group, and region."),
+            })
+            return [check]
+        check = _check_base(region, row, actual)
+        check.update({
+            "check_id": f"{region}:{row['material_id']}:NO-RULE",
+            "status": "not_assessed",
+            **_reason_payload("no_rule_configured", "No rule is configured for this material and context.", "Add a reviewed rule or keep the gap visible."),
+        })
+        return [check]
+
+    verified = [rule for rule in context_rules if _is_verified_rule(rule) and _units_compatible(rule)]
+    if verified:
+        for rule in verified:
+            passed = _within(actual, rule)
+            check = _check_base(region, row, actual, rule)
+            check.update({
+                "check_id": f"{region}:{row['material_id']}:{rule['rule_id']}",
+                "status": "pass" if passed else "fail",
+                "verified_limit_available": True,
+                "priority": "critical" if not passed else "medium",
+                **_reason_payload(
+                    "verified_threshold",
+                    (
+                        f"{_fmt(actual)}% is within the verified {_fmt(rule['threshold'])}% {rule.get('unit') or ''} limit ({rule.get('basis')})."
+                        if passed
+                        else f"{_fmt(actual)}% is outside the verified {_fmt(rule['threshold'])}% {rule.get('unit') or ''} limit ({rule.get('basis')})."
+                    ),
+                    "Record the comparison against the verified applicable limit.",
+                ),
+            })
+            checks.append(check)
+        return checks
+
+    disabled = [rule for rule in context_rules if rule.get("enabled") is False]
+    incompatible = [rule for rule in context_rules if not _is_dummy(rule) and not _units_compatible(rule)]
+    if disabled and not [rule for rule in context_rules if rule.get("enabled") is not False and not _is_dummy(rule)]:
+        rule = disabled[0]
+        check = _check_base(region, row, actual, rule)
+        check.update({
+            "status": "not_assessed",
+            "illustrative_comparison": _illustrative(dummy_context[0], actual) if dummy_context else None,
+            **_reason_payload("rule_disabled", "A rule exists for this material and context but is disabled.", "Review and enable the rule only after source verification."),
+        })
+        return [check]
+    if incompatible:
+        rule = incompatible[0]
+        check = _check_base(region, row, actual, rule)
+        check.update({
+            "status": "not_assessed",
+            **_reason_payload("incompatible_units_or_basis", "A rule exists but has incompatible units or measurement basis.", "Do not compare the entered percentage to a migration or assay result."),
+        })
+        return [check]
+    if material_rules and not context_rules:
+        check = _check_base(region, row, actual)
+        check.update({
+            "check_id": f"{region}:{row['material_id']}:APPLICABILITY-UNKNOWN",
+            "status": "not_assessed",
+            **_reason_payload("applicability_unknown", "Applicability review needed.", "Review whether any packaged rule applies to this category, age group, and region."),
+        })
+        return [check]
+    if dummy_context and not verified:
+        check = _check_base(region, row, actual)
+        check.update({
+            "check_id": f"{region}:{row['material_id']}:NO-VERIFIED-THRESHOLD",
+            "status": "not_assessed",
+            "illustrative_comparison": _illustrative(dummy_context[0], actual),
+            **_reason_payload(
+                "no_verified_threshold",
+                "No verified applicable threshold available.",
+                "Do not treat the example threshold as a regulatory limit. Use scenario mode only to test the editable example rule.",
+            ),
+        })
+        return [check]
+    check = _check_base(region, row, actual)
+    check.update({
+        "check_id": f"{region}:{row['material_id']}:NO-RULE",
+        "status": "not_assessed",
+        **_reason_payload("no_rule_configured", "No rule is configured for this material and context.", "Keep the gap visible; do not invent a limit."),
+    })
+    return [check]
+
+
 def build_context(formula: dict, store: dict | None = None, version_changes: list | None = None) -> dict:
-    store = store or load_store()
+    if _assessment_mode(formula) != "scenario":
+        from app.threshold_catalog import build_threshold_context
+
+        return build_threshold_context(formula, version_changes=version_changes)
+    store = store_for_mode(formula, store)
     errors = validate_formula(formula, store)
     if errors:
         raise ValueError(errors)
@@ -441,88 +825,111 @@ def build_context(formula: dict, store: dict | None = None, version_changes: lis
         "US/EU document summaries remain unverified reference context and are not treated as established regulations.",
     ]
 
+    mode = _assessment_mode(formula)
+    limitations.append(
+        "Scenario assessment uses editable example thresholds and is not a regulatory compliance or AP/CL result."
+        if mode == "scenario"
+        else "Evidence assessment uses reviewed applicable rules only. Example thresholds are not verdicts."
+    )
     for region in regions:
         for row in formula["ingredients"]:
-            applicable = _rules_for(store, row["material_id"], formula["product_category"], formula["age_group"], region)
-            verified = [rule for rule in applicable if _is_verified_rule(rule)]
-            illustrative = [rule for rule in applicable if _is_dummy(rule)]
-            actual = float(row["concentration_percent"])
-            if verified:
-                for rule in verified:
-                    passed = _within(actual, rule)
-                    calculated_checks.append({
-                        "check_id": f"{region}:{row['material_id']}:{rule['rule_id']}",
-                        "status": "pass" if passed else "fail",
-                        "material_id": row["material_id"],
-                        "region": region,
-                        "rule_id": rule["rule_id"],
-                        "actual": actual,
-                        "threshold": rule["threshold"],
-                        "unit": rule.get("unit"),
-                        "basis": rule.get("basis"),
-                        "rule_provenance": rule.get("provenance"),
-                        "verified_limit_available": True,
-                        "illustrative_comparison": None,
-                        "message": (
-                            f"{_fmt(actual)}% is within the verified {_fmt(rule['threshold'])}% {rule.get('unit') or ''} limit ({rule.get('basis')})."
-                            if passed
-                            else f"{_fmt(actual)}% is outside the verified {_fmt(rule['threshold'])}% {rule.get('unit') or ''} limit ({rule.get('basis')})."
-                        ),
-                    })
-            else:
-                illustrative_comparison = None
-                if illustrative:
-                    rule = illustrative[0]
-                    illustrative_comparison = {
-                        "rule_id": rule["rule_id"],
-                        "threshold": rule["threshold"],
-                        "unit": rule.get("unit"),
-                        "basis": rule.get("basis"),
-                        "provenance": rule.get("provenance"),
-                        "within_example": _within(actual, rule),
-                        "note": "Illustrative software-testing threshold. Not used as a regulatory verdict.",
-                    }
-                calculated_checks.append({
-                    "check_id": f"{region}:{row['material_id']}:NO-VERIFIED-THRESHOLD",
-                    "status": "not_assessed",
-                    "material_id": row["material_id"],
-                    "region": region,
-                    "rule_id": None,
-                    "actual": actual,
-                    "threshold": None,
-                    "unit": "percent_w_w",
-                    "basis": "as_supplied_material_in_finished_formula",
-                    "rule_provenance": None,
-                    "verified_limit_available": False,
-                    "illustrative_comparison": illustrative_comparison,
-                    "message": "No verified applicable threshold available.",
-                })
+            calculated_checks.extend(_evaluate_material_region(store, formula, row, region))
         for requirement in store["requirements"]:
             rows = formula["ingredients"] if requirement["scope"] == "raw_material" else [None]
             for ingredient in rows:
+                material_id = ingredient["material_id"] if ingredient else None
+                suffix = material_id or formula["version_id"]
+                skipped, skip_message = _requirement_applicable(requirement, formula, ingredient, region, store)
+                if skipped:
+                    check = {
+                        "check_id": f"E:{region}:{requirement['requirement_id']}:{suffix}",
+                        "requirement_id": requirement["requirement_id"],
+                        "document_type": requirement["document_type"],
+                        "scope": requirement["scope"],
+                        "material_id": material_id,
+                        "region": region,
+                        "status": skipped,
+                        "document_ids": [],
+                        "message": skip_message,
+                        "reason_code": skipped,
+                        "action": "Record applicability before treating this as a coverage gap." if skipped == "applicability_unknown" else "Excluded from coverage because it is not applicable.",
+                        "criticality": requirement.get("criticality"),
+                        "requirement_basis": requirement.get("requirement_basis") or requirement.get("policy_basis"),
+                    }
+                    evidence_checks.append(check)
+                    if skipped != "not_applicable":
+                        missing_evidence.append({**check, "gap_status": skipped, "match_fields": _match_fields(requirement)})
+                    continue
                 matched = _match_documents(store, requirement, formula, ingredient, region)
                 verified_docs = [
                     document
                     for document in matched
-                    if document.get("eligible_as_verified_evidence")
+                    if mode != "scenario"
+                    and document.get("provenance") != "synthetic_scenario"
+                    and document.get("review_status") != "scenario_complete"
+                    and document.get("eligible_as_verified_evidence")
                     and document.get("review_status") == "verified"
                     and not document.get("representative_sample")
                 ]
-                material_id = ingredient["material_id"] if ingredient else None
-                suffix = material_id or formula["version_id"]
+                scenario_docs = [
+                    document
+                    for document in matched
+                    if mode == "scenario"
+                    and document.get("provenance") == "synthetic_scenario"
+                    and document.get("review_status") == "scenario_complete"
+                    and document.get("eligible_as_verified_evidence") is not True
+                    and not document.get("representative_sample")
+                ]
                 near: list[dict] = []
                 if verified_docs:
-                    status = "available"
+                    status = "satisfied"
                     gap_status = None
                     ids = [document["document_id"] for document in verified_docs]
-                elif matched:
+                elif scenario_docs:
+                    status = "satisfied"
+                    gap_status = None
+                    ids = [document["document_id"] for document in scenario_docs]
+                elif [
+                    document for document in matched
+                    if mode != "scenario"
+                    and document.get("provenance") != "synthetic_scenario"
+                    and document.get("review_status") != "scenario_complete"
+                ]:
+                    review_docs = [
+                        document for document in matched
+                        if document.get("provenance") != "synthetic_scenario"
+                        and document.get("review_status") != "scenario_complete"
+                    ]
                     status = "needs_review"
                     gap_status = "unverified"
-                    ids = [document["document_id"] for document in matched]
+                    ids = [document["document_id"] for document in review_docs]
                 else:
                     status = "missing"
                     gap_status = "missing"
-                    if ingredient:
+                    fields = _match_fields(requirement)
+                    if ingredient and "batch_id" in fields:
+                        near = [
+                            document
+                            for document in store["documents"]
+                            if document.get("document_type") == requirement["document_type"]
+                            and document.get("scope") == requirement["scope"]
+                            and document.get("material_id") == ingredient["material_id"]
+                            and document.get("batch_id")
+                            and document.get("batch_id") != ingredient.get("batch_id")
+                        ]
+                    if not near and not ingredient:
+                        near = [
+                            document
+                            for document in store["documents"]
+                            if document.get("document_type") == requirement["document_type"]
+                            and document.get("scope") == requirement["scope"]
+                            and document.get("formula_id") == formula.get("formula_id")
+                            and (
+                                (document.get("version_id") and document.get("version_id") != formula.get("version_id"))
+                                or ("region" in fields and region not in (document.get("regions") or []))
+                            )
+                        ]
+                    if not near and ingredient:
                         near = [
                             document
                             for document in store["documents"]
@@ -530,7 +937,12 @@ def build_context(formula: dict, store: dict | None = None, version_changes: lis
                             and document.get("material_id") == ingredient["material_id"]
                         ]
                     ids = [document["document_id"] for document in near[:1]]
-                    if near and any(item.get("representative_sample") for item in near):
+                    if near and (
+                        any(item.get("batch_id") and item.get("batch_id") != (ingredient or {}).get("batch_id") for item in near)
+                        or any(item.get("representative_sample") for item in near)
+                        or any(item.get("formula_id") for item in near)
+                    ):
+                        status = "mismatched"
                         gap_status = "mismatched"
                 check = {
                     "check_id": f"E:{region}:{requirement['requirement_id']}:{suffix}",
@@ -541,15 +953,31 @@ def build_context(formula: dict, store: dict | None = None, version_changes: lis
                     "region": region,
                     "status": status,
                     "document_ids": ids,
-                    "message": _evidence_message(status, near, ingredient),
+                    "message": _evidence_message(status, near, ingredient, requirement, scenario=mode == "scenario"),
+                    "reason_code": "batch_mismatch" if status == "mismatched" and requirement.get("document_type") == "coa" else status,
+                    "action": (
+                        "No further scenario evidence is required for this item."
+                        if status == "satisfied" and mode == "scenario"
+                        else "Retain the verified document for this identity and batch."
+                        if status == "satisfied"
+                        else "Review existing document."
+                        if status == "needs_review"
+                        else "Obtain the correct batch CoA or correct the entered batch."
+                        if status == "mismatched" and requirement.get("document_type") == "coa"
+                        else "Replace the mismatched record with one that matches this version and region."
+                        if status == "mismatched"
+                        else "Provide the missing document for this identity and scope."
+                    ),
+                    "criticality": requirement.get("criticality"),
+                    "requirement_basis": requirement.get("requirement_basis") or requirement.get("policy_basis"),
                 }
                 evidence_checks.append(check)
                 record = {
                     **check,
-                    "match_fields": requirement.get("match_fields") or [],
+                    "match_fields": _match_fields(requirement),
                     "policy_basis": requirement.get("policy_basis"),
                 }
-                if status == "available":
+                if status == "satisfied":
                     evidence_matches.append(record)
                 else:
                     missing_evidence.append({**record, "gap_status": gap_status})
@@ -594,7 +1022,9 @@ def build_context(formula: dict, store: dict | None = None, version_changes: lis
         limitations.append("No relevant source excerpts were retrieved for this formula, category, region, and identity set.")
     for flag in extraction_flags:
         if flag.get("ocr_required"):
-            limitations.append(f"{flag.get('document_id')} appears to need OCR; extracted text was empty or insufficient.")
+            limitations.append(
+                f"{flag.get('document_id')} extraction/OCR-needed. Empty extraction is not evidence that the document contains no relevant information."
+            )
         elif flag.get("status") == "file_missing":
             limitations.append(f"{flag.get('document_id')} is registered but the source file is not available.")
         elif flag.get("status") == "extraction_failed":
@@ -611,6 +1041,7 @@ def build_context(formula: dict, store: dict | None = None, version_changes: lis
         "regions": regions,
         "physical_form": formula.get("physical_form"),
         "intended_use": formula.get("intended_use"),
+        "assessment_mode": mode,
         "composition_total_percent": total,
         "ingredients": [
             {
@@ -649,48 +1080,236 @@ def build_context(formula: dict, store: dict | None = None, version_changes: lis
         "regulatory_rows_disabled": disabled,
         "historical_cases": history,
         "composition_total_percent": total,
+        "assessment_mode": mode,
+        "dataset_kind": store.get("dataset_kind"),
+        "dataset_version": store.get("version"),
+        "data_hash": data_hash(store),
+        "scenario_provenance": {
+            "dataset_kind": store.get("dataset_kind"),
+            "dataset_version": store.get("version"),
+            "provenance": "synthetic_scenario" if mode == "scenario" else "packaged_reference",
+            "is_regulatory_requirement": False,
+            "note": (
+                "Scenario results use illustrative thresholds and evidence. They are not AP/CL predictions, regulatory determinations, or verified real-world evidence."
+                if mode == "scenario"
+                else "Evidence mode does not treat synthetic scenario records as verified evidence."
+            ),
+        },
+        "applicable_scenario_rules": [
+            rule for rule in store["rules"]
+            if mode == "scenario" and _is_scenario_rule(rule) and rule.get("enabled") is not False and rule["rule_id"] in {item.get("rule_id") for item in calculated_checks}
+        ],
     }
 
 
-def _metrics(checks: list[dict], evidence: list[dict]) -> dict:
+def _metrics(checks: list[dict], evidence: list[dict], mode: str = "evidence") -> dict:
     passed = sum(1 for item in checks if item["status"] == "pass")
     failed = sum(1 for item in checks if item["status"] == "fail")
     not_assessed = sum(1 for item in checks if item["status"] == "not_assessed")
+    needs_test_data = sum(1 for item in checks if item["status"] == "needs_test_data")
+    applicability_unknown_checks = sum(1 for item in checks if item["status"] == "applicability_unknown")
+    source_review_required = sum(1 for item in checks if item["status"] == "source_review_required")
+    no_matching_rule = sum(1 for item in checks if item["status"] == "no_matching_rule")
+    not_applicable_checks = sum(1 for item in checks if item["status"] == "not_applicable")
     decided = passed + failed
-    verified = sum(1 for item in evidence if item["status"] == "available")
+    identified = len(checks) - not_applicable_checks
+    applicable_evidence = [item for item in evidence if item.get("status") != "not_applicable"]
+    satisfied = sum(1 for item in applicable_evidence if item.get("status") == "satisfied")
+    missing = sum(1 for item in applicable_evidence if item.get("status") == "missing")
+    needs_review = sum(1 for item in applicable_evidence if item.get("status") == "needs_review")
+    mismatched = sum(1 for item in applicable_evidence if item.get("status") == "mismatched")
+    unknown = sum(1 for item in applicable_evidence if item.get("status") == "applicability_unknown")
+    coverage_partial = unknown > 0
+    pass_label = "Configured concentration-check pass rate" if mode == "scenario" else "Check pass rate"
+    evidence_label = "Scenario evidence completeness" if mode == "scenario" else "Verified evidence coverage"
     return {
+        "assessment_mode": mode,
         "passed_checks": passed,
         "failed_checks": failed,
+        "concentration_passed_checks": passed,
+        "concentration_failed_checks": failed,
         "not_assessed_checks": not_assessed,
+        "needs_test_data_checks": needs_test_data,
+        "applicability_unknown_checks": applicability_unknown_checks,
+        "source_review_required_checks": source_review_required,
+        "no_matching_rule_checks": no_matching_rule,
+        "not_applicable_checks": not_applicable_checks,
+        "evaluated_checks": decided,
+        "identified_applicable_checks": identified,
         "check_pass_rate_percent": None if decided == 0 else round(passed / decided * 100, 1),
-        "evidence_coverage_percent": None if not evidence else round(verified / len(evidence) * 100, 1),
-        "metrics_note": "Pass rate uses verified applicable checks only. Evidence coverage uses verified, in-scope, identity-matched documents. Neither value is an acceptance probability.",
+        "check_pass_rate_label": pass_label,
+        "evidence_coverage_label": evidence_label,
+        "check_pass_rate_copy": None if decided == 0 else f"{passed} of {decided} evaluated checks passed.",
+        "rule_evaluation_coverage_percent": None if identified == 0 else round(decided / identified * 100, 1),
+        "rule_evaluation_coverage_copy": (
+            "No applicable checks were identified in the configured rule set."
+            if identified == 0
+            else f"{decided} of {identified} identified applicable checks were evaluated. This is coverage of the configured rule set, not every possible regulation."
+        ),
+        "evidence_coverage_percent": None if not applicable_evidence else round(satisfied / len(applicable_evidence) * 100, 1),
+        "evidence_coverage_partial": coverage_partial,
+        "evidence_satisfied": satisfied,
+        "evidence_missing": missing,
+        "evidence_needs_review": needs_review,
+        "evidence_mismatched": mismatched,
+        "evidence_applicability_unknown": unknown,
+        "evidence_not_applicable": sum(1 for item in evidence if item.get("status") == "not_applicable"),
+        "evidence_applicable_count": len(applicable_evidence),
+        "metrics_note": (
+            f"{pass_label} uses evaluated concentration checks only. "
+            f"{evidence_label} counts matching {'scenario_complete records in this configured scenario' if mode == 'scenario' else 'verified applicable requirements'}. "
+            "Neither value is an acceptance probability or a real-world verification score."
+            if mode == "scenario"
+            else
+            f"{pass_label} uses evaluated applicable checks only. "
+            "Rule evaluation coverage uses the configured rule set. "
+            "Verified evidence coverage uses satisfied applicable requirements. Neither value is an acceptance probability."
+        ),
         "acceptance_probability": None,
         "model_confidence": None,
         "ap_acceptance_probability": None,
+        "ap_acceptance_note": "AP acceptance estimate unavailable: validated outcome data/model required.",
     }
 
 
-def _region_status(checks: list[dict]) -> str:
-    if not checks or all(item["status"] == "not_assessed" for item in checks):
-        return "not_assessed"
+def assessment_support(context: dict, metrics: dict) -> dict:
+    checks = context.get("calculated_checks") or []
+    evidence = [item for item in (context.get("evidence_checks") or []) if item.get("status") != "not_applicable"]
+    evaluated = metrics.get("evaluated_checks") or 0
+    essential_gaps = [
+        item for item in evidence
+        if item.get("status") in {"missing", "needs_review", "mismatched", "applicability_unknown"}
+        and item.get("criticality") in {"critical", "high"}
+    ]
+    unevaluable = any(
+        item.get("status") in {"not_assessed", "needs_test_data", "applicability_unknown", "source_review_required", "no_matching_rule"}
+        for item in checks
+    )
+    if evaluated == 0 or essential_gaps:
+        level = "insufficient"
+        basis = "No applicable checks can be evaluated, or essential identity, evidence, or applicability gaps prevent a complete assessment."
+    elif unevaluable or evidence and any(item.get("status") != "satisfied" for item in evidence):
+        level = "partial"
+        basis = "Some checks can be evaluated, but relevant gaps remain in the configured assessment scope."
+    else:
+        level = "substantial"
+        basis = (
+            "The configured scenario scope is covered, including when a concentration check fails. This describes support for the scenario evaluation, not a pass result and not verified real-world evidence."
+            if context.get("assessment_mode") == "scenario"
+            else "The configured assessment scope is covered. This describes support for the assessment, not whether the formula passes."
+        )
+    return {
+        "level": level,
+        "basis": basis,
+        "limiting_factors": [
+            item.get("message")
+            for item in (checks + evidence)
+            if item.get("status") in {"not_assessed", "missing", "needs_review", "mismatched", "applicability_unknown", "fail"}
+        ][:8],
+    }
+
+
+def constrain_analysis_confidence(confidence: dict | None, context: dict, metrics: dict) -> dict | None:
+    support = assessment_support(context, metrics)
+    mapped = {"insufficient": "low", "partial": "medium", "substantial": "high"}
+    ceiling = mapped[support["level"]]
+    if not isinstance(confidence, dict):
+        return {
+            "level": ceiling,
+            "basis": support["basis"],
+            "limiting_factors": support["limiting_factors"],
+            "source_ids": [],
+            "assessment_support": support["level"],
+        }
+    rank = {"low": 0, "medium": 1, "high": 2}
+    level = str(confidence.get("level") or "low").lower()
+    if level not in rank:
+        level = "low"
+    if rank[level] > rank[ceiling]:
+        level = ceiling
+    factors = [str(item) for item in confidence.get("limiting_factors") or [] if str(item).strip()]
+    factors.extend(support["limiting_factors"])
+    return {
+        "level": level,
+        "basis": support["basis"] if rank[level] <= rank[ceiling] else str(confidence.get("basis") or support["basis"]),
+        "limiting_factors": list(dict.fromkeys(factors)),
+        "source_ids": [str(item) for item in confidence.get("source_ids") or [] if item],
+        "assessment_support": support["level"],
+    }
+
+
+def clamp_priorities(items: list[dict], context: dict, key: str = "priority") -> list[dict]:
+    failed_verified = {
+        item.get("check_id")
+        for item in context.get("calculated_checks") or []
+        if item.get("status") == "fail" and item.get("verified_limit_available")
+    }
+    critical_requirements = {
+        item.get("requirement_id")
+        for item in context.get("evidence_checks") or []
+        if item.get("criticality") == "critical" and item.get("status") not in {"satisfied", "not_applicable"}
+    }
+    allowed = {"critical", "high", "medium", "informational", "low"}
+    mapped = {"low": "informational"}
+    clamped = []
+    for item in items:
+        current = str(item.get(key) or item.get("severity") or "medium").lower()
+        current = mapped.get(current, current)
+        if current not in allowed:
+            current = "medium"
+        related = set(item.get("related_check_ids") or item.get("source_ids") or [])
+        related.add(item.get("check_id"))
+        related.add(item.get("requirement_id"))
+        can_be_critical = bool(related & failed_verified or related & critical_requirements) or item.get("criticality") == "critical"
+        if current == "critical" and not can_be_critical:
+            current = "high"
+        next_item = dict(item)
+        next_item[key] = current
+        if "severity" in next_item:
+            next_item["severity"] = current
+        clamped.append(next_item)
+    return clamped
+
+
+def _region_status(checks: list[dict], evidence: list[dict]) -> str:
     if any(item["status"] == "fail" for item in checks):
         return "changes_required"
-    return "review_required"
+    gap_statuses = {"missing", "needs_review", "mismatched", "applicability_unknown", "needs_test_data", "source_review_required"}
+    required_gaps = [item for item in evidence if item.get("status") in gap_statuses]
+    decided = [item for item in checks if item["status"] in {"pass", "fail"}]
+    open_checks = [item for item in checks if item["status"] not in {"pass", "not_applicable"}]
+    if open_checks or required_gaps or not decided:
+        return "more_information_required"
+    if checks and all(item["status"] in {"pass", "not_applicable"} for item in checks):
+        return "no_issues_found_in_assessed_scope"
+    return "more_information_required"
+
+
+def screening_status_label(status: str, mode: str) -> str:
+    if status == "changes_required":
+        return "Changes required"
+    if status == "more_information_required":
+        return "More information required"
+    if mode == "scenario":
+        return "Meets configured scenario checks"
+    return "No issues found in assessed scope"
 
 
 def screen_status(context: dict) -> tuple[str, dict]:
     by_region = {}
     for region in context["formula"]["regions"]:
-        status = _region_status([item for item in context["calculated_checks"] if item["region"] == region])
+        status = _region_status(
+            [item for item in context["calculated_checks"] if item["region"] == region],
+            [item for item in context["evidence_checks"] if item["region"] == region],
+        )
         by_region[region] = {"screening_status": status, "regulatory_status": "not_assessed", "ap_cl_decision": None}
     statuses = [item["screening_status"] for item in by_region.values()]
     if "changes_required" in statuses:
         overall = "changes_required"
-    elif "review_required" in statuses:
-        overall = "review_required"
+    elif "more_information_required" in statuses or "not_assessed" in statuses:
+        overall = "more_information_required"
     else:
-        overall = "not_assessed"
+        overall = "no_issues_found_in_assessed_scope"
     return overall, by_region
 
 
@@ -713,7 +1332,7 @@ def compare_formulas(previous: dict, current: dict, store: dict | None = None) -
                 "delta_percentage_points": round(after - before, 4),
             })
     context_changes = []
-    for field in ("product_category", "age_group", "physical_form", "intended_use", "regions"):
+    for field in ("product_category", "age_group", "physical_form", "intended_use", "regions", "assessment_mode"):
         if previous.get(field) != current.get(field):
             context_changes.append({"field": field, "previous": previous.get(field), "current": current.get(field)})
     version_changes = [

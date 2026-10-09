@@ -25,7 +25,18 @@
     "provenance": "dummy_editable",
     "is_regulatory_limit": false,
     "source_document_ids": [],
-    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements.",
+    "rule_type": "concentration_cap",
+    "scope": "finished_formula_ingredient",
+    "category": "paint",
+    "measurement_basis": "as_supplied_material_in_finished_formula",
+    "required_test_method": null,
+    "effective_from": null,
+    "effective_to": null,
+    "source_id": null,
+    "locator": null,
+    "review_status": "example_unverified",
+    "analyte_id": null
   },
   {
     "rule_id": "EXAMPLE-MAX-glow_purple",
@@ -53,7 +64,18 @@
     "provenance": "dummy_editable",
     "is_regulatory_limit": false,
     "source_document_ids": [],
-    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements.",
+    "rule_type": "concentration_cap",
+    "scope": "finished_formula_ingredient",
+    "category": "paint",
+    "measurement_basis": "as_supplied_material_in_finished_formula",
+    "required_test_method": null,
+    "effective_from": null,
+    "effective_to": null,
+    "source_id": null,
+    "locator": null,
+    "review_status": "example_unverified",
+    "analyte_id": null
   },
   {
     "rule_id": "EXAMPLE-MAX-mica_patina_silver",
@@ -81,7 +103,18 @@
     "provenance": "dummy_editable",
     "is_regulatory_limit": false,
     "source_document_ids": [],
-    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements.",
+    "rule_type": "concentration_cap",
+    "scope": "finished_formula_ingredient",
+    "category": "paint",
+    "measurement_basis": "as_supplied_material_in_finished_formula",
+    "required_test_method": null,
+    "effective_from": null,
+    "effective_to": null,
+    "source_id": null,
+    "locator": null,
+    "review_status": "example_unverified",
+    "analyte_id": null
   },
   {
     "rule_id": "EXAMPLE-MAX-zinc_sulfide",
@@ -109,7 +142,18 @@
     "provenance": "dummy_editable",
     "is_regulatory_limit": false,
     "source_document_ids": [],
-    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements.",
+    "rule_type": "concentration_cap",
+    "scope": "finished_formula_ingredient",
+    "category": "paint",
+    "measurement_basis": "as_supplied_material_in_finished_formula",
+    "required_test_method": null,
+    "effective_from": null,
+    "effective_to": null,
+    "source_id": null,
+    "locator": null,
+    "review_status": "example_unverified",
+    "analyte_id": null
   },
   {
     "rule_id": "EXAMPLE-MAX-zinc_oxide",
@@ -137,7 +181,18 @@
     "provenance": "dummy_editable",
     "is_regulatory_limit": false,
     "source_document_ids": [],
-    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements.",
+    "rule_type": "concentration_cap",
+    "scope": "finished_formula_ingredient",
+    "category": "paint",
+    "measurement_basis": "as_supplied_material_in_finished_formula",
+    "required_test_method": null,
+    "effective_from": null,
+    "effective_to": null,
+    "source_id": null,
+    "locator": null,
+    "review_status": "example_unverified",
+    "analyte_id": null
   },
   {
     "rule_id": "EXAMPLE-MAX-mica",
@@ -165,7 +220,18 @@
     "provenance": "dummy_editable",
     "is_regulatory_limit": false,
     "source_document_ids": [],
-    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements.",
+    "rule_type": "concentration_cap",
+    "scope": "finished_formula_ingredient",
+    "category": "paint",
+    "measurement_basis": "as_supplied_material_in_finished_formula",
+    "required_test_method": null,
+    "effective_from": null,
+    "effective_to": null,
+    "source_id": null,
+    "locator": null,
+    "review_status": "example_unverified",
+    "analyte_id": null
   },
   {
     "rule_id": "EXAMPLE-MAX-titanium_dioxide",
@@ -193,7 +259,18 @@
     "provenance": "dummy_editable",
     "is_regulatory_limit": false,
     "source_document_ids": [],
-    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements.",
+    "rule_type": "concentration_cap",
+    "scope": "finished_formula_ingredient",
+    "category": "paint",
+    "measurement_basis": "as_supplied_material_in_finished_formula",
+    "required_test_method": null,
+    "effective_from": null,
+    "effective_to": null,
+    "source_id": null,
+    "locator": null,
+    "review_status": "example_unverified",
+    "analyte_id": null
   },
   {
     "rule_id": "EXAMPLE-MAX-iron_oxide_unresolved",
@@ -221,7 +298,18 @@
     "provenance": "dummy_editable",
     "is_regulatory_limit": false,
     "source_document_ids": [],
-    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements.",
+    "rule_type": "concentration_cap",
+    "scope": "finished_formula_ingredient",
+    "category": "paint",
+    "measurement_basis": "as_supplied_material_in_finished_formula",
+    "required_test_method": null,
+    "effective_from": null,
+    "effective_to": null,
+    "source_id": null,
+    "locator": null,
+    "review_status": "example_unverified",
+    "analyte_id": null
   },
   {
     "rule_id": "EXAMPLE-MAX-sodium_benzoate",
@@ -249,7 +337,18 @@
     "provenance": "dummy_editable",
     "is_regulatory_limit": false,
     "source_document_ids": [],
-    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements.",
+    "rule_type": "concentration_cap",
+    "scope": "finished_formula_ingredient",
+    "category": "paint",
+    "measurement_basis": "as_supplied_material_in_finished_formula",
+    "required_test_method": null,
+    "effective_from": null,
+    "effective_to": null,
+    "source_id": null,
+    "locator": null,
+    "review_status": "example_unverified",
+    "analyte_id": null
   },
   {
     "rule_id": "EXAMPLE-MAX-potassium_sorbate",
@@ -277,7 +376,18 @@
     "provenance": "dummy_editable",
     "is_regulatory_limit": false,
     "source_document_ids": [],
-    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements.",
+    "rule_type": "concentration_cap",
+    "scope": "finished_formula_ingredient",
+    "category": "paint",
+    "measurement_basis": "as_supplied_material_in_finished_formula",
+    "required_test_method": null,
+    "effective_from": null,
+    "effective_to": null,
+    "source_id": null,
+    "locator": null,
+    "review_status": "example_unverified",
+    "analyte_id": null
   },
   {
     "rule_id": "EXAMPLE-MAX-phenoxyethanol",
@@ -305,7 +415,18 @@
     "provenance": "dummy_editable",
     "is_regulatory_limit": false,
     "source_document_ids": [],
-    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements.",
+    "rule_type": "concentration_cap",
+    "scope": "finished_formula_ingredient",
+    "category": "paint",
+    "measurement_basis": "as_supplied_material_in_finished_formula",
+    "required_test_method": null,
+    "effective_from": null,
+    "effective_to": null,
+    "source_id": null,
+    "locator": null,
+    "review_status": "example_unverified",
+    "analyte_id": null
   },
   {
     "rule_id": "EXAMPLE-MAX-propylene_glycol",
@@ -333,7 +454,18 @@
     "provenance": "dummy_editable",
     "is_regulatory_limit": false,
     "source_document_ids": [],
-    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements.",
+    "rule_type": "concentration_cap",
+    "scope": "finished_formula_ingredient",
+    "category": "paint",
+    "measurement_basis": "as_supplied_material_in_finished_formula",
+    "required_test_method": null,
+    "effective_from": null,
+    "effective_to": null,
+    "source_id": null,
+    "locator": null,
+    "review_status": "example_unverified",
+    "analyte_id": null
   },
   {
     "rule_id": "EXAMPLE-MAX-ethyl_lactate",
@@ -361,7 +493,18 @@
     "provenance": "dummy_editable",
     "is_regulatory_limit": false,
     "source_document_ids": [],
-    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements.",
+    "rule_type": "concentration_cap",
+    "scope": "finished_formula_ingredient",
+    "category": "paint",
+    "measurement_basis": "as_supplied_material_in_finished_formula",
+    "required_test_method": null,
+    "effective_from": null,
+    "effective_to": null,
+    "source_id": null,
+    "locator": null,
+    "review_status": "example_unverified",
+    "analyte_id": null
   },
   {
     "rule_id": "EXAMPLE-MAX-bismuth_vanadate",
@@ -389,6 +532,17 @@
     "provenance": "dummy_editable",
     "is_regulatory_limit": false,
     "source_document_ids": [],
-    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements."
+    "note": "Arbitrary software-testing threshold. Not derived from uploaded regulations or a toxicological assessment. Same limits across listed contexts intentionally; not evidence of equivalent regional requirements.",
+    "rule_type": "concentration_cap",
+    "scope": "finished_formula_ingredient",
+    "category": "paint",
+    "measurement_basis": "as_supplied_material_in_finished_formula",
+    "required_test_method": null,
+    "effective_from": null,
+    "effective_to": null,
+    "source_id": null,
+    "locator": null,
+    "review_status": "example_unverified",
+    "analyte_id": null
   }
 ]

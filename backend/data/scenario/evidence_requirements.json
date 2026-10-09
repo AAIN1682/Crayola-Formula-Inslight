@@ -1,0 +1,144 @@
+[
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "requirement_id": "REQ-SDS",
+    "document_type": "sds",
+    "scope": "raw_material",
+    "applicable_categories": [
+      "paint"
+    ],
+    "applicable_regions": [
+      "US",
+      "EU"
+    ],
+    "material_roles": [
+      "purchased_mixture",
+      "substance"
+    ],
+    "material_ids": [],
+    "required_match_fields": [
+      "material_id",
+      "supplier_id",
+      "grade_id"
+    ],
+    "match_fields": [
+      "material_id",
+      "supplier_id",
+      "grade_id"
+    ],
+    "condition": "Required for each material present, matched to the scenario supplier and grade. Not required for materials that are absent.",
+    "requirement_basis": "synthetic_scenario",
+    "source_reference": "Scenario evidence workflow. Not a verified external filing requirement.",
+    "criticality": "medium",
+    "review_status": "synthetic_scenario",
+    "policy_basis": "synthetic_scenario",
+    "role": "Material SDS must match material, supplier, and grade."
+  },
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "requirement_id": "REQ-COA",
+    "document_type": "coa",
+    "scope": "raw_material",
+    "applicable_categories": [
+      "paint"
+    ],
+    "applicable_regions": [
+      "US",
+      "EU"
+    ],
+    "material_roles": [
+      "purchased_mixture",
+      "substance"
+    ],
+    "material_ids": [],
+    "required_match_fields": [
+      "material_id",
+      "supplier_id",
+      "batch_id"
+    ],
+    "match_fields": [
+      "material_id",
+      "supplier_id",
+      "batch_id"
+    ],
+    "condition": "Required for the entered material, supplier, and batch. A different batch is a mismatch.",
+    "requirement_basis": "synthetic_scenario",
+    "source_reference": "Scenario evidence workflow. Batch identity is the CoA scope.",
+    "criticality": "medium",
+    "review_status": "synthetic_scenario",
+    "policy_basis": "synthetic_scenario",
+    "role": "Material CoA must match material, supplier, and batch."
+  },
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "requirement_id": "REQ-LAB",
+    "document_type": "lab_report",
+    "scope": "finished_product",
+    "applicable_categories": [
+      "paint"
+    ],
+    "applicable_regions": [
+      "US",
+      "EU"
+    ],
+    "material_roles": [],
+    "material_ids": [],
+    "required_match_fields": [
+      "formula_id",
+      "version_id",
+      "region"
+    ],
+    "match_fields": [
+      "formula_id",
+      "version_id",
+      "region"
+    ],
+    "condition": "Required for this finished formula version and region. A report from another version does not apply.",
+    "requirement_basis": "synthetic_scenario",
+    "source_reference": "Scenario evidence workflow. Fictional test SCN-TEST-VISC-01 is not an ASTM/EN method.",
+    "criticality": "medium",
+    "review_status": "synthetic_scenario",
+    "policy_basis": "synthetic_scenario",
+    "role": "Finished-formula test summary must match formula, version, and region."
+  },
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "requirement_id": "REQ-LABEL",
+    "document_type": "label",
+    "scope": "finished_product",
+    "applicable_categories": [
+      "paint"
+    ],
+    "applicable_regions": [
+      "US",
+      "EU"
+    ],
+    "material_roles": [],
+    "material_ids": [],
+    "required_match_fields": [
+      "formula_id",
+      "version_id",
+      "region"
+    ],
+    "match_fields": [
+      "formula_id",
+      "version_id",
+      "region"
+    ],
+    "condition": "Required for this formula version and region.",
+    "requirement_basis": "synthetic_scenario",
+    "source_reference": "Scenario evidence workflow. Not a legal labeling determination.",
+    "criticality": "medium",
+    "review_status": "synthetic_scenario",
+    "policy_basis": "synthetic_scenario",
+    "role": "Label-review summary must match formula, version, and region."
+  }
+]

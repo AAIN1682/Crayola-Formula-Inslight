@@ -1,43 +1,70 @@
 [
   {
     "requirement_id": "REQ-SDS",
-    "scope": "raw_material",
     "document_type": "sds",
-    "match_fields": [
-      "material_id"
-    ],
+    "scope": "raw_material",
+    "applicable_categories": ["paint", "chalk", "glue_stick", "washable_marker", "modeling_compound"],
+    "applicable_regions": ["US", "EU", "UK", "CA"],
+    "material_roles": ["purchased_mixture", "substance"],
+    "material_ids": [],
+    "required_match_fields": ["material_id"],
+    "match_fields": ["material_id"],
+    "condition": "Required for each catalog material present in the formula.",
+    "requirement_basis": "configured_internal_workflow",
+    "source_reference": "Internal evidence workflow. Not a verified external legal filing requirement.",
+    "criticality": "high",
+    "review_status": "configured_internal_workflow",
     "policy_basis": "example_internal_workflow"
   },
   {
     "requirement_id": "REQ-COA",
-    "scope": "raw_material",
     "document_type": "coa",
-    "match_fields": [
-      "material_id",
-      "batch_id"
-    ],
+    "scope": "raw_material",
+    "applicable_categories": ["paint", "chalk", "glue_stick", "washable_marker", "modeling_compound"],
+    "applicable_regions": ["US", "EU", "UK", "CA"],
+    "material_roles": ["purchased_mixture", "substance"],
+    "material_ids": [],
+    "required_match_fields": ["material_id", "batch_id"],
+    "match_fields": ["material_id", "batch_id"],
+    "condition": "Required for the purchased material and the entered batch. Does not require a finished-formula version or market identifier.",
+    "requirement_basis": "configured_internal_workflow",
+    "source_reference": "Internal evidence workflow. Batch identity is the CoA scope.",
+    "criticality": "high",
+    "review_status": "configured_internal_workflow",
     "policy_basis": "example_internal_workflow"
   },
   {
     "requirement_id": "REQ-LAB",
-    "scope": "finished_product",
     "document_type": "lab_report",
-    "match_fields": [
-      "formula_id",
-      "version_id",
-      "region"
-    ],
+    "scope": "finished_product",
+    "applicable_categories": ["paint", "chalk", "glue_stick", "washable_marker", "modeling_compound"],
+    "applicable_regions": ["US", "EU", "UK", "CA"],
+    "material_roles": [],
+    "material_ids": [],
+    "required_match_fields": ["formula_id", "version_id", "region"],
+    "match_fields": ["formula_id", "version_id", "region"],
+    "condition": "Required for the tested finished-product sample of this formula version in the selected market.",
+    "requirement_basis": "configured_internal_workflow",
+    "source_reference": "Internal evidence workflow. A finished-product report from another formulation does not validate this version.",
+    "criticality": "medium",
+    "review_status": "configured_internal_workflow",
     "policy_basis": "example_internal_workflow"
   },
   {
     "requirement_id": "REQ-LABEL",
-    "scope": "finished_product",
     "document_type": "label",
-    "match_fields": [
-      "formula_id",
-      "version_id",
-      "region"
-    ],
+    "scope": "finished_product",
+    "applicable_categories": ["paint", "chalk", "glue_stick", "washable_marker", "modeling_compound"],
+    "applicable_regions": ["US", "EU", "UK", "CA"],
+    "material_roles": [],
+    "material_ids": [],
+    "required_match_fields": ["formula_id", "version_id", "region"],
+    "match_fields": ["formula_id", "version_id", "region"],
+    "condition": "Required for the product/version and market on the label artifact.",
+    "requirement_basis": "configured_internal_workflow",
+    "source_reference": "Internal evidence workflow. Not a verified external labeling statute.",
+    "criticality": "medium",
+    "review_status": "configured_internal_workflow",
     "policy_basis": "example_internal_workflow"
   }
 ]

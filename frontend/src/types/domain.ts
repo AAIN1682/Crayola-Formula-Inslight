@@ -6,14 +6,20 @@
  * certification outcome.
  */
 
-export type ProductCategory = 'Markers' | 'Paints' | 'Crayons' | 'Modeling Compounds' | 'Glue';
+export type ProductCategory =
+  | 'Markers'
+  | 'Paints'
+  | 'Crayons'
+  | 'Modeling Compounds'
+  | 'Future / Novelty Products'
+  | 'Glue';
 
 export const PRODUCT_CATEGORIES: ProductCategory[] = [
   'Markers',
   'Paints',
   'Crayons',
   'Modeling Compounds',
-  'Glue',
+  'Future / Novelty Products',
 ];
 
 export type PhysicalForm = 'Liquid' | 'Gel' | 'Paste' | 'Solid stick' | 'Powder';
@@ -26,8 +32,13 @@ export type AgeGroup = 'under_12' | '12_and_above';
 export const AGE_GROUPS: AgeGroup[] = ['under_12', '12_and_above'];
 
 export const AGE_GROUP_LABEL: Record<AgeGroup, string> = {
-  under_12: 'Under 12 years',
-  '12_and_above': '12 years and above',
+  under_12: 'Under 12',
+  '12_and_above': '12 and above',
+};
+
+export const AGE_GROUP_SOURCE: Record<AgeGroup, string> = {
+  under_12: 'Under_12',
+  '12_and_above': 'Age_12_Plus',
 };
 
 export type TargetMarket = 'US' | 'EU' | 'UK' | 'CA';
@@ -37,6 +48,12 @@ export const TARGET_MARKETS: { code: TargetMarket; label: string }[] = [
   { code: 'EU', label: 'European Union' },
   { code: 'UK', label: 'United Kingdom' },
   { code: 'CA', label: 'Canada' },
+];
+
+/** Markets with an active threshold file in this workflow. */
+export const SCREENING_MARKETS: { code: TargetMarket; label: string }[] = [
+  { code: 'US', label: 'United States' },
+  { code: 'EU', label: 'European Union' },
 ];
 
 export type MarketAssessmentStatus = 'green' | 'amber' | 'red' | 'not-assessed';
@@ -194,6 +211,14 @@ export interface Ingredient {
   notes?: string;
   /** Supplier batch used for certificate matching. Not invented when left blank. */
   batchId?: string;
+  compositionType?: string;
+  screeningRole?: 'formulation_ingredient' | 'contaminant_analyte' | 'role_requires_review';
+  needsCorrection?: boolean;
+  measuredValue?: number;
+  measuredUnit?: string;
+  measuredBound?: string;
+  measurementKind?: string;
+  testMethod?: string;
 }
 
 export interface Formula {
@@ -216,6 +241,8 @@ export interface Formula {
   /** Formula-level evidence (lab reports, correspondence). */
   evidenceIds: string[];
   screeningStatus: ScreeningStatus;
+  preferredAssessmentMode?: 'evidence' | 'scenario';
+  scenarioOfFormulaId?: string;
   /** False when the formula changed after its latest screening run. */
   screeningCurrent: boolean;
   latestRunId?: string;
@@ -227,6 +254,12 @@ export interface Formula {
   /** Links a formula to the historical submission it was derived from, when applicable. */
   originSubmissionId?: string;
   description?: string;
+  compositionCompleteness?: 'partial' | 'complete';
+  usStates?: string[];
+  intendedAgeDetail?: string;
+  toyChildcareScope?: string;
+  componentType?: string;
+  testMaterialCategory?: string;
 }
 
 export interface RawMaterial {
@@ -356,6 +389,7 @@ export interface ScreeningRun {
   inputHash?: string;
   dataHash?: string;
   aiStatus?: 'succeeded' | 'failed' | 'not_requested';
+  assessmentMode?: 'evidence' | 'scenario';
 }
 
 export type ReviewDecisionKind = 'request-evidence' | 'review-complete' | 'return-for-changes';
@@ -470,6 +504,18 @@ export interface DemoSettings {
   tableDensity: TableDensity;
 }
 
+export interface SourceReviewDraft {
+  id: string;
+  documentId: string;
+  extractedField?: string;
+  previousValue?: string;
+  applicability?: string;
+  reviewStatus: string;
+  reviewerId: string;
+  reviewedAt: string;
+  note?: string;
+}
+
 export interface DemoDataset {
   people: Person[];
   formulas: Formula[];
@@ -481,4 +527,5 @@ export interface DemoDataset {
   decisions: ReviewDecision[];
   activities: ActivityEvent[];
   settings: DemoSettings;
+  sourceReviewDrafts?: SourceReviewDraft[];
 }

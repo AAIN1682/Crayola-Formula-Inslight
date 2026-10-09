@@ -1,0 +1,23 @@
+{
+  "provenance": "synthetic_scenario",
+  "dataset_version": "scenario-1.0.0",
+  "is_regulatory_requirement": false,
+  "dataset_kind": "scenario",
+  "purpose": "Editable illustrative thresholds and evidence for scenario assessment.",
+  "role": "Authoritative retrieval set when assessment_mode is scenario. Evidence mode does not read this folder.",
+  "materials": 6,
+  "rules": 6,
+  "documents": 22,
+  "examples": [
+    "SCN-A",
+    "SCN-B",
+    "SCN-C",
+    "SCN-D"
+  ],
+  "limitations": [
+    "Thresholds are software-testing configuration, not safety recommendations or regulatory limits.",
+    "Evidence records are synthetic and are not laboratory reports, supplier certificates, Duke letters, or ACMI decisions.",
+    "No AP or CL decision is represented.",
+    "These compositions are not Crayola recipes or approved materials."
+  ]
+}

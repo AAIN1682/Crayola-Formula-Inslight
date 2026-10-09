@@ -17,11 +17,18 @@ import { formatDate, formatRelative } from '../utils/formatting';
 import { cn } from '../utils/cn';
 
 const FormulaDetailContext = createContext<FormulaDetail | undefined>(undefined);
+const FormulaPageActionsContext = createContext<{ openEdit: () => void; openRun: () => void } | undefined>(undefined);
 
 export function useFormulaDetail(): FormulaDetail {
   const detail = useContext(FormulaDetailContext);
   if (!detail) throw new Error('Formula tabs must render inside the formula details route.');
   return detail;
+}
+
+export function useFormulaPageActions() {
+  const actions = useContext(FormulaPageActionsContext);
+  if (!actions) throw new Error('Formula tabs must render inside the formula details route.');
+  return actions;
 }
 
 const TABS = [
@@ -146,8 +153,7 @@ export function FormulaDetailsPage() {
 
       {formula.ingredients.some((ingredient) => !ingredient.rawMaterialId || !/^[a-z][a-z0-9_]*$/.test(ingredient.rawMaterialId)) ? (
         <Notice tone="warning" title="Unresolved ingredient identities">
-          One or more rows still use a legacy or missing catalog identity. Select the correct backend catalog
-          material before Run Assessment can complete. Names are not matched by similarity.
+          One or more rows are not in the US/EU catalog branch. Run Assessment keeps those rows and records each one as a coverage gap. Names are not matched by similarity.
         </Notice>
       ) : null}
 
@@ -179,9 +185,16 @@ export function FormulaDetailsPage() {
         </nav>
       </div>
 
-      <FormulaDetailContext.Provider value={data}>
-        <Outlet />
-      </FormulaDetailContext.Provider>
+      <FormulaPageActionsContext.Provider
+        value={{
+          openEdit: () => setEditOpen(true),
+          openRun: () => setRunOpen(true),
+        }}
+      >
+        <FormulaDetailContext.Provider value={data}>
+          <Outlet />
+        </FormulaDetailContext.Provider>
+      </FormulaPageActionsContext.Provider>
 
       <FormulaFormDrawer
         open={editOpen}
@@ -195,6 +208,10 @@ export function FormulaDetailsPage() {
         formula={formula}
         onClose={() => setRunOpen(false)}
         onComplete={(run) => navigate(`/formulas/${formula.id}/results/${run.id}`)}
+        onEditFormula={() => {
+          setRunOpen(false);
+          setEditOpen(true);
+        }}
       />
     </div>
   );

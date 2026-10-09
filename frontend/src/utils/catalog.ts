@@ -21,6 +21,11 @@ export function identityErrorMessage(unresolved: Ingredient[]): string {
   const labels = unresolved.map((item) => item.name || item.rawMaterialId || 'unnamed ingredient').join(', ');
   return (
     `Resolve ingredient identity before running a completed assessment: ${labels}. ` +
-    'Select the correct catalog material or provide its identity. Legacy IDs are not mapped by name similarity.'
+    'Open Edit formula and select the correct catalog material for each row, then run again. ' +
+    'Legacy IDs are not mapped by name similarity.'
   );
+}
+
+export function isUnresolvedIdentityError(message: string | undefined): boolean {
+  return Boolean(message && /resolve ingredient identity/i.test(message));
 }

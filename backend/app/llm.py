@@ -11,9 +11,16 @@ from app.config import ROOT, azure_settings
 logger = logging.getLogger("affine.llm")
 PROMPT = (ROOT / "prompts" / "explanation.txt").read_text(encoding="utf-8")
 CONFIDENCE_LEVELS = {"low", "medium", "high"}
-GAP_STATUSES = {"missing", "unverified", "mismatched", "conflicting"}
-SEVERITIES = {"high", "medium", "low"}
-PRIORITIES = {"high", "medium", "low"}
+GAP_STATUSES = {"missing", "unverified", "mismatched", "conflicting", "needs_review", "applicability_unknown"}
+SEVERITIES = {"critical", "high", "medium", "informational", "low"}
+PRIORITIES = {"critical", "high", "medium", "informational", "low"}
+
+
+def _trim_words(text: str, limit: int) -> str:
+    words = str(text or "").split()
+    if len(words) <= limit:
+        return " ".join(words)
+    return " ".join(words[:limit])
 
 
 def azure_config() -> dict:
@@ -147,12 +154,12 @@ def validate_explanation(payload: dict, context: dict) -> dict | None:
             return None
         explanations.append({
             "check_id": item["check_id"],
-            "explanation": str(item.get("explanation") or "").strip(),
+            "explanation": _trim_words(str(item.get("explanation") or "").strip(), 60),
             "source_ids": sources,
             "limitations": limitations,
         })
     evidence_gaps = []
-    for item in payload.get("evidence_gaps") or []:
+    for item in (payload.get("evidence_gap_explanations") or payload.get("evidence_gaps") or []):
         if not isinstance(item, dict):
             return None
         requirement_id = item.get("requirement_id")
@@ -170,10 +177,12 @@ def validate_explanation(payload: dict, context: dict) -> dict | None:
             "source_ids": sources,
         })
     recommendations = []
-    for item in payload.get("recommendations") or []:
+    for item in (payload.get("prioritized_actions") or payload.get("recommendations") or []):
         if not isinstance(item, dict) or not str(item.get("action") or "").strip():
             return None
         priority = str(item.get("priority") or "medium").strip().lower()
+        if priority == "low":
+            priority = "informational"
         if priority not in PRIORITIES:
             return None
         sources = _string_list(item.get("source_ids"))
@@ -184,17 +193,20 @@ def validate_explanation(payload: dict, context: dict) -> dict | None:
             return None
         recommendations.append({
             "priority": priority,
-            "action": str(item["action"]).strip(),
-            "rationale": str(item.get("rationale") or "").strip(),
+            "action": _trim_words(str(item["action"]).strip(), 12),
+            "rationale": _trim_words(str(item.get("rationale") or "").strip(), 45),
             "related_check_ids": checks,
             "source_ids": sources,
             "requires_testing_or_review": bool(item.get("requires_testing_or_review", True)),
+            "can_create_scenario": bool(item.get("can_create_scenario")),
         })
     alerts = []
     for item in payload.get("alerts") or []:
         if not isinstance(item, dict) or not str(item.get("message") or "").strip():
             return None
         severity = str(item.get("severity") or "medium").strip().lower()
+        if severity == "low":
+            severity = "informational"
         if severity not in SEVERITIES:
             return None
         sources = _string_list(item.get("source_ids"))
@@ -204,6 +216,18 @@ def validate_explanation(payload: dict, context: dict) -> dict | None:
             "severity": severity,
             "title": str(item.get("title") or "Alert").strip(),
             "message": str(item["message"]).strip(),
+            "source_ids": sources,
+        })
+    source_conflicts = []
+    for item in payload.get("source_conflicts") or []:
+        if not isinstance(item, dict):
+            continue
+        sources = _string_list(item.get("source_ids")) or []
+        if any(source not in known for source in sources):
+            continue
+        source_conflicts.append({
+            "issue_id": item.get("issue_id"),
+            "explanation": str(item.get("explanation") or "").strip(),
             "source_ids": sources,
         })
     confidence = payload.get("analysis_confidence")
@@ -226,12 +250,18 @@ def validate_explanation(payload: dict, context: dict) -> dict | None:
     limitations = _string_list(payload.get("limitations"))
     if limitations is None:
         return None
+    key_reasons = _string_list(payload.get("key_reasons")) or []
     return {
-        "summary": str(payload["summary"]).strip(),
+        "summary": _trim_words(str(payload["summary"]).strip(), 60),
+        "key_reasons": key_reasons,
         "finding_explanations": explanations,
         "evidence_gaps": evidence_gaps,
+        "evidence_gap_explanations": evidence_gaps,
         "recommendations": recommendations,
+        "prioritized_actions": recommendations,
         "alerts": alerts,
+        "assessment_support_explanation": str(payload.get("assessment_support_explanation") or "").strip(),
+        "source_conflicts": source_conflicts,
         "analysis_confidence": {
             "level": level,
             "basis": str(confidence["basis"]).strip(),
@@ -239,6 +269,7 @@ def validate_explanation(payload: dict, context: dict) -> dict | None:
             "source_ids": conf_sources,
         },
         "version_comparison_summary": version_value,
+        "version_change_summary": version_value,
         "limitations": limitations,
         "version_change": version_value,
     }
@@ -265,6 +296,24 @@ def _public_context(context: dict) -> dict:
         "documented_history": context.get("documented_history") or context.get("historical_cases") or [],
         "assessment_limitations": context.get("assessment_limitations") or [],
         "metrics": context.get("metrics"),
+        "assessment_support": context.get("assessment_support"),
+        "assessment_mode": context.get("assessment_mode"),
+        "dataset_kind": context.get("dataset_kind"),
+        "dataset_version": context.get("dataset_version"),
+        "scenario_provenance": context.get("scenario_provenance"),
+        "applicable_scenario_rules": [
+            {
+                "rule_id": rule.get("rule_id"),
+                "material_id": rule.get("material_id"),
+                "threshold": rule.get("threshold"),
+                "unit": rule.get("unit"),
+                "operator": rule.get("operator"),
+                "provenance": rule.get("provenance"),
+                "is_regulatory_requirement": False,
+                "role": rule.get("role"),
+            }
+            for rule in context.get("applicable_scenario_rules") or []
+        ],
         "regulatory_reference_status": context.get("regulatory_reference_status"),
     }
 
@@ -296,12 +345,18 @@ def _response_ids(response) -> tuple[str | None, str | None]:
 def empty_explanation(limitations: list[str] | None = None) -> dict:
     return {
         "summary": "",
+        "key_reasons": [],
         "finding_explanations": [],
         "evidence_gaps": [],
+        "evidence_gap_explanations": [],
         "recommendations": [],
+        "prioritized_actions": [],
         "alerts": [],
+        "assessment_support_explanation": "",
+        "source_conflicts": [],
         "analysis_confidence": None,
         "version_comparison_summary": None,
+        "version_change_summary": None,
         "limitations": limitations or [],
         "version_change": None,
     }

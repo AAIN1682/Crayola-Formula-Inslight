@@ -61,6 +61,7 @@ const EXPOSURE_FIXTURES: Record<
   Paints: { contactArea: '180', durationPerUse: '35', usesPerWeek: '4' },
   Crayons: { contactArea: '40', durationPerUse: '25', usesPerWeek: '5' },
   'Modeling Compounds': { contactArea: '220', durationPerUse: '45', usesPerWeek: '3' },
+  'Future / Novelty Products': { contactArea: '', durationPerUse: '', usesPerWeek: '' },
   Glue: { contactArea: '35', durationPerUse: '10', usesPerWeek: '3' },
 };
 

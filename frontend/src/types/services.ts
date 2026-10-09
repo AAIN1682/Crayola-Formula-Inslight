@@ -1,4 +1,5 @@
 import type {
+  Ingredient,
   ActivityEvent,
   AgeGroup,
   AlertStatus,
@@ -34,6 +35,14 @@ export interface IngredientInput {
   addedInVersion?: string;
   notes?: string;
   batchId?: string;
+  compositionType?: string;
+  screeningRole?: Ingredient['screeningRole'];
+  needsCorrection?: boolean;
+  measuredValue?: number;
+  measuredUnit?: string;
+  measuredBound?: string;
+  measurementKind?: string;
+  testMethod?: string;
 }
 
 export interface FormulaInput {
@@ -51,6 +60,14 @@ export interface FormulaInput {
   lifecycle?: FormulaLifecycle;
   ingredients: IngredientInput[];
   evidenceIds: string[];
+  preferredAssessmentMode?: 'evidence' | 'scenario';
+  scenarioOfFormulaId?: string;
+  compositionCompleteness?: 'partial' | 'complete';
+  usStates?: string[];
+  intendedAgeDetail?: string;
+  toyChildcareScope?: string;
+  componentType?: string;
+  testMaterialCategory?: string;
 }
 
 export interface ReviewDecisionInput {
@@ -329,4 +346,5 @@ export type ScreeningStage = (typeof SCREENING_STAGES)[number];
 export interface RunScreeningOptions {
   onStage?: (stage: ScreeningStage, index: number) => void;
   signal?: AbortSignal;
+  assessmentMode?: 'evidence' | 'scenario';
 }

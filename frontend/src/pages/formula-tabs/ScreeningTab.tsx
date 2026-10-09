@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, PlayCircle } from 'lucide-react';
-import { useFormulaDetail } from '../FormulaDetailsPage';
+import { useFormulaDetail, useFormulaPageActions } from '../FormulaDetailsPage';
 import { Card, CardBody, CardHeader } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { Badge, ScreeningBadge, SeverityBadge } from '../../components/ui/Badge';
 import { TBody, Table, TableScroll, Td, Th, THead, Tr } from '../../components/ui/Table';
 import { EmptyState } from '../../components/ui/States';
 import { Notice } from '../../components/ui/DemoNotice';
-import { RunScreeningDialog } from '../../components/screening/RunScreeningDialog';
 import { postComparison, usesPackageCatalog } from '../../api/formulaBackend';
 import { Field, Select } from '../../components/ui/Field';
 import { useToast } from '../../components/ui/Toast';
@@ -16,11 +15,12 @@ import { formatDateTime, formatRelative } from '../../utils/formatting';
 
 export function ScreeningTab() {
   const detail = useFormulaDetail();
+  const { openRun } = useFormulaPageActions();
   const toast = useToast();
-  const [runOpen, setRunOpen] = useState(false);
   const [previousId, setPreviousId] = useState('');
   const [currentId, setCurrentId] = useState('');
   const [comparing, setComparing] = useState(false);
+  const [comparisonKind, setComparisonKind] = useState<'historical' | 'reassess'>('reassess');
   const [comparison, setComparison] = useState<Awaited<ReturnType<typeof postComparison>> | null>(null);
   const { formula, runs, latestRun } = detail;
 
@@ -28,14 +28,52 @@ export function ScreeningTab() {
   const previousRuns = runs.filter((run) => run.id !== latestRun?.id);
 
   const compareVersions = () => {
-    const previous = comparable.find((run) => run.id === previousId)?.formulaAssessment?.input_snapshot;
-    const current = comparable.find((run) => run.id === currentId)?.formulaAssessment?.input_snapshot;
+    const previousRun = comparable.find((run) => run.id === previousId);
+    const currentRun = comparable.find((run) => run.id === currentId);
+    const previous = previousRun?.formulaAssessment;
+    const current = currentRun?.formulaAssessment;
     if (!previous || !current) {
       toast.error('Choose two assessed versions', 'Each version needs a completed assessment.');
       return;
     }
+    if (comparisonKind === 'historical') {
+      const prevIds = new Map((previous.input_snapshot.ingredients ?? []).map((item) => [item.material_id, item]));
+      const currIds = new Map((current.input_snapshot.ingredients ?? []).map((item) => [item.material_id, item]));
+      setComparison({
+        comparison_kind: 'historical',
+        explanation: {
+          status: 'not_requested',
+          source: 'none',
+          content: {
+            summary: `Historical comparison of ${previousRun.formulaVersion} (${previousRun.assessmentMode ?? 'evidence'}) and ${currentRun.formulaVersion} (${currentRun.assessmentMode ?? 'evidence'}) as originally run. Data hashes ${previous.data_hash.slice(0, 8)} and ${current.data_hash.slice(0, 8)}. This is not a reassessment against the current rule set.`,
+          },
+        },
+        changes: {
+          added_ingredients: [...currIds.keys()].filter((key) => !prevIds.has(key)).map((material_id) => ({ material_id })),
+          removed_ingredients: [...prevIds.keys()].filter((key) => !currIds.has(key)).map((material_id) => ({ material_id })),
+          concentration_changes: [...currIds.keys()]
+            .filter((key) => prevIds.has(key) && prevIds.get(key)!.concentration_percent !== currIds.get(key)!.concentration_percent)
+            .map((material_id) => ({
+              material_id,
+              previous_percent: prevIds.get(material_id)!.concentration_percent,
+              current_percent: currIds.get(material_id)!.concentration_percent,
+              delta_percentage_points: Number((currIds.get(material_id)!.concentration_percent - prevIds.get(material_id)!.concentration_percent).toFixed(4)),
+            })),
+          context_changes: [
+            { field: 'assessment_mode', previous: previous.assessment_mode, current: current.assessment_mode },
+            { field: 'data_hash', previous: previous.data_hash, current: current.data_hash },
+          ],
+          finding_changes: (current.llm_context.calculated_checks ?? []).map((item) => {
+            const before = (previous.llm_context.calculated_checks ?? []).find((check) => check.check_id === item.check_id);
+            return { check_id: item.check_id, previous_status: before?.status ?? null, current_status: item.status };
+          }),
+          evidence_changes: [],
+        },
+      });
+      return;
+    }
     setComparing(true);
-    postComparison({ ...previous, generate_explanation: false }, { ...current, generate_explanation: false })
+    postComparison({ ...previous.input_snapshot, generate_explanation: false }, { ...current.input_snapshot, generate_explanation: false }, 'reassess')
       .then((result) => setComparison(result))
       .catch((cause: unknown) => {
         toast.error('Comparison was not completed', cause instanceof Error ? cause.message : 'Try again.');
@@ -64,7 +102,7 @@ export function ScreeningTab() {
             <div className="flex flex-wrap items-center gap-3">
               <ScreeningBadge status={latestRun.status} current={formula.screeningCurrent} />
               <Badge tone={latestRun.legacySample || latestRun.evidenceCompleteness !== 100 ? 'warning' : 'success'}>
-                {latestRun.legacySample ? 'Legacy sample' : `Verified evidence ${latestRun.evidenceCompleteness}%`}
+                {latestRun.legacySample ? 'Legacy sample' : latestRun.assessmentMode === 'scenario' ? `Scenario evidence ${latestRun.evidenceCompleteness}%` : `Verified evidence ${latestRun.evidenceCompleteness}%`}
               </Badge>
               <Badge tone="neutral">
                 {latestRun.findings.length} finding{latestRun.findings.length === 1 ? '' : 's'}
@@ -109,7 +147,7 @@ export function ScreeningTab() {
             title="This formula has not been screened yet"
             message="Run an assessment to record the configured checks for the selected markets and age group."
             action={
-              <Button variant="primary" onClick={() => setRunOpen(true)} icon={<PlayCircle aria-hidden className="size-4" />}>
+              <Button variant="primary" onClick={openRun} icon={<PlayCircle aria-hidden className="size-4" />}>
                 Run Assessment
               </Button>
             }
@@ -192,6 +230,16 @@ export function ScreeningTab() {
                 />
               </Field>
             </div>
+            <Field label="Comparison type">
+              <Select
+                value={comparisonKind}
+                onChange={(event) => setComparisonKind(event.target.value as 'historical' | 'reassess')}
+                options={[
+                  { value: 'reassess', label: 'Reassess both against the current rule set' },
+                  { value: 'historical', label: 'Compare historical assessments as originally run' },
+                ]}
+              />
+            </Field>
             <Button onClick={compareVersions} loading={comparing} disabled={!previousId || !currentId || previousId === currentId}>
               Compare versions
             </Button>
@@ -235,7 +283,6 @@ export function ScreeningTab() {
         </Card>
       ) : null}
 
-      <RunScreeningDialog open={runOpen} formula={formula} onClose={() => setRunOpen(false)} />
     </div>
   );
 }

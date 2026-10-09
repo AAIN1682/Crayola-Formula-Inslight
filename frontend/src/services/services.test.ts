@@ -192,14 +192,21 @@ describe('screening run', () => {
     vi.unstubAllGlobals();
   });
 
-  it('blocks a completed assessment when legacy identities are unresolved', async () => {
-    vi.stubGlobal('fetch', mockFetch());
-    await expect(services.runScreening('FML-1001')).rejects.toThrow(/Resolve ingredient identity/i);
-  });
+  it('keeps a legacy formula assessable and does not substitute its identities', async () => {
+    const fetchMock = mockFetch();
+    vi.stubGlobal('fetch', fetchMock);
+    const run = await services.runScreening('FML-1001');
+    const assessCall = fetchMock.mock.calls.find((call) => String(call[0]).includes('/api/assessments'));
+    const body = JSON.parse(String(assessCall?.[1]?.body ?? '{}')) as {
+      ingredients: { material_id: string }[];
+      legacy_materials: { name: string; legacy_id: string | null }[];
+    };
 
-  it('does not map RM-103 onto a catalog pigment by name', async () => {
-    vi.stubGlobal('fetch', mockFetch());
-    await expect(services.runScreening('FML-1001')).rejects.toThrow(/not mapped by name similarity/i);
+    expect(body.ingredients).toEqual([]);
+    expect(body.legacy_materials.map((item) => item.legacy_id)).toContain('RM-103');
+    expect(body.legacy_materials.some((item) => item.name === 'Cyan Dispersion Pigment C-14')).toBe(true);
+    expect(JSON.stringify(body.ingredients)).not.toContain('glow_purple');
+    expect(run.legacySample).toBe(false);
   });
 
   it('sends the catalog formula to the live backend and stores Azure provenance', async () => {

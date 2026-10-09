@@ -1,0 +1,206 @@
+[
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "rule_id": "SCN-MAX-water",
+    "material_id": "water",
+    "product_categories": [
+      "paint"
+    ],
+    "age_groups": [
+      "under_12",
+      "12_and_above"
+    ],
+    "regions": [
+      "US",
+      "EU"
+    ],
+    "property": "concentration_percent",
+    "operator": "<=",
+    "threshold": 100,
+    "unit": "percent_w_w",
+    "basis": "as_supplied_material_in_finished_formula",
+    "measurement_basis": "as_supplied_material_in_finished_formula",
+    "enabled": true,
+    "is_regulatory_limit": false,
+    "source_document_ids": [],
+    "rule_type": "concentration_cap",
+    "scope": "finished_formula_ingredient",
+    "category": "paint",
+    "required_test_method": null,
+    "criticality": "medium",
+    "review_status": "synthetic_scenario",
+    "role": "Editable software-testing maximum of 100% w/w for Water in paint. Illustrative configuration, not a safety recommendation or regulatory limit. The same maximum is used for US and EU because this scenario does not define a regional difference."
+  },
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "rule_id": "SCN-MAX-glow_purple",
+    "material_id": "glow_purple",
+    "product_categories": [
+      "paint"
+    ],
+    "age_groups": [
+      "under_12",
+      "12_and_above"
+    ],
+    "regions": [
+      "US",
+      "EU"
+    ],
+    "property": "concentration_percent",
+    "operator": "<=",
+    "threshold": 5,
+    "unit": "percent_w_w",
+    "basis": "as_supplied_material_in_finished_formula",
+    "measurement_basis": "as_supplied_material_in_finished_formula",
+    "enabled": true,
+    "is_regulatory_limit": false,
+    "source_document_ids": [],
+    "rule_type": "concentration_cap",
+    "scope": "finished_formula_ingredient",
+    "category": "paint",
+    "required_test_method": null,
+    "criticality": "high",
+    "review_status": "synthetic_scenario",
+    "role": "Editable software-testing maximum of 5% w/w for Glow in the Dark Purple in paint. Illustrative configuration, not a safety recommendation or regulatory limit. The same maximum is used for US and EU because this scenario does not define a regional difference."
+  },
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "rule_id": "SCN-MAX-mica_patina_silver",
+    "material_id": "mica_patina_silver",
+    "product_categories": [
+      "paint"
+    ],
+    "age_groups": [
+      "under_12",
+      "12_and_above"
+    ],
+    "regions": [
+      "US",
+      "EU"
+    ],
+    "property": "concentration_percent",
+    "operator": "<=",
+    "threshold": 10,
+    "unit": "percent_w_w",
+    "basis": "as_supplied_material_in_finished_formula",
+    "measurement_basis": "as_supplied_material_in_finished_formula",
+    "enabled": true,
+    "is_regulatory_limit": false,
+    "source_document_ids": [],
+    "rule_type": "concentration_cap",
+    "scope": "finished_formula_ingredient",
+    "category": "paint",
+    "required_test_method": null,
+    "criticality": "medium",
+    "review_status": "synthetic_scenario",
+    "role": "Editable software-testing maximum of 10% w/w for Mica Patina Silver in paint. Illustrative configuration, not a safety recommendation or regulatory limit. The same maximum is used for US and EU because this scenario does not define a regional difference."
+  },
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "rule_id": "SCN-MAX-sodium_benzoate",
+    "material_id": "sodium_benzoate",
+    "product_categories": [
+      "paint"
+    ],
+    "age_groups": [
+      "under_12",
+      "12_and_above"
+    ],
+    "regions": [
+      "US",
+      "EU"
+    ],
+    "property": "concentration_percent",
+    "operator": "<=",
+    "threshold": 0.3,
+    "unit": "percent_w_w",
+    "basis": "as_supplied_material_in_finished_formula",
+    "measurement_basis": "as_supplied_material_in_finished_formula",
+    "enabled": true,
+    "is_regulatory_limit": false,
+    "source_document_ids": [],
+    "rule_type": "concentration_cap",
+    "scope": "finished_formula_ingredient",
+    "category": "paint",
+    "required_test_method": null,
+    "criticality": "medium",
+    "review_status": "synthetic_scenario",
+    "role": "Editable software-testing maximum of 0.3% w/w for Sodium benzoate in paint. Illustrative configuration, not a safety recommendation or regulatory limit. The same maximum is used for US and EU because this scenario does not define a regional difference."
+  },
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "rule_id": "SCN-MAX-potassium_sorbate",
+    "material_id": "potassium_sorbate",
+    "product_categories": [
+      "paint"
+    ],
+    "age_groups": [
+      "under_12",
+      "12_and_above"
+    ],
+    "regions": [
+      "US",
+      "EU"
+    ],
+    "property": "concentration_percent",
+    "operator": "<=",
+    "threshold": 0.3,
+    "unit": "percent_w_w",
+    "basis": "as_supplied_material_in_finished_formula",
+    "measurement_basis": "as_supplied_material_in_finished_formula",
+    "enabled": true,
+    "is_regulatory_limit": false,
+    "source_document_ids": [],
+    "rule_type": "concentration_cap",
+    "scope": "finished_formula_ingredient",
+    "category": "paint",
+    "required_test_method": null,
+    "criticality": "medium",
+    "review_status": "synthetic_scenario",
+    "role": "Editable software-testing maximum of 0.3% w/w for Potassium sorbate in paint. Illustrative configuration, not a safety recommendation or regulatory limit. The same maximum is used for US and EU because this scenario does not define a regional difference."
+  },
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "rule_id": "SCN-MAX-propylene_glycol",
+    "material_id": "propylene_glycol",
+    "product_categories": [
+      "paint"
+    ],
+    "age_groups": [
+      "under_12",
+      "12_and_above"
+    ],
+    "regions": [
+      "US",
+      "EU"
+    ],
+    "property": "concentration_percent",
+    "operator": "<=",
+    "threshold": 8,
+    "unit": "percent_w_w",
+    "basis": "as_supplied_material_in_finished_formula",
+    "measurement_basis": "as_supplied_material_in_finished_formula",
+    "enabled": true,
+    "is_regulatory_limit": false,
+    "source_document_ids": [],
+    "rule_type": "concentration_cap",
+    "scope": "finished_formula_ingredient",
+    "category": "paint",
+    "required_test_method": null,
+    "criticality": "medium",
+    "review_status": "synthetic_scenario",
+    "role": "Editable software-testing maximum of 8% w/w for Propylene glycol in paint. Illustrative configuration, not a safety recommendation or regulatory limit. The same maximum is used for US and EU because this scenario does not define a regional difference."
+  }
+]

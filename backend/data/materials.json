@@ -18,7 +18,8 @@
         "percent": 1.2
       }
     ],
-    "notes": "Supplier batch 230320; no evidence supplied of use by Crayola."
+    "notes": "Supplier batch 230320; no evidence supplied of use by Crayola.",
+    "aliases": []
   },
   {
     "material_id": "mica_patina_silver",
@@ -43,7 +44,8 @@
         "percent": 20.5
       }
     ],
-    "notes": "Representative certificate only; iron oxide identity conflicts within source. Do not infer exact composition of another batch."
+    "notes": "Representative certificate only; iron oxide identity conflicts within source. Do not infer exact composition of another batch.",
+    "aliases": []
   },
   {
     "material_id": "zinc_sulfide",
@@ -55,7 +57,8 @@
     ],
     "verified_crayola_ingredient": false,
     "components": [],
-    "notes": ""
+    "notes": "",
+    "aliases": []
   },
   {
     "material_id": "zinc_oxide",
@@ -67,7 +70,8 @@
     ],
     "verified_crayola_ingredient": false,
     "components": [],
-    "notes": ""
+    "notes": "",
+    "aliases": []
   },
   {
     "material_id": "mica",
@@ -79,7 +83,8 @@
     ],
     "verified_crayola_ingredient": false,
     "components": [],
-    "notes": ""
+    "notes": "",
+    "aliases": []
   },
   {
     "material_id": "titanium_dioxide",
@@ -91,7 +96,8 @@
     ],
     "verified_crayola_ingredient": false,
     "components": [],
-    "notes": ""
+    "notes": "",
+    "aliases": []
   },
   {
     "material_id": "iron_oxide_unresolved",
@@ -103,7 +109,8 @@
     ],
     "verified_crayola_ingredient": false,
     "components": [],
-    "notes": ""
+    "notes": "",
+    "aliases": []
   },
   {
     "material_id": "sodium_benzoate",
@@ -115,7 +122,8 @@
     ],
     "verified_crayola_ingredient": false,
     "components": [],
-    "notes": "Name/CAS transcribed from uploaded unverified summary, not a supplier qualification or approval."
+    "notes": "Name/CAS transcribed from uploaded unverified summary, not a supplier qualification or approval.",
+    "aliases": []
   },
   {
     "material_id": "potassium_sorbate",
@@ -127,7 +135,8 @@
     ],
     "verified_crayola_ingredient": false,
     "components": [],
-    "notes": "Name/CAS transcribed from uploaded unverified summary, not a supplier qualification or approval."
+    "notes": "Name/CAS transcribed from uploaded unverified summary, not a supplier qualification or approval.",
+    "aliases": []
   },
   {
     "material_id": "phenoxyethanol",
@@ -139,7 +148,8 @@
     ],
     "verified_crayola_ingredient": false,
     "components": [],
-    "notes": "Name/CAS transcribed from uploaded unverified summary, not a supplier qualification or approval."
+    "notes": "Name/CAS transcribed from uploaded unverified summary, not a supplier qualification or approval.",
+    "aliases": []
   },
   {
     "material_id": "propylene_glycol",
@@ -151,7 +161,8 @@
     ],
     "verified_crayola_ingredient": false,
     "components": [],
-    "notes": "Name/CAS transcribed from uploaded unverified summary, not a supplier qualification or approval."
+    "notes": "Name/CAS transcribed from uploaded unverified summary, not a supplier qualification or approval.",
+    "aliases": []
   },
   {
     "material_id": "ethyl_lactate",
@@ -163,7 +174,8 @@
     ],
     "verified_crayola_ingredient": false,
     "components": [],
-    "notes": "Name/CAS transcribed from uploaded unverified summary, not a supplier qualification or approval."
+    "notes": "Name/CAS transcribed from uploaded unverified summary, not a supplier qualification or approval.",
+    "aliases": []
   },
   {
     "material_id": "bismuth_vanadate",
@@ -175,7 +187,8 @@
     ],
     "verified_crayola_ingredient": false,
     "components": [],
-    "notes": "Name/CAS transcribed from uploaded unverified summary, not a supplier qualification or approval."
+    "notes": "Name/CAS transcribed from uploaded unverified summary, not a supplier qualification or approval.",
+    "aliases": []
   },
   {
     "material_id": "water",
@@ -185,6 +198,7 @@
     "source_document_ids": [],
     "verified_crayola_ingredient": false,
     "components": [],
-    "notes": "Supplemental example carrier, not extracted from a disclosed Crayola recipe."
+    "notes": "Supplemental example carrier, not extracted from a disclosed Crayola recipe.",
+    "aliases": []
   }
 ]

@@ -1,0 +1,158 @@
+[
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "example_id": "SCN-A",
+    "description": "Case A. Glow in the Dark Purple is above the configured 5% maximum. Matching scenario evidence is complete.",
+    "role": "Illustrative paint composition for scenario assessment. Not a Crayola recipe.",
+    "input": {
+      "formula_id": "F-PURPLE-PAINT",
+      "name": "Purple Effect Paint",
+      "product_category": "paint",
+      "age_group": "under_12",
+      "regions": [
+        "US"
+      ],
+      "physical_form": "liquid",
+      "intended_use": "Brush application to paper",
+      "generate_explanation": false,
+      "assessment_mode": "scenario",
+      "version_id": "v1",
+      "ingredients": [
+        {
+          "material_id": "water",
+          "concentration_percent": 91.8,
+          "batch_id": "SCN-BATCH-WATER"
+        },
+        {
+          "material_id": "glow_purple",
+          "concentration_percent": 8,
+          "batch_id": "SCN-BATCH-GLOW"
+        },
+        {
+          "material_id": "sodium_benzoate",
+          "concentration_percent": 0.2,
+          "batch_id": "SCN-BATCH-BENZ"
+        }
+      ]
+    }
+  },
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "example_id": "SCN-B",
+    "description": "Case B. Revised composition at 4% pigment with separate finished-product evidence for v2.",
+    "role": "Illustrative paint composition for scenario assessment. Not a Crayola recipe.",
+    "input": {
+      "formula_id": "F-PURPLE-PAINT",
+      "name": "Purple Effect Paint",
+      "product_category": "paint",
+      "age_group": "under_12",
+      "regions": [
+        "US"
+      ],
+      "physical_form": "liquid",
+      "intended_use": "Brush application to paper",
+      "generate_explanation": false,
+      "assessment_mode": "scenario",
+      "version_id": "v2",
+      "ingredients": [
+        {
+          "material_id": "water",
+          "concentration_percent": 95.8,
+          "batch_id": "SCN-BATCH-WATER"
+        },
+        {
+          "material_id": "glow_purple",
+          "concentration_percent": 4,
+          "batch_id": "SCN-BATCH-GLOW"
+        },
+        {
+          "material_id": "sodium_benzoate",
+          "concentration_percent": 0.2,
+          "batch_id": "SCN-BATCH-BENZ"
+        }
+      ]
+    }
+  },
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "example_id": "SCN-C",
+    "description": "Case C. Same quantities as Case B. Finished-product test report is omitted.",
+    "role": "Illustrative paint composition for scenario assessment. Not a Crayola recipe.",
+    "input": {
+      "formula_id": "F-PURPLE-PAINT-GAP",
+      "name": "Purple Effect Paint",
+      "product_category": "paint",
+      "age_group": "under_12",
+      "regions": [
+        "US"
+      ],
+      "physical_form": "liquid",
+      "intended_use": "Brush application to paper",
+      "generate_explanation": false,
+      "assessment_mode": "scenario",
+      "version_id": "v1",
+      "ingredients": [
+        {
+          "material_id": "water",
+          "concentration_percent": 95.8,
+          "batch_id": "SCN-BATCH-WATER"
+        },
+        {
+          "material_id": "glow_purple",
+          "concentration_percent": 4,
+          "batch_id": "SCN-BATCH-GLOW"
+        },
+        {
+          "material_id": "sodium_benzoate",
+          "concentration_percent": 0.2,
+          "batch_id": "SCN-BATCH-BENZ"
+        }
+      ]
+    }
+  },
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "example_id": "SCN-D",
+    "description": "Case D. Same quantities as Case B. Pigment batch does not match the scenario CoA.",
+    "role": "Illustrative paint composition for scenario assessment. Not a Crayola recipe.",
+    "input": {
+      "formula_id": "F-PURPLE-PAINT",
+      "name": "Purple Effect Paint",
+      "product_category": "paint",
+      "age_group": "under_12",
+      "regions": [
+        "US"
+      ],
+      "physical_form": "liquid",
+      "intended_use": "Brush application to paper",
+      "generate_explanation": false,
+      "assessment_mode": "scenario",
+      "version_id": "v2d",
+      "ingredients": [
+        {
+          "material_id": "water",
+          "concentration_percent": 95.8,
+          "batch_id": "SCN-BATCH-WATER"
+        },
+        {
+          "material_id": "glow_purple",
+          "concentration_percent": 4,
+          "batch_id": "SCN-BATCH-GLOW-OTHER"
+        },
+        {
+          "material_id": "sodium_benzoate",
+          "concentration_percent": 0.2,
+          "batch_id": "SCN-BATCH-BENZ"
+        }
+      ]
+    }
+  }
+]

@@ -76,7 +76,7 @@ export function FormulaComparisonView({ comparison }: { comparison: FormulaCompa
             {currentFormula.targetMarkets?.length
               ? ` · Markets ${currentFormula.targetMarkets.join(', ')}`
               : ''}
-            {currentFormula.ageGroup ? ` · ${currentFormula.ageGroup === 'under_12' ? 'Under 12 years' : '12 years and above'}` : ''}
+            {currentFormula.ageGroup ? ` · ${currentFormula.ageGroup === 'under_12' ? 'Under 12' : '12 and above'}` : ''}
           </p>
         </div>
         <div className="rounded-lg border border-line bg-canvas p-3">

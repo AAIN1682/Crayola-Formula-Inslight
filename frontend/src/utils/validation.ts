@@ -84,6 +84,13 @@ export function validateFormulaInput(input: FormulaInput): ValidationResult {
       message: 'Select at least one target market before assessment.',
     });
     missingFieldLabels.push('Target markets');
+  } else if (input.targetMarkets.some((market) => market !== 'US' && market !== 'EU')) {
+    issues.push({
+      field: 'targetMarkets',
+      step: 1,
+      severity: 'error',
+      message: 'This workflow supports the United States and the European Union.',
+    });
   }
   if (!input.physicalForm) {
     issues.push({ field: 'physicalForm', step: 1, severity: 'error', message: 'Physical form is required.' });
@@ -131,8 +138,11 @@ export function validateFormulaInput(input: FormulaInput): ValidationResult {
       }
     }
 
+    const contaminant = ingredient.screeningRole === 'contaminant_analyte' || ingredient.measurementKind === 'content' || ingredient.measurementKind === 'migration';
     const concentration = ingredient.concentration;
-    if (!Number.isFinite(concentration)) {
+    if (contaminant && !Number.isFinite(concentration)) {
+      // Measured results are entered separately and do not have to be a formula percentage.
+    } else if (!Number.isFinite(concentration)) {
       issues.push({
         field: `ingredients.${index}.concentration`,
         step: 2,
@@ -192,14 +202,22 @@ export function validateFormulaInput(input: FormulaInput): ValidationResult {
     }
   });
 
-  const total = sumConcentrations(input.ingredients);
+  const counted = input.ingredients.filter((ingredient) => ingredient.screeningRole !== 'contaminant_analyte' && ingredient.measurementKind !== 'content' && ingredient.measurementKind !== 'migration');
+  const total = sumConcentrations(counted);
   const packageCatalog =
     input.ingredients.length > 0 &&
     input.ingredients.every((ingredient) => Boolean(ingredient.rawMaterialId && /^[a-z][a-z0-9_]*$/.test(ingredient.rawMaterialId)));
-  const tolerance = packageCatalog ? 0.01 : CONCENTRATION_TOLERANCE;
+  const tolerance = packageCatalog || input.compositionCompleteness ? 0.01 : CONCENTRATION_TOLERANCE;
   const totalWithinTolerance = Math.abs(total - CONCENTRATION_TOTAL) <= tolerance + 1e-9;
 
-  if (input.ingredients.length > 0 && !totalWithinTolerance) {
+  if (input.compositionCompleteness === 'partial') {
+    issues.push({
+      field: 'ingredients.total',
+      step: 2,
+      severity: 'warning',
+      message: `Partial composition. Catalog coverage incomplete. Formulation ingredients total ${total}% and do not need to reach 100%. Contaminant rows are excluded.`,
+    });
+  } else if (input.ingredients.length > 0 && !totalWithinTolerance) {
     issues.push({
       field: 'ingredients.total',
       step: 2,

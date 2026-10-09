@@ -9,6 +9,7 @@ import type {
   ReviewStatus,
   ScreeningRun,
   ScreeningStatus,
+  SourceReviewDraft,
 } from '../../types/domain';
 import type {
   AlertDetail,
@@ -39,8 +40,7 @@ import type {
 import type { DemoStore } from '../../state/store';
 import type { DemoAction } from '../../state/reducer';
 import { ServiceError, type FormulaInsightServices } from '../contracts';
-import { fetchPackageCatalog, formulaToPackageRequest, isLiveAzureAssessment, mapPackageAssessment, postPackageAssessment } from '../../api/formulaBackend';
-import { catalogIdSet, identityErrorMessage, unresolvedIngredients } from '../../utils/catalog';
+import { branchSubstanceIds, formulaToPackageRequest, isLiveAzureAssessment, mapPackageAssessment, postPackageAssessment } from '../../api/formulaBackend';
 import {
   diffIngredients,
   isRunCurrent,
@@ -162,6 +162,14 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
       addedInVersion: ingredient.addedInVersion,
       notes: ingredient.notes,
       batchId: ingredient.batchId,
+      compositionType: ingredient.compositionType,
+      screeningRole: ingredient.screeningRole,
+      needsCorrection: ingredient.needsCorrection,
+      measuredValue: ingredient.measuredValue,
+      measuredUnit: ingredient.measuredUnit,
+      measuredBound: ingredient.measuredBound,
+      measurementKind: ingredient.measurementKind,
+      testMethod: ingredient.testMethod,
     }));
 
     return {
@@ -180,6 +188,12 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
       lifecycle: input.lifecycle ?? base?.lifecycle ?? 'draft',
       ingredients,
       evidenceIds: input.evidenceIds,
+      compositionCompleteness: input.compositionCompleteness,
+      usStates: input.usStates,
+      intendedAgeDetail: input.intendedAgeDetail,
+      toyChildcareScope: input.toyChildcareScope,
+      componentType: input.componentType,
+      testMaterialCategory: input.testMaterialCategory,
       screeningStatus: base?.screeningStatus ?? 'not-screened',
       screeningCurrent: base?.screeningCurrent ?? false,
       latestRunId: base?.latestRunId,
@@ -190,6 +204,8 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
       nextReviewDate: input.nextReviewDate ?? base?.nextReviewDate,
       originSubmissionId: base?.originSubmissionId,
       description: input.description ?? base?.description,
+      preferredAssessmentMode: input.preferredAssessmentMode ?? base?.preferredAssessmentMode,
+      scenarioOfFormulaId: input.scenarioOfFormulaId ?? base?.scenarioOfFormulaId,
       ...overrides,
     };
   };
@@ -413,17 +429,13 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
         throw new ServiceError('Screening was cancelled.');
       }
 
-      let catalogMaterials;
+      let catalogIds: Set<string>;
       try {
-        catalogMaterials = await fetchPackageCatalog(options?.signal);
+        catalogIds = await branchSubstanceIds(formula, options?.signal);
       } catch (error) {
         if (options?.signal?.aborted) throw new ServiceError('Screening was cancelled.');
         const message = error instanceof Error ? error.message : 'The material catalog could not be loaded.';
         throw new ServiceError(message);
-      }
-      const unresolved = unresolvedIngredients(formula, catalogIdSet(catalogMaterials));
-      if (unresolved.length) {
-        throw new ServiceError(identityErrorMessage(unresolved), false);
       }
       if (generation !== assessmentGeneration) {
         throw new ServiceError('A newer assessment replaced this result.');
@@ -431,7 +443,10 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
 
       let payload: Awaited<ReturnType<typeof postPackageAssessment>>;
       try {
-        payload = await postPackageAssessment(formulaToPackageRequest(formula, true), options?.signal);
+        payload = await postPackageAssessment(
+          formulaToPackageRequest(formula, true, options?.assessmentMode ?? formula.preferredAssessmentMode ?? 'evidence', catalogIds),
+          options?.signal,
+        );
       } catch (error) {
         if (options?.signal?.aborted) throw new ServiceError('Screening was cancelled.');
         const message = error instanceof Error ? error.message : 'The assessment service could not be reached.';
@@ -492,6 +507,7 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
         inputHash: payload.input_hash ?? payload.execution?.input_hash,
         dataHash: payload.data_hash ?? payload.execution?.data_hash,
         aiStatus: live ? 'succeeded' : payload.execution?.llm_status === 'failed' ? 'failed' : 'not_requested',
+        assessmentMode: payload.assessment_mode ?? options?.assessmentMode ?? 'evidence',
       };
 
       const reviewStatus: ReviewStatus =
@@ -501,6 +517,7 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
         ...formula,
         screeningStatus: status,
         screeningCurrent: true,
+        preferredAssessmentMode: run.assessmentMode ?? formula.preferredAssessmentMode,
         latestRunId: run.id,
         lastScreenedAt: runAt,
         reviewStatus,
@@ -516,7 +533,7 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
             type: 'screening-run',
             summary: `Screening run completed for ${formula.name} ${formula.version}`,
             detail: live
-              ? `Live Azure assessment · ${status.toUpperCase()} · verified evidence coverage ${evidence.completeness}%.`
+              ? `Live Azure assessment · ${status.toUpperCase()} · ${run.assessmentMode === 'scenario' ? 'scenario evidence completeness' : 'verified evidence coverage'} ${evidence.completeness}%.`
               : `Partial calculated result · AI analysis ${payload.execution?.llm_status ?? 'unavailable'} · ${status.toUpperCase()}.`,
             formulaId: formula.id,
             runId: run.id,
@@ -567,6 +584,11 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
           .sort((a, b) => new Date(b.decidedAt).getTime() - new Date(a.decidedAt).getTime()),
         ownerName: personName(formula.ownerId),
       };
+    },
+
+    async saveSourceReviewDraft(draft: SourceReviewDraft) {
+      store.dispatch({ type: 'sourceReview/upsert', draft });
+      return draft;
     },
 
     async saveReviewDecision(input: ReviewDecisionInput) {

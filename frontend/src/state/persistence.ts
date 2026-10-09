@@ -3,7 +3,7 @@ import { createSeedDataset } from '../data/seed';
 import { mapLegacyAge } from '../utils/audience';
 
 export const STORAGE_KEY = 'formula-insight.dataset';
-export const STORAGE_VERSION = 3;
+export const STORAGE_VERSION = 4;
 
 export const PERSISTENCE_DESCRIPTION =
   'Formulas, assessment runs, review decisions, and activity stay in this browser under the key "formula-insight.dataset". That history is not shared server-side storage. A catalog assessment is sent to the application server to run the checks and request an explanation; the server does not keep the run.';
@@ -55,8 +55,9 @@ function migrateDataset(dataset: DemoDataset): DemoDataset {
         { market: 'US', status: run.status, findingIds: run.findings.map((finding) => finding.id) },
       ],
       assessmentRequest: run.assessmentRequest ?? (ageGroup ? { target_markets: targetMarkets, age_group: ageGroup } : run.assessmentRequest),
+      assessmentMode: run.assessmentMode ?? run.formulaAssessment?.assessment_mode ?? run.formulaAssessment?.input_snapshot?.assessment_mode,
       legacySample,
-      outdated: run.outdated || legacySample,
+      outdated: run.outdated || legacySample || !(run.assessmentMode ?? run.formulaAssessment?.assessment_mode ?? run.formulaAssessment?.input_snapshot?.assessment_mode),
     };
     return next;
   });
@@ -71,7 +72,7 @@ function migrateDataset(dataset: DemoDataset): DemoDataset {
   const nextFormulas = formulas.map((formula) =>
     latestLegacy.has(formula.id) ? { ...formula, screeningCurrent: false } : formula,
   );
-  return { ...dataset, formulas: nextFormulas, runs };
+  return { ...dataset, formulas: nextFormulas, runs, sourceReviewDrafts: dataset.sourceReviewDrafts ?? [] };
 }
 
 function isValidDataset(value: unknown): value is DemoDataset {

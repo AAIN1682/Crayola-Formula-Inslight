@@ -173,8 +173,7 @@ export function IngredientsTab() {
 
       {formula.ingredients.some((ingredient) => !ingredient.rawMaterialId || (ingredient.rawMaterialId && !/^[a-z][a-z0-9_]*$/.test(ingredient.rawMaterialId))) ? (
         <Notice tone="warning" title="Some ingredient identities are unresolved">
-          Highlighted rows are not linked to the backend catalog. Select the correct catalog material before
-          running a completed assessment. Legacy IDs are not mapped by name similarity.
+          Highlighted rows are not in the US/EU catalog branch. An assessment keeps them and records a coverage gap for each one. Names are not matched by similarity.
         </Notice>
       ) : null}
     </div>

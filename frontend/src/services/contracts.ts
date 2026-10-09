@@ -5,6 +5,7 @@ import type {
   MonitoringAlert,
   ReviewDecision,
   ScreeningRun,
+  SourceReviewDraft,
   Submission,
 } from '../types/domain';
 import type {
@@ -50,6 +51,7 @@ export interface FormulaInsightServices {
   retryExplanation(runId: string): Promise<ScreeningRun>;
   getScreeningResult(runId: string): Promise<ScreeningResultView>;
   saveReviewDecision(input: ReviewDecisionInput): Promise<ReviewDecision>;
+  saveSourceReviewDraft(draft: SourceReviewDraft): Promise<SourceReviewDraft>;
 
   listSubmissions(filters?: SubmissionFilters): Promise<Submission[]>;
   getSubmission(id: string): Promise<SubmissionDetail>;

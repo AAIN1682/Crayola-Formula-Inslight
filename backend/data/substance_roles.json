@@ -1,0 +1,36 @@
+{
+  "mapping_version": "2026-10-08",
+  "note": "Screening role only. A substance is not an approved recipe ingredient because it appears in composition[].",
+  "composition_type_roles": {
+    "Heavy Metals": "contaminant_analyte",
+    "Pigments": "formulation_ingredient",
+    "Plasticizers": "formulation_ingredient",
+    "Solvents": "formulation_ingredient",
+    "VOCs": "formulation_ingredient",
+    "Dyes": "formulation_ingredient",
+    "Additives": "formulation_ingredient",
+    "Preservatives": "formulation_ingredient",
+    "Waxes": "formulation_ingredient",
+    "Fillers": "formulation_ingredient"
+  },
+  "element_analytes": [
+    "lead",
+    "cadmium",
+    "chromium",
+    "arsenic",
+    "mercury",
+    "antimony",
+    "barium",
+    "selenium",
+    "boron",
+    "nickel",
+    "cobalt",
+    "aluminium",
+    "aluminum",
+    "barium"
+  ],
+  "compound_markers": ["chromate", "sulfide", "selenide", "oxide", "sulfate", "aluminate"],
+  "override_if_identity_issue": "role_requires_review",
+  "override_if_elemental_limit_on_compound": "role_requires_review",
+  "override_if_species_conflict": "role_requires_review"
+}

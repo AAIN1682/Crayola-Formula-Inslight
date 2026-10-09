@@ -2005,6 +2005,7 @@ export function createSeedDataset(): DemoDataset {
       defaultReviewerId: 'usr-marcus',
       tableDensity: 'comfortable',
     },
+    sourceReviewDrafts: [],
   };
 }
 

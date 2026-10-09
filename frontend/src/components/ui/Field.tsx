@@ -1,4 +1,4 @@
-import { useId, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes, type TextareaHTMLAttributes } from 'react';
+import { useId, useMemo, useState, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes, type TextareaHTMLAttributes } from 'react';
 import { AlertCircle } from 'lucide-react';
 import { cn } from '../../utils/cn';
 
@@ -109,6 +109,64 @@ export function Select({ options, placeholder, invalid, className, ...rest }: Se
         </option>
       ))}
     </select>
+  );
+}
+
+export function SearchSelect({
+  options,
+  value,
+  onChange,
+  placeholder = 'Search the list',
+  invalid,
+  id,
+  disabled,
+}: {
+  options: SelectOption[];
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+  invalid?: boolean;
+  id?: string;
+  disabled?: boolean;
+}) {
+  const [query, setQuery] = useState('');
+  const filtered = useMemo(() => {
+    const needle = query.trim().toLowerCase();
+    if (!needle) return options;
+    return options.filter((option) => option.label.toLowerCase().includes(needle) || option.value.toLowerCase().includes(needle));
+  }, [options, query]);
+  return (
+    <div className="space-y-1">
+      <input
+        id={id}
+        value={query}
+        disabled={disabled}
+        placeholder={placeholder}
+        className={cn(CONTROL, 'h-10', invalid && 'border-danger-line')}
+        onChange={(event) => setQuery(event.target.value)}
+        onKeyDown={(event) => {
+          if (event.key !== 'Enter') return;
+          event.preventDefault();
+          const exact = options.find(
+            (option) => option.label.toLowerCase() === query.trim().toLowerCase() || option.value === query.trim(),
+          );
+          if (exact) onChange(exact.value);
+        }}
+      />
+      <select
+        value={options.some((option) => option.value === value) ? value : ''}
+        disabled={disabled}
+        className={cn(CONTROL, 'h-10', invalid && 'border-danger-line')}
+        onChange={(event) => onChange(event.target.value)}
+      >
+        <option value="">{filtered.length === 0 ? 'No matches' : 'Select'}</option>
+        {filtered.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+    </div>
   );
 }
 

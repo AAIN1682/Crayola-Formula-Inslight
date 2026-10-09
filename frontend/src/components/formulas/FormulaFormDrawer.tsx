@@ -1,26 +1,19 @@
 import { useEffect, useMemo, useState } from 'react';
-import { AlertTriangle, CheckCircle2, Plus, Sparkles, Trash2 } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, Plus, Trash2 } from 'lucide-react';
 import type { AgeGroup, Formula, PhysicalForm, ProductCategory, TargetMarket } from '../../types/domain';
-import { AGE_GROUP_LABEL, AGE_GROUPS, PHYSICAL_FORMS, PRODUCT_CATEGORIES, TARGET_MARKETS } from '../../types/domain';
+import { AGE_GROUP_LABEL, AGE_GROUPS, PHYSICAL_FORMS, PRODUCT_CATEGORIES, SCREENING_MARKETS, TARGET_MARKETS } from '../../types/domain';
 import type { FormulaInput } from '../../types/services';
-import {
-  categoryForExample,
-  fetchPackageCatalog,
-  fetchPackageExamples,
-  physicalFormForExample,
-  type PackageExample,
-} from '../../api/formulaBackend';
+import { type AssessmentMode } from '../../api/formulaBackend';
 import { useDemoSelector, useServices, useSettings } from '../../state/DemoDataProvider';
 import { useAsyncAction } from '../../hooks/useAsyncData';
 import { useToast } from '../ui/Toast';
 import { Drawer } from '../ui/Drawer';
 import { Button } from '../ui/Button';
-import { Checkbox, Field, Select, TextArea, TextInput } from '../ui/Field';
+import { Checkbox, Field, SearchSelect, Select, TextArea, TextInput } from '../ui/Field';
 import { FormStepper, type StepDescriptor } from '../ui/Stepper';
 import { Notice } from '../ui/DemoNotice';
 import { Badge } from '../ui/Badge';
 import {
-  CONCENTRATION_TOLERANCE,
   fieldError,
   issuesForStep,
   validateFormulaInput,
@@ -46,6 +39,23 @@ interface IngredientRow {
   notes: string;
   batchId: string;
   addedInVersion?: string;
+  compositionType: string;
+  screeningRole: string;
+  needsCorrection: boolean;
+  measuredText: string;
+  measuredUnit: string;
+  measurementKind: string;
+  testMethod: string;
+  section: 'formulation' | 'contaminant';
+}
+
+interface CatalogSubstance {
+  substance_id: string;
+  label: string;
+  role: string;
+  role_label: string;
+  regions: string[];
+  composition_types: string[];
 }
 
 interface FormState {
@@ -61,6 +71,13 @@ interface FormState {
   description: string;
   ingredients: IngredientRow[];
   evidenceIds: string[];
+  preferredAssessmentMode?: AssessmentMode;
+  compositionCompleteness: 'partial' | 'complete';
+  usStates: string[];
+  intendedAgeDetail: string;
+  toyChildcareScope: string;
+  componentType: string;
+  testMaterialCategory: string;
 }
 
 let rowCounter = 0;
@@ -69,8 +86,24 @@ const nextKey = () => {
   return `row-${rowCounter}`;
 };
 
-function emptyRow(): IngredientRow {
-  return { key: nextKey(), name: '', rawMaterialId: '', concentrationText: '', supplier: '', notes: '', batchId: '' };
+function emptyRow(section: 'formulation' | 'contaminant' = 'formulation'): IngredientRow {
+  return {
+    key: nextKey(),
+    name: '',
+    rawMaterialId: '',
+    concentrationText: '',
+    supplier: '',
+    notes: '',
+    batchId: '',
+    compositionType: '',
+    screeningRole: section === 'contaminant' ? 'contaminant_analyte' : '',
+    needsCorrection: false,
+    measuredText: '',
+    measuredUnit: 'mg/kg',
+    measurementKind: '',
+    testMethod: '',
+    section,
+  };
 }
 
 function toFormState(formula: Formula | undefined, defaults: { ownerId: string; reviewerId: string }): FormState {
@@ -88,6 +121,12 @@ function toFormState(formula: Formula | undefined, defaults: { ownerId: string; 
       description: '',
       ingredients: [emptyRow(), emptyRow()],
       evidenceIds: [],
+      compositionCompleteness: 'partial',
+      usStates: [],
+      intendedAgeDetail: '',
+      toyChildcareScope: '',
+      componentType: 'finished_formula',
+      testMaterialCategory: '',
     };
   }
 
@@ -112,8 +151,23 @@ function toFormState(formula: Formula | undefined, defaults: { ownerId: string; 
       notes: ingredient.notes ?? '',
       batchId: ingredient.batchId ?? '',
       addedInVersion: ingredient.addedInVersion,
+      compositionType: ingredient.compositionType ?? '',
+      screeningRole: ingredient.screeningRole ?? '',
+      needsCorrection: Boolean(ingredient.needsCorrection),
+      measuredText: ingredient.measuredValue == null ? '' : String(ingredient.measuredValue),
+      measuredUnit: ingredient.measuredUnit ?? 'mg/kg',
+      measurementKind: ingredient.measurementKind ?? '',
+      testMethod: ingredient.testMethod ?? '',
+      section: ingredient.screeningRole === 'contaminant_analyte' || ingredient.measurementKind === 'migration' || ingredient.measurementKind === 'content' ? 'contaminant' : 'formulation',
     })),
     evidenceIds: [...formula.evidenceIds],
+    preferredAssessmentMode: formula.preferredAssessmentMode,
+    compositionCompleteness: formula.compositionCompleteness ?? 'partial',
+    usStates: [...(formula.usStates ?? [])],
+    intendedAgeDetail: formula.intendedAgeDetail ?? '',
+    toyChildcareScope: formula.toyChildcareScope ?? '',
+    componentType: formula.componentType ?? 'finished_formula',
+    testMaterialCategory: formula.testMaterialCategory ?? '',
   };
 }
 
@@ -141,8 +195,22 @@ function toInput(form: FormState, lifecycle: 'draft' | 'active'): FormulaInput {
         notes: row.notes || undefined,
         batchId: row.batchId.trim() || undefined,
         addedInVersion: row.addedInVersion,
+        compositionType: row.compositionType || undefined,
+        screeningRole: (row.screeningRole || undefined) as FormulaInput['ingredients'][number]['screeningRole'],
+        needsCorrection: row.needsCorrection,
+        measuredValue: row.section === 'contaminant' && row.measuredText.trim() !== '' ? Number(row.measuredText) : undefined,
+        measuredUnit: row.section === 'contaminant' ? row.measuredUnit || undefined : undefined,
+        measurementKind: row.section === 'contaminant' ? row.measurementKind || undefined : undefined,
+        testMethod: row.section === 'contaminant' ? row.testMethod || undefined : undefined,
       })),
     evidenceIds: form.evidenceIds,
+    preferredAssessmentMode: form.preferredAssessmentMode,
+    compositionCompleteness: form.compositionCompleteness,
+    usStates: form.usStates,
+    intendedAgeDetail: form.intendedAgeDetail || undefined,
+    toyChildcareScope: form.toyChildcareScope || undefined,
+    componentType: form.componentType || undefined,
+    testMaterialCategory: form.testMaterialCategory || undefined,
   };
 }
 
@@ -192,7 +260,6 @@ export function FormulaFormDrawer({
   const toast = useToast();
   const settings = useSettings();
   const people = useDemoSelector((state) => state.people);
-  const rawMaterials = useDemoSelector((state) => state.rawMaterials);
   const documents = useDemoSelector((state) => state.documents);
 
   const [step, setStep] = useState(0);
@@ -201,11 +268,10 @@ export function FormulaFormDrawer({
     toFormState(formula, { ownerId: settings.currentUserId, reviewerId: settings.defaultReviewerId }),
   );
   const [showAllIssues, setShowAllIssues] = useState(false);
-  const [examples, setExamples] = useState<PackageExample[]>([]);
-  const [catalogOptions, setCatalogOptions] = useState<{ value: string; label: string }[]>([]);
-  const [examplesLoading, setExamplesLoading] = useState(false);
-  const [examplesError, setExamplesError] = useState<string>();
-  const [selectedExampleId, setSelectedExampleId] = useState('');
+  const [substances, setSubstances] = useState<CatalogSubstance[]>([]);
+  const [materialTypes, setMaterialTypes] = useState<string[]>([]);
+  const [catalogNote, setCatalogNote] = useState('Catalog coverage incomplete.');
+  const [catalogError, setCatalogError] = useState<string>();
 
   useEffect(() => {
     if (!open) return;
@@ -215,52 +281,52 @@ export function FormulaFormDrawer({
     setShowAllIssues(false);
   }, [open, formula, settings.currentUserId, settings.defaultReviewerId]);
 
+  const screeningMarkets = form.targetMarkets.filter((market) => market === 'US' || market === 'EU');
+
   useEffect(() => {
-    if (!open) return;
+    if (!open || !form.category || !form.ageGroup || screeningMarkets.length === 0) {
+      setSubstances([]);
+      setMaterialTypes([]);
+      return;
+    }
     const controller = new AbortController();
-    setExamplesLoading(true);
-    setExamplesError(undefined);
-    Promise.all([fetchPackageExamples(controller.signal), fetchPackageCatalog(controller.signal)])
-      .then(([loaded, ingredients]) => {
-        setExamples(loaded);
-        setSelectedExampleId((current) => current || loaded[0]?.example_id || '');
-        setCatalogOptions(
-          ingredients.map((item) => ({
-            value: item.material_id,
-            label: `${item.material_id} — ${item.name}`,
-          })),
-        );
+    const params = new URLSearchParams({
+      regions: screeningMarkets.join(','),
+      category: form.category,
+      age_group: form.ageGroup,
+    });
+    setCatalogError(undefined);
+    Promise.all([
+      fetch(`/api/reference/material-types?${params}`, { signal: controller.signal }).then((response) => response.json()),
+      fetch(`/api/reference/substances?${params}`, { signal: controller.signal }).then((response) => response.json()),
+    ])
+      .then(([types, substanceBody]) => {
+        const nextTypes = (types.composition_types ?? []) as string[];
+        const nextSubstances = (substanceBody.substances ?? []) as CatalogSubstance[];
+        setMaterialTypes(nextTypes);
+        setSubstances(nextSubstances);
+        setCatalogNote(substanceBody.coverage_note || 'Catalog coverage incomplete.');
+        const ids = new Set(nextSubstances.map((item) => item.substance_id));
+        setForm((current) => ({
+          ...current,
+          ingredients: current.ingredients.map((row) => {
+            if (!row.rawMaterialId) return row;
+            const match = nextSubstances.find((item) => item.substance_id === row.rawMaterialId);
+            const typeOk = !row.compositionType || !match || match.composition_types.includes(row.compositionType);
+            return { ...row, needsCorrection: !match || !ids.has(row.rawMaterialId) || !typeOk };
+          }),
+        }));
       })
       .catch((cause: unknown) => {
         if (controller.signal.aborted) return;
-        setExamplesError(cause instanceof Error ? cause.message : 'Reference formulas could not be loaded.');
-      })
-      .finally(() => {
-        if (!controller.signal.aborted) setExamplesLoading(false);
+        setCatalogError(cause instanceof Error ? cause.message : 'The reference catalog could not be loaded.');
       });
     return () => controller.abort();
-  }, [open]);
+  }, [open, form.category, form.ageGroup, screeningMarkets.join(',')]);
 
   const validation = useMemo(() => validateFormulaInput(toInput(form, 'active')), [form]);
 
-  const catalogIds = useMemo(() => new Set(catalogOptions.map((item) => item.value)), [catalogOptions]);
-  const materialOptions = useMemo(() => {
-    const extras = form.ingredients
-      .filter((row) => row.rawMaterialId && !catalogIds.has(row.rawMaterialId))
-      .map((row) => ({
-        value: row.rawMaterialId,
-        label: `${row.rawMaterialId} — legacy, remapping required`,
-      }));
-    const seen = new Set(catalogOptions.map((item) => item.value));
-    return [
-      ...catalogOptions,
-      ...extras.filter((item) => {
-        if (seen.has(item.value)) return false;
-        seen.add(item.value);
-        return true;
-      }),
-    ];
-  }, [catalogOptions, catalogIds, form.ingredients]);
+  const catalogIds = useMemo(() => new Set(substances.map((item) => item.substance_id)), [substances]);
 
   const linkableDocuments = useMemo(
     () =>
@@ -281,49 +347,14 @@ export function FormulaFormDrawer({
       ingredients: current.ingredients.map((row) => (row.key === key ? { ...row, ...patch } : row)),
     }));
 
-  const addRow = () => setForm((current) => ({ ...current, ingredients: [...current.ingredients, emptyRow()] }));
+  const addRow = (section: 'formulation' | 'contaminant' = 'formulation') =>
+    setForm((current) => ({ ...current, ingredients: [...current.ingredients, emptyRow(section)] }));
 
   const removeRow = (key: string) =>
     setForm((current) => ({
       ...current,
       ingredients: current.ingredients.filter((row) => row.key !== key),
     }));
-
-  const loadSample = () => {
-    const example = examples.find((item) => item.example_id === selectedExampleId) ?? examples[0];
-    if (!example) {
-      toast.error('Reference formula unavailable', examplesError ?? 'The reference formulas have not loaded yet.');
-      return;
-    }
-    const source = example.input;
-    const nameFor = (materialId: string) => {
-      const option = catalogOptions.find((item) => item.value === materialId);
-      const label = option?.label.split(' — ').slice(1).join(' — ').trim();
-      return label || materialId;
-    };
-    setForm((current) => ({
-      ...current,
-      name: source.name,
-      version: source.version_id,
-      category: categoryForExample(source.product_category),
-      ageGroup: source.age_group,
-      targetMarkets: [...source.regions],
-      physicalForm: physicalFormForExample(source.physical_form),
-      intendedUse: source.intended_use,
-      description: example.description,
-      ingredients: source.ingredients.map((ingredient) => ({
-        key: nextKey(),
-        name: nameFor(ingredient.material_id),
-        rawMaterialId: ingredient.material_id,
-        concentrationText: String(ingredient.concentration_percent),
-        supplier: '',
-        notes: '',
-        batchId: ingredient.batch_id ?? '',
-      })),
-    }));
-    setFurthest((value) => Math.max(value, 2));
-    toast.info('Reference formula loaded', 'An illustrative composition was filled in. Adjust anything you need to.');
-  };
 
   const save = useAsyncAction(async (lifecycle: 'draft' | 'active') => {
     const input = toInput(form, lifecycle);
@@ -504,7 +535,7 @@ export function FormulaFormDrawer({
                 error={fieldError(validation, 'targetMarkets')}
               >
                 <div id="formula-markets" className="flex flex-wrap gap-2" role="group" aria-label="Target markets">
-                  {TARGET_MARKETS.map((market) => {
+                  {SCREENING_MARKETS.map((market) => {
                     const selected = form.targetMarkets.includes(market.code);
                     return (
                       <button
@@ -580,49 +611,116 @@ export function FormulaFormDrawer({
               </Field>
             </div>
 
-            {examplesError ? (
-              <Notice tone="danger" title="Reference formulas could not be loaded">
-                {examplesError}
+            {catalogError ? (
+              <Notice tone="danger" title="Reference catalog could not be loaded">
+                {catalogError}
               </Notice>
             ) : null}
-
-            <div className="flex flex-wrap items-end gap-2">
-              <Field label="Illustrative formula" className="min-w-56 flex-1">
-                <Select
-                  value={selectedExampleId}
-                  placeholder={examplesLoading ? 'Loading formulas…' : 'No formulas loaded'}
-                  options={examples.map((item) => ({ value: item.example_id, label: item.input.name }))}
-                  onChange={(event) => setSelectedExampleId(event.target.value)}
-                  disabled={examplesLoading || examples.length === 0}
-                />
-              </Field>
-              <Button variant="subtle" onClick={loadSample} disabled={examplesLoading} icon={<Sparkles aria-hidden className="size-4" />}>
-                Load reference formula
-              </Button>
-            </div>
           </div>
         ) : null}
 
         {step === 1 ? (
           <div className="space-y-4">
+            <Notice tone="warning" title="Catalog coverage incomplete">
+              {catalogNote} This list is not an approved recipe. Restricted substances and laboratory analytes stay separate from formulation ingredients.
+            </Notice>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <Field label="Composition declaration">
+                <Select
+                  value={form.compositionCompleteness}
+                  options={[
+                    { value: 'partial', label: 'Partial substance screening' },
+                    { value: 'complete', label: 'Declared ingredient list totals 100%' },
+                  ]}
+                  onChange={(event) => update('compositionCompleteness', event.target.value as 'partial' | 'complete')}
+                />
+              </Field>
+              <Field label="Component the concentration describes">
+                <Select
+                  value={form.componentType}
+                  options={[
+                    { value: 'finished_formula', label: 'Finished formula' },
+                    { value: 'plasticised_material', label: 'Plasticised material' },
+                    { value: 'substrate', label: 'Substrate' },
+                    { value: 'surface_coating', label: 'Surface coating' },
+                    { value: 'dried_film', label: 'Dried film' },
+                  ]}
+                  onChange={(event) => update('componentType', event.target.value)}
+                />
+              </Field>
+              {form.targetMarkets.includes('US') ? (
+                <Field label="US state, when a state rule should apply" hint="Leave unset for a generic US assessment. State rules are not applied automatically.">
+                  <Select
+                    value={form.usStates[0] ?? ''}
+                    placeholder="No state selected"
+                    options={[
+                      { value: 'WA', label: 'Washington' },
+                      { value: 'VT', label: 'Vermont' },
+                      { value: 'CA', label: 'California' },
+                    ]}
+                    onChange={(event) => update('usStates', event.target.value ? [event.target.value] : [])}
+                  />
+                </Field>
+              ) : null}
+              <Field label="Intended age within the band" hint="The age band only filters the catalog. Narrower rule boundaries stay unresolved until this is selected.">
+                <Select
+                  value={form.intendedAgeDetail}
+                  placeholder="Not specified"
+                  options={[
+                    { value: 'under_36_months', label: 'Under 36 months' },
+                    { value: 'age_3_to_under_6', label: '3 to under 6' },
+                    { value: 'age_6_to_under_12', label: '6 to under 12' },
+                    { value: 'age_12_to_under_14', label: '12 to under 14' },
+                    { value: 'age_14_plus', label: '14 and above' },
+                  ]}
+                  onChange={(event) => update('intendedAgeDetail', event.target.value)}
+                />
+              </Field>
+              <Field label="Toy or childcare article">
+                <Select
+                  value={form.toyChildcareScope}
+                  placeholder="Not specified"
+                  options={[
+                    { value: 'yes', label: 'Yes' },
+                    { value: 'no', label: 'No' },
+                    { value: 'unknown', label: 'Unknown' },
+                  ]}
+                  onChange={(event) => update('toyChildcareScope', event.target.value)}
+                />
+              </Field>
+              <Field label="Test material category">
+                <Select
+                  value={form.testMaterialCategory}
+                  placeholder="Not specified"
+                  options={[
+                    { value: 'en71_cat_i', label: 'EN 71-3 Category I' },
+                    { value: 'en71_cat_ii', label: 'EN 71-3 Category II' },
+                    { value: 'en71_cat_iii', label: 'EN 71-3 Category III' },
+                  ]}
+                  onChange={(event) => update('testMaterialCategory', event.target.value)}
+                />
+              </Field>
+            </div>
             <div className="flex flex-wrap items-center justify-between gap-2">
               <p className="text-[13px] text-muted">
-                Concentrations must total 100% within ±
-                {form.ingredients.some((row) => row.rawMaterialId) &&
-                form.ingredients.every((row) => !row.rawMaterialId || /^[a-z][a-z0-9_]*$/.test(row.rawMaterialId))
-                  ? '0.01'
-                  : CONCENTRATION_TOLERANCE}
-                %.
+                {form.compositionCompleteness === 'partial'
+                  ? 'Partial composition. Formulation percentages do not need to total 100%. Contaminant rows are excluded.'
+                  : 'A declared complete list must total 100% within ±0.01%.'}
               </p>
-              <Badge tone={withinTolerance ? 'success' : 'warning'}>
-                Total {formatConcentration(total)}
+              <Badge tone={form.compositionCompleteness === 'partial' || withinTolerance ? 'success' : 'warning'}>
+                Formulation total {formatConcentration(total)}
               </Badge>
             </div>
 
             <div className="space-y-3">
               {form.ingredients.map((row, index) => {
                 const rowErrors = validation.errors.filter((issue) => issue.ingredientIndex === index);
-                const unmapped = Boolean(row.rawMaterialId && catalogOptions.length > 0 && !catalogIds.has(row.rawMaterialId));
+                const unmapped = Boolean(row.needsCorrection || (row.rawMaterialId && substances.length > 0 && !catalogIds.has(row.rawMaterialId)));
+                const choices = substances.filter((item) => {
+                  if (row.compositionType && !item.composition_types.includes(row.compositionType)) return false;
+                  if (row.section === 'contaminant') return item.role !== 'formulation_ingredient';
+                  return item.role !== 'contaminant_analyte';
+                });
                 return (
                   <div
                     key={row.key}
@@ -633,7 +731,7 @@ export function FormulaFormDrawer({
                   >
                     <div className="mb-2 flex items-center justify-between">
                       <span className="text-[11px] font-semibold tracking-wide text-subtle uppercase">
-                        Ingredient {index + 1}
+                        {row.section === 'contaminant' ? 'Contaminant / analyte' : 'Formulation ingredient'} {index + 1}
                       </span>
                       <button
                         type="button"
@@ -647,51 +745,89 @@ export function FormulaFormDrawer({
                     </div>
 
                     <div className="grid gap-3 sm:grid-cols-12">
-                      <Field label="Ingredient name" className="sm:col-span-5">
-                        <TextInput
-                          value={row.name}
-                          onChange={(event) => updateRow(row.key, { name: event.target.value })}
-                          placeholder="e.g. Cellulose Thickener T-12"
-                          invalid={rowErrors.some((issue) => issue.field.endsWith('name'))}
+                      <Field label="Material type" className="sm:col-span-4">
+                        <Select
+                          value={row.compositionType}
+                          placeholder="Select a material type"
+                          options={materialTypes.map((item) => ({ value: item, label: item }))}
+                          onChange={(event) => updateRow(row.key, { compositionType: event.target.value })}
                         />
                       </Field>
-
-                      <Field label="Raw-material reference" className="sm:col-span-4">
-                        <Select
+                      <Field label="Substance" className="sm:col-span-8" hint="Search the catalog. Unlisted substances cannot be added.">
+                        <SearchSelect
                           value={row.rawMaterialId}
-                          placeholder="Not linked"
-                          options={materialOptions}
-                          invalid={rowErrors.some((issue) => issue.field.endsWith('rawMaterialId'))}
-                          onChange={(event) => {
-                            const materialId = event.target.value;
-                            const material = rawMaterials.find((item) => item.id === materialId);
-                            const catalogName = catalogOptions
-                              .find((item) => item.value === materialId)
-                              ?.label.split(' — ')
-                              .slice(1)
-                              .join(' — ')
-                              .trim();
+                          placeholder="Search substance or CAS"
+                          options={choices.map((item) => ({
+                            value: item.substance_id,
+                            label: `${item.label}${item.role === 'role_requires_review' ? ' · Role requires review' : ''} · ${item.regions.join('/')}`,
+                          }))}
+                          invalid={unmapped}
+                          onChange={(materialId) => {
+                            const match = substances.find((item) => item.substance_id === materialId);
                             updateRow(row.key, {
                               rawMaterialId: materialId,
-                              supplier: material?.supplier ?? row.supplier,
-                              name: row.name.trim() ? row.name : (material?.name ?? catalogName ?? ''),
+                              name: match?.label ?? row.name,
+                              screeningRole: match?.role ?? row.screeningRole,
+                              compositionType: row.compositionType || match?.composition_types[0] || '',
+                              needsCorrection: false,
                             });
                           }}
                         />
                       </Field>
-
-                      <Field label="Concentration %" className="sm:col-span-3">
-                        <TextInput
-                          inputMode="decimal"
-                          value={row.concentrationText}
-                          onChange={(event) =>
-                            updateRow(row.key, { concentrationText: event.target.value.replace(/[^0-9.]/g, '') })
-                          }
-                          placeholder="0.00"
-                          className="tabular"
-                          invalid={rowErrors.some((issue) => issue.field.endsWith('concentration'))}
-                        />
-                      </Field>
+                      {row.section === 'contaminant' ? (
+                        <>
+                          <Field label="Result type" className="sm:col-span-3">
+                            <Select
+                              value={row.measurementKind}
+                              placeholder="Select a basis"
+                              options={[
+                                { value: 'content', label: 'Total content' },
+                                { value: 'migration', label: 'Migration' },
+                              ]}
+                              onChange={(event) => updateRow(row.key, { measurementKind: event.target.value })}
+                            />
+                          </Field>
+                          <Field label="Measured result" className="sm:col-span-2">
+                            <TextInput
+                              inputMode="decimal"
+                              value={row.measuredText}
+                              onChange={(event) => updateRow(row.key, { measuredText: event.target.value.replace(/[^0-9.]/g, '') })}
+                              placeholder="0.00"
+                              className="tabular"
+                            />
+                          </Field>
+                          <Field label="Unit" className="sm:col-span-2">
+                            <Select
+                              value={row.measuredUnit}
+                              options={[
+                                { value: 'mg/kg', label: 'mg/kg' },
+                                { value: 'ppm', label: 'ppm' },
+                                { value: '%', label: '%' },
+                                { value: 'µg/g', label: 'µg/g' },
+                              ]}
+                              onChange={(event) => updateRow(row.key, { measuredUnit: event.target.value })}
+                            />
+                          </Field>
+                          <Field label="Test method" className="sm:col-span-5" hint="Required before a migration limit can be evaluated.">
+                            <TextInput
+                              value={row.testMethod}
+                              onChange={(event) => updateRow(row.key, { testMethod: event.target.value })}
+                              placeholder="e.g. EN 71-3"
+                            />
+                          </Field>
+                        </>
+                      ) : (
+                        <Field label="Concentration %" className="sm:col-span-3">
+                          <TextInput
+                            inputMode="decimal"
+                            value={row.concentrationText}
+                            onChange={(event) => updateRow(row.key, { concentrationText: event.target.value.replace(/[^0-9.]/g, '') })}
+                            placeholder="0.00"
+                            className="tabular"
+                            invalid={rowErrors.some((issue) => issue.field.endsWith('concentration'))}
+                          />
+                        </Field>
+                      )}
 
                       <Field label="Supplier" className="sm:col-span-4">
                         <TextInput
@@ -728,23 +864,13 @@ export function FormulaFormDrawer({
             </div>
 
             <div className="flex flex-wrap items-center gap-2">
-              <Button onClick={addRow} icon={<Plus aria-hidden className="size-4" />}>
-                Add ingredient
+              <Button onClick={() => addRow('formulation')} icon={<Plus aria-hidden className="size-4" />}>
+                Add formulation ingredient
               </Button>
-              <Select
-                aria-label="Illustrative formula"
-                value={selectedExampleId}
-                placeholder={examplesLoading ? 'Loading formulas…' : 'No formulas loaded'}
-                options={examples.map((item) => ({ value: item.example_id, label: item.input.name }))}
-                onChange={(event) => setSelectedExampleId(event.target.value)}
-                disabled={examplesLoading || examples.length === 0}
-                className="max-w-xs"
-              />
-              <Button variant="ghost" onClick={loadSample} disabled={examplesLoading} icon={<Sparkles aria-hidden className="size-4" />}>
-                Load reference formula
+              <Button variant="subtle" onClick={() => addRow('contaminant')} icon={<Plus aria-hidden className="size-4" />}>
+                Add contaminant / analyte
               </Button>
             </div>
-            {examplesError ? <p className="text-[13px] text-danger">{examplesError}</p> : null}
 
             <IssueList issues={stepIssues} />
           </div>

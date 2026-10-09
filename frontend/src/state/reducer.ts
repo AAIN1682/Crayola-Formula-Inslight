@@ -7,6 +7,7 @@ import type {
   MonitoringAlert,
   ReviewDecision,
   ScreeningRun,
+  SourceReviewDraft,
 } from '../types/domain';
 
 export type DemoState = DemoDataset;
@@ -21,6 +22,7 @@ export type DemoAction =
   | { type: 'document/upsert'; document: EvidenceDocument }
   | { type: 'activity/add'; activity: ActivityEvent }
   | { type: 'settings/update'; settings: Partial<DemoSettings> }
+  | { type: 'sourceReview/upsert'; draft: SourceReviewDraft }
   | { type: 'batch'; actions: DemoAction[] };
 
 function upsertById<T extends { id: string }>(collection: T[], item: T): T[] {
@@ -68,6 +70,9 @@ export function demoReducer(state: DemoState, action: DemoAction): DemoState {
 
     case 'settings/update':
       return { ...state, settings: { ...state.settings, ...action.settings } };
+
+    case 'sourceReview/upsert':
+      return { ...state, sourceReviewDrafts: upsertById(state.sourceReviewDrafts ?? [], action.draft) };
 
     case 'batch':
       return action.actions.reduce(demoReducer, state);

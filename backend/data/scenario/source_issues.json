@@ -1,0 +1,13 @@
+[
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "issue_id": "ISSUE-UNRELATED-MARKER",
+    "document_ids": [
+      "SCN-DOC-UNRELATED"
+    ],
+    "summary": "Unrelated marker note. Do not apply it to Purple Effect Paint.",
+    "role": "Negative retrieval check. Must stay out of paint assessments."
+  }
+]

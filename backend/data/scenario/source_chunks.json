@@ -1,0 +1,222 @@
+[
+  {
+    "chunk_id": "SCN-SDS-WATER:SUMMARY",
+    "document_id": "SCN-SDS-WATER",
+    "page": null,
+    "paragraph": 1,
+    "text": "Scenario SDS summary for Water. Supplier SCN-SUP-AQUA, grade SCN-GRADE-DI. Identity and handling notes only. No finished-formula concentration limit is stated.",
+    "trust": "synthetic_scenario",
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0"
+  },
+  {
+    "chunk_id": "SCN-COA-WATER:SUMMARY",
+    "document_id": "SCN-COA-WATER",
+    "page": null,
+    "paragraph": 1,
+    "text": "Scenario CoA summary for Water, supplier SCN-SUP-AQUA, batch SCN-BATCH-WATER. Assay is recorded as a raw-material measurement and is not a finished-formula limit.",
+    "trust": "synthetic_scenario",
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0"
+  },
+  {
+    "chunk_id": "SCN-SDS-GLOW_PURPLE:SUMMARY",
+    "document_id": "SCN-SDS-GLOW_PURPLE",
+    "page": null,
+    "paragraph": 1,
+    "text": "Scenario SDS summary for Glow in the Dark Purple. Supplier SCN-SUP-PIGMENT, grade SCN-GRADE-GLOW. Identity and handling notes only. No finished-formula concentration limit is stated.",
+    "trust": "synthetic_scenario",
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0"
+  },
+  {
+    "chunk_id": "SCN-COA-GLOW_PURPLE:SUMMARY",
+    "document_id": "SCN-COA-GLOW_PURPLE",
+    "page": null,
+    "paragraph": 1,
+    "text": "Scenario CoA summary for Glow in the Dark Purple, supplier SCN-SUP-PIGMENT, batch SCN-BATCH-GLOW. Assay is recorded as a raw-material measurement and is not a finished-formula limit.",
+    "trust": "synthetic_scenario",
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0"
+  },
+  {
+    "chunk_id": "SCN-SDS-MICA_PATINA_SILVER:SUMMARY",
+    "document_id": "SCN-SDS-MICA_PATINA_SILVER",
+    "page": null,
+    "paragraph": 1,
+    "text": "Scenario SDS summary for Mica Patina Silver. Supplier SCN-SUP-MICA, grade SCN-GRADE-MICA. Identity and handling notes only. No finished-formula concentration limit is stated.",
+    "trust": "synthetic_scenario",
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0"
+  },
+  {
+    "chunk_id": "SCN-COA-MICA_PATINA_SILVER:SUMMARY",
+    "document_id": "SCN-COA-MICA_PATINA_SILVER",
+    "page": null,
+    "paragraph": 1,
+    "text": "Scenario CoA summary for Mica Patina Silver, supplier SCN-SUP-MICA, batch SCN-BATCH-MICA. Assay is recorded as a raw-material measurement and is not a finished-formula limit.",
+    "trust": "synthetic_scenario",
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0"
+  },
+  {
+    "chunk_id": "SCN-SDS-SODIUM_BENZOATE:SUMMARY",
+    "document_id": "SCN-SDS-SODIUM_BENZOATE",
+    "page": null,
+    "paragraph": 1,
+    "text": "Scenario SDS summary for Sodium benzoate. Supplier SCN-SUP-PRES, grade SCN-GRADE-SB. Identity and handling notes only. No finished-formula concentration limit is stated.",
+    "trust": "synthetic_scenario",
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0"
+  },
+  {
+    "chunk_id": "SCN-COA-SODIUM_BENZOATE:SUMMARY",
+    "document_id": "SCN-COA-SODIUM_BENZOATE",
+    "page": null,
+    "paragraph": 1,
+    "text": "Scenario CoA summary for Sodium benzoate, supplier SCN-SUP-PRES, batch SCN-BATCH-BENZ. Assay is recorded as a raw-material measurement and is not a finished-formula limit.",
+    "trust": "synthetic_scenario",
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0"
+  },
+  {
+    "chunk_id": "SCN-SDS-POTASSIUM_SORBATE:SUMMARY",
+    "document_id": "SCN-SDS-POTASSIUM_SORBATE",
+    "page": null,
+    "paragraph": 1,
+    "text": "Scenario SDS summary for Potassium sorbate. Supplier SCN-SUP-PRES, grade SCN-GRADE-PS. Identity and handling notes only. No finished-formula concentration limit is stated.",
+    "trust": "synthetic_scenario",
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0"
+  },
+  {
+    "chunk_id": "SCN-COA-POTASSIUM_SORBATE:SUMMARY",
+    "document_id": "SCN-COA-POTASSIUM_SORBATE",
+    "page": null,
+    "paragraph": 1,
+    "text": "Scenario CoA summary for Potassium sorbate, supplier SCN-SUP-PRES, batch SCN-BATCH-PS. Assay is recorded as a raw-material measurement and is not a finished-formula limit.",
+    "trust": "synthetic_scenario",
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0"
+  },
+  {
+    "chunk_id": "SCN-SDS-PROPYLENE_GLYCOL:SUMMARY",
+    "document_id": "SCN-SDS-PROPYLENE_GLYCOL",
+    "page": null,
+    "paragraph": 1,
+    "text": "Scenario SDS summary for Propylene glycol. Supplier SCN-SUP-SOLVENT, grade SCN-GRADE-PG. Identity and handling notes only. No finished-formula concentration limit is stated.",
+    "trust": "synthetic_scenario",
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0"
+  },
+  {
+    "chunk_id": "SCN-COA-PROPYLENE_GLYCOL:SUMMARY",
+    "document_id": "SCN-COA-PROPYLENE_GLYCOL",
+    "page": null,
+    "paragraph": 1,
+    "text": "Scenario CoA summary for Propylene glycol, supplier SCN-SUP-SOLVENT, batch SCN-BATCH-PG. Assay is recorded as a raw-material measurement and is not a finished-formula limit.",
+    "trust": "synthetic_scenario",
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0"
+  },
+  {
+    "chunk_id": "SCN-SDS-GLOW-OTHER-SUPPLIER:SUMMARY",
+    "document_id": "SCN-SDS-GLOW-OTHER-SUPPLIER",
+    "page": null,
+    "paragraph": 1,
+    "text": "Scenario SDS for Glow in the Dark Purple from supplier SCN-SUP-OTHER. It does not match SCN-SUP-PIGMENT.",
+    "trust": "synthetic_scenario",
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0"
+  },
+  {
+    "chunk_id": "SCN-LAB-V1:SUMMARY",
+    "document_id": "SCN-LAB-V1",
+    "page": null,
+    "paragraph": 1,
+    "text": "Scenario finished-formula test summary for Purple Effect Paint v1, version v1, region US. Fictional test SCN-TEST-VISC-01 recorded 420 mPa\u00b7s against an editable scenario maximum of 800 mPa\u00b7s on a finished-formula as-mixed basis. This is not an ASTM or EN method and not a legal requirement.",
+    "trust": "synthetic_scenario",
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0"
+  },
+  {
+    "chunk_id": "SCN-LAB-V2:SUMMARY",
+    "document_id": "SCN-LAB-V2",
+    "page": null,
+    "paragraph": 1,
+    "text": "Scenario finished-formula test summary for Purple Effect Paint v2, version v2, region US. Fictional test SCN-TEST-VISC-01 recorded 420 mPa\u00b7s against an editable scenario maximum of 800 mPa\u00b7s on a finished-formula as-mixed basis. This is not an ASTM or EN method and not a legal requirement.",
+    "trust": "synthetic_scenario",
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0"
+  },
+  {
+    "chunk_id": "SCN-LAB-V2D:SUMMARY",
+    "document_id": "SCN-LAB-V2D",
+    "page": null,
+    "paragraph": 1,
+    "text": "Scenario finished-formula test summary for Purple Effect Paint v2d, version v2d, region US. Fictional test SCN-TEST-VISC-01 recorded 420 mPa\u00b7s against an editable scenario maximum of 800 mPa\u00b7s on a finished-formula as-mixed basis. This is not an ASTM or EN method and not a legal requirement.",
+    "trust": "synthetic_scenario",
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0"
+  },
+  {
+    "chunk_id": "SCN-LABEL-V1:SUMMARY",
+    "document_id": "SCN-LABEL-V1",
+    "page": null,
+    "paragraph": 1,
+    "text": "Scenario label-review summary for Purple Effect Paint v1, version v1, region US. The review records that the scenario label text names the product and market. It is not a legal labeling determination.",
+    "trust": "synthetic_scenario",
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0"
+  },
+  {
+    "chunk_id": "SCN-LABEL-V2:SUMMARY",
+    "document_id": "SCN-LABEL-V2",
+    "page": null,
+    "paragraph": 1,
+    "text": "Scenario label-review summary for Purple Effect Paint v2, version v2, region US. The review records that the scenario label text names the product and market. It is not a legal labeling determination.",
+    "trust": "synthetic_scenario",
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0"
+  },
+  {
+    "chunk_id": "SCN-LABEL-V2D:SUMMARY",
+    "document_id": "SCN-LABEL-V2D",
+    "page": null,
+    "paragraph": 1,
+    "text": "Scenario label-review summary for Purple Effect Paint v2d, version v2d, region US. The review records that the scenario label text names the product and market. It is not a legal labeling determination.",
+    "trust": "synthetic_scenario",
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0"
+  },
+  {
+    "chunk_id": "SCN-LABEL-GAP:SUMMARY",
+    "document_id": "SCN-LABEL-GAP",
+    "page": null,
+    "paragraph": 1,
+    "text": "Scenario label-review summary for Purple Effect Paint gap case, version v1, region US. The review records that the scenario label text names the product and market. It is not a legal labeling determination.",
+    "trust": "synthetic_scenario",
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0"
+  },
+  {
+    "chunk_id": "SCN-LABEL-V1-EU:SUMMARY",
+    "document_id": "SCN-LABEL-V1-EU",
+    "page": null,
+    "paragraph": 1,
+    "text": "Scenario label-review summary for Purple Effect Paint v1 EU label, version v1, region EU. The review records that the scenario label text names the product and market. It is not a legal labeling determination.",
+    "trust": "synthetic_scenario",
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0"
+  },
+  {
+    "chunk_id": "SCN-DOC-UNRELATED:SUMMARY",
+    "document_id": "SCN-DOC-UNRELATED",
+    "page": null,
+    "paragraph": 1,
+    "text": "Unrelated scenario note for a marker formula. It must not be retrieved for Purple Effect Paint.",
+    "trust": "synthetic_scenario",
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0"
+  }
+]

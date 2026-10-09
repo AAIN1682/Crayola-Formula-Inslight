@@ -8,13 +8,27 @@ from datetime import datetime, timezone
 from pathlib import Path
 from uuid import uuid4
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel, ConfigDict, Field
 
 from app.config import DATA, azure_settings
-from app.engine import build_context, compare_formulas, data_hash, input_hash, load_store, screen_status, _metrics
+from app.engine import (
+    _assessment_mode,
+    _metrics,
+    assessment_support,
+    build_context,
+    clamp_priorities,
+    compare_formulas,
+    constrain_analysis_confidence,
+    data_hash,
+    input_hash,
+    load_scenario_store,
+    load_store,
+    screen_status,
+    screening_status_label,
+)
 from app.llm import AzureExplanationError, empty_explanation, explain, public_config
 
 logger = logging.getLogger("affine.api")
@@ -31,11 +45,27 @@ app.add_middleware(
 STORE = load_store()
 
 
+class LegacyMaterial(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    name: str = Field(min_length=1, max_length=200)
+    legacy_id: str | None = Field(default=None, max_length=120)
+    concentration_percent: float | None = None
+
+
 class Ingredient(BaseModel):
     model_config = ConfigDict(extra="forbid")
-    material_id: str = Field(min_length=1, max_length=100)
-    concentration_percent: float = Field(gt=0, le=100)
+    material_id: str = Field(min_length=1, max_length=120)
+    concentration_percent: float | None = None
     batch_id: str | None = Field(default=None, max_length=100)
+    supplier: str | None = Field(default=None, max_length=200)
+    grade: str | None = Field(default=None, max_length=200)
+    measured_value: float | None = None
+    measured_unit: str | None = Field(default=None, max_length=40)
+    measured_bound: str | None = Field(default=None, max_length=40)
+    measurement_kind: str | None = Field(default=None, max_length=40)
+    test_method: str | None = Field(default=None, max_length=200)
+    analyte: str | None = Field(default=None, max_length=200)
+    below_detection: bool = False
 
 
 class Formula(BaseModel):
@@ -48,8 +78,17 @@ class Formula(BaseModel):
     regions: list[str] = Field(min_length=1, max_length=4)
     physical_form: str = Field(min_length=1, max_length=100)
     intended_use: str = Field(min_length=1, max_length=1000)
-    ingredients: list[Ingredient] = Field(min_length=1, max_length=100)
+    ingredients: list[Ingredient] = Field(default_factory=list, max_length=100)
+    legacy_materials: list[LegacyMaterial] = Field(default_factory=list, max_length=100)
     generate_explanation: bool = False
+    assessment_mode: str = "evidence"
+    composition_completeness: str = "partial"
+    us_states: list[str] = Field(default_factory=list, max_length=8)
+    intended_age_detail: str | None = Field(default=None, max_length=80)
+    toy_childcare_scope: str | None = Field(default=None, max_length=40)
+    component_type: str | None = Field(default=None, max_length=80)
+    test_material_category: str | None = Field(default=None, max_length=80)
+    document_ids: list[str] = Field(default_factory=list, max_length=40)
 
 
 class Comparison(BaseModel):
@@ -57,6 +96,7 @@ class Comparison(BaseModel):
     previous: Formula
     current: Formula
     generate_explanation: bool = False
+    comparison_kind: str = "reassess"
 
 
 def _reject(errors: list[dict]) -> None:
@@ -86,10 +126,16 @@ def _public_context(context: dict) -> dict:
         "extracted_facts": context.get("extracted_facts"),
         "source_issues": context.get("source_issues"),
         "applicable_rules": context.get("applicable_verified_rules"),
+        "applicable_scenario_rules": context.get("applicable_scenario_rules"),
         "regulatory_reference_status": context.get("regulatory_reference_status"),
         "regulatory_rows_disabled": context.get("regulatory_rows_disabled"),
         "historical_cases": context.get("documented_history"),
         "composition_total_percent": context.get("composition_total_percent"),
+        "assessment_mode": context.get("assessment_mode"),
+        "dataset_kind": context.get("dataset_kind"),
+        "dataset_version": context.get("dataset_version"),
+        "scenario_provenance": context.get("scenario_provenance"),
+        "applicable_scenario_rules": context.get("applicable_scenario_rules"),
     }
 
 
@@ -108,7 +154,7 @@ def _execution_base(assessment_id: str, formula: dict, context: dict, generated_
         "usage": None,
         "retrieved_source_count": len(context.get("source_excerpts") or []),
         "input_hash": input_hash(formula),
-        "data_hash": data_hash(STORE),
+        "data_hash": context.get("data_hash") or data_hash(STORE),
         "error_code": None,
         "error_message": None,
     }
@@ -130,8 +176,12 @@ def _assessment(formula: Formula, version_changes: list | None = None) -> dict:
         int((time.perf_counter() - started) * 1000),
         len(context.get("source_excerpts") or []),
     )
-    metrics = _metrics(context["calculated_checks"], context["evidence_checks"])
+    mode = _assessment_mode(payload)
+    metrics = _metrics(context["calculated_checks"], context["evidence_checks"], mode)
+    support = assessment_support(context, metrics)
+    metrics["assessment_support"] = support
     context["metrics"] = metrics
+    context["assessment_support"] = support
     overall, regions = screen_status(context)
     execution = _execution_base(assessment_id, payload, context, generated_at)
     explanation = {
@@ -143,12 +193,19 @@ def _assessment(formula: Formula, version_changes: list | None = None) -> dict:
         logger.info("assessment_stage correlation_id=%s stage=azure_request", assessment_id)
         try:
             generated = explain(context)
-            explanation = {"status": "generated", "source": "azure", "content": generated["content"]}
+            content = generated["content"]
+            content["analysis_confidence"] = constrain_analysis_confidence(
+                content.get("analysis_confidence"), context, metrics
+            )
+            content["recommendations"] = clamp_priorities(content.get("recommendations") or [], context)
+            content["alerts"] = clamp_priorities(content.get("alerts") or [], context, key="severity")
+            content["prioritized_actions"] = clamp_priorities(content.get("prioritized_actions") or content.get("recommendations") or [], context)
+            explanation = {"status": "generated", "source": "azure", "content": content}
             execution.update(generated["execution"])
             execution["generated_at"] = generated_at
             execution["retrieved_source_count"] = len(context.get("source_excerpts") or [])
             execution["input_hash"] = input_hash(payload)
-            execution["data_hash"] = data_hash(STORE)
+            execution["data_hash"] = context.get("data_hash") or data_hash(STORE)
         except AzureExplanationError as error:
             logger.info("assessment_stage correlation_id=%s stage=azure_failed code=%s", assessment_id, error.code)
             explanation = {
@@ -187,7 +244,9 @@ def _assessment(formula: Formula, version_changes: list | None = None) -> dict:
     return {
         "assessment_id": assessment_id,
         "created_at": generated_at,
-        "data_version": STORE["version"],
+        "data_version": context.get("dataset_version") or STORE["version"],
+        "dataset_kind": context.get("dataset_kind"),
+        "screening_status_label": screening_status_label(overall, mode),
         "data_hash": execution["data_hash"],
         "input_hash": execution["input_hash"],
         "input_snapshot": payload,
@@ -198,6 +257,8 @@ def _assessment(formula: Formula, version_changes: list | None = None) -> dict:
         "ap_acceptance_probability": None,
         "model_confidence": None,
         "analysis_confidence": confidence,
+        "assessment_support": support,
+        "assessment_mode": mode,
         "metrics": {key: value for key, value in metrics.items() if key not in {"acceptance_probability", "model_confidence", "ap_acceptance_probability"}},
         "regions": regions,
         "llm_context": _public_context(context),
@@ -220,26 +281,152 @@ def health():
 
 @app.get("/api/catalog")
 def catalog():
+    from app.threshold_catalog import catalog_public, load_catalog
+
+    reference = catalog_public()
+    substances = load_catalog()["substances"]
     return {
-        "data_version": STORE["version"],
+        "data_version": reference["dataset_version"],
+        "dataset_kind": reference["dataset_kind"],
         "materials": [
             {
-                "material_id": item["material_id"],
+                "material_id": item["substance_id"],
                 "name": item["name"],
-                "kind": item["kind"],
-                "cas": item.get("cas"),
+                "kind": item["role"],
+                "cas": item.get("cas_number"),
             }
-            for item in STORE["materials"]
+            for item in substances.values()
         ],
-        "product_categories": ["paint", "chalk", "glue_stick", "washable_marker", "modeling_compound"],
-        "regions": ["US", "EU", "UK", "CA"],
-        "age_groups": ["under_12", "12_and_above"],
+        "product_categories": [item["category_name"] for item in reference["categories"]],
+        "regions": reference["regions"],
+        "age_groups": [item["id"] for item in reference["age_groups"]],
+        "catalog_coverage_incomplete": True,
+        "coverage_note": reference["coverage_note"],
+        "source_files": reference["source_files"],
     }
+
+
+@app.get("/api/reference")
+def reference():
+    from app.threshold_catalog import catalog_public
+
+    return catalog_public()
+
+
+@app.get("/api/reference/material-types")
+def reference_material_types(regions: str, category: str, age_group: str):
+    from app.threshold_catalog import material_types, normalize_age, normalize_category, normalize_region
+
+    region_list = [normalize_region(item) for item in regions.split(",") if item.strip()]
+    category_name = normalize_category(category)
+    age = normalize_age(age_group)
+    if not category_name or age not in {"under_12", "12_and_above"} or any(item not in {"US", "EU"} for item in region_list):
+        raise HTTPException(status_code=422, detail="Select US or EU, a reference category, and an age group.")
+    return {"composition_types": material_types(region_list, category_name, age)}
+
+
+@app.get("/api/reference/substances")
+def reference_substances(regions: str, category: str, age_group: str, composition_type: str | None = None):
+    from app.threshold_catalog import normalize_age, normalize_category, normalize_region, substances_for
+
+    region_list = [normalize_region(item) for item in regions.split(",") if item.strip()]
+    category_name = normalize_category(category)
+    age = normalize_age(age_group)
+    if not category_name or age not in {"under_12", "12_and_above"} or any(item not in {"US", "EU"} for item in region_list):
+        raise HTTPException(status_code=422, detail="Select US or EU, a reference category, and an age group.")
+    rows = substances_for(region_list, category_name, age, composition_type or None)
+    return {
+        "substances": rows,
+        "catalog_coverage_incomplete": True,
+        "coverage_note": "Catalog coverage incomplete. These entries are not an approved recipe.",
+    }
+
+
+class FieldCorrection(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    field_id: str
+    value: str
+    bound: str | None = None
+
+
+class ReviewBody(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    corrections: list[FieldCorrection] = Field(default_factory=list, max_length=80)
+
+
+@app.post("/api/documents")
+async def upload_document(
+    file: UploadFile = File(...),
+    document_type: str = Form(...),
+    scope: str = Form(...),
+    material_id: str | None = Form(default=None),
+    supplier: str | None = Form(default=None),
+    grade: str | None = Form(default=None),
+    batch_id: str | None = Form(default=None),
+    formula_id: str | None = Form(default=None),
+    version_id: str | None = Form(default=None),
+    regions: str | None = Form(default=None),
+    test_scope: str | None = Form(default=None),
+):
+    from app.uploads import UploadError, save_upload
+
+    content = await file.read()
+    region_list = [item.strip() for item in (regions or "").split(",") if item.strip()]
+    try:
+        record = save_upload(content, file.filename or "upload.pdf", {
+            "document_type": document_type,
+            "scope": scope,
+            "material_id": material_id,
+            "supplier": supplier,
+            "grade": grade,
+            "batch_id": batch_id,
+            "formula_id": formula_id,
+            "version_id": version_id,
+            "regions": region_list,
+            "test_scope": test_scope,
+        })
+    except UploadError as error:
+        raise HTTPException(status_code=422, detail=error.message) from error
+    return record
+
+
+@app.get("/api/documents/{document_id}/status")
+def document_status(document_id: str):
+    from app.uploads import get_upload
+
+    match = get_upload(document_id)
+    if not match:
+        raise HTTPException(status_code=404, detail="That document is not on file.")
+    return {
+        "document_id": match["document_id"],
+        "extraction_status": match.get("extraction_status"),
+        "ocr_required": match.get("ocr_required"),
+        "ocr_message": match.get("ocr_message"),
+        "review_status": match.get("review_status"),
+        "authenticity_status": match.get("authenticity_status"),
+        "applicability_status": match.get("applicability_status"),
+    }
+
+
+@app.post("/api/documents/{document_id}/review")
+def document_review(document_id: str, body: ReviewBody):
+    from app.uploads import UploadError, review_upload
+
+    try:
+        return review_upload(document_id, [item.model_dump() for item in body.corrections])
+    except UploadError as error:
+        raise HTTPException(status_code=404, detail=error.message) from error
 
 
 @app.get("/api/examples")
 def examples():
-    return {"examples": STORE["examples"], "note": "Illustrative compositions. Not Crayola recipes."}
+    scenario = load_scenario_store()
+    return {
+        "examples": scenario["examples"],
+        "dataset_version": scenario["version"],
+        "dataset_kind": "scenario",
+        "note": "Illustrative scenario compositions. Not Crayola recipes or approved materials.",
+    }
 
 
 @app.post("/api/context")
@@ -276,7 +463,13 @@ def compare(body: Comparison):
         context["metrics"] = current["metrics"]
         try:
             generated = explain(context)
-            explanation = {"status": "generated", "source": "azure", "content": generated["content"]}
+            content = generated["content"]
+            content["analysis_confidence"] = constrain_analysis_confidence(
+                content.get("analysis_confidence"), context, current["metrics"]
+            )
+            content["recommendations"] = clamp_priorities(content.get("recommendations") or [], context)
+            content["alerts"] = clamp_priorities(content.get("alerts") or [], context, key="severity")
+            explanation = {"status": "generated", "source": "azure", "content": content}
             execution.update(generated["execution"])
         except AzureExplanationError as error:
             explanation = {
@@ -296,6 +489,7 @@ def compare(body: Comparison):
         "previous": previous,
         "current": current,
         "changes": {key: value for key, value in diff.items() if not key.endswith("_context")},
+        "comparison_kind": body.comparison_kind,
         "explanation": explanation,
         "execution": execution,
     }
@@ -303,6 +497,19 @@ def compare(body: Comparison):
 
 @app.get("/api/documents/{document_id}")
 def document(document_id: str):
+    from app.uploads import file_for, get_upload
+
+    upload = get_upload(document_id)
+    if upload:
+        path = file_for(document_id)
+        if path is None:
+            hidden = {"url"}
+            return JSONResponse({key: value for key, value in upload.items() if key not in hidden})
+        return FileResponse(path, filename=upload.get("original_filename") or path.name, media_type="application/pdf")
+    scenario_match = next((item for item in load_scenario_store()["documents"] if item["document_id"] == document_id), None)
+    if scenario_match:
+        hidden = {"file_path", "sha256"}
+        return JSONResponse({key: value for key, value in scenario_match.items() if key not in hidden})
     match = next((item for item in STORE["documents"] if item["document_id"] == document_id), None)
     if not match:
         raise HTTPException(status_code=404, detail="That document is not in the reference set.")

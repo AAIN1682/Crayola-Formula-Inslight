@@ -1,0 +1,442 @@
+[
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "fact_id": "FACT-SCN-SDS-WATER",
+    "document_id": "SCN-SDS-WATER",
+    "material_id": "water",
+    "formula_id": null,
+    "version_id": null,
+    "text": "Scenario SDS summary for Water. Supplier SCN-SUP-AQUA, grade SCN-GRADE-DI. Identity and handling notes only. No finished-formula concentration limit is stated.",
+    "structured_content": {
+      "supplier_id": "SCN-SUP-AQUA",
+      "grade_id": "SCN-GRADE-DI",
+      "identity": "Water",
+      "sections": [
+        "identification",
+        "composition",
+        "handling"
+      ]
+    },
+    "role": "Structured scenario excerpt for explanation. Not a verified measurement."
+  },
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "fact_id": "FACT-SCN-COA-WATER",
+    "document_id": "SCN-COA-WATER",
+    "material_id": "water",
+    "formula_id": null,
+    "version_id": null,
+    "text": "Scenario CoA summary for Water, supplier SCN-SUP-AQUA, batch SCN-BATCH-WATER. Assay is recorded as a raw-material measurement and is not a finished-formula limit.",
+    "structured_content": {
+      "supplier_id": "SCN-SUP-AQUA",
+      "batch_id": "SCN-BATCH-WATER",
+      "assay_result": "within scenario specification",
+      "measurement_basis": "as_supplied_raw_material"
+    },
+    "role": "Structured scenario excerpt for explanation. Not a verified measurement."
+  },
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "fact_id": "FACT-SCN-SDS-GLOW_PURPLE",
+    "document_id": "SCN-SDS-GLOW_PURPLE",
+    "material_id": "glow_purple",
+    "formula_id": null,
+    "version_id": null,
+    "text": "Scenario SDS summary for Glow in the Dark Purple. Supplier SCN-SUP-PIGMENT, grade SCN-GRADE-GLOW. Identity and handling notes only. No finished-formula concentration limit is stated.",
+    "structured_content": {
+      "supplier_id": "SCN-SUP-PIGMENT",
+      "grade_id": "SCN-GRADE-GLOW",
+      "identity": "Glow in the Dark Purple",
+      "sections": [
+        "identification",
+        "composition",
+        "handling"
+      ]
+    },
+    "role": "Structured scenario excerpt for explanation. Not a verified measurement."
+  },
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "fact_id": "FACT-SCN-COA-GLOW_PURPLE",
+    "document_id": "SCN-COA-GLOW_PURPLE",
+    "material_id": "glow_purple",
+    "formula_id": null,
+    "version_id": null,
+    "text": "Scenario CoA summary for Glow in the Dark Purple, supplier SCN-SUP-PIGMENT, batch SCN-BATCH-GLOW. Assay is recorded as a raw-material measurement and is not a finished-formula limit.",
+    "structured_content": {
+      "supplier_id": "SCN-SUP-PIGMENT",
+      "batch_id": "SCN-BATCH-GLOW",
+      "assay_result": "within scenario specification",
+      "measurement_basis": "as_supplied_raw_material"
+    },
+    "role": "Structured scenario excerpt for explanation. Not a verified measurement."
+  },
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "fact_id": "FACT-SCN-SDS-MICA_PATINA_SILVER",
+    "document_id": "SCN-SDS-MICA_PATINA_SILVER",
+    "material_id": "mica_patina_silver",
+    "formula_id": null,
+    "version_id": null,
+    "text": "Scenario SDS summary for Mica Patina Silver. Supplier SCN-SUP-MICA, grade SCN-GRADE-MICA. Identity and handling notes only. No finished-formula concentration limit is stated.",
+    "structured_content": {
+      "supplier_id": "SCN-SUP-MICA",
+      "grade_id": "SCN-GRADE-MICA",
+      "identity": "Mica Patina Silver",
+      "sections": [
+        "identification",
+        "composition",
+        "handling"
+      ]
+    },
+    "role": "Structured scenario excerpt for explanation. Not a verified measurement."
+  },
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "fact_id": "FACT-SCN-COA-MICA_PATINA_SILVER",
+    "document_id": "SCN-COA-MICA_PATINA_SILVER",
+    "material_id": "mica_patina_silver",
+    "formula_id": null,
+    "version_id": null,
+    "text": "Scenario CoA summary for Mica Patina Silver, supplier SCN-SUP-MICA, batch SCN-BATCH-MICA. Assay is recorded as a raw-material measurement and is not a finished-formula limit.",
+    "structured_content": {
+      "supplier_id": "SCN-SUP-MICA",
+      "batch_id": "SCN-BATCH-MICA",
+      "assay_result": "within scenario specification",
+      "measurement_basis": "as_supplied_raw_material"
+    },
+    "role": "Structured scenario excerpt for explanation. Not a verified measurement."
+  },
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "fact_id": "FACT-SCN-SDS-SODIUM_BENZOATE",
+    "document_id": "SCN-SDS-SODIUM_BENZOATE",
+    "material_id": "sodium_benzoate",
+    "formula_id": null,
+    "version_id": null,
+    "text": "Scenario SDS summary for Sodium benzoate. Supplier SCN-SUP-PRES, grade SCN-GRADE-SB. Identity and handling notes only. No finished-formula concentration limit is stated.",
+    "structured_content": {
+      "supplier_id": "SCN-SUP-PRES",
+      "grade_id": "SCN-GRADE-SB",
+      "identity": "Sodium benzoate",
+      "sections": [
+        "identification",
+        "composition",
+        "handling"
+      ]
+    },
+    "role": "Structured scenario excerpt for explanation. Not a verified measurement."
+  },
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "fact_id": "FACT-SCN-COA-SODIUM_BENZOATE",
+    "document_id": "SCN-COA-SODIUM_BENZOATE",
+    "material_id": "sodium_benzoate",
+    "formula_id": null,
+    "version_id": null,
+    "text": "Scenario CoA summary for Sodium benzoate, supplier SCN-SUP-PRES, batch SCN-BATCH-BENZ. Assay is recorded as a raw-material measurement and is not a finished-formula limit.",
+    "structured_content": {
+      "supplier_id": "SCN-SUP-PRES",
+      "batch_id": "SCN-BATCH-BENZ",
+      "assay_result": "within scenario specification",
+      "measurement_basis": "as_supplied_raw_material"
+    },
+    "role": "Structured scenario excerpt for explanation. Not a verified measurement."
+  },
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "fact_id": "FACT-SCN-SDS-POTASSIUM_SORBATE",
+    "document_id": "SCN-SDS-POTASSIUM_SORBATE",
+    "material_id": "potassium_sorbate",
+    "formula_id": null,
+    "version_id": null,
+    "text": "Scenario SDS summary for Potassium sorbate. Supplier SCN-SUP-PRES, grade SCN-GRADE-PS. Identity and handling notes only. No finished-formula concentration limit is stated.",
+    "structured_content": {
+      "supplier_id": "SCN-SUP-PRES",
+      "grade_id": "SCN-GRADE-PS",
+      "identity": "Potassium sorbate",
+      "sections": [
+        "identification",
+        "composition",
+        "handling"
+      ]
+    },
+    "role": "Structured scenario excerpt for explanation. Not a verified measurement."
+  },
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "fact_id": "FACT-SCN-COA-POTASSIUM_SORBATE",
+    "document_id": "SCN-COA-POTASSIUM_SORBATE",
+    "material_id": "potassium_sorbate",
+    "formula_id": null,
+    "version_id": null,
+    "text": "Scenario CoA summary for Potassium sorbate, supplier SCN-SUP-PRES, batch SCN-BATCH-PS. Assay is recorded as a raw-material measurement and is not a finished-formula limit.",
+    "structured_content": {
+      "supplier_id": "SCN-SUP-PRES",
+      "batch_id": "SCN-BATCH-PS",
+      "assay_result": "within scenario specification",
+      "measurement_basis": "as_supplied_raw_material"
+    },
+    "role": "Structured scenario excerpt for explanation. Not a verified measurement."
+  },
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "fact_id": "FACT-SCN-SDS-PROPYLENE_GLYCOL",
+    "document_id": "SCN-SDS-PROPYLENE_GLYCOL",
+    "material_id": "propylene_glycol",
+    "formula_id": null,
+    "version_id": null,
+    "text": "Scenario SDS summary for Propylene glycol. Supplier SCN-SUP-SOLVENT, grade SCN-GRADE-PG. Identity and handling notes only. No finished-formula concentration limit is stated.",
+    "structured_content": {
+      "supplier_id": "SCN-SUP-SOLVENT",
+      "grade_id": "SCN-GRADE-PG",
+      "identity": "Propylene glycol",
+      "sections": [
+        "identification",
+        "composition",
+        "handling"
+      ]
+    },
+    "role": "Structured scenario excerpt for explanation. Not a verified measurement."
+  },
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "fact_id": "FACT-SCN-COA-PROPYLENE_GLYCOL",
+    "document_id": "SCN-COA-PROPYLENE_GLYCOL",
+    "material_id": "propylene_glycol",
+    "formula_id": null,
+    "version_id": null,
+    "text": "Scenario CoA summary for Propylene glycol, supplier SCN-SUP-SOLVENT, batch SCN-BATCH-PG. Assay is recorded as a raw-material measurement and is not a finished-formula limit.",
+    "structured_content": {
+      "supplier_id": "SCN-SUP-SOLVENT",
+      "batch_id": "SCN-BATCH-PG",
+      "assay_result": "within scenario specification",
+      "measurement_basis": "as_supplied_raw_material"
+    },
+    "role": "Structured scenario excerpt for explanation. Not a verified measurement."
+  },
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "fact_id": "FACT-SCN-SDS-GLOW-OTHER-SUPPLIER",
+    "document_id": "SCN-SDS-GLOW-OTHER-SUPPLIER",
+    "material_id": "glow_purple",
+    "formula_id": null,
+    "version_id": null,
+    "text": "Scenario SDS for Glow in the Dark Purple from supplier SCN-SUP-OTHER. It does not match SCN-SUP-PIGMENT.",
+    "structured_content": {
+      "supplier_id": "SCN-SUP-OTHER",
+      "grade_id": "SCN-GRADE-OTHER"
+    },
+    "role": "Structured scenario excerpt for explanation. Not a verified measurement."
+  },
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "fact_id": "FACT-SCN-LAB-V1",
+    "document_id": "SCN-LAB-V1",
+    "material_id": null,
+    "formula_id": "F-PURPLE-PAINT",
+    "version_id": "v1",
+    "text": "Scenario finished-formula test summary for Purple Effect Paint v1, version v1, region US. Fictional test SCN-TEST-VISC-01 recorded 420 mPa\u00b7s against an editable scenario maximum of 800 mPa\u00b7s on a finished-formula as-mixed basis. This is not an ASTM or EN method and not a legal requirement.",
+    "structured_content": {
+      "test_id": "SCN-TEST-VISC-01",
+      "test_name": "Scenario viscosity spot check",
+      "unit": "mPa\u00b7s",
+      "measurement_basis": "finished_formula_as_mixed",
+      "result": 420,
+      "scenario_limit": 800,
+      "operator": "<=",
+      "pigment_percent_recorded_on_sample": 8,
+      "note": "Fictional scenario test. Not an ASTM/EN method and not a legal requirement."
+    },
+    "role": "Structured scenario excerpt for explanation. Not a verified measurement."
+  },
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "fact_id": "FACT-SCN-LAB-V2",
+    "document_id": "SCN-LAB-V2",
+    "material_id": null,
+    "formula_id": "F-PURPLE-PAINT",
+    "version_id": "v2",
+    "text": "Scenario finished-formula test summary for Purple Effect Paint v2, version v2, region US. Fictional test SCN-TEST-VISC-01 recorded 420 mPa\u00b7s against an editable scenario maximum of 800 mPa\u00b7s on a finished-formula as-mixed basis. This is not an ASTM or EN method and not a legal requirement.",
+    "structured_content": {
+      "test_id": "SCN-TEST-VISC-01",
+      "test_name": "Scenario viscosity spot check",
+      "unit": "mPa\u00b7s",
+      "measurement_basis": "finished_formula_as_mixed",
+      "result": 420,
+      "scenario_limit": 800,
+      "operator": "<=",
+      "pigment_percent_recorded_on_sample": 4,
+      "note": "Fictional scenario test. Not an ASTM/EN method and not a legal requirement."
+    },
+    "role": "Structured scenario excerpt for explanation. Not a verified measurement."
+  },
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "fact_id": "FACT-SCN-LAB-V2D",
+    "document_id": "SCN-LAB-V2D",
+    "material_id": null,
+    "formula_id": "F-PURPLE-PAINT",
+    "version_id": "v2d",
+    "text": "Scenario finished-formula test summary for Purple Effect Paint v2d, version v2d, region US. Fictional test SCN-TEST-VISC-01 recorded 420 mPa\u00b7s against an editable scenario maximum of 800 mPa\u00b7s on a finished-formula as-mixed basis. This is not an ASTM or EN method and not a legal requirement.",
+    "structured_content": {
+      "test_id": "SCN-TEST-VISC-01",
+      "test_name": "Scenario viscosity spot check",
+      "unit": "mPa\u00b7s",
+      "measurement_basis": "finished_formula_as_mixed",
+      "result": 420,
+      "scenario_limit": 800,
+      "operator": "<=",
+      "pigment_percent_recorded_on_sample": 4,
+      "note": "Fictional scenario test. Not an ASTM/EN method and not a legal requirement."
+    },
+    "role": "Structured scenario excerpt for explanation. Not a verified measurement."
+  },
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "fact_id": "FACT-SCN-LABEL-V1",
+    "document_id": "SCN-LABEL-V1",
+    "material_id": null,
+    "formula_id": "F-PURPLE-PAINT",
+    "version_id": "v1",
+    "text": "Scenario label-review summary for Purple Effect Paint v1, version v1, region US. The review records that the scenario label text names the product and market. It is not a legal labeling determination.",
+    "structured_content": {
+      "review_id": "SCN-LABEL-V1",
+      "markets": [
+        "US"
+      ],
+      "version_id": "v1",
+      "outcome": "scenario label text recorded"
+    },
+    "role": "Structured scenario excerpt for explanation. Not a verified measurement."
+  },
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "fact_id": "FACT-SCN-LABEL-V2",
+    "document_id": "SCN-LABEL-V2",
+    "material_id": null,
+    "formula_id": "F-PURPLE-PAINT",
+    "version_id": "v2",
+    "text": "Scenario label-review summary for Purple Effect Paint v2, version v2, region US. The review records that the scenario label text names the product and market. It is not a legal labeling determination.",
+    "structured_content": {
+      "review_id": "SCN-LABEL-V2",
+      "markets": [
+        "US"
+      ],
+      "version_id": "v2",
+      "outcome": "scenario label text recorded"
+    },
+    "role": "Structured scenario excerpt for explanation. Not a verified measurement."
+  },
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "fact_id": "FACT-SCN-LABEL-V2D",
+    "document_id": "SCN-LABEL-V2D",
+    "material_id": null,
+    "formula_id": "F-PURPLE-PAINT",
+    "version_id": "v2d",
+    "text": "Scenario label-review summary for Purple Effect Paint v2d, version v2d, region US. The review records that the scenario label text names the product and market. It is not a legal labeling determination.",
+    "structured_content": {
+      "review_id": "SCN-LABEL-V2D",
+      "markets": [
+        "US"
+      ],
+      "version_id": "v2d",
+      "outcome": "scenario label text recorded"
+    },
+    "role": "Structured scenario excerpt for explanation. Not a verified measurement."
+  },
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "fact_id": "FACT-SCN-LABEL-GAP",
+    "document_id": "SCN-LABEL-GAP",
+    "material_id": null,
+    "formula_id": "F-PURPLE-PAINT-GAP",
+    "version_id": "v1",
+    "text": "Scenario label-review summary for Purple Effect Paint gap case, version v1, region US. The review records that the scenario label text names the product and market. It is not a legal labeling determination.",
+    "structured_content": {
+      "review_id": "SCN-LABEL-GAP",
+      "markets": [
+        "US"
+      ],
+      "version_id": "v1",
+      "outcome": "scenario label text recorded"
+    },
+    "role": "Structured scenario excerpt for explanation. Not a verified measurement."
+  },
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "fact_id": "FACT-SCN-LABEL-V1-EU",
+    "document_id": "SCN-LABEL-V1-EU",
+    "material_id": null,
+    "formula_id": "F-PURPLE-PAINT",
+    "version_id": "v1",
+    "text": "Scenario label-review summary for Purple Effect Paint v1 EU label, version v1, region EU. The review records that the scenario label text names the product and market. It is not a legal labeling determination.",
+    "structured_content": {
+      "review_id": "SCN-LABEL-V1-EU",
+      "markets": [
+        "EU"
+      ],
+      "version_id": "v1",
+      "outcome": "scenario label text recorded"
+    },
+    "role": "Structured scenario excerpt for explanation. Not a verified measurement."
+  },
+  {
+    "provenance": "synthetic_scenario",
+    "dataset_version": "scenario-1.0.0",
+    "is_regulatory_requirement": false,
+    "fact_id": "FACT-SCN-DOC-UNRELATED",
+    "document_id": "SCN-DOC-UNRELATED",
+    "material_id": null,
+    "formula_id": "F-UNRELATED-MARKER",
+    "version_id": "v9",
+    "text": "Unrelated scenario note for a marker formula. It must not be retrieved for Purple Effect Paint.",
+    "structured_content": {
+      "formula_id": "F-UNRELATED-MARKER"
+    },
+    "role": "Structured scenario excerpt for explanation. Not a verified measurement."
+  }
+]

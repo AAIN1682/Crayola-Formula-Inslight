@@ -12,6 +12,7 @@ import { EmptyState } from '../../components/ui/States';
 import { Notice } from '../../components/ui/DemoNotice';
 import { useToast } from '../../components/ui/Toast';
 import { DocumentPreviewDrawer } from '../../components/evidence/DocumentPreviewDrawer';
+import { DocumentUploadPanel } from '../../components/evidence/DocumentUploadPanel';
 import { AttachmentButton } from '../../components/evidence/AttachmentButton';
 import { formatBytes, formatDate } from '../../utils/formatting';
 
@@ -54,6 +55,7 @@ export function EvidenceTab() {
 
   return (
     <div className="space-y-4">
+      <DocumentUploadPanel formula={formula} />
       <div className="grid gap-4 xl:grid-cols-3">
         <Card className="xl:col-span-2">
           <CardHeader

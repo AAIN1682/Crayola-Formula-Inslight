@@ -107,9 +107,9 @@ export const SCREENING_STATUS_LABEL: Record<ScreeningStatus, string> = {
 };
 
 export const SCREENING_STATUS_HINT: Record<ScreeningStatus, string> = {
-  green: 'Configured checks found no open concerns and required evidence is on file.',
-  amber: 'Configured checks found missing evidence or inputs that need reviewer attention.',
-  red: 'Configured checks found a high-priority concern that requires expert assessment.',
+  green: 'No issues found in the assessed scope. This is not AP certification or universal safety.',
+  amber: 'More information is required. Evaluated checks did not fail, but relevant gaps remain.',
+  red: 'Changes required. At least one applicable evaluated check failed.',
   'not-screened': 'This formula has not been assessed yet.',
 };
 
