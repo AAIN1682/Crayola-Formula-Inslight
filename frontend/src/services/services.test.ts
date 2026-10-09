@@ -1,8 +1,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createDemoStore, type DemoStore } from '../state/store';
 import { createServices } from './index';
+import { createMockServices } from './mock/mockServices';
+import { formulaRecordKey } from './backendServices';
 import type { FormulaInsightServices } from './contracts';
 import type { FormulaInput } from '../types/services';
+import type { ScreeningRun } from '../types/domain';
 import type { PackageAssessment } from '../api/formulaBackend';
 
 /**
@@ -15,7 +18,7 @@ let services: FormulaInsightServices;
 
 beforeEach(() => {
   store = createDemoStore();
-  services = createServices(store);
+  services = createMockServices(store);
 });
 
 const newFormula: FormulaInput = {
@@ -179,7 +182,11 @@ function mockFetch() {
     if (url.includes('/api/catalog')) {
       return new Response(JSON.stringify({ materials: catalogMaterials }), { status: 200 });
     }
-    if (url.includes('/api/assessments')) {
+    const path = url.split('?')[0] ?? url;
+    if (path.endsWith('/api/assessments') && (init?.method ?? 'GET') === 'GET') {
+      return new Response(JSON.stringify({ runs: [], latest: {} }), { status: 200 });
+    }
+    if ((path.endsWith('/api/assessments') && init?.method === 'POST') || /\/api\/formulas\/[^/]+\/assessments$/.test(path)) {
       const body = JSON.parse(String(init?.body ?? '{}')) as Record<string, unknown>;
       return new Response(JSON.stringify(mockLiveAssessment(body)), { status: 200 });
     }
@@ -196,11 +203,12 @@ describe('screening run', () => {
     const fetchMock = mockFetch();
     vi.stubGlobal('fetch', fetchMock);
     const run = await services.runScreening('FML-1001');
-    const assessCall = fetchMock.mock.calls.find((call) => String(call[0]).includes('/api/assessments'));
+    const assessCall = fetchMock.mock.calls.find((call) => /\/api\/formulas\/[^/]+\/assessments$/.test(String(call[0])));
     const body = JSON.parse(String(assessCall?.[1]?.body ?? '{}')) as {
       ingredients: { material_id: string }[];
       legacy_materials: { name: string; legacy_id: string | null }[];
     };
+    expect(String(assessCall?.[0])).toBe('/api/formulas/FML-1001/assessments');
 
     expect(body.ingredients).toEqual([]);
     expect(body.legacy_materials.map((item) => item.legacy_id)).toContain('RM-103');
@@ -214,8 +222,9 @@ describe('screening run', () => {
     vi.stubGlobal('fetch', fetchMock);
     const created = await services.createFormula(catalogFormula);
     const run = await services.runScreening(created.id);
-    const assessCall = fetchMock.mock.calls.find((call) => String(call[0]).includes('/api/assessments'));
+    const assessCall = fetchMock.mock.calls.find((call) => /\/api\/formulas\/[^/]+\/assessments$/.test(String(call[0])));
     const body = JSON.parse(String(assessCall?.[1]?.body ?? '{}')) as { generate_explanation?: boolean; ingredients: { material_id: string }[] };
+    expect(String(assessCall?.[0])).toBe(`/api/formulas/${created.id}/assessments`);
 
     expect(body.generate_explanation).toBe(true);
     expect(body.ingredients.map((item) => item.material_id)).toEqual(['water', 'glow_purple', 'sodium_benzoate']);
@@ -334,6 +343,56 @@ describe('monitoring', () => {
   });
 });
 
+describe('persisted screening status', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it('shows the saved assessment on the library and overview after a reload', async () => {
+    const stored = await services.getFormula('FML-1001');
+    const untouched = await services.getFormula('FML-1002');
+    const before = await services.getDashboardSummary();
+    const serverStatus = stored.formula.screeningStatus === 'red' ? 'no_issues_found_in_assessed_scope' : 'changes_required';
+    const expected = serverStatus === 'changes_required' ? 'red' : 'green';
+    vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+      const path = String(input).split('?')[0];
+      if (path?.endsWith('/api/assessments') && (init?.method ?? 'GET') === 'GET') {
+        return new Response(JSON.stringify({
+          runs: [],
+          latest: {
+            'FML-1001': {
+              assessment_id: 'A-SAVED',
+              screening_status: serverStatus,
+              screening_status_label: serverStatus,
+              version_id: stored.formula.version,
+              created_at: '2026-10-09T00:00:00.000Z',
+            },
+          },
+        }), { status: 200 });
+      }
+      return new Response(JSON.stringify({ message: 'not found' }), { status: 404 });
+    }));
+
+    const listed = await services.listFormulas({ query: 'FML-1001', pageSize: 20 });
+    const row = listed.items.find((item) => item.formula.id === 'FML-1001');
+    const other = await services.listFormulas({ query: 'FML-1002', pageSize: 20 });
+    const otherRow = other.items.find((item) => item.formula.id === 'FML-1002');
+    const summary = await services.getDashboardSummary();
+    const reread = await services.getFormula('FML-1001');
+    const beforeExpected = before.statusDistribution.find((entry) => entry.status === expected)?.count ?? 0;
+    const afterExpected = summary.statusDistribution.find((entry) => entry.status === expected)?.count ?? 0;
+    const beforeStored = before.statusDistribution.find((entry) => entry.status === stored.formula.screeningStatus)?.count ?? 0;
+    const afterStored = summary.statusDistribution.find((entry) => entry.status === stored.formula.screeningStatus)?.count ?? 0;
+
+    expect(row?.formula.screeningStatus).toBe(expected);
+    expect(row?.formula.screeningCurrent).toBe(true);
+    expect(otherRow?.formula.screeningStatus).toBe(untouched.formula.screeningStatus);
+    expect(reread.formula.screeningStatus).toBe(stored.formula.screeningStatus);
+    expect(afterExpected).toBe(beforeExpected + 1);
+    expect(afterStored).toBe(beforeStored - 1);
+  });
+});
+
 describe('dashboard summary', () => {
   it('derives every metric from the shared dataset and reacts to changes', async () => {
     const before = await services.getDashboardSummary();
@@ -389,5 +448,227 @@ describe('search and comparison', () => {
     expect(comparison.changedCount).toBeGreaterThan(0);
     expect(comparison.overlapScore).toBeGreaterThan(0);
     expect(comparison.overlapScore).toBeLessThanOrEqual(100);
+  });
+});
+
+describe('backend formula and dashboard services', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it('reads the library and overview from the backend and does not replace a different browser formula', async () => {
+    const backend = createServices(store);
+    const localFormula = store.getState().formulas.find((formula) => formula.id === 'FML-1001');
+    expect(localFormula).toBeDefined();
+    const serverFormula = {
+      ...localFormula!,
+      name: 'Server marker',
+      screeningStatus: 'green',
+      screeningCurrent: false,
+      missingEvidenceCount: 2,
+    };
+    const localKey = formulaRecordKey(localFormula!);
+
+    vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+      const url = new URL(String(input), 'http://localhost');
+      const method = init?.method ?? 'GET';
+      if (url.pathname === '/api/assessments' && method === 'GET') {
+        return new Response(JSON.stringify({
+          runs: [],
+          latest: {
+            'FML-1001': {
+              assessment_id: 'A-SAVED',
+              screening_status: 'changes_required',
+              version_id: serverFormula.version,
+              created_at: '2026-10-09T00:00:00.000Z',
+            },
+          },
+        }), { status: 200 });
+      }
+      if (url.pathname === '/api/formulas' && method === 'GET') {
+        return new Response(JSON.stringify({
+          items: [serverFormula],
+          total: 1,
+          page: 1,
+          pageSize: 1000,
+          pageCount: 1,
+        }), { status: 200 });
+      }
+      if (url.pathname === '/api/formulas/FML-1001' && method === 'GET') {
+        return new Response(JSON.stringify(serverFormula), { status: 200 });
+      }
+      if (url.pathname === '/api/dashboard' && method === 'GET') {
+        return new Response(JSON.stringify({
+          metrics: [
+            { key: 'total', label: 'Total formulas', value: 1, caption: '0 archived', to: '/formulas' },
+            { key: 'awaiting-review', label: 'Awaiting review', value: 1, caption: 'Screened, internal review not complete', to: '/formulas?review=pending' },
+            { key: 'missing-evidence', label: 'Missing evidence', value: 1, caption: 'At least one required document absent', to: '/formulas?evidence=missing' },
+          ],
+          statusDistribution: [
+            { status: 'green', count: 0, share: 0 },
+            { status: 'amber', count: 0, share: 0 },
+            { status: 'red', count: 1, share: 1 },
+            { status: 'not-screened', count: 0, share: 0 },
+          ],
+          outcomeTrend: [],
+          priorityQueue: [],
+          recentActivity: [],
+          outdatedCount: 0,
+          dueForReviewCount: 0,
+        }), { status: 200 });
+      }
+      return new Response(JSON.stringify({ detail: 'not found' }), { status: 404 });
+    }));
+
+    const listed = await backend.listFormulas({ query: 'Server', pageSize: 10 });
+    const detail = await backend.getFormula('FML-1001');
+    const summary = await backend.getDashboardSummary();
+    const kept = store.getState().formulas.find((formula) => formula.id === 'FML-1001');
+
+    expect(listed.total).toBe(1);
+    expect(listed.items[0]?.formula.name).toBe('Server marker');
+    expect(listed.items[0]?.formula.screeningStatus).toBe('red');
+    expect(listed.items[0]?.formula.screeningCurrent).toBe(true);
+    expect(listed.items[0]?.missingEvidenceCount).toBe(2);
+    expect(detail.formula.name).toBe('Server marker');
+    expect(detail.formula.screeningStatus).toBe('red');
+    expect(detail.formula.screeningCurrent).toBe(true);
+    expect(summary.statusDistribution.find((entry) => entry.status === 'red')?.count).toBe(1);
+    expect(formulaRecordKey(kept!)).toBe(localKey);
+    expect(kept?.name).not.toBe('Server marker');
+  });
+
+  it('creates, updates, duplicates, and archives through the formula API without writing the browser copy', async () => {
+    const backend = createServices(store);
+    const before = store.getState().formulas.map((formula) => formula.id);
+    const records = new Map<string, Record<string, unknown>>();
+
+    vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+      const url = new URL(String(input), 'http://localhost');
+      const method = init?.method ?? 'GET';
+      if (url.pathname === '/api/assessments') {
+        return new Response(JSON.stringify({ runs: [], latest: {} }), { status: 200 });
+      }
+      if (url.pathname === '/api/formulas' && method === 'POST') {
+        const body = JSON.parse(String(init?.body ?? '{}')) as Record<string, unknown>;
+        const created = {
+          ...body,
+          id: 'FML-2001',
+          version: body.version ?? 'v1.0',
+          screeningStatus: 'not-screened',
+          screeningCurrent: false,
+          reviewStatus: 'not-started',
+          lifecycle: body.lifecycle ?? 'draft',
+          createdAt: '2026-10-09T00:00:00.000Z',
+          updatedAt: '2026-10-09T00:00:00.000Z',
+          ingredients: body.ingredients ?? [],
+          evidenceIds: body.evidenceIds ?? [],
+        };
+        records.set('FML-2001', created);
+        return new Response(JSON.stringify(created), { status: 201 });
+      }
+      if (url.pathname === '/api/formulas/FML-2001' && method === 'PUT') {
+        const body = JSON.parse(String(init?.body ?? '{}')) as Record<string, unknown>;
+        const updated = { ...records.get('FML-2001'), ...body, id: 'FML-2001' };
+        records.set('FML-2001', updated);
+        return new Response(JSON.stringify(updated), { status: 200 });
+      }
+      if (url.pathname === '/api/formulas/FML-2001/duplicate' && method === 'POST') {
+        return new Response(JSON.stringify({
+          ...records.get('FML-2001'),
+          id: 'FML-2002',
+          name: 'Copied marker',
+          lifecycle: 'draft',
+          screeningStatus: 'not-screened',
+        }), { status: 201 });
+      }
+      if (url.pathname === '/api/formulas/FML-2001/archive' && method === 'POST') {
+        return new Response(JSON.stringify({ ...records.get('FML-2001'), lifecycle: 'archived' }), { status: 200 });
+      }
+      return new Response(JSON.stringify({ detail: 'not found' }), { status: 404 });
+    }));
+
+    const created = await backend.createFormula(newFormula);
+    const updated = await backend.updateFormula(created.id, { ...newFormula, name: 'Renamed marker' });
+    const copy = await backend.duplicateFormula(created.id);
+    const archived = await backend.archiveFormula(created.id);
+
+    expect(created.id).toBe('FML-2001');
+    expect(updated.name).toBe('Renamed marker');
+    expect(copy.id).toBe('FML-2002');
+    expect(archived.lifecycle).toBe('archived');
+    expect(store.getState().formulas.map((formula) => formula.id)).toEqual(before);
+  });
+
+  it('opens the full assessment for a formula that is not stored in the browser', async () => {
+    const backend = createServices(store);
+    const serverFormula = {
+      id: 'FML-1019',
+      name: 'Crayola Classic Wax Crayon',
+      version: 'v1.0',
+      category: 'Crayons',
+      ageGroup: 'under_12',
+      targetMarkets: ['US'],
+      physicalForm: 'Solid stick',
+      intendedUse: 'Solid extruded wax crayon.',
+      ownerId: 'usr-dana',
+      lifecycle: 'active',
+      ingredients: [],
+      evidenceIds: [],
+      screeningStatus: 'not-screened',
+      screeningCurrent: false,
+      reviewStatus: 'not-started',
+      createdAt: '2026-10-09T00:00:00.000Z',
+      updatedAt: '2026-10-09T00:00:00.000Z',
+    };
+    const run = {
+      id: 'RUN-LIVE-1',
+      formulaId: 'FML-1019',
+      formulaName: serverFormula.name,
+      formulaVersion: 'v1.0',
+      ageGroup: 'under_12',
+      targetMarkets: ['US'],
+      marketResults: [],
+      assessmentRequest: { target_markets: ['US'], age_group: 'under_12' },
+      status: 'red',
+      evidenceCompleteness: 0,
+      requiredEvidenceCount: 1,
+      presentEvidenceCount: 0,
+      runAt: '2026-10-09T12:41:54.000Z',
+      runBy: 'usr-dana',
+      summary: 'Changes required.',
+      findings: [],
+      exposureInputs: [],
+      comparisons: [],
+      nextActions: [],
+      outdated: false,
+      ingredientSnapshot: [],
+      formulaAssessment: { assessment_id: 'A-SAVED', screening_status: 'changes_required' },
+      legacySample: false,
+    } as ScreeningRun;
+    store.dispatch({ type: 'run/add', run });
+
+    vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL) => {
+      const url = new URL(String(input), 'http://localhost');
+      if (url.pathname === '/api/assessments') {
+        return new Response(JSON.stringify({
+          runs: [],
+          latest: { 'FML-1019': { assessment_id: 'A-SAVED', screening_status: 'changes_required', version_id: 'v1.0' } },
+        }), { status: 200 });
+      }
+      if (url.pathname === '/api/formulas/FML-1019') {
+        return new Response(JSON.stringify(serverFormula), { status: 200 });
+      }
+      return new Response(JSON.stringify({ detail: 'not found' }), { status: 404 });
+    }));
+
+    const detail = await backend.getFormula('FML-1019');
+    const result = await backend.getScreeningResult('RUN-LIVE-1');
+
+    expect(detail.latestRun?.id).toBe('RUN-LIVE-1');
+    expect(detail.formula.screeningStatus).toBe('red');
+    expect(result.run.summary).toBe('Changes required.');
+    expect(result.formula.name).toBe('Crayola Classic Wax Crayon');
+    expect(store.getState().formulas.some((formula) => formula.id === 'FML-1019')).toBe(false);
   });
 });

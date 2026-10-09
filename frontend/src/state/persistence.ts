@@ -6,7 +6,7 @@ export const STORAGE_KEY = 'formula-insight.dataset';
 export const STORAGE_VERSION = 4;
 
 export const PERSISTENCE_DESCRIPTION =
-  'Formulas, assessment runs, review decisions, and activity stay in this browser under the key "formula-insight.dataset". That history is not shared server-side storage. A catalog assessment is sent to the application server to run the checks and request an explanation; the server does not keep the run.';
+  'The Formula Library and Overview read formulas and dashboard metrics from the backend. Screening sends the backend formula to the assessment API and keeps that result. Review decisions, monitoring, submissions, documents, and any browser formula edits stay in this browser under "formula-insight.dataset". Browser formulas are not copied over the server, and server formulas are not written back over a different browser copy.';
 
 interface Envelope {
   version: number;

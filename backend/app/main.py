@@ -6,14 +6,17 @@ import logging
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Annotated
 from uuid import uuid4
 
-from fastapi import FastAPI, File, Form, HTTPException, UploadFile
+from fastapi import Body, FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel, ConfigDict, Field
 
 from app.config import DATA, azure_settings
+from app.dashboard_service import router as dashboard_router
+from app.formula_store import router as formula_router
 from app.engine import (
     _assessment_mode,
     _metrics,
@@ -38,9 +41,12 @@ app = FastAPI(title="Affine Formula Screening", version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origin_regex=r"https?://(localhost|127\.0\.0\.1)(:\d+)?",
-    allow_methods=["GET", "POST"],
+    allow_methods=["GET", "POST", "PUT"],
     allow_headers=["*"],
 )
+
+app.include_router(formula_router)
+app.include_router(dashboard_router)
 
 STORE = load_store()
 
@@ -438,9 +444,35 @@ def context(formula: Formula):
     return _public_context(built)
 
 
+@app.get("/api/assessments")
+def saved_assessments():
+    from app.screening_service import ScreeningServiceError, load_runs
+
+    try:
+        return load_runs()
+    except ScreeningServiceError as error:
+        raise HTTPException(status_code=error.status_code, detail=error.detail) from error
+
+
 @app.post("/api/assessments")
 def assessments(formula: Formula):
     return _assessment(formula)
+
+
+@app.post("/api/formulas/{id}/assessments")
+def formula_assessments(id: str, formula: Annotated[Formula | None, Body()] = None):
+    from pydantic import ValidationError
+
+    from app.screening_service import ScreeningServiceError, assess_saved_formula, load_saved_formula
+
+    try:
+        if formula is None:
+            formula = Formula.model_validate(load_saved_formula(id))
+        return assess_saved_formula(id, formula, _assessment)
+    except ScreeningServiceError as error:
+        raise HTTPException(status_code=error.status_code, detail=error.detail) from error
+    except ValidationError as error:
+        raise HTTPException(status_code=422, detail=error.errors()) from error
 
 
 @app.post("/api/compare")

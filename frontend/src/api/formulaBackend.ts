@@ -2,6 +2,7 @@ import type {
   AgeGroup,
   FindingRecord,
   Formula,
+  Ingredient,
   MarketAssessment,
   NextActionRecord,
   PhysicalForm,
@@ -9,6 +10,7 @@ import type {
   ScreeningStatus,
   TargetMarket,
 } from '../types/domain';
+import type { DashboardSummary, FormulaInput, Paginated } from '../types/services';
 
 export const UI_CATEGORY_TO_API: Record<ProductCategory, string> = {
   Markers: 'Markers',
@@ -290,7 +292,7 @@ export function physicalFormForExample(form: string): PhysicalForm {
   return API_FORM_TO_UI[form] ?? 'Liquid';
 }
 
-async function readBody(response: Response) {
+async function readBody(response: Response, fallback = 'The assessment service could not be reached.') {
   const payload = (await response.json().catch(() => ({}))) as { message?: string; detail?: unknown };
   if (!response.ok) {
     const detail = payload.detail;
@@ -299,7 +301,7 @@ async function readBody(response: Response) {
       : typeof detail === 'string'
         ? detail
         : payload.message;
-    throw new Error(message || 'The assessment service could not be reached.');
+    throw new Error(message || fallback);
   }
   return payload;
 }
@@ -373,10 +375,10 @@ export function formulaToPackageRequest(
   };
 }
 
-export async function postPackageAssessment(body: unknown, signal?: AbortSignal) {
+async function postAssessment(url: string, body: unknown, signal?: AbortSignal) {
   let response: Response;
   try {
-    response = await fetch('/api/assessments', {
+    response = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
@@ -386,6 +388,51 @@ export async function postPackageAssessment(body: unknown, signal?: AbortSignal)
     throw new Error('The assessment service could not be reached. Start the formula backend and try again.');
   }
   return readBody(response) as Promise<PackageAssessment>;
+}
+
+export function postPackageAssessment(body: unknown, signal?: AbortSignal) {
+  return postAssessment('/api/assessments', body, signal);
+}
+
+export function postSavedFormulaAssessment(formulaId: string, body: unknown, signal?: AbortSignal) {
+  return postAssessment(`/api/formulas/${encodeURIComponent(formulaId)}/assessments`, body, signal);
+}
+
+export interface PersistedScreeningStatus {
+  assessment_id?: string;
+  screening_status: string;
+  screening_status_label?: string;
+  assessment_mode?: string;
+  created_at?: string;
+  version_id?: string;
+}
+
+export async function fetchPersistedScreeningStatuses(): Promise<Record<string, PersistedScreeningStatus>> {
+  try {
+    const response = await fetch('/api/assessments');
+    if (!response.ok) return {};
+    const payload = (await response.json()) as { latest?: Record<string, PersistedScreeningStatus> };
+    return payload.latest && typeof payload.latest === 'object' ? payload.latest : {};
+  } catch {
+    return {};
+  }
+}
+
+export function screeningStatusFromServer(status: string): Exclude<ScreeningStatus, 'not-screened'> {
+  if (status === 'changes_required') return 'red';
+  if (status === 'no_issues_found_in_assessed_scope') return 'green';
+  return 'amber';
+}
+
+export function applyPersistedScreeningStatus(formula: Formula, saved?: PersistedScreeningStatus | null): Formula {
+  if (!saved?.screening_status) return formula;
+  const next: Formula = {
+    ...formula,
+    screeningStatus: screeningStatusFromServer(saved.screening_status),
+    lastScreenedAt: saved.created_at || formula.lastScreenedAt,
+  };
+  if (saved.version_id) next.screeningCurrent = saved.version_id === formula.version;
+  return next;
 }
 
 export async function postComparison(previous: unknown, current: unknown, comparisonKind: 'historical' | 'reassess' = 'reassess') {
@@ -430,9 +477,7 @@ function materialName(assessment: PackageAssessment, materialId: string | null) 
 }
 
 function screeningStatus(status: PackageAssessment['screening_status']): Exclude<ScreeningStatus, 'not-screened'> {
-  if (status === 'changes_required') return 'red';
-  if (status === 'no_issues_found_in_assessed_scope') return 'green';
-  return 'amber';
+  return screeningStatusFromServer(status);
 }
 
 function marketStatus(status: string): MarketAssessment['status'] {
@@ -555,4 +600,153 @@ export function mapPackageAssessment(result: PackageAssessment) {
     requiredEvidenceCount: evidence.length,
     presentEvidenceCount: available,
   };
+}
+
+const FORMULA_UNAVAILABLE = 'The formula service could not be reached. Start the formula backend and try again.';
+
+async function requestJson(url: string, init?: RequestInit): Promise<unknown> {
+  let response: Response;
+  try {
+    response = await fetch(url, {
+      ...init,
+      headers: { 'Content-Type': 'application/json', ...init?.headers },
+    });
+  } catch {
+    throw new Error(FORMULA_UNAVAILABLE);
+  }
+  return readBody(response, FORMULA_UNAVAILABLE);
+}
+
+function emptyToUndefined<T>(value: T | null | undefined): T | undefined {
+  return value == null ? undefined : value;
+}
+
+export function normalizeStoredFormula(value: unknown): Formula {
+  const raw = value as Formula & { missingEvidenceCount?: number | null };
+  const { missingEvidenceCount: _ignored, ...stored } = raw;
+  void _ignored;
+  const ingredients = (raw.ingredients ?? []).map((ingredient) => ({
+    ...ingredient,
+    supplier: emptyToUndefined(ingredient.supplier),
+    notes: emptyToUndefined(ingredient.notes),
+    batchId: emptyToUndefined(ingredient.batchId),
+    addedInVersion: emptyToUndefined(ingredient.addedInVersion),
+    rawMaterialId: emptyToUndefined(ingredient.rawMaterialId),
+  })) as Ingredient[];
+  return {
+    ...stored,
+    reviewerId: emptyToUndefined(raw.reviewerId),
+    recordedAgeGroup: emptyToUndefined(raw.recordedAgeGroup),
+    description: emptyToUndefined(raw.description),
+    latestRunId: emptyToUndefined(raw.latestRunId),
+    lastScreenedAt: emptyToUndefined(raw.lastScreenedAt),
+    nextReviewDate: emptyToUndefined(raw.nextReviewDate),
+    originSubmissionId: emptyToUndefined(raw.originSubmissionId),
+    preferredAssessmentMode: emptyToUndefined(raw.preferredAssessmentMode),
+    scenarioOfFormulaId: emptyToUndefined(raw.scenarioOfFormulaId),
+    compositionCompleteness: emptyToUndefined(raw.compositionCompleteness),
+    ingredients,
+    evidenceIds: raw.evidenceIds ?? [],
+  };
+}
+
+export function missingEvidenceCountFromFormula(value: unknown): number {
+  const count = (value as { missingEvidenceCount?: unknown }).missingEvidenceCount;
+  return typeof count === 'number' && Number.isFinite(count) ? count : 0;
+}
+
+export interface FormulaListQuery {
+  search?: string;
+  categories?: string[];
+  reviewStatuses?: string[];
+  ownerIds?: string[];
+  lifecycle?: string[];
+  page?: number;
+  pageSize?: number;
+  sortKey?: string;
+  sortDirection?: 'asc' | 'desc';
+}
+
+function formulaListUrl(query: FormulaListQuery): string {
+  const params = new URLSearchParams();
+  if (query.search) params.set('search', query.search);
+  for (const category of query.categories ?? []) params.append('category', category);
+  for (const status of query.reviewStatuses ?? []) params.append('reviewStatus', status);
+  for (const owner of query.ownerIds ?? []) params.append('ownerId', owner);
+  for (const lifecycle of query.lifecycle ?? []) params.append('lifecycle', lifecycle);
+  params.set('page', String(query.page ?? 1));
+  params.set('pageSize', String(query.pageSize ?? 1000));
+  if (query.sortKey) params.set('sortKey', query.sortKey);
+  if (query.sortDirection) params.set('sortDirection', query.sortDirection);
+  return `/api/formulas?${params.toString()}`;
+}
+
+export async function fetchFormulaPage(query: FormulaListQuery = {}): Promise<Paginated<Formula> & { missingEvidence: Record<string, number> }> {
+  const payload = (await requestJson(formulaListUrl(query))) as Paginated<unknown>;
+  const items = (payload.items ?? []).map((item) => normalizeStoredFormula(item));
+  const missingEvidence: Record<string, number> = {};
+  (payload.items ?? []).forEach((item) => {
+    const formula = normalizeStoredFormula(item);
+    missingEvidence[formula.id] = missingEvidenceCountFromFormula(item);
+  });
+  return {
+    items,
+    total: payload.total ?? items.length,
+    page: payload.page ?? 1,
+    pageSize: payload.pageSize ?? items.length,
+    pageCount: payload.pageCount ?? 1,
+    missingEvidence,
+  };
+}
+
+export async function fetchAllFormulas(query: Omit<FormulaListQuery, 'page' | 'pageSize'> = {}): Promise<{ formulas: Formula[]; missingEvidence: Record<string, number> }> {
+  const pageSize = 1000;
+  const first = await fetchFormulaPage({ ...query, page: 1, pageSize });
+  const formulas = [...first.items];
+  const missingEvidence = { ...first.missingEvidence };
+  for (let page = 2; page <= first.pageCount; page += 1) {
+    const next = await fetchFormulaPage({ ...query, page, pageSize });
+    formulas.push(...next.items);
+    Object.assign(missingEvidence, next.missingEvidence);
+  }
+  return { formulas, missingEvidence };
+}
+
+export async function fetchFormula(id: string): Promise<Formula> {
+  return normalizeStoredFormula(await requestJson(`/api/formulas/${encodeURIComponent(id)}`));
+}
+
+export async function createStoredFormula(input: FormulaInput): Promise<Formula> {
+  return normalizeStoredFormula(
+    await requestJson('/api/formulas', { method: 'POST', body: JSON.stringify(input) }),
+  );
+}
+
+export async function updateStoredFormula(id: string, input: FormulaInput): Promise<Formula> {
+  const ingredients = input.ingredients.map((ingredient, index) => ({
+    ...ingredient,
+    id: ingredient.id || `${id}-ING-${String(index + 1).padStart(2, '0')}`,
+  }));
+  return normalizeStoredFormula(
+    await requestJson(`/api/formulas/${encodeURIComponent(id)}`, {
+      method: 'PUT',
+      body: JSON.stringify({ ...input, ingredients }),
+    }),
+  );
+}
+
+export async function duplicateStoredFormula(id: string): Promise<Formula> {
+  return normalizeStoredFormula(
+    await requestJson(`/api/formulas/${encodeURIComponent(id)}/duplicate`, { method: 'POST' }),
+  );
+}
+
+export async function archiveStoredFormula(id: string): Promise<Formula> {
+  return normalizeStoredFormula(
+    await requestJson(`/api/formulas/${encodeURIComponent(id)}/archive`, { method: 'POST' }),
+  );
+}
+
+export async function fetchDashboardSummary(): Promise<DashboardSummary> {
+  return (await requestJson('/api/dashboard')) as DashboardSummary;
 }

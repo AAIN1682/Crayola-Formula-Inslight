@@ -347,4 +347,8 @@ export interface RunScreeningOptions {
   onStage?: (stage: ScreeningStage, index: number) => void;
   signal?: AbortSignal;
   assessmentMode?: 'evidence' | 'scenario';
+  /** Use this record instead of the browser copy. Screening still posts it to the assessment API. */
+  formula?: Formula;
+  /** Leave the browser formula record unchanged. The saved assessment is still stored by the backend. */
+  updateStoredFormula?: boolean;
 }

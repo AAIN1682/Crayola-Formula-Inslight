@@ -2,9 +2,10 @@
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { RouterProvider, createMemoryRouter } from 'react-router-dom';
-import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import App from './App';
 import { routes } from './router';
+import { createSeedDataset } from '../data/seed';
 
 /**
  * Mounts the real route tree against jsdom and walks the primary screens.
@@ -75,9 +76,58 @@ async function unmount() {
 
 beforeEach(() => {
   window.localStorage.clear();
+  const dataset = createSeedDataset();
+  const active = dataset.formulas.filter((formula) => formula.lifecycle !== 'archived');
+  vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+    const url = new URL(String(input), 'http://localhost');
+    const method = init?.method ?? 'GET';
+    if (url.pathname === '/api/assessments' && method === 'GET') {
+      return new Response(JSON.stringify({ runs: [], latest: {} }), { status: 200 });
+    }
+    if (url.pathname === '/api/dashboard' && method === 'GET') {
+      const statuses = ['green', 'amber', 'red', 'not-screened'] as const;
+      return new Response(JSON.stringify({
+        metrics: [
+          { key: 'total', label: 'Total formulas', value: active.length, caption: `${dataset.formulas.length - active.length} archived`, to: '/formulas', trend: [1, 2, 3, 4, 5, active.length] },
+          { key: 'awaiting-review', label: 'Awaiting review', value: 0, caption: 'Screened, internal review not complete', to: '/formulas?review=pending' },
+          { key: 'missing-evidence', label: 'Missing evidence', value: 0, caption: 'At least one required document absent', to: '/formulas?evidence=missing' },
+        ],
+        statusDistribution: statuses.map((status) => {
+          const count = active.filter((formula) => formula.screeningStatus === status).length;
+          return { status, count, share: active.length === 0 ? 0 : count / active.length };
+        }),
+        outcomeTrend: [],
+        priorityQueue: [],
+        recentActivity: [],
+        outdatedCount: active.filter((formula) => formula.screeningStatus !== 'not-screened' && !formula.screeningCurrent).length,
+        dueForReviewCount: 0,
+      }), { status: 200 });
+    }
+    if (url.pathname === '/api/formulas' && method === 'GET') {
+      const lifecycle = url.searchParams.getAll('lifecycle');
+      const visible = lifecycle.length > 0
+        ? dataset.formulas.filter((formula) => lifecycle.includes(formula.lifecycle))
+        : active;
+      return new Response(JSON.stringify({
+        items: visible.map((formula) => ({ ...formula, missingEvidenceCount: 0 })),
+        total: visible.length,
+        page: 1,
+        pageSize: 1000,
+        pageCount: 1,
+      }), { status: 200 });
+    }
+    const match = url.pathname.match(/^\/api\/formulas\/([^/]+)$/);
+    if (match && method === 'GET') {
+      const formula = dataset.formulas.find((item) => item.id === decodeURIComponent(match[1] ?? ''));
+      if (!formula) return new Response(JSON.stringify({ detail: 'Formula was not found.' }), { status: 404 });
+      return new Response(JSON.stringify(formula), { status: 200 });
+    }
+    return new Response(JSON.stringify({ detail: 'not found' }), { status: 404 });
+  }));
 });
 
 afterEach(async () => {
+  vi.unstubAllGlobals();
   await unmount();
 });
 

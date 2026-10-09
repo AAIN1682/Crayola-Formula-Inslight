@@ -40,7 +40,7 @@ import type {
 import type { DemoStore } from '../../state/store';
 import type { DemoAction } from '../../state/reducer';
 import { ServiceError, type FormulaInsightServices } from '../contracts';
-import { branchSubstanceIds, formulaToPackageRequest, isLiveAzureAssessment, mapPackageAssessment, postPackageAssessment } from '../../api/formulaBackend';
+import { applyPersistedScreeningStatus, branchSubstanceIds, fetchPersistedScreeningStatuses, formulaToPackageRequest, isLiveAzureAssessment, mapPackageAssessment, postPackageAssessment, postSavedFormulaAssessment } from '../../api/formulaBackend';
 import {
   diffIngredients,
   isRunCurrent,
@@ -216,9 +216,11 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
     async listFormulas(filters: FormulaFilters = {}) {
       await delay(140);
       const current = state();
+      const saved = await fetchPersistedScreeningStatuses();
       const lifecycleFilter = filters.lifecycle;
 
       let rows = current.formulas
+        .map((formula) => applyPersistedScreeningStatus(formula, saved[formula.id]))
         .filter((formula) =>
           lifecycleFilter && lifecycleFilter.length > 0
             ? lifecycleFilter.includes(formula.lifecycle)
@@ -410,7 +412,7 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
 
     async runScreening(formulaId: string, options?: RunScreeningOptions) {
       const generation = ++assessmentGeneration;
-      const formula = requireFormula(formulaId);
+      const formula = options?.formula ?? requireFormula(formulaId);
       if (formula.ageGroupNeedsSelection || !formula.ageGroup) {
         throw new ServiceError('Select an age group before running an assessment.', false);
       }
@@ -433,9 +435,10 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
         throw new ServiceError('A newer assessment replaced this result.');
       }
 
-      let payload: Awaited<ReturnType<typeof postPackageAssessment>>;
+      let payload: Awaited<ReturnType<typeof postSavedFormulaAssessment>>;
       try {
-        payload = await postPackageAssessment(
+        payload = await postSavedFormulaAssessment(
+          formula.id,
           formulaToPackageRequest(formula, true, options?.assessmentMode ?? formula.preferredAssessmentMode ?? 'evidence', catalogIds),
           options?.signal,
         );
@@ -515,22 +518,26 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
         reviewStatus,
       };
 
+      const screeningActivity = activity({
+        type: 'screening-run',
+        summary: `Screening run completed for ${formula.name} ${formula.version}`,
+        detail: live
+          ? `Live Azure assessment · ${status.toUpperCase()} · ${run.assessmentMode === 'scenario' ? 'scenario evidence completeness' : 'verified evidence coverage'} ${evidence.completeness}%.`
+          : `Partial calculated result · AI analysis ${payload.execution?.llm_status ?? 'unavailable'} · ${status.toUpperCase()}.`,
+        formulaId: formula.id,
+        runId: run.id,
+      });
       store.dispatch({
         type: 'batch',
-        actions: [
-          { type: 'run/markOutdated', formulaId: formula.id },
-          { type: 'run/add', run },
-          { type: 'formula/upsert', formula: updatedFormula },
-          activity({
-            type: 'screening-run',
-            summary: `Screening run completed for ${formula.name} ${formula.version}`,
-            detail: live
-              ? `Live Azure assessment · ${status.toUpperCase()} · ${run.assessmentMode === 'scenario' ? 'scenario evidence completeness' : 'verified evidence coverage'} ${evidence.completeness}%.`
-              : `Partial calculated result · AI analysis ${payload.execution?.llm_status ?? 'unavailable'} · ${status.toUpperCase()}.`,
-            formulaId: formula.id,
-            runId: run.id,
-          }),
-        ],
+        actions:
+          options?.updateStoredFormula === false
+            ? [{ type: 'run/markOutdated', formulaId: formula.id }, { type: 'run/add', run }, screeningActivity]
+            : [
+                { type: 'run/markOutdated', formulaId: formula.id },
+                { type: 'run/add', run },
+                { type: 'formula/upsert', formula: updatedFormula },
+                screeningActivity,
+              ],
       });
 
       return run;
@@ -946,7 +953,10 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
     async getDashboardSummary(): Promise<DashboardSummary> {
       await delay(170);
       const current = state();
-      const active = current.formulas.filter((formula) => formula.lifecycle !== 'archived');
+      const saved = await fetchPersistedScreeningStatuses();
+      const active = current.formulas
+        .filter((formula) => formula.lifecycle !== 'archived')
+        .map((formula) => applyPersistedScreeningStatus(formula, saved[formula.id]));
 
       const rows = active.map(toRow);
       const awaitingReview = rows.filter(

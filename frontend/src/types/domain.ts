@@ -379,7 +379,7 @@ export interface ScreeningRun {
   ingredientSnapshot: { name: string; rawMaterialId?: string; concentration: number; batchId?: string }[];
   /** Present when this run used the earlier reference catalog. */
   referenceAssessment?: ReferenceAssessment;
-  /** Server assessment for this exact version. Stored in this browser, not in packaged JSON. */
+  /** Server assessment for this exact version. The server keeps the run; this copy is what the library reads. */
   formulaAssessment?: import('../api/formulaBackend').PackageAssessment;
   /** Seeded or previously stored demo-engine result. Never relabeled as an Azure result. */
   legacySample?: boolean;

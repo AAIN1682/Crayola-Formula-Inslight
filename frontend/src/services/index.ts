@@ -1,17 +1,14 @@
 import type { DemoStore } from '../state/store';
 import type { FormulaInsightServices } from './contracts';
-import { createMockServices } from './mock/mockServices';
+import { createBackendServices } from './backendServices';
 
 /**
- * Single entry point for the data layer.
- *
- * The demo runs entirely against the local mock implementation. Replacing this one
- * factory with an HTTP-backed implementation of `FormulaInsightServices` is enough to
- * move the application onto a real backend — no page or component imports the mock
- * directly, and nothing outside `state/` touches localStorage.
+ * Formula library, formula detail, screening, and overview use the backend.
+ * Reviews, monitoring, submissions, documents, and settings stay on the browser dataset.
+ * Browser formula records are not uploaded or replaced.
  */
 export function createServices(store: DemoStore): FormulaInsightServices {
-  return createMockServices(store);
+  return createBackendServices(store);
 }
 
 export { ServiceError } from './contracts';
