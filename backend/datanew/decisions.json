@@ -1,0 +1,56 @@
+[
+  {
+    "id": "DEC-001",
+    "formulaId": "FML-1001",
+    "runId": "RUN-1001-01",
+    "decision": "review-complete",
+    "note": "Demo checks clear and the full supplier document set is on file. Internal review closed for v3.1.",
+    "decidedById": "usr-marcus",
+    "decidedAt": "2026-09-22T10:40:00.000Z"
+  },
+  {
+    "id": "DEC-002",
+    "formulaId": "FML-1002",
+    "runId": "RUN-1002-01",
+    "decision": "request-evidence",
+    "note": "Holding review until the magenta certificate of analysis and the revised surfactant safety data sheet arrive.",
+    "decidedById": "usr-marcus",
+    "decidedAt": "2026-10-01T10:40:00.000Z"
+  },
+  {
+    "id": "DEC-003",
+    "formulaId": "FML-1003",
+    "runId": "RUN-1003-01",
+    "decision": "review-complete",
+    "note": "No open concerns from the demo checks. Opacity study reviewed and accepted internally.",
+    "decidedById": "usr-priya",
+    "decidedAt": "2026-09-09T10:40:00.000Z"
+  },
+  {
+    "id": "DEC-004",
+    "formulaId": "FML-1015",
+    "runId": "RUN-1015-01",
+    "decision": "return-for-changes",
+    "note": "Defoamer loading is well above the illustrative demo ceiling. Returning to formulation for a revised level.",
+    "decidedById": "usr-marcus",
+    "decidedAt": "2026-10-03T10:40:00.000Z"
+  },
+  {
+    "id": "DEC-005",
+    "formulaId": "FML-1009",
+    "runId": "RUN-1009-01",
+    "decision": "review-complete",
+    "note": "Internal review complete for v3.0. Scheduled reassessment remains on the monitoring list.",
+    "decidedById": "usr-marcus",
+    "decidedAt": "2026-07-06T10:40:00.000Z"
+  },
+  {
+    "id": "DEC-006",
+    "formulaId": "FML-1006",
+    "runId": "RUN-1006-01",
+    "decision": "request-evidence",
+    "note": "Blue dye solution has no supplier documents. Requested the full set before the review continues.",
+    "decidedById": "usr-marcus",
+    "decidedAt": "2026-10-04T10:40:00.000Z"
+  }
+]

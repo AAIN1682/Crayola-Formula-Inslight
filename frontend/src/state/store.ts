@@ -1,5 +1,6 @@
 import type { DemoDataset } from '../types/domain';
 import { createSeedDataset } from '../data/seed';
+import { isWorkspaceApiEnabled } from '../services/workspaceApi';
 import { loadDataset, saveDataset } from './persistence';
 import { demoReducer, type DemoAction, type DemoState } from './reducer';
 
@@ -18,12 +19,13 @@ export interface DemoStore {
  * keeps reads synchronous, so a service call can act on the result of the call before it.
  */
 export function createDemoStore(): DemoStore {
-  let state: DemoState = loadDataset().dataset;
+  let state: DemoState = isWorkspaceApiEnabled() ? createSeedDataset() : loadDataset().dataset;
   let revision = 0;
   const listeners = new Set<() => void>();
   let persistHandle: number | undefined;
 
   const schedulePersist = () => {
+    if (isWorkspaceApiEnabled()) return;
     if (typeof window === 'undefined') return;
     if (persistHandle !== undefined) window.clearTimeout(persistHandle);
     persistHandle = window.setTimeout(() => {

@@ -1,0 +1,147 @@
+[
+  {
+    "id": "ALR-3001",
+    "type": "safety-source-update",
+    "severity": "high",
+    "title": "Demo safety-source entry updated for Preservative Blend PB-9 (legacy)",
+    "whatChanged": "The illustrative demo safety source added a note recommending specialist assessment for legacy preservative blends used in direct hand-contact products.",
+    "sourceReference": "Demo safety source · entry DS-2026-014 (synthetic)",
+    "matchReason": "RM-111 is present in the composition of the affected formula at 0.6%.",
+    "affectedFormulaIds": [
+      "FML-1005"
+    ],
+    "relatedRawMaterialId": "RM-111",
+    "suggestedAction": "Ask a product safety specialist to reassess the preservative system before the next submission.",
+    "status": "open",
+    "createdAt": "2026-10-06T02:50:00.000Z",
+    "dueDate": "2026-10-14T11:30:00.000Z"
+  },
+  {
+    "id": "ALR-3002",
+    "type": "supplier-document-update",
+    "severity": "medium",
+    "title": "Marlow Specialty issued a revised document set for Nonionic Surfactant NS-7",
+    "whatChanged": "The supplier replaced the safety data sheet on file. The version in this workspace is marked outdated until the replacement is recorded.",
+    "sourceReference": "Supplier portal notice · Marlow Specialty (synthetic)",
+    "matchReason": "RM-109 appears in three active formulas.",
+    "affectedFormulaIds": [
+      "FML-1002",
+      "FML-1010",
+      "FML-1016"
+    ],
+    "relatedRawMaterialId": "RM-109",
+    "suggestedAction": "Request the current safety data sheet and replace the outdated record.",
+    "status": "open",
+    "assignedToId": "usr-marcus",
+    "createdAt": "2026-10-03T03:40:00.000Z",
+    "dueDate": "2026-10-18T11:30:00.000Z"
+  },
+  {
+    "id": "ALR-3003",
+    "type": "evidence-gap",
+    "severity": "medium",
+    "title": "Certificate of analysis missing for Magenta Dispersion Pigment M-21",
+    "whatChanged": "The demo evidence checks still report no certificate of analysis for RM-104, which is required for colorants.",
+    "sourceReference": "Internal evidence check (demo rule DR-04)",
+    "matchReason": "RM-104 is used in four active formulas and has no certificate on file.",
+    "affectedFormulaIds": [
+      "FML-1002",
+      "FML-1004",
+      "FML-1008",
+      "FML-1018"
+    ],
+    "relatedRawMaterialId": "RM-104",
+    "suggestedAction": "Request the certificate of analysis from Helix Colour Labs.",
+    "status": "open",
+    "createdAt": "2026-09-28T04:35:00.000Z",
+    "dueDate": "2026-10-13T11:30:00.000Z"
+  },
+  {
+    "id": "ALR-3004",
+    "type": "scheduled-review",
+    "severity": "medium",
+    "title": "Scheduled reassessment due for SureBond School Glue",
+    "whatChanged": "The scheduled review date recorded for this formula is approaching.",
+    "sourceReference": "Internal review schedule",
+    "matchReason": "FML-1009 has a recorded review date within the next two weeks.",
+    "affectedFormulaIds": [
+      "FML-1009"
+    ],
+    "suggestedAction": "Re-run screening and confirm the supplier document set is still current.",
+    "status": "open",
+    "createdAt": "2026-10-07T03:15:00.000Z",
+    "dueDate": "2026-10-21T11:30:00.000Z"
+  },
+  {
+    "id": "ALR-3005",
+    "type": "scheduled-review",
+    "severity": "low",
+    "title": "Scheduled reassessment due for StudioBright Finger Paint",
+    "whatChanged": "The scheduled review date recorded for this direct skin-contact formula is approaching.",
+    "sourceReference": "Internal review schedule",
+    "matchReason": "FML-1017 has a recorded review date within the next month.",
+    "affectedFormulaIds": [
+      "FML-1017"
+    ],
+    "suggestedAction": "Re-run screening ahead of the recorded review date.",
+    "status": "acknowledged",
+    "assignedToId": "usr-priya",
+    "createdAt": "2026-09-30T04:00:00.000Z",
+    "dueDate": "2026-11-04T11:30:00.000Z"
+  },
+  {
+    "id": "ALR-3006",
+    "type": "supplier-document-update",
+    "severity": "low",
+    "title": "Keystone Polymers refreshed the certificate for Acrylic Binder Emulsion AB-30",
+    "whatChanged": "A newer batch certificate is available. The record on file remains valid for the current batch.",
+    "sourceReference": "Supplier portal notice · Keystone Polymers (synthetic)",
+    "matchReason": "RM-107 is used in two active paint formulas.",
+    "affectedFormulaIds": [
+      "FML-1003",
+      "FML-1017"
+    ],
+    "relatedRawMaterialId": "RM-107",
+    "suggestedAction": "Record the newer certificate at the next batch changeover.",
+    "status": "acknowledged",
+    "assignedToId": "usr-elena",
+    "createdAt": "2026-09-23T05:30:00.000Z"
+  },
+  {
+    "id": "ALR-3007",
+    "type": "evidence-gap",
+    "severity": "medium",
+    "title": "No supplier documents on file for Blue Dye Solution B-27",
+    "whatChanged": "RM-123 was introduced in a current formula version and still has no safety data sheet or certificate of analysis.",
+    "sourceReference": "Internal evidence check (demo rules DR-04, DR-06)",
+    "matchReason": "RM-123 is new in FML-1006 v1.0 and has no available documents.",
+    "affectedFormulaIds": [
+      "FML-1006"
+    ],
+    "relatedRawMaterialId": "RM-123",
+    "suggestedAction": "Request the full supplier document set from Westfall Pigments.",
+    "status": "open",
+    "createdAt": "2026-10-04T07:45:00.000Z",
+    "dueDate": "2026-10-16T11:30:00.000Z"
+  },
+  {
+    "id": "ALR-3008",
+    "type": "safety-source-update",
+    "severity": "low",
+    "title": "Demo safety-source note added for Bittering Agent BA-5",
+    "whatChanged": "The illustrative demo safety source added a note about recording trace additive levels on the composition sheet.",
+    "sourceReference": "Demo safety source · entry DS-2026-009 (synthetic)",
+    "matchReason": "RM-121 is present at trace levels in three formulas.",
+    "affectedFormulaIds": [
+      "FML-1001",
+      "FML-1011",
+      "FML-1017"
+    ],
+    "relatedRawMaterialId": "RM-121",
+    "suggestedAction": "Confirm the trace level is recorded on each composition sheet.",
+    "status": "resolved",
+    "assignedToId": "usr-priya",
+    "createdAt": "2026-09-05T04:30:00.000Z",
+    "resolutionNote": "Trace levels confirmed on all three composition sheets. No further action required."
+  }
+]

@@ -1,12 +1,15 @@
 import {
   createContext,
   useContext,
+  useEffect,
   useMemo,
   useSyncExternalStore,
   type ReactNode,
 } from 'react';
 import type { DemoSettings, Person } from '../types/domain';
 import { createServices, type FormulaInsightServices } from '../services';
+import { fetchWorkspace, isWorkspaceApiEnabled } from '../services/workspaceApi';
+import { attachWorkspaceSync } from '../services/workspaceSync';
 import { createDemoStore, type DemoStore } from './store';
 import type { DemoState } from './reducer';
 
@@ -22,6 +25,23 @@ export function DemoDataProvider({ children }: { children: ReactNode }) {
     const store = createDemoStore();
     return { store, services: createServices(store) };
   }, []);
+
+  useEffect(() => {
+    if (!isWorkspaceApiEnabled()) return undefined;
+    let cancelled = false;
+    fetchWorkspace()
+      .then((dataset) => {
+        if (!cancelled) value.store.dispatch({ type: 'dataset/replace', dataset });
+      })
+      .catch(() => {
+        // Seed placeholder remains if the backend is unreachable.
+      });
+    const detachSync = attachWorkspaceSync(value.store);
+    return () => {
+      cancelled = true;
+      detachSync();
+    };
+  }, [value]);
 
   return <DemoContext.Provider value={value}>{children}</DemoContext.Provider>;
 }

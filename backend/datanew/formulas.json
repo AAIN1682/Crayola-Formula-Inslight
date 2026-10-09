@@ -1,0 +1,1584 @@
+[
+  {
+    "id": "FML-1001",
+    "name": "ColorFlow Washable Marker",
+    "version": "v3.1",
+    "category": "Markers",
+    "ageGroup": "under_12",
+    "recordedAgeGroup": "3+",
+    "ageGroupNeedsSelection": false,
+    "targetMarkets": [
+      "US"
+    ],
+    "physicalForm": "Liquid",
+    "intendedUse": "Broad-line colouring marker for classroom and home craft use on paper.",
+    "ownerId": "usr-dana",
+    "reviewerId": "usr-marcus",
+    "lifecycle": "active",
+    "ingredients": [
+      {
+        "id": "FML-1001-ING-01",
+        "name": "Aqua Base Concentrate",
+        "rawMaterialId": "RM-101",
+        "concentration": 68.285,
+        "supplier": "Northbridge Chemworks",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1001-ING-02",
+        "name": "Polyol Humectant HX-2",
+        "rawMaterialId": "RM-102",
+        "concentration": 18,
+        "supplier": "Marlow Specialty",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1001-ING-03",
+        "name": "Cyan Dispersion Pigment C-14",
+        "rawMaterialId": "RM-103",
+        "concentration": 8.5,
+        "supplier": "Helix Colour Labs",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1001-ING-04",
+        "name": "Cellulose Thickener T-12",
+        "rawMaterialId": "RM-115",
+        "concentration": 4,
+        "supplier": "Northbridge Chemworks",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1001-ING-05",
+        "name": "Preservative Blend PB-3",
+        "rawMaterialId": "RM-110",
+        "concentration": 0.8,
+        "supplier": "Avery Lane Ingredients",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1001-ING-06",
+        "name": "Citric Acid pH Adjuster PA-8",
+        "rawMaterialId": "RM-120",
+        "concentration": 0.4,
+        "supplier": "Avery Lane Ingredients",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1001-ING-07",
+        "name": "Bittering Agent BA-5",
+        "rawMaterialId": "RM-121",
+        "concentration": 0.015,
+        "supplier": "Avery Lane Ingredients",
+        "evidenceIds": []
+      }
+    ],
+    "evidenceIds": [
+      "DOC-FRM-1001-01"
+    ],
+    "screeningStatus": "green",
+    "screeningCurrent": false,
+    "reviewStatus": "complete",
+    "createdAt": "2025-08-15T03:45:00.000Z",
+    "updatedAt": "2026-09-21T09:00:00.000Z",
+    "nextReviewDate": "2027-02-26T03:30:00.000Z",
+    "description": "Core washable ink platform. Third revision of the humectant system.",
+    "latestRunId": "RUN-1001-01",
+    "lastScreenedAt": "2026-09-21T10:15:00.000Z"
+  },
+  {
+    "id": "FML-1002",
+    "name": "ColorFlow Ultra Washable Marker",
+    "version": "v1.4",
+    "category": "Markers",
+    "ageGroup": "under_12",
+    "recordedAgeGroup": "4+",
+    "ageGroupNeedsSelection": false,
+    "targetMarkets": [
+      "US"
+    ],
+    "physicalForm": "Liquid",
+    "intendedUse": "Higher-intensity marker ink for art sets, used on paper and card.",
+    "ownerId": "usr-elena",
+    "reviewerId": "usr-marcus",
+    "lifecycle": "active",
+    "ingredients": [
+      {
+        "id": "FML-1002-ING-01",
+        "name": "Aqua Base Concentrate",
+        "rawMaterialId": "RM-101",
+        "concentration": 68.8,
+        "supplier": "Northbridge Chemworks",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1002-ING-02",
+        "name": "Polyol Humectant HX-2",
+        "rawMaterialId": "RM-102",
+        "concentration": 16,
+        "supplier": "Marlow Specialty",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1002-ING-03",
+        "name": "Magenta Dispersion Pigment M-21",
+        "rawMaterialId": "RM-104",
+        "concentration": 9.2,
+        "supplier": "Helix Colour Labs",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1002-ING-04",
+        "name": "Nonionic Surfactant NS-7",
+        "rawMaterialId": "RM-109",
+        "concentration": 1.4,
+        "supplier": "Marlow Specialty",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1002-ING-05",
+        "name": "Cellulose Thickener T-12",
+        "rawMaterialId": "RM-115",
+        "concentration": 3.5,
+        "supplier": "Northbridge Chemworks",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1002-ING-06",
+        "name": "Preservative Blend PB-3",
+        "rawMaterialId": "RM-110",
+        "concentration": 0.75,
+        "supplier": "Avery Lane Ingredients",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1002-ING-07",
+        "name": "Citric Acid pH Adjuster PA-8",
+        "rawMaterialId": "RM-120",
+        "concentration": 0.35,
+        "supplier": "Avery Lane Ingredients",
+        "evidenceIds": []
+      }
+    ],
+    "evidenceIds": [],
+    "screeningStatus": "amber",
+    "screeningCurrent": false,
+    "reviewStatus": "awaiting-evidence",
+    "createdAt": "2026-03-13T03:45:00.000Z",
+    "updatedAt": "2026-09-30T09:00:00.000Z",
+    "nextReviewDate": "2027-01-12T03:30:00.000Z",
+    "description": "Ultra-intensity variant with a magenta pigment load and added surfactant.",
+    "latestRunId": "RUN-1002-01",
+    "lastScreenedAt": "2026-09-30T10:15:00.000Z"
+  },
+  {
+    "id": "FML-1003",
+    "name": "StudioBright Poster Paint",
+    "version": "v2.0",
+    "category": "Paints",
+    "ageGroup": "under_12",
+    "recordedAgeGroup": "3+",
+    "ageGroupNeedsSelection": false,
+    "targetMarkets": [
+      "US"
+    ],
+    "physicalForm": "Liquid",
+    "intendedUse": "Opaque poster paint applied by brush to paper, card and craft board.",
+    "ownerId": "usr-elena",
+    "reviewerId": "usr-priya",
+    "lifecycle": "active",
+    "ingredients": [
+      {
+        "id": "FML-1003-ING-01",
+        "name": "Aqua Base Concentrate",
+        "rawMaterialId": "RM-101",
+        "concentration": 53.3,
+        "supplier": "Northbridge Chemworks",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1003-ING-02",
+        "name": "Acrylic Binder Emulsion AB-30",
+        "rawMaterialId": "RM-107",
+        "concentration": 22,
+        "supplier": "Keystone Polymers",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1003-ING-03",
+        "name": "Titanium White Dispersion W-01",
+        "rawMaterialId": "RM-125",
+        "concentration": 9.5,
+        "supplier": "Westfall Pigments",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1003-ING-04",
+        "name": "Yellow Dispersion Pigment Y-09",
+        "rawMaterialId": "RM-105",
+        "concentration": 5.5,
+        "supplier": "Helix Colour Labs",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1003-ING-05",
+        "name": "Calcium Carbonate Filler F-55",
+        "rawMaterialId": "RM-112",
+        "concentration": 6,
+        "supplier": "Granite Hill Minerals",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1003-ING-06",
+        "name": "Cellulose Thickener T-12",
+        "rawMaterialId": "RM-115",
+        "concentration": 2.5,
+        "supplier": "Northbridge Chemworks",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1003-ING-07",
+        "name": "Preservative Blend PB-3",
+        "rawMaterialId": "RM-110",
+        "concentration": 0.9,
+        "supplier": "Avery Lane Ingredients",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1003-ING-08",
+        "name": "Citric Acid pH Adjuster PA-8",
+        "rawMaterialId": "RM-120",
+        "concentration": 0.3,
+        "supplier": "Avery Lane Ingredients",
+        "evidenceIds": []
+      }
+    ],
+    "evidenceIds": [
+      "DOC-FRM-1003-01"
+    ],
+    "screeningStatus": "green",
+    "screeningCurrent": false,
+    "reviewStatus": "complete",
+    "createdAt": "2025-10-09T03:45:00.000Z",
+    "updatedAt": "2026-09-08T09:00:00.000Z",
+    "nextReviewDate": "2027-02-06T03:30:00.000Z",
+    "description": "Second-generation acrylic poster paint with improved opacity.",
+    "latestRunId": "RUN-1003-01",
+    "lastScreenedAt": "2026-09-08T10:15:00.000Z"
+  },
+  {
+    "id": "FML-1004",
+    "name": "StudioBright Tempera Paint",
+    "version": "v1.2",
+    "category": "Paints",
+    "ageGroup": "under_12",
+    "recordedAgeGroup": "4+",
+    "ageGroupNeedsSelection": false,
+    "targetMarkets": [
+      "US"
+    ],
+    "physicalForm": "Liquid",
+    "intendedUse": "Tempera-style paint for classroom projects applied by brush or sponge.",
+    "ownerId": "usr-theo",
+    "reviewerId": "usr-priya",
+    "lifecycle": "active",
+    "ingredients": [
+      {
+        "id": "FML-1004-ING-01",
+        "name": "Aqua Base Concentrate",
+        "rawMaterialId": "RM-101",
+        "concentration": 58.35,
+        "supplier": "Northbridge Chemworks",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1004-ING-02",
+        "name": "Vinyl Acetate Copolymer VC-11",
+        "rawMaterialId": "RM-108",
+        "concentration": 18.5,
+        "supplier": "Keystone Polymers",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1004-ING-03",
+        "name": "Magenta Dispersion Pigment M-21",
+        "rawMaterialId": "RM-104",
+        "concentration": 8.8,
+        "supplier": "Helix Colour Labs",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1004-ING-04",
+        "name": "Calcium Carbonate Filler F-55",
+        "rawMaterialId": "RM-112",
+        "concentration": 7.5,
+        "supplier": "Granite Hill Minerals",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1004-ING-05",
+        "name": "Titanium White Dispersion W-01",
+        "rawMaterialId": "RM-125",
+        "concentration": 4,
+        "supplier": "Westfall Pigments",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1004-ING-06",
+        "name": "Cellulose Thickener T-12",
+        "rawMaterialId": "RM-115",
+        "concentration": 2,
+        "supplier": "Northbridge Chemworks",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1004-ING-07",
+        "name": "Preservative Blend PB-3",
+        "rawMaterialId": "RM-110",
+        "concentration": 0.85,
+        "supplier": "Avery Lane Ingredients",
+        "evidenceIds": []
+      }
+    ],
+    "evidenceIds": [],
+    "screeningStatus": "amber",
+    "screeningCurrent": false,
+    "reviewStatus": "in-review",
+    "createdAt": "2026-04-12T03:45:00.000Z",
+    "updatedAt": "2026-09-27T09:00:00.000Z",
+    "nextReviewDate": "2026-12-28T03:30:00.000Z",
+    "description": "Copolymer tempera variant sharing the StudioBright pigment set.",
+    "latestRunId": "RUN-1004-01",
+    "lastScreenedAt": "2026-09-27T10:15:00.000Z"
+  },
+  {
+    "id": "FML-1005",
+    "name": "SoftShape Modeling Compound",
+    "version": "v4.0",
+    "category": "Modeling Compounds",
+    "ageGroup": "under_12",
+    "recordedAgeGroup": "3+",
+    "ageGroupNeedsSelection": false,
+    "targetMarkets": [
+      "US"
+    ],
+    "physicalForm": "Paste",
+    "intendedUse": "Pliable modeling compound for hand-shaping and moulding during play.",
+    "ownerId": "usr-dana",
+    "reviewerId": "usr-marcus",
+    "lifecycle": "active",
+    "ingredients": [
+      {
+        "id": "FML-1005-ING-01",
+        "name": "Aqua Base Concentrate",
+        "rawMaterialId": "RM-101",
+        "concentration": 44.1,
+        "supplier": "Northbridge Chemworks",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1005-ING-02",
+        "name": "Food-Grade Starch Base S-30",
+        "rawMaterialId": "RM-116",
+        "concentration": 34,
+        "supplier": "Harvest Row Supply",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1005-ING-03",
+        "name": "Sodium Chloride Grade NC-1",
+        "rawMaterialId": "RM-119",
+        "concentration": 9.5,
+        "supplier": "Harvest Row Supply",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1005-ING-04",
+        "name": "Glycerin Softener GL-2",
+        "rawMaterialId": "RM-118",
+        "concentration": 6.5,
+        "supplier": "Harvest Row Supply",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1005-ING-05",
+        "name": "Mineral Oil Conditioner MO-6",
+        "rawMaterialId": "RM-117",
+        "concentration": 3.2,
+        "supplier": "Marlow Specialty",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1005-ING-06",
+        "name": "Yellow Dispersion Pigment Y-09",
+        "rawMaterialId": "RM-105",
+        "concentration": 1.8,
+        "supplier": "Helix Colour Labs",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1005-ING-07",
+        "name": "Preservative Blend PB-9 (legacy)",
+        "rawMaterialId": "RM-111",
+        "concentration": 0.6,
+        "supplier": "Avery Lane Ingredients",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1005-ING-08",
+        "name": "Citric Acid pH Adjuster PA-8",
+        "rawMaterialId": "RM-120",
+        "concentration": 0.3,
+        "supplier": "Avery Lane Ingredients",
+        "evidenceIds": []
+      }
+    ],
+    "evidenceIds": [],
+    "screeningStatus": "red",
+    "screeningCurrent": false,
+    "reviewStatus": "in-review",
+    "createdAt": "2025-04-17T03:45:00.000Z",
+    "updatedAt": "2026-10-05T09:00:00.000Z",
+    "nextReviewDate": "2026-11-08T03:30:00.000Z",
+    "description": "Flagship modeling compound. Retains the legacy preservative blend.",
+    "latestRunId": "RUN-1005-01",
+    "lastScreenedAt": "2026-10-05T10:15:00.000Z"
+  },
+  {
+    "id": "FML-1006",
+    "name": "SoftShape Scented Modeling Compound",
+    "version": "v1.0",
+    "category": "Modeling Compounds",
+    "ageGroup": "under_12",
+    "recordedAgeGroup": "4+",
+    "ageGroupNeedsSelection": false,
+    "targetMarkets": [
+      "US"
+    ],
+    "physicalForm": "Paste",
+    "intendedUse": "Scented modeling compound variant for hand-shaping during play.",
+    "ownerId": "usr-elena",
+    "reviewerId": "usr-marcus",
+    "lifecycle": "active",
+    "ingredients": [
+      {
+        "id": "FML-1006-ING-01",
+        "name": "Aqua Base Concentrate",
+        "rawMaterialId": "RM-101",
+        "concentration": 46,
+        "supplier": "Northbridge Chemworks",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1006-ING-02",
+        "name": "Food-Grade Starch Base S-30",
+        "rawMaterialId": "RM-116",
+        "concentration": 33,
+        "supplier": "Harvest Row Supply",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1006-ING-03",
+        "name": "Sodium Chloride Grade NC-1",
+        "rawMaterialId": "RM-119",
+        "concentration": 9,
+        "supplier": "Harvest Row Supply",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1006-ING-04",
+        "name": "Glycerin Softener GL-2",
+        "rawMaterialId": "RM-118",
+        "concentration": 6.8,
+        "supplier": "Harvest Row Supply",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1006-ING-05",
+        "name": "Mineral Oil Conditioner MO-6",
+        "rawMaterialId": "RM-117",
+        "concentration": 3,
+        "supplier": "Marlow Specialty",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1006-ING-06",
+        "name": "Blue Dye Solution B-27",
+        "rawMaterialId": "RM-123",
+        "concentration": 1.2,
+        "supplier": "Westfall Pigments",
+        "evidenceIds": [],
+        "addedInVersion": "v1.0",
+        "notes": "New colorant introduced for the scented range."
+      },
+      {
+        "id": "FML-1006-ING-07",
+        "name": "Preservative Blend PB-3",
+        "rawMaterialId": "RM-110",
+        "concentration": 0.7,
+        "supplier": "Avery Lane Ingredients",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1006-ING-08",
+        "name": "Citric Acid pH Adjuster PA-8",
+        "rawMaterialId": "RM-120",
+        "concentration": 0.3,
+        "supplier": "Avery Lane Ingredients",
+        "evidenceIds": []
+      }
+    ],
+    "evidenceIds": [],
+    "screeningStatus": "amber",
+    "screeningCurrent": false,
+    "reviewStatus": "awaiting-evidence",
+    "createdAt": "2026-08-24T03:45:00.000Z",
+    "updatedAt": "2026-10-03T09:00:00.000Z",
+    "nextReviewDate": "2026-12-08T03:30:00.000Z",
+    "description": "New variant introducing a blue colorant that has no supplier documents yet.",
+    "latestRunId": "RUN-1006-01",
+    "lastScreenedAt": "2026-10-03T10:15:00.000Z"
+  },
+  {
+    "id": "FML-1007",
+    "name": "BrightCore Crayon Classic",
+    "version": "v5.2",
+    "category": "Crayons",
+    "ageGroup": "under_12",
+    "recordedAgeGroup": "3+",
+    "ageGroupNeedsSelection": false,
+    "targetMarkets": [
+      "US"
+    ],
+    "physicalForm": "Solid stick",
+    "intendedUse": "Standard wax crayon for drawing on paper and colouring books.",
+    "ownerId": "usr-theo",
+    "reviewerId": "usr-priya",
+    "lifecycle": "active",
+    "ingredients": [
+      {
+        "id": "FML-1007-ING-01",
+        "name": "Calcium Carbonate Filler F-55",
+        "rawMaterialId": "RM-112",
+        "concentration": 34.5,
+        "supplier": "Granite Hill Minerals",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1007-ING-02",
+        "name": "Paraffin Wax Grade W-18",
+        "rawMaterialId": "RM-113",
+        "concentration": 58,
+        "supplier": "Granite Hill Minerals",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1007-ING-03",
+        "name": "Stearate Processing Aid SA-4",
+        "rawMaterialId": "RM-114",
+        "concentration": 3.5,
+        "supplier": "Granite Hill Minerals",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1007-ING-04",
+        "name": "Carbon Dispersion Black K-02",
+        "rawMaterialId": "RM-106",
+        "concentration": 2.5,
+        "supplier": "Westfall Pigments",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1007-ING-05",
+        "name": "Yellow Dispersion Pigment Y-09",
+        "rawMaterialId": "RM-105",
+        "concentration": 1.5,
+        "supplier": "Helix Colour Labs",
+        "evidenceIds": []
+      }
+    ],
+    "evidenceIds": [
+      "DOC-FRM-1007-01"
+    ],
+    "screeningStatus": "green",
+    "screeningCurrent": false,
+    "reviewStatus": "complete",
+    "createdAt": "2024-10-19T03:45:00.000Z",
+    "updatedAt": "2026-08-16T09:00:00.000Z",
+    "nextReviewDate": "2027-03-23T03:30:00.000Z",
+    "description": "Long-running crayon platform with a stable wax and filler system.",
+    "latestRunId": "RUN-1007-01",
+    "lastScreenedAt": "2026-08-16T10:15:00.000Z"
+  },
+  {
+    "id": "FML-1008",
+    "name": "BrightCore Crayon Metallic",
+    "version": "v2.1",
+    "category": "Crayons",
+    "ageGroup": "under_12",
+    "recordedAgeGroup": "6+",
+    "ageGroupNeedsSelection": false,
+    "targetMarkets": [
+      "US"
+    ],
+    "physicalForm": "Solid stick",
+    "intendedUse": "Metallic-effect wax crayon for craft and decorative drawing on paper.",
+    "ownerId": "usr-dana",
+    "reviewerId": "usr-priya",
+    "lifecycle": "active",
+    "ingredients": [
+      {
+        "id": "FML-1008-ING-01",
+        "name": "Calcium Carbonate Filler F-55",
+        "rawMaterialId": "RM-112",
+        "concentration": 34.4,
+        "supplier": "Granite Hill Minerals",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1008-ING-02",
+        "name": "Paraffin Wax Grade W-18",
+        "rawMaterialId": "RM-113",
+        "concentration": 56,
+        "supplier": "Granite Hill Minerals",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1008-ING-03",
+        "name": "Stearate Processing Aid SA-4",
+        "rawMaterialId": "RM-114",
+        "concentration": 3.2,
+        "supplier": "Granite Hill Minerals",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1008-ING-04",
+        "name": "Magenta Dispersion Pigment M-21",
+        "rawMaterialId": "RM-104",
+        "concentration": 3.6,
+        "supplier": "Helix Colour Labs",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1008-ING-05",
+        "name": "Titanium White Dispersion W-01",
+        "rawMaterialId": "RM-125",
+        "concentration": 2.8,
+        "supplier": "Westfall Pigments",
+        "evidenceIds": []
+      }
+    ],
+    "evidenceIds": [],
+    "screeningStatus": "amber",
+    "screeningCurrent": false,
+    "reviewStatus": "in-review",
+    "createdAt": "2026-02-01T03:45:00.000Z",
+    "updatedAt": "2026-09-18T09:00:00.000Z",
+    "nextReviewDate": "2026-12-20T03:30:00.000Z",
+    "description": "Metallic variant using the magenta pigment set pending certification documents.",
+    "latestRunId": "RUN-1008-01",
+    "lastScreenedAt": "2026-09-18T10:15:00.000Z"
+  },
+  {
+    "id": "FML-1009",
+    "name": "SureBond School Glue",
+    "version": "v3.0",
+    "category": "Glue",
+    "ageGroup": "under_12",
+    "recordedAgeGroup": "3+",
+    "ageGroupNeedsSelection": false,
+    "targetMarkets": [
+      "US"
+    ],
+    "physicalForm": "Liquid",
+    "intendedUse": "White school glue applied from a squeeze bottle to paper, card and fabric.",
+    "ownerId": "usr-dana",
+    "reviewerId": "usr-marcus",
+    "lifecycle": "active",
+    "ingredients": [
+      {
+        "id": "FML-1009-ING-01",
+        "name": "Aqua Base Concentrate",
+        "rawMaterialId": "RM-101",
+        "concentration": 66.05,
+        "supplier": "Northbridge Chemworks",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1009-ING-02",
+        "name": "PVA Resin Solution PV-14",
+        "rawMaterialId": "RM-124",
+        "concentration": 26,
+        "supplier": "Keystone Polymers",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1009-ING-03",
+        "name": "Polyol Humectant HX-2",
+        "rawMaterialId": "RM-102",
+        "concentration": 5.5,
+        "supplier": "Marlow Specialty",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1009-ING-04",
+        "name": "Cellulose Thickener T-12",
+        "rawMaterialId": "RM-115",
+        "concentration": 1.5,
+        "supplier": "Northbridge Chemworks",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1009-ING-05",
+        "name": "Preservative Blend PB-3",
+        "rawMaterialId": "RM-110",
+        "concentration": 0.7,
+        "supplier": "Avery Lane Ingredients",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1009-ING-06",
+        "name": "Citric Acid pH Adjuster PA-8",
+        "rawMaterialId": "RM-120",
+        "concentration": 0.25,
+        "supplier": "Avery Lane Ingredients",
+        "evidenceIds": []
+      }
+    ],
+    "evidenceIds": [
+      "DOC-FRM-1009-01"
+    ],
+    "screeningStatus": "green",
+    "screeningCurrent": false,
+    "reviewStatus": "complete",
+    "createdAt": "2025-02-06T03:45:00.000Z",
+    "updatedAt": "2026-07-04T09:00:00.000Z",
+    "nextReviewDate": "2026-10-21T03:30:00.000Z",
+    "description": "Historically accepted glue platform now approaching its scheduled reassessment.",
+    "latestRunId": "RUN-1009-01",
+    "lastScreenedAt": "2026-07-04T10:15:00.000Z"
+  },
+  {
+    "id": "FML-1010",
+    "name": "SureBond Gel Glue",
+    "version": "v1.6",
+    "category": "Glue",
+    "ageGroup": "under_12",
+    "recordedAgeGroup": "4+",
+    "ageGroupNeedsSelection": false,
+    "targetMarkets": [
+      "US"
+    ],
+    "physicalForm": "Gel",
+    "intendedUse": "Clear gel adhesive applied from a squeeze bottle for craft assembly.",
+    "ownerId": "usr-elena",
+    "reviewerId": "usr-marcus",
+    "lifecycle": "active",
+    "ingredients": [
+      {
+        "id": "FML-1010-ING-01",
+        "name": "Aqua Base Concentrate",
+        "rawMaterialId": "RM-101",
+        "concentration": 71,
+        "supplier": "Northbridge Chemworks",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1010-ING-02",
+        "name": "PVA Resin Solution PV-14",
+        "rawMaterialId": "RM-124",
+        "concentration": 23,
+        "supplier": "Keystone Polymers",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1010-ING-03",
+        "name": "Cellulose Thickener T-12",
+        "rawMaterialId": "RM-115",
+        "concentration": 4.2,
+        "supplier": "Northbridge Chemworks",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1010-ING-04",
+        "name": "Nonionic Surfactant NS-7",
+        "rawMaterialId": "RM-109",
+        "concentration": 0.9,
+        "supplier": "Marlow Specialty",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1010-ING-05",
+        "name": "Preservative Blend PB-3",
+        "rawMaterialId": "RM-110",
+        "concentration": 0.65,
+        "supplier": "Avery Lane Ingredients",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1010-ING-06",
+        "name": "Citric Acid pH Adjuster PA-8",
+        "rawMaterialId": "RM-120",
+        "concentration": 0.25,
+        "supplier": "Avery Lane Ingredients",
+        "evidenceIds": []
+      }
+    ],
+    "evidenceIds": [],
+    "screeningStatus": "amber",
+    "screeningCurrent": false,
+    "reviewStatus": "awaiting-evidence",
+    "createdAt": "2026-02-21T03:45:00.000Z",
+    "updatedAt": "2026-09-24T09:00:00.000Z",
+    "nextReviewDate": "2027-01-05T03:30:00.000Z",
+    "description": "Clear gel variant affected by the superseded surfactant document set.",
+    "latestRunId": "RUN-1010-01",
+    "lastScreenedAt": "2026-09-24T10:15:00.000Z"
+  },
+  {
+    "id": "FML-1011",
+    "name": "ColorFlow Fine Line Marker",
+    "version": "v2.2",
+    "category": "Markers",
+    "ageGroup": "under_12",
+    "recordedAgeGroup": "6+",
+    "ageGroupNeedsSelection": false,
+    "targetMarkets": [
+      "US"
+    ],
+    "physicalForm": "Liquid",
+    "intendedUse": "Fine-tip marker for detailed drawing and lettering on paper.",
+    "ownerId": "usr-dana",
+    "reviewerId": "usr-marcus",
+    "lifecycle": "active",
+    "ingredients": [
+      {
+        "id": "FML-1011-ING-01",
+        "name": "Aqua Base Concentrate",
+        "rawMaterialId": "RM-101",
+        "concentration": 68.888,
+        "supplier": "Northbridge Chemworks",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1011-ING-02",
+        "name": "Polyol Humectant HX-2",
+        "rawMaterialId": "RM-102",
+        "concentration": 17,
+        "supplier": "Marlow Specialty",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1011-ING-03",
+        "name": "Cyan Dispersion Pigment C-14",
+        "rawMaterialId": "RM-103",
+        "concentration": 9.4,
+        "supplier": "Helix Colour Labs",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1011-ING-04",
+        "name": "Cellulose Thickener T-12",
+        "rawMaterialId": "RM-115",
+        "concentration": 3.6,
+        "supplier": "Northbridge Chemworks",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1011-ING-05",
+        "name": "Preservative Blend PB-3",
+        "rawMaterialId": "RM-110",
+        "concentration": 0.75,
+        "supplier": "Avery Lane Ingredients",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1011-ING-06",
+        "name": "Citric Acid pH Adjuster PA-8",
+        "rawMaterialId": "RM-120",
+        "concentration": 0.35,
+        "supplier": "Avery Lane Ingredients",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1011-ING-07",
+        "name": "Bittering Agent BA-5",
+        "rawMaterialId": "RM-121",
+        "concentration": 0.012,
+        "supplier": "Avery Lane Ingredients",
+        "evidenceIds": []
+      }
+    ],
+    "evidenceIds": [
+      "DOC-FRM-1011-01"
+    ],
+    "screeningStatus": "green",
+    "screeningCurrent": false,
+    "reviewStatus": "not-started",
+    "createdAt": "2025-12-13T03:45:00.000Z",
+    "updatedAt": "2026-10-07T09:00:00.000Z",
+    "nextReviewDate": "2027-01-27T03:30:00.000Z",
+    "description": "Fine-line variant. The pigment loading changed after the last screening run, so that result is outdated.",
+    "latestRunId": "RUN-1011-01",
+    "lastScreenedAt": "2026-09-13T10:15:00.000Z"
+  },
+  {
+    "id": "FML-1012",
+    "name": "AquaTone Watercolor Set",
+    "version": "v1.1",
+    "category": "Paints",
+    "ageGroup": "under_12",
+    "recordedAgeGroup": "6+",
+    "ageGroupNeedsSelection": false,
+    "targetMarkets": [
+      "US"
+    ],
+    "physicalForm": "Solid stick",
+    "intendedUse": "Pressed watercolour pans activated with water and applied by brush to paper.",
+    "ownerId": "usr-elena",
+    "lifecycle": "draft",
+    "ingredients": [
+      {
+        "id": "FML-1012-ING-01",
+        "name": "Calcium Carbonate Filler F-55",
+        "rawMaterialId": "RM-112",
+        "concentration": 52.5,
+        "supplier": "Granite Hill Minerals",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1012-ING-02",
+        "name": "Yellow Dispersion Pigment Y-09",
+        "rawMaterialId": "RM-105",
+        "concentration": 12,
+        "supplier": "Helix Colour Labs",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1012-ING-03",
+        "name": "Cyan Dispersion Pigment C-14",
+        "rawMaterialId": "RM-103",
+        "concentration": 11,
+        "supplier": "Helix Colour Labs",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1012-ING-04",
+        "name": "Magenta Dispersion Pigment M-21",
+        "rawMaterialId": "RM-104",
+        "concentration": 10.5,
+        "supplier": "Helix Colour Labs",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1012-ING-05",
+        "name": "Cellulose Thickener T-12",
+        "rawMaterialId": "RM-115",
+        "concentration": 6,
+        "supplier": "Northbridge Chemworks",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1012-ING-06",
+        "name": "Gum Arabic Binder (pending catalog entry)",
+        "concentration": 8,
+        "evidenceIds": [],
+        "notes": "Awaiting a raw-material record from the supplier onboarding queue."
+      }
+    ],
+    "evidenceIds": [],
+    "screeningStatus": "not-screened",
+    "screeningCurrent": false,
+    "reviewStatus": "not-started",
+    "createdAt": "2026-09-15T03:45:00.000Z",
+    "updatedAt": "2026-10-06T09:00:00.000Z",
+    "description": "Draft record. One ingredient is still missing its raw-material reference."
+  },
+  {
+    "id": "FML-1013",
+    "name": "SoftShape Dough Starter Kit",
+    "version": "v2.3",
+    "category": "Modeling Compounds",
+    "ageGroup": "under_12",
+    "recordedAgeGroup": "3+",
+    "ageGroupNeedsSelection": false,
+    "targetMarkets": [
+      "US"
+    ],
+    "physicalForm": "Paste",
+    "intendedUse": "Starter-kit modeling dough for hand-shaping and tool play.",
+    "ownerId": "usr-theo",
+    "reviewerId": "usr-priya",
+    "lifecycle": "active",
+    "ingredients": [
+      {
+        "id": "FML-1013-ING-01",
+        "name": "Aqua Base Concentrate",
+        "rawMaterialId": "RM-101",
+        "concentration": 48.3,
+        "supplier": "Northbridge Chemworks",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1013-ING-02",
+        "name": "Food-Grade Starch Base S-30",
+        "rawMaterialId": "RM-116",
+        "concentration": 32,
+        "supplier": "Harvest Row Supply",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1013-ING-03",
+        "name": "Sodium Chloride Grade NC-1",
+        "rawMaterialId": "RM-119",
+        "concentration": 8.5,
+        "supplier": "Harvest Row Supply",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1013-ING-04",
+        "name": "Glycerin Softener GL-2",
+        "rawMaterialId": "RM-118",
+        "concentration": 6,
+        "supplier": "Harvest Row Supply",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1013-ING-05",
+        "name": "Mineral Oil Conditioner MO-6",
+        "rawMaterialId": "RM-117",
+        "concentration": 2.8,
+        "supplier": "Marlow Specialty",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1013-ING-06",
+        "name": "Cyan Dispersion Pigment C-14",
+        "rawMaterialId": "RM-103",
+        "concentration": 1.4,
+        "supplier": "Helix Colour Labs",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1013-ING-07",
+        "name": "Preservative Blend PB-3",
+        "rawMaterialId": "RM-110",
+        "concentration": 0.7,
+        "supplier": "Avery Lane Ingredients",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1013-ING-08",
+        "name": "Citric Acid pH Adjuster PA-8",
+        "rawMaterialId": "RM-120",
+        "concentration": 0.3,
+        "supplier": "Avery Lane Ingredients",
+        "evidenceIds": []
+      }
+    ],
+    "evidenceIds": [
+      "DOC-FRM-1013-01"
+    ],
+    "screeningStatus": "green",
+    "screeningCurrent": false,
+    "reviewStatus": "complete",
+    "createdAt": "2025-09-04T03:45:00.000Z",
+    "updatedAt": "2026-08-07T09:00:00.000Z",
+    "nextReviewDate": "2027-03-08T03:30:00.000Z",
+    "description": "Entry-level dough sharing the SoftShape starch system without the legacy preservative.",
+    "latestRunId": "RUN-1013-01",
+    "lastScreenedAt": "2026-08-07T10:15:00.000Z"
+  },
+  {
+    "id": "FML-1014",
+    "name": "BrightCore Crayon Jumbo",
+    "version": "v3.4",
+    "category": "Crayons",
+    "ageGroup": "under_12",
+    "recordedAgeGroup": "3+",
+    "ageGroupNeedsSelection": false,
+    "targetMarkets": [
+      "US"
+    ],
+    "physicalForm": "Solid stick",
+    "intendedUse": "Large-diameter crayon designed for early-years grip and paper colouring.",
+    "ownerId": "usr-theo",
+    "lifecycle": "active",
+    "ingredients": [
+      {
+        "id": "FML-1014-ING-01",
+        "name": "Calcium Carbonate Filler F-55",
+        "rawMaterialId": "RM-112",
+        "concentration": 27.2,
+        "supplier": "Granite Hill Minerals",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1014-ING-02",
+        "name": "Paraffin Wax Grade W-18",
+        "rawMaterialId": "RM-113",
+        "concentration": 66,
+        "supplier": "Granite Hill Minerals",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1014-ING-03",
+        "name": "Stearate Processing Aid SA-4",
+        "rawMaterialId": "RM-114",
+        "concentration": 3.4,
+        "supplier": "Granite Hill Minerals",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1014-ING-04",
+        "name": "Carbon Dispersion Black K-02",
+        "rawMaterialId": "RM-106",
+        "concentration": 2.2,
+        "supplier": "Westfall Pigments",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1014-ING-05",
+        "name": "Yellow Dispersion Pigment Y-09",
+        "rawMaterialId": "RM-105",
+        "concentration": 1.2,
+        "supplier": "Helix Colour Labs",
+        "evidenceIds": []
+      }
+    ],
+    "evidenceIds": [],
+    "screeningStatus": "not-screened",
+    "screeningCurrent": false,
+    "reviewStatus": "not-started",
+    "createdAt": "2026-05-12T03:45:00.000Z",
+    "updatedAt": "2026-09-05T09:00:00.000Z",
+    "nextReviewDate": "2026-11-23T03:30:00.000Z",
+    "description": "Jumbo format with a raised wax loading. Not screened in this workspace yet."
+  },
+  {
+    "id": "FML-1015",
+    "name": "SureBond Glitter Glue",
+    "version": "v1.2",
+    "category": "Glue",
+    "ageGroup": "under_12",
+    "recordedAgeGroup": "6+",
+    "ageGroupNeedsSelection": false,
+    "targetMarkets": [
+      "US"
+    ],
+    "physicalForm": "Gel",
+    "intendedUse": "Decorative glitter gel adhesive applied from a fine-tip bottle to craft surfaces.",
+    "ownerId": "usr-dana",
+    "reviewerId": "usr-marcus",
+    "lifecycle": "active",
+    "ingredients": [
+      {
+        "id": "FML-1015-ING-01",
+        "name": "Aqua Base Concentrate",
+        "rawMaterialId": "RM-101",
+        "concentration": 69.55,
+        "supplier": "Northbridge Chemworks",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1015-ING-02",
+        "name": "PVA Resin Solution PV-14",
+        "rawMaterialId": "RM-124",
+        "concentration": 21,
+        "supplier": "Keystone Polymers",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1015-ING-03",
+        "name": "Cellulose Thickener T-12",
+        "rawMaterialId": "RM-115",
+        "concentration": 5,
+        "supplier": "Northbridge Chemworks",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1015-ING-04",
+        "name": "Titanium White Dispersion W-01",
+        "rawMaterialId": "RM-125",
+        "concentration": 2.4,
+        "supplier": "Westfall Pigments",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1015-ING-05",
+        "name": "Silicone Defoamer DF-3",
+        "rawMaterialId": "RM-122",
+        "concentration": 1.2,
+        "supplier": "Northbridge Chemworks",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1015-ING-06",
+        "name": "Preservative Blend PB-3",
+        "rawMaterialId": "RM-110",
+        "concentration": 0.6,
+        "supplier": "Avery Lane Ingredients",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1015-ING-07",
+        "name": "Citric Acid pH Adjuster PA-8",
+        "rawMaterialId": "RM-120",
+        "concentration": 0.25,
+        "supplier": "Avery Lane Ingredients",
+        "evidenceIds": []
+      }
+    ],
+    "evidenceIds": [],
+    "screeningStatus": "red",
+    "screeningCurrent": false,
+    "reviewStatus": "returned",
+    "createdAt": "2026-06-11T03:45:00.000Z",
+    "updatedAt": "2026-10-02T09:00:00.000Z",
+    "nextReviewDate": "2026-11-03T03:30:00.000Z",
+    "description": "Glitter variant carrying a defoamer loading well above the illustrative demo ceiling.",
+    "latestRunId": "RUN-1015-01",
+    "lastScreenedAt": "2026-10-02T10:15:00.000Z"
+  },
+  {
+    "id": "FML-1016",
+    "name": "ColorFlow Dry-Erase Marker",
+    "version": "v1.0",
+    "category": "Markers",
+    "ageGroup": "under_12",
+    "recordedAgeGroup": "8+",
+    "ageGroupNeedsSelection": false,
+    "targetMarkets": [
+      "US"
+    ],
+    "physicalForm": "Liquid",
+    "intendedUse": "Dry-erase marker for whiteboard use in classroom settings.",
+    "ownerId": "usr-elena",
+    "reviewerId": "usr-priya",
+    "lifecycle": "active",
+    "ingredients": [
+      {
+        "id": "FML-1016-ING-01",
+        "name": "Aqua Base Concentrate",
+        "rawMaterialId": "RM-101",
+        "concentration": 77,
+        "supplier": "Northbridge Chemworks",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1016-ING-02",
+        "name": "Polyol Humectant HX-2",
+        "rawMaterialId": "RM-102",
+        "concentration": 14,
+        "supplier": "Marlow Specialty",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1016-ING-03",
+        "name": "Carbon Dispersion Black K-02",
+        "rawMaterialId": "RM-106",
+        "concentration": 3.2,
+        "supplier": "Westfall Pigments",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1016-ING-04",
+        "name": "Nonionic Surfactant NS-7",
+        "rawMaterialId": "RM-109",
+        "concentration": 2.1,
+        "supplier": "Marlow Specialty",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1016-ING-05",
+        "name": "Cellulose Thickener T-12",
+        "rawMaterialId": "RM-115",
+        "concentration": 3,
+        "supplier": "Northbridge Chemworks",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1016-ING-06",
+        "name": "Preservative Blend PB-3",
+        "rawMaterialId": "RM-110",
+        "concentration": 0.7,
+        "supplier": "Avery Lane Ingredients",
+        "evidenceIds": []
+      }
+    ],
+    "evidenceIds": [],
+    "screeningStatus": "amber",
+    "screeningCurrent": false,
+    "reviewStatus": "in-review",
+    "createdAt": "2026-07-31T03:45:00.000Z",
+    "updatedAt": "2026-09-28T09:00:00.000Z",
+    "nextReviewDate": "2026-12-13T03:30:00.000Z",
+    "description": "First dry-erase entry in the ColorFlow range.",
+    "latestRunId": "RUN-1016-01",
+    "lastScreenedAt": "2026-09-28T10:15:00.000Z"
+  },
+  {
+    "id": "FML-1017",
+    "name": "StudioBright Finger Paint",
+    "version": "v2.5",
+    "category": "Paints",
+    "ageGroup": "under_12",
+    "recordedAgeGroup": "3+",
+    "ageGroupNeedsSelection": false,
+    "targetMarkets": [
+      "US"
+    ],
+    "physicalForm": "Paste",
+    "intendedUse": "Thick finger paint applied directly by hand to paper and craft board.",
+    "ownerId": "usr-elena",
+    "reviewerId": "usr-priya",
+    "lifecycle": "active",
+    "ingredients": [
+      {
+        "id": "FML-1017-ING-01",
+        "name": "Aqua Base Concentrate",
+        "rawMaterialId": "RM-101",
+        "concentration": 62.238,
+        "supplier": "Northbridge Chemworks",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1017-ING-02",
+        "name": "Acrylic Binder Emulsion AB-30",
+        "rawMaterialId": "RM-107",
+        "concentration": 17.5,
+        "supplier": "Keystone Polymers",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1017-ING-03",
+        "name": "Calcium Carbonate Filler F-55",
+        "rawMaterialId": "RM-112",
+        "concentration": 8,
+        "supplier": "Granite Hill Minerals",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1017-ING-04",
+        "name": "Titanium White Dispersion W-01",
+        "rawMaterialId": "RM-125",
+        "concentration": 5.5,
+        "supplier": "Westfall Pigments",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1017-ING-05",
+        "name": "Yellow Dispersion Pigment Y-09",
+        "rawMaterialId": "RM-105",
+        "concentration": 3.2,
+        "supplier": "Helix Colour Labs",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1017-ING-06",
+        "name": "Cellulose Thickener T-12",
+        "rawMaterialId": "RM-115",
+        "concentration": 2.4,
+        "supplier": "Northbridge Chemworks",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1017-ING-07",
+        "name": "Preservative Blend PB-3",
+        "rawMaterialId": "RM-110",
+        "concentration": 0.85,
+        "supplier": "Avery Lane Ingredients",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1017-ING-08",
+        "name": "Citric Acid pH Adjuster PA-8",
+        "rawMaterialId": "RM-120",
+        "concentration": 0.3,
+        "supplier": "Avery Lane Ingredients",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1017-ING-09",
+        "name": "Bittering Agent BA-5",
+        "rawMaterialId": "RM-121",
+        "concentration": 0.012,
+        "supplier": "Avery Lane Ingredients",
+        "evidenceIds": []
+      }
+    ],
+    "evidenceIds": [
+      "DOC-FRM-1017-01"
+    ],
+    "screeningStatus": "green",
+    "screeningCurrent": false,
+    "reviewStatus": "complete",
+    "createdAt": "2025-06-16T03:45:00.000Z",
+    "updatedAt": "2026-07-29T09:00:00.000Z",
+    "nextReviewDate": "2026-11-04T03:30:00.000Z",
+    "description": "Direct skin-contact paint with a scheduled reassessment approaching.",
+    "latestRunId": "RUN-1017-01",
+    "lastScreenedAt": "2026-07-29T10:15:00.000Z"
+  },
+  {
+    "id": "FML-1018",
+    "name": "BrightCore Washable Crayon Twist",
+    "version": "v1.3",
+    "category": "Crayons",
+    "ageGroup": "under_12",
+    "recordedAgeGroup": "4+",
+    "ageGroupNeedsSelection": false,
+    "targetMarkets": [
+      "US"
+    ],
+    "physicalForm": "Solid stick",
+    "intendedUse": "Twist-up washable crayon for paper colouring without sharpening.",
+    "ownerId": "usr-dana",
+    "reviewerId": "usr-priya",
+    "lifecycle": "active",
+    "ingredients": [
+      {
+        "id": "FML-1018-ING-01",
+        "name": "Calcium Carbonate Filler F-55",
+        "rawMaterialId": "RM-112",
+        "concentration": 35.1,
+        "supplier": "Granite Hill Minerals",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1018-ING-02",
+        "name": "Paraffin Wax Grade W-18",
+        "rawMaterialId": "RM-113",
+        "concentration": 52,
+        "supplier": "Granite Hill Minerals",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1018-ING-03",
+        "name": "Food-Grade Starch Base S-30",
+        "rawMaterialId": "RM-116",
+        "concentration": 4,
+        "supplier": "Harvest Row Supply",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1018-ING-04",
+        "name": "Magenta Dispersion Pigment M-21",
+        "rawMaterialId": "RM-104",
+        "concentration": 3.2,
+        "supplier": "Helix Colour Labs",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1018-ING-05",
+        "name": "Stearate Processing Aid SA-4",
+        "rawMaterialId": "RM-114",
+        "concentration": 3.1,
+        "supplier": "Granite Hill Minerals",
+        "evidenceIds": []
+      },
+      {
+        "id": "FML-1018-ING-06",
+        "name": "Titanium White Dispersion W-01",
+        "rawMaterialId": "RM-125",
+        "concentration": 2.6,
+        "supplier": "Westfall Pigments",
+        "evidenceIds": []
+      }
+    ],
+    "evidenceIds": [],
+    "screeningStatus": "amber",
+    "screeningCurrent": false,
+    "reviewStatus": "in-review",
+    "createdAt": "2026-05-02T03:45:00.000Z",
+    "updatedAt": "2026-09-11T09:00:00.000Z",
+    "nextReviewDate": "2026-12-06T03:30:00.000Z",
+    "description": "Twist-barrel crayon using a softer wax and starch blend.",
+    "latestRunId": "RUN-1018-01",
+    "lastScreenedAt": "2026-09-11T10:15:00.000Z"
+  },
+  {
+    "id": "FML-1019",
+    "name": "Partial Marker Screen Tes2",
+    "version": "v1.0",
+    "category": "Markers",
+    "ageGroup": "under_12",
+    "ageGroupNeedsSelection": false,
+    "targetMarkets": [
+      "US"
+    ],
+    "physicalForm": "Liquid",
+    "intendedUse": "Classroom marker on paper",
+    "ownerId": "usr-dana",
+    "reviewerId": "usr-marcus",
+    "lifecycle": "active",
+    "ingredients": [
+      {
+        "id": "FML-1019-ING-01",
+        "name": "Toluene — 108-88-3",
+        "rawMaterialId": "s_toluene_108883",
+        "concentration": 5,
+        "supplier": "MARKER COMP",
+        "evidenceIds": [],
+        "batchId": "LOT-9",
+        "compositionType": "Solvents",
+        "screeningRole": "formulation_ingredient",
+        "needsCorrection": false
+      }
+    ],
+    "evidenceIds": [],
+    "compositionCompleteness": "partial",
+    "usStates": [],
+    "componentType": "finished_formula",
+    "screeningStatus": "amber",
+    "screeningCurrent": true,
+    "latestRunId": "RUN-mv0wqhjg2kx08",
+    "lastScreenedAt": "2026-10-09T11:54:06.028Z",
+    "reviewStatus": "in-review",
+    "createdAt": "2026-10-09T11:53:34.503Z",
+    "updatedAt": "2026-10-09T11:53:34.503Z",
+    "preferredAssessmentMode": "evidence"
+  },
+  {
+    "id": "FML-1020",
+    "name": "Partial Marker Screen Test3",
+    "version": "v1.0",
+    "category": "Markers",
+    "ageGroup": "under_12",
+    "ageGroupNeedsSelection": false,
+    "targetMarkets": [
+      "US"
+    ],
+    "physicalForm": "Liquid",
+    "intendedUse": "classroom marker used on the board",
+    "ownerId": "usr-dana",
+    "reviewerId": "usr-marcus",
+    "lifecycle": "active",
+    "ingredients": [
+      {
+        "id": "FML-1020-ING-01",
+        "name": "Toluene — 108-88-3",
+        "rawMaterialId": "s_toluene_108883",
+        "concentration": 5,
+        "supplier": "marker comp",
+        "evidenceIds": [],
+        "batchId": "LOT-9",
+        "compositionType": "Solvents",
+        "screeningRole": "formulation_ingredient",
+        "needsCorrection": false
+      }
+    ],
+    "evidenceIds": [],
+    "compositionCompleteness": "partial",
+    "usStates": [],
+    "componentType": "finished_formula",
+    "screeningStatus": "amber",
+    "screeningCurrent": true,
+    "latestRunId": "RUN-mv0yjw1w4g4c3",
+    "lastScreenedAt": "2026-10-09T12:44:57.476Z",
+    "reviewStatus": "in-review",
+    "createdAt": "2026-10-09T12:11:04.352Z",
+    "updatedAt": "2026-10-09T12:11:04.352Z",
+    "preferredAssessmentMode": "evidence"
+  }
+]

@@ -1,0 +1,1270 @@
+[
+  {
+    "id": "SUB-2301",
+    "formulaId": "FML-1001",
+    "formulaName": "ColorFlow Washable Marker",
+    "version": "v2.8",
+    "category": "Markers",
+    "submittedAt": "2024-11-18T04:30:00.000Z",
+    "closedAt": "2025-01-07T10:30:00.000Z",
+    "outcome": "AP",
+    "reviewRounds": 2,
+    "feedbackTheme": "Washability substantiation",
+    "snapshot": [
+      {
+        "name": "Aqua Base Concentrate",
+        "rawMaterialId": "RM-101",
+        "concentration": 72.085
+      },
+      {
+        "name": "Polyol Humectant HX-2",
+        "rawMaterialId": "RM-102",
+        "concentration": 15.5
+      },
+      {
+        "name": "Cyan Dispersion Pigment C-14",
+        "rawMaterialId": "RM-103",
+        "concentration": 7.2
+      },
+      {
+        "name": "Cellulose Thickener T-12",
+        "rawMaterialId": "RM-115",
+        "concentration": 4
+      },
+      {
+        "name": "Preservative Blend PB-3",
+        "rawMaterialId": "RM-110",
+        "concentration": 0.8
+      },
+      {
+        "name": "Citric Acid pH Adjuster PA-8",
+        "rawMaterialId": "RM-120",
+        "concentration": 0.4
+      },
+      {
+        "name": "Bittering Agent BA-5",
+        "rawMaterialId": "RM-121",
+        "concentration": 0.015
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2024-11-18T04:30:00.000Z",
+        "label": "Submitted",
+        "detail": "ColorFlow Washable Marker v2.8 sent for review."
+      },
+      {
+        "date": "2024-11-25T05:30:00.000Z",
+        "label": "Acknowledged",
+        "detail": "Synthetic acknowledgement recorded in the demo history."
+      },
+      {
+        "date": "2024-12-06T06:30:00.000Z",
+        "label": "Round 1 — information request",
+        "detail": "Review panel (synthetic): Round 1 — information request"
+      },
+      {
+        "date": "2024-12-17T06:30:00.000Z",
+        "label": "Round 1 — response",
+        "detail": "Dana Whitfield: Round 1 — response"
+      },
+      {
+        "date": "2025-01-07T10:30:00.000Z",
+        "label": "Outcome recorded — AP",
+        "detail": "Recorded outcome in the synthetic history after 2 review rounds."
+      }
+    ],
+    "correspondence": [
+      {
+        "id": "SUB-2301-MSG-1",
+        "date": "2024-12-06T06:30:00.000Z",
+        "from": "Review panel (synthetic)",
+        "subject": "Round 1 — information request",
+        "body": "Please share the wash-out panel study covering the revised humectant level, along with the current supplier document set for the bittering additive."
+      },
+      {
+        "id": "SUB-2301-MSG-2",
+        "date": "2024-12-17T06:30:00.000Z",
+        "from": "Dana Whitfield",
+        "subject": "Round 1 — response",
+        "body": "Wash-out panel study attached. The bittering additive document set is current and unchanged from the previous submission."
+      }
+    ],
+    "requestedChanges": [
+      "Provide the wash-out study for the revised humectant level.",
+      "Confirm the bittering agent supplier documentation set."
+    ],
+    "evidenceIds": [
+      "DOC-COR-2301-01",
+      "DOC-COR-2301-02"
+    ],
+    "findings": [
+      {
+        "severity": "low",
+        "title": "Humectant level raised from the previous version",
+        "detail": "Reviewer asked for the supporting wash-out study before closing the file."
+      }
+    ]
+  },
+  {
+    "id": "SUB-2302",
+    "formulaId": "FML-1003",
+    "formulaName": "StudioBright Poster Paint",
+    "version": "v1.6",
+    "category": "Paints",
+    "submittedAt": "2025-01-27T04:30:00.000Z",
+    "closedAt": "2025-03-02T10:30:00.000Z",
+    "outcome": "AP",
+    "reviewRounds": 1,
+    "feedbackTheme": "Pigment specification",
+    "snapshot": [
+      {
+        "name": "Aqua Base Concentrate",
+        "rawMaterialId": "RM-101",
+        "concentration": 62.8
+      },
+      {
+        "name": "Acrylic Binder Emulsion AB-30",
+        "rawMaterialId": "RM-107",
+        "concentration": 20
+      },
+      {
+        "name": "Titanium White Dispersion W-01",
+        "rawMaterialId": "RM-125",
+        "concentration": 8
+      },
+      {
+        "name": "Yellow Dispersion Pigment Y-09",
+        "rawMaterialId": "RM-105",
+        "concentration": 5.5
+      },
+      {
+        "name": "Cellulose Thickener T-12",
+        "rawMaterialId": "RM-115",
+        "concentration": 2.5
+      },
+      {
+        "name": "Preservative Blend PB-3",
+        "rawMaterialId": "RM-110",
+        "concentration": 0.9
+      },
+      {
+        "name": "Citric Acid pH Adjuster PA-8",
+        "rawMaterialId": "RM-120",
+        "concentration": 0.3
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2025-01-27T04:30:00.000Z",
+        "label": "Submitted",
+        "detail": "StudioBright Poster Paint v1.6 sent for review."
+      },
+      {
+        "date": "2025-02-03T05:30:00.000Z",
+        "label": "Acknowledged",
+        "detail": "Synthetic acknowledgement recorded in the demo history."
+      },
+      {
+        "date": "2025-02-10T06:30:00.000Z",
+        "label": "Round 1 — clarification",
+        "detail": "Review panel (synthetic): Round 1 — clarification"
+      },
+      {
+        "date": "2025-03-02T10:30:00.000Z",
+        "label": "Outcome recorded — AP",
+        "detail": "Recorded outcome in the synthetic history after 1 review round."
+      }
+    ],
+    "correspondence": [
+      {
+        "id": "SUB-2302-MSG-1",
+        "date": "2025-02-10T06:30:00.000Z",
+        "from": "Review panel (synthetic)",
+        "subject": "Round 1 — clarification",
+        "body": "Please state the pigment grade reference on the composition sheet so the record matches the supplier certificate."
+      }
+    ],
+    "requestedChanges": [
+      "Record the pigment grade on the composition sheet."
+    ],
+    "evidenceIds": [
+      "DOC-COR-2302-01"
+    ],
+    "findings": [
+      {
+        "severity": "low",
+        "title": "Pigment grade not stated on the composition sheet",
+        "detail": "Reviewer asked for the grade reference to be added to the record."
+      }
+    ]
+  },
+  {
+    "id": "SUB-2303",
+    "formulaId": "FML-1005",
+    "formulaName": "SoftShape Modeling Compound",
+    "version": "v3.2",
+    "category": "Modeling Compounds",
+    "submittedAt": "2025-04-17T04:30:00.000Z",
+    "closedAt": "2025-06-26T10:30:00.000Z",
+    "outcome": "More Data Needed",
+    "reviewRounds": 3,
+    "feedbackTheme": "Preservative system data",
+    "snapshot": [
+      {
+        "name": "Aqua Base Concentrate",
+        "rawMaterialId": "RM-101",
+        "concentration": 43.25
+      },
+      {
+        "name": "Food-Grade Starch Base S-30",
+        "rawMaterialId": "RM-116",
+        "concentration": 35
+      },
+      {
+        "name": "Sodium Chloride Grade NC-1",
+        "rawMaterialId": "RM-119",
+        "concentration": 9.5
+      },
+      {
+        "name": "Glycerin Softener GL-2",
+        "rawMaterialId": "RM-118",
+        "concentration": 6.5
+      },
+      {
+        "name": "Mineral Oil Conditioner MO-6",
+        "rawMaterialId": "RM-117",
+        "concentration": 3.2
+      },
+      {
+        "name": "Yellow Dispersion Pigment Y-09",
+        "rawMaterialId": "RM-105",
+        "concentration": 1.8
+      },
+      {
+        "name": "Preservative Blend PB-9 (legacy)",
+        "rawMaterialId": "RM-111",
+        "concentration": 0.45
+      },
+      {
+        "name": "Citric Acid pH Adjuster PA-8",
+        "rawMaterialId": "RM-120",
+        "concentration": 0.3
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2025-04-17T04:30:00.000Z",
+        "label": "Submitted",
+        "detail": "SoftShape Modeling Compound v3.2 sent for review."
+      },
+      {
+        "date": "2025-04-24T05:30:00.000Z",
+        "label": "Acknowledged",
+        "detail": "Synthetic acknowledgement recorded in the demo history."
+      },
+      {
+        "date": "2025-05-08T06:30:00.000Z",
+        "label": "Round 1 — data request",
+        "detail": "Review panel (synthetic): Round 1 — data request"
+      },
+      {
+        "date": "2025-05-31T06:30:00.000Z",
+        "label": "Round 2 — interim response",
+        "detail": "Dana Whitfield: Round 2 — interim response"
+      },
+      {
+        "date": "2025-06-24T06:30:00.000Z",
+        "label": "Round 3 — outcome",
+        "detail": "Review panel (synthetic): Round 3 — outcome"
+      },
+      {
+        "date": "2025-06-26T10:30:00.000Z",
+        "label": "Outcome recorded — More Data Needed",
+        "detail": "Recorded outcome in the synthetic history after 3 review rounds."
+      }
+    ],
+    "correspondence": [
+      {
+        "id": "SUB-2303-MSG-1",
+        "date": "2025-05-08T06:30:00.000Z",
+        "from": "Review panel (synthetic)",
+        "subject": "Round 1 — data request",
+        "body": "The submission does not include a laboratory report for the legacy preservative blend. Please provide one together with the supplier specification at the declared loading."
+      },
+      {
+        "id": "SUB-2303-MSG-2",
+        "date": "2025-05-31T06:30:00.000Z",
+        "from": "Dana Whitfield",
+        "subject": "Round 2 — interim response",
+        "body": "The supplier specification is attached. The laboratory report is still being scheduled with the external laboratory."
+      },
+      {
+        "id": "SUB-2303-MSG-3",
+        "date": "2025-06-24T06:30:00.000Z",
+        "from": "Review panel (synthetic)",
+        "subject": "Round 3 — outcome",
+        "body": "Recording the file as More Data Needed. Please resubmit once the laboratory report is available, or with an alternative preservative system."
+      }
+    ],
+    "requestedChanges": [
+      "Provide a laboratory report covering the legacy preservative blend.",
+      "Supply the preservative supplier specification at the declared loading.",
+      "Confirm whether a current-generation preservative was evaluated."
+    ],
+    "evidenceIds": [
+      "DOC-COR-2303-01",
+      "DOC-COR-2303-02",
+      "DOC-COR-2303-03"
+    ],
+    "findings": [
+      {
+        "severity": "high",
+        "title": "Legacy preservative blend lacked a laboratory report",
+        "detail": "The file closed with additional data requested. The laboratory report was never added to this demo record."
+      },
+      {
+        "severity": "medium",
+        "title": "Alternative preservative system not documented",
+        "detail": "Reviewer asked whether a current-generation preservative had been evaluated."
+      }
+    ]
+  },
+  {
+    "id": "SUB-2304",
+    "formulaId": "FML-1007",
+    "formulaName": "BrightCore Crayon Classic",
+    "version": "v4.8",
+    "category": "Crayons",
+    "submittedAt": "2025-05-22T04:30:00.000Z",
+    "closedAt": "2025-06-18T10:30:00.000Z",
+    "outcome": "AP",
+    "reviewRounds": 1,
+    "feedbackTheme": "Wax grade confirmation",
+    "snapshot": [
+      {
+        "name": "Calcium Carbonate Filler F-55",
+        "rawMaterialId": "RM-112",
+        "concentration": 32.9
+      },
+      {
+        "name": "Paraffin Wax Grade W-18",
+        "rawMaterialId": "RM-113",
+        "concentration": 60
+      },
+      {
+        "name": "Stearate Processing Aid SA-4",
+        "rawMaterialId": "RM-114",
+        "concentration": 3.5
+      },
+      {
+        "name": "Carbon Dispersion Black K-02",
+        "rawMaterialId": "RM-106",
+        "concentration": 2.1
+      },
+      {
+        "name": "Yellow Dispersion Pigment Y-09",
+        "rawMaterialId": "RM-105",
+        "concentration": 1.5
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2025-05-22T04:30:00.000Z",
+        "label": "Submitted",
+        "detail": "BrightCore Crayon Classic v4.8 sent for review."
+      },
+      {
+        "date": "2025-05-29T05:30:00.000Z",
+        "label": "Acknowledged",
+        "detail": "Synthetic acknowledgement recorded in the demo history."
+      },
+      {
+        "date": "2025-06-02T06:30:00.000Z",
+        "label": "Round 1 — clarification",
+        "detail": "Review panel (synthetic): Round 1 — clarification"
+      },
+      {
+        "date": "2025-06-18T10:30:00.000Z",
+        "label": "Outcome recorded — AP",
+        "detail": "Recorded outcome in the synthetic history after 1 review round."
+      }
+    ],
+    "correspondence": [
+      {
+        "id": "SUB-2304-MSG-1",
+        "date": "2025-06-02T06:30:00.000Z",
+        "from": "Review panel (synthetic)",
+        "subject": "Round 1 — clarification",
+        "body": "Please confirm the refined wax grade matches the supplier specification referenced in the composition sheet."
+      }
+    ],
+    "requestedChanges": [
+      "Confirm the refined wax grade against the supplier specification."
+    ],
+    "evidenceIds": [
+      "DOC-COR-2304-01"
+    ],
+    "findings": [
+      {
+        "severity": "low",
+        "title": "Wax grade reference required confirmation",
+        "detail": "Resolved in the same round with the supplier specification."
+      }
+    ]
+  },
+  {
+    "id": "SUB-2305",
+    "formulaId": "FML-1009",
+    "formulaName": "SureBond School Glue",
+    "version": "v2.4",
+    "category": "Glue",
+    "submittedAt": "2025-08-05T04:30:00.000Z",
+    "closedAt": "2025-09-24T10:30:00.000Z",
+    "outcome": "AP",
+    "reviewRounds": 2,
+    "feedbackTheme": "Adhesive residue testing",
+    "snapshot": [
+      {
+        "name": "Aqua Base Concentrate",
+        "rawMaterialId": "RM-101",
+        "concentration": 67.55
+      },
+      {
+        "name": "PVA Resin Solution PV-14",
+        "rawMaterialId": "RM-124",
+        "concentration": 24
+      },
+      {
+        "name": "Polyol Humectant HX-2",
+        "rawMaterialId": "RM-102",
+        "concentration": 6
+      },
+      {
+        "name": "Cellulose Thickener T-12",
+        "rawMaterialId": "RM-115",
+        "concentration": 1.5
+      },
+      {
+        "name": "Preservative Blend PB-3",
+        "rawMaterialId": "RM-110",
+        "concentration": 0.7
+      },
+      {
+        "name": "Citric Acid pH Adjuster PA-8",
+        "rawMaterialId": "RM-120",
+        "concentration": 0.25
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2025-08-05T04:30:00.000Z",
+        "label": "Submitted",
+        "detail": "SureBond School Glue v2.4 sent for review."
+      },
+      {
+        "date": "2025-08-12T05:30:00.000Z",
+        "label": "Acknowledged",
+        "detail": "Synthetic acknowledgement recorded in the demo history."
+      },
+      {
+        "date": "2025-08-21T06:30:00.000Z",
+        "label": "Round 1 — information request",
+        "detail": "Review panel (synthetic): Round 1 — information request"
+      },
+      {
+        "date": "2025-09-05T06:30:00.000Z",
+        "label": "Round 1 — response",
+        "detail": "Dana Whitfield: Round 1 — response"
+      },
+      {
+        "date": "2025-09-24T10:30:00.000Z",
+        "label": "Outcome recorded — AP",
+        "detail": "Recorded outcome in the synthetic history after 2 review rounds."
+      }
+    ],
+    "correspondence": [
+      {
+        "id": "SUB-2305-MSG-1",
+        "date": "2025-08-21T06:30:00.000Z",
+        "from": "Review panel (synthetic)",
+        "subject": "Round 1 — information request",
+        "body": "Please provide residue data after wash-out on fabric substrates, and record the thickener level on the composition sheet."
+      },
+      {
+        "id": "SUB-2305-MSG-2",
+        "date": "2025-09-05T06:30:00.000Z",
+        "from": "Dana Whitfield",
+        "subject": "Round 1 — response",
+        "body": "Residue study attached. The composition sheet has been updated with the thickener level."
+      }
+    ],
+    "requestedChanges": [
+      "Provide residue data after wash-out on fabric substrates.",
+      "Record the thickener level on the composition sheet."
+    ],
+    "evidenceIds": [
+      "DOC-COR-2305-01",
+      "DOC-COR-2305-02"
+    ],
+    "findings": [
+      {
+        "severity": "low",
+        "title": "Residue behaviour after wash-out not documented",
+        "detail": "Closed once the internal residue study was supplied."
+      }
+    ]
+  },
+  {
+    "id": "SUB-2306",
+    "formulaId": "FML-1002",
+    "formulaName": "ColorFlow Ultra Washable Marker",
+    "version": "v1.0",
+    "category": "Markers",
+    "submittedAt": "2025-10-14T04:30:00.000Z",
+    "closedAt": "2025-12-01T10:30:00.000Z",
+    "outcome": "CL",
+    "reviewRounds": 2,
+    "feedbackTheme": "Surfactant labelling",
+    "snapshot": [
+      {
+        "name": "Aqua Base Concentrate",
+        "rawMaterialId": "RM-101",
+        "concentration": 69.2
+      },
+      {
+        "name": "Polyol Humectant HX-2",
+        "rawMaterialId": "RM-102",
+        "concentration": 16
+      },
+      {
+        "name": "Magenta Dispersion Pigment M-21",
+        "rawMaterialId": "RM-104",
+        "concentration": 8.4
+      },
+      {
+        "name": "Nonionic Surfactant NS-7",
+        "rawMaterialId": "RM-109",
+        "concentration": 1.8
+      },
+      {
+        "name": "Cellulose Thickener T-12",
+        "rawMaterialId": "RM-115",
+        "concentration": 3.5
+      },
+      {
+        "name": "Preservative Blend PB-3",
+        "rawMaterialId": "RM-110",
+        "concentration": 0.75
+      },
+      {
+        "name": "Citric Acid pH Adjuster PA-8",
+        "rawMaterialId": "RM-120",
+        "concentration": 0.35
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2025-10-14T04:30:00.000Z",
+        "label": "Submitted",
+        "detail": "ColorFlow Ultra Washable Marker v1.0 sent for review."
+      },
+      {
+        "date": "2025-10-21T05:30:00.000Z",
+        "label": "Acknowledged",
+        "detail": "Synthetic acknowledgement recorded in the demo history."
+      },
+      {
+        "date": "2025-11-02T06:30:00.000Z",
+        "label": "Round 1 — information request",
+        "detail": "Review panel (synthetic): Round 1 — information request"
+      },
+      {
+        "date": "2025-11-21T06:30:00.000Z",
+        "label": "Round 2 — response",
+        "detail": "Elena Barros: Round 2 — response"
+      },
+      {
+        "date": "2025-12-01T10:30:00.000Z",
+        "label": "Outcome recorded — CL",
+        "detail": "Recorded outcome in the synthetic history after 2 review rounds."
+      }
+    ],
+    "correspondence": [
+      {
+        "id": "SUB-2306-MSG-1",
+        "date": "2025-11-02T06:30:00.000Z",
+        "from": "Review panel (synthetic)",
+        "subject": "Round 1 — information request",
+        "body": "Please provide the certificate of analysis for the magenta dispersion and confirm the surfactant level in the finished ink."
+      },
+      {
+        "id": "SUB-2306-MSG-2",
+        "date": "2025-11-21T06:30:00.000Z",
+        "from": "Elena Barros",
+        "subject": "Round 2 — response",
+        "body": "The surfactant level is confirmed. The certificate of analysis has been requested from the supplier and is not yet available."
+      }
+    ],
+    "requestedChanges": [
+      "Add cautionary labelling covering the surfactant level.",
+      "Provide the colorant certificate of analysis."
+    ],
+    "evidenceIds": [
+      "DOC-COR-2306-01",
+      "DOC-COR-2306-02"
+    ],
+    "findings": [
+      {
+        "severity": "medium",
+        "title": "Surfactant level prompted cautionary labelling",
+        "detail": "Recorded outcome was acceptance with cautionary labelling."
+      },
+      {
+        "severity": "medium",
+        "title": "Colorant certificate of analysis was outstanding",
+        "detail": "The certificate is still absent from the current demo workspace."
+      }
+    ]
+  },
+  {
+    "id": "SUB-2307",
+    "formulaId": "FML-1004",
+    "formulaName": "StudioBright Tempera Paint",
+    "version": "v1.0",
+    "category": "Paints",
+    "submittedAt": "2025-12-13T04:30:00.000Z",
+    "closedAt": "2026-02-15T10:30:00.000Z",
+    "outcome": "More Data Needed",
+    "reviewRounds": 3,
+    "feedbackTheme": "Colorant certificates",
+    "snapshot": [
+      {
+        "name": "Aqua Base Concentrate",
+        "rawMaterialId": "RM-101",
+        "concentration": 59.15
+      },
+      {
+        "name": "Vinyl Acetate Copolymer VC-11",
+        "rawMaterialId": "RM-108",
+        "concentration": 17
+      },
+      {
+        "name": "Magenta Dispersion Pigment M-21",
+        "rawMaterialId": "RM-104",
+        "concentration": 9.5
+      },
+      {
+        "name": "Calcium Carbonate Filler F-55",
+        "rawMaterialId": "RM-112",
+        "concentration": 7.5
+      },
+      {
+        "name": "Titanium White Dispersion W-01",
+        "rawMaterialId": "RM-125",
+        "concentration": 4
+      },
+      {
+        "name": "Cellulose Thickener T-12",
+        "rawMaterialId": "RM-115",
+        "concentration": 2
+      },
+      {
+        "name": "Preservative Blend PB-3",
+        "rawMaterialId": "RM-110",
+        "concentration": 0.85
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2025-12-13T04:30:00.000Z",
+        "label": "Submitted",
+        "detail": "StudioBright Tempera Paint v1.0 sent for review."
+      },
+      {
+        "date": "2025-12-20T05:30:00.000Z",
+        "label": "Acknowledged",
+        "detail": "Synthetic acknowledgement recorded in the demo history."
+      },
+      {
+        "date": "2026-01-04T06:30:00.000Z",
+        "label": "Round 1 — data request",
+        "detail": "Review panel (synthetic): Round 1 — data request"
+      },
+      {
+        "date": "2026-01-23T06:30:00.000Z",
+        "label": "Round 2 — interim response",
+        "detail": "Theo Kowalski: Round 2 — interim response"
+      },
+      {
+        "date": "2026-02-11T06:30:00.000Z",
+        "label": "Round 3 — outcome",
+        "detail": "Review panel (synthetic): Round 3 — outcome"
+      },
+      {
+        "date": "2026-02-15T10:30:00.000Z",
+        "label": "Outcome recorded — More Data Needed",
+        "detail": "Recorded outcome in the synthetic history after 3 review rounds."
+      }
+    ],
+    "correspondence": [
+      {
+        "id": "SUB-2307-MSG-1",
+        "date": "2026-01-04T06:30:00.000Z",
+        "from": "Review panel (synthetic)",
+        "subject": "Round 1 — data request",
+        "body": "Certificates of analysis are required for every colorant in the composition before the file can progress."
+      },
+      {
+        "id": "SUB-2307-MSG-2",
+        "date": "2026-01-23T06:30:00.000Z",
+        "from": "Theo Kowalski",
+        "subject": "Round 2 — interim response",
+        "body": "Two of three certificates are attached. The magenta dispersion certificate is outstanding with the supplier."
+      },
+      {
+        "id": "SUB-2307-MSG-3",
+        "date": "2026-02-11T06:30:00.000Z",
+        "from": "Review panel (synthetic)",
+        "subject": "Round 3 — outcome",
+        "body": "Recording the file as More Data Needed pending the outstanding colorant certificate."
+      }
+    ],
+    "requestedChanges": [
+      "Provide certificates of analysis for every colorant in the composition.",
+      "Confirm the filler grade."
+    ],
+    "evidenceIds": [
+      "DOC-COR-2307-01",
+      "DOC-COR-2307-02",
+      "DOC-COR-2307-03"
+    ],
+    "findings": [
+      {
+        "severity": "high",
+        "title": "Colorant certificates were not supplied",
+        "detail": "The file closed with additional data requested."
+      }
+    ]
+  },
+  {
+    "id": "SUB-2308",
+    "formulaId": "FML-1013",
+    "formulaName": "SoftShape Dough Starter Kit",
+    "version": "v1.9",
+    "category": "Modeling Compounds",
+    "submittedAt": "2026-01-27T04:30:00.000Z",
+    "closedAt": "2026-02-23T10:30:00.000Z",
+    "outcome": "AP",
+    "reviewRounds": 1,
+    "feedbackTheme": "Starch source documentation",
+    "snapshot": [
+      {
+        "name": "Aqua Base Concentrate",
+        "rawMaterialId": "RM-101",
+        "concentration": 49.8
+      },
+      {
+        "name": "Food-Grade Starch Base S-30",
+        "rawMaterialId": "RM-116",
+        "concentration": 30
+      },
+      {
+        "name": "Sodium Chloride Grade NC-1",
+        "rawMaterialId": "RM-119",
+        "concentration": 9
+      },
+      {
+        "name": "Glycerin Softener GL-2",
+        "rawMaterialId": "RM-118",
+        "concentration": 6
+      },
+      {
+        "name": "Mineral Oil Conditioner MO-6",
+        "rawMaterialId": "RM-117",
+        "concentration": 2.8
+      },
+      {
+        "name": "Cyan Dispersion Pigment C-14",
+        "rawMaterialId": "RM-103",
+        "concentration": 1.4
+      },
+      {
+        "name": "Preservative Blend PB-3",
+        "rawMaterialId": "RM-110",
+        "concentration": 0.7
+      },
+      {
+        "name": "Citric Acid pH Adjuster PA-8",
+        "rawMaterialId": "RM-120",
+        "concentration": 0.3
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-01-27T04:30:00.000Z",
+        "label": "Submitted",
+        "detail": "SoftShape Dough Starter Kit v1.9 sent for review."
+      },
+      {
+        "date": "2026-02-03T05:30:00.000Z",
+        "label": "Acknowledged",
+        "detail": "Synthetic acknowledgement recorded in the demo history."
+      },
+      {
+        "date": "2026-02-08T06:30:00.000Z",
+        "label": "Round 1 — clarification",
+        "detail": "Review panel (synthetic): Round 1 — clarification"
+      },
+      {
+        "date": "2026-02-23T10:30:00.000Z",
+        "label": "Outcome recorded — AP",
+        "detail": "Recorded outcome in the synthetic history after 1 review round."
+      }
+    ],
+    "correspondence": [
+      {
+        "id": "SUB-2308-MSG-1",
+        "date": "2026-02-08T06:30:00.000Z",
+        "from": "Review panel (synthetic)",
+        "subject": "Round 1 — clarification",
+        "body": "Please record the starch source and grade on the composition sheet."
+      }
+    ],
+    "requestedChanges": [
+      "Record the starch source and grade on the composition sheet."
+    ],
+    "evidenceIds": [
+      "DOC-COR-2308-01"
+    ],
+    "findings": [
+      {
+        "severity": "low",
+        "title": "Starch source not recorded",
+        "detail": "Resolved in the same round."
+      }
+    ]
+  },
+  {
+    "id": "SUB-2309",
+    "formulaId": "FML-1008",
+    "formulaName": "BrightCore Crayon Metallic",
+    "version": "v1.7",
+    "category": "Crayons",
+    "submittedAt": "2026-03-23T04:30:00.000Z",
+    "closedAt": "2026-05-04T10:30:00.000Z",
+    "outcome": "CL",
+    "reviewRounds": 2,
+    "feedbackTheme": "Metallic pigment disclosure",
+    "snapshot": [
+      {
+        "name": "Calcium Carbonate Filler F-55",
+        "rawMaterialId": "RM-112",
+        "concentration": 33.2
+      },
+      {
+        "name": "Paraffin Wax Grade W-18",
+        "rawMaterialId": "RM-113",
+        "concentration": 56
+      },
+      {
+        "name": "Stearate Processing Aid SA-4",
+        "rawMaterialId": "RM-114",
+        "concentration": 3.2
+      },
+      {
+        "name": "Magenta Dispersion Pigment M-21",
+        "rawMaterialId": "RM-104",
+        "concentration": 4.2
+      },
+      {
+        "name": "Titanium White Dispersion W-01",
+        "rawMaterialId": "RM-125",
+        "concentration": 3.4
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-03-23T04:30:00.000Z",
+        "label": "Submitted",
+        "detail": "BrightCore Crayon Metallic v1.7 sent for review."
+      },
+      {
+        "date": "2026-03-30T05:30:00.000Z",
+        "label": "Acknowledged",
+        "detail": "Synthetic acknowledgement recorded in the demo history."
+      },
+      {
+        "date": "2026-04-09T06:30:00.000Z",
+        "label": "Round 1 — information request",
+        "detail": "Review panel (synthetic): Round 1 — information request"
+      },
+      {
+        "date": "2026-04-27T06:30:00.000Z",
+        "label": "Round 2 — response",
+        "detail": "Dana Whitfield: Round 2 — response"
+      },
+      {
+        "date": "2026-05-04T10:30:00.000Z",
+        "label": "Outcome recorded — CL",
+        "detail": "Recorded outcome in the synthetic history after 2 review rounds."
+      }
+    ],
+    "correspondence": [
+      {
+        "id": "SUB-2309-MSG-1",
+        "date": "2026-04-09T06:30:00.000Z",
+        "from": "Review panel (synthetic)",
+        "subject": "Round 1 — information request",
+        "body": "The metallic pigment set appears partially disclosed. Please provide the full composition and confirm the intended age group."
+      },
+      {
+        "id": "SUB-2309-MSG-2",
+        "date": "2026-04-27T06:30:00.000Z",
+        "from": "Dana Whitfield",
+        "subject": "Round 2 — response",
+        "body": "Full pigment set provided. The age group is confirmed as 6+ and cautionary labelling has been drafted."
+      }
+    ],
+    "requestedChanges": [
+      "Disclose the full metallic pigment set.",
+      "Add cautionary labelling for the intended age group."
+    ],
+    "evidenceIds": [
+      "DOC-COR-2309-01",
+      "DOC-COR-2309-02"
+    ],
+    "findings": [
+      {
+        "severity": "medium",
+        "title": "Metallic pigment set was partially disclosed",
+        "detail": "Recorded outcome was acceptance with cautionary labelling."
+      }
+    ]
+  },
+  {
+    "id": "SUB-2310",
+    "formulaId": "FML-1017",
+    "formulaName": "StudioBright Finger Paint",
+    "version": "v2.0",
+    "category": "Paints",
+    "submittedAt": "2026-05-12T04:30:00.000Z",
+    "closedAt": "2026-06-08T10:30:00.000Z",
+    "outcome": "AP",
+    "reviewRounds": 1,
+    "feedbackTheme": "Skin-contact duration",
+    "snapshot": [
+      {
+        "name": "Aqua Base Concentrate",
+        "rawMaterialId": "RM-101",
+        "concentration": 64.238
+      },
+      {
+        "name": "Acrylic Binder Emulsion AB-30",
+        "rawMaterialId": "RM-107",
+        "concentration": 16
+      },
+      {
+        "name": "Calcium Carbonate Filler F-55",
+        "rawMaterialId": "RM-112",
+        "concentration": 8
+      },
+      {
+        "name": "Titanium White Dispersion W-01",
+        "rawMaterialId": "RM-125",
+        "concentration": 5
+      },
+      {
+        "name": "Yellow Dispersion Pigment Y-09",
+        "rawMaterialId": "RM-105",
+        "concentration": 3.2
+      },
+      {
+        "name": "Cellulose Thickener T-12",
+        "rawMaterialId": "RM-115",
+        "concentration": 2.4
+      },
+      {
+        "name": "Preservative Blend PB-3",
+        "rawMaterialId": "RM-110",
+        "concentration": 0.85
+      },
+      {
+        "name": "Citric Acid pH Adjuster PA-8",
+        "rawMaterialId": "RM-120",
+        "concentration": 0.3
+      },
+      {
+        "name": "Bittering Agent BA-5",
+        "rawMaterialId": "RM-121",
+        "concentration": 0.012
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-05-12T04:30:00.000Z",
+        "label": "Submitted",
+        "detail": "StudioBright Finger Paint v2.0 sent for review."
+      },
+      {
+        "date": "2026-05-19T05:30:00.000Z",
+        "label": "Acknowledged",
+        "detail": "Synthetic acknowledgement recorded in the demo history."
+      },
+      {
+        "date": "2026-05-25T06:30:00.000Z",
+        "label": "Round 1 — clarification",
+        "detail": "Review panel (synthetic): Round 1 — clarification"
+      },
+      {
+        "date": "2026-06-08T10:30:00.000Z",
+        "label": "Outcome recorded — AP",
+        "detail": "Recorded outcome in the synthetic history after 1 review round."
+      }
+    ],
+    "correspondence": [
+      {
+        "id": "SUB-2310-MSG-1",
+        "date": "2026-05-25T06:30:00.000Z",
+        "from": "Review panel (synthetic)",
+        "subject": "Round 1 — clarification",
+        "body": "Please document the expected skin-contact duration for a supervised craft session."
+      }
+    ],
+    "requestedChanges": [
+      "Document the expected skin-contact duration for a supervised session."
+    ],
+    "evidenceIds": [
+      "DOC-COR-2310-01"
+    ],
+    "findings": [
+      {
+        "severity": "low",
+        "title": "Skin-contact duration not documented",
+        "detail": "Resolved with the internal contact-duration study."
+      }
+    ]
+  },
+  {
+    "id": "SUB-2311",
+    "formulaId": "FML-1010",
+    "formulaName": "SureBond Gel Glue",
+    "version": "v1.2",
+    "category": "Glue",
+    "submittedAt": "2026-06-26T04:30:00.000Z",
+    "closedAt": "2026-08-08T10:30:00.000Z",
+    "outcome": "More Data Needed",
+    "reviewRounds": 2,
+    "feedbackTheme": "Thickener documentation",
+    "snapshot": [
+      {
+        "name": "Aqua Base Concentrate",
+        "rawMaterialId": "RM-101",
+        "concentration": 72.4
+      },
+      {
+        "name": "PVA Resin Solution PV-14",
+        "rawMaterialId": "RM-124",
+        "concentration": 22
+      },
+      {
+        "name": "Cellulose Thickener T-12",
+        "rawMaterialId": "RM-115",
+        "concentration": 3.8
+      },
+      {
+        "name": "Nonionic Surfactant NS-7",
+        "rawMaterialId": "RM-109",
+        "concentration": 0.9
+      },
+      {
+        "name": "Preservative Blend PB-3",
+        "rawMaterialId": "RM-110",
+        "concentration": 0.65
+      },
+      {
+        "name": "Citric Acid pH Adjuster PA-8",
+        "rawMaterialId": "RM-120",
+        "concentration": 0.25
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-06-26T04:30:00.000Z",
+        "label": "Submitted",
+        "detail": "SureBond Gel Glue v1.2 sent for review."
+      },
+      {
+        "date": "2026-07-03T05:30:00.000Z",
+        "label": "Acknowledged",
+        "detail": "Synthetic acknowledgement recorded in the demo history."
+      },
+      {
+        "date": "2026-07-11T06:30:00.000Z",
+        "label": "Round 1 — data request",
+        "detail": "Review panel (synthetic): Round 1 — data request"
+      },
+      {
+        "date": "2026-07-29T06:30:00.000Z",
+        "label": "Round 2 — interim response",
+        "detail": "Elena Barros: Round 2 — interim response"
+      },
+      {
+        "date": "2026-08-08T10:30:00.000Z",
+        "label": "Outcome recorded — More Data Needed",
+        "detail": "Recorded outcome in the synthetic history after 2 review rounds."
+      }
+    ],
+    "correspondence": [
+      {
+        "id": "SUB-2311-MSG-1",
+        "date": "2026-07-11T06:30:00.000Z",
+        "from": "Review panel (synthetic)",
+        "subject": "Round 1 — data request",
+        "body": "Please provide the thickener specification, and confirm that the surfactant safety data sheet on file is the current revision."
+      },
+      {
+        "id": "SUB-2311-MSG-2",
+        "date": "2026-07-29T06:30:00.000Z",
+        "from": "Elena Barros",
+        "subject": "Round 2 — interim response",
+        "body": "Thickener specification attached. The surfactant revision is still being chased with the supplier."
+      }
+    ],
+    "requestedChanges": [
+      "Provide the thickener specification and supplier document set.",
+      "Confirm the surfactant document set is current."
+    ],
+    "evidenceIds": [
+      "DOC-COR-2311-01",
+      "DOC-COR-2311-02"
+    ],
+    "findings": [
+      {
+        "severity": "medium",
+        "title": "Surfactant document set was superseded",
+        "detail": "The superseded safety data sheet is still on file in the current demo workspace."
+      }
+    ]
+  },
+  {
+    "id": "SUB-2312",
+    "formulaId": "FML-1015",
+    "formulaName": "SureBond Glitter Glue",
+    "version": "v1.0",
+    "category": "Glue",
+    "submittedAt": "2026-07-31T04:30:00.000Z",
+    "closedAt": "2026-09-15T10:30:00.000Z",
+    "outcome": "CL",
+    "reviewRounds": 3,
+    "feedbackTheme": "Defoamer loading",
+    "snapshot": [
+      {
+        "name": "Aqua Base Concentrate",
+        "rawMaterialId": "RM-101",
+        "concentration": 71.35
+      },
+      {
+        "name": "PVA Resin Solution PV-14",
+        "rawMaterialId": "RM-124",
+        "concentration": 20
+      },
+      {
+        "name": "Cellulose Thickener T-12",
+        "rawMaterialId": "RM-115",
+        "concentration": 5
+      },
+      {
+        "name": "Titanium White Dispersion W-01",
+        "rawMaterialId": "RM-125",
+        "concentration": 2.4
+      },
+      {
+        "name": "Silicone Defoamer DF-3",
+        "rawMaterialId": "RM-122",
+        "concentration": 0.4
+      },
+      {
+        "name": "Preservative Blend PB-3",
+        "rawMaterialId": "RM-110",
+        "concentration": 0.6
+      },
+      {
+        "name": "Citric Acid pH Adjuster PA-8",
+        "rawMaterialId": "RM-120",
+        "concentration": 0.25
+      }
+    ],
+    "timeline": [
+      {
+        "date": "2026-07-31T04:30:00.000Z",
+        "label": "Submitted",
+        "detail": "SureBond Glitter Glue v1.0 sent for review."
+      },
+      {
+        "date": "2026-08-07T05:30:00.000Z",
+        "label": "Acknowledged",
+        "detail": "Synthetic acknowledgement recorded in the demo history."
+      },
+      {
+        "date": "2026-08-14T06:30:00.000Z",
+        "label": "Round 1 — information request",
+        "detail": "Review panel (synthetic): Round 1 — information request"
+      },
+      {
+        "date": "2026-08-28T06:30:00.000Z",
+        "label": "Round 2 — response",
+        "detail": "Dana Whitfield: Round 2 — response"
+      },
+      {
+        "date": "2026-09-13T06:30:00.000Z",
+        "label": "Round 3 — outcome",
+        "detail": "Review panel (synthetic): Round 3 — outcome"
+      },
+      {
+        "date": "2026-09-15T10:30:00.000Z",
+        "label": "Outcome recorded — CL",
+        "detail": "Recorded outcome in the synthetic history after 3 review rounds."
+      }
+    ],
+    "correspondence": [
+      {
+        "id": "SUB-2312-MSG-1",
+        "date": "2026-08-14T06:30:00.000Z",
+        "from": "Review panel (synthetic)",
+        "subject": "Round 1 — information request",
+        "body": "Please justify the defoamer loading in the finished product and confirm the intended age group."
+      },
+      {
+        "id": "SUB-2312-MSG-2",
+        "date": "2026-08-28T06:30:00.000Z",
+        "from": "Dana Whitfield",
+        "subject": "Round 2 — response",
+        "body": "Defoamer rationale attached. The age group is confirmed as 6+."
+      },
+      {
+        "id": "SUB-2312-MSG-3",
+        "date": "2026-09-13T06:30:00.000Z",
+        "from": "Review panel (synthetic)",
+        "subject": "Round 3 — outcome",
+        "body": "Recorded as acceptance with cautionary labelling. Any increase in the defoamer level would require a fresh assessment."
+      }
+    ],
+    "requestedChanges": [
+      "Justify the defoamer loading in the finished product.",
+      "Add cautionary labelling for the intended age group."
+    ],
+    "evidenceIds": [
+      "DOC-COR-2312-01",
+      "DOC-COR-2312-02",
+      "DOC-COR-2312-03"
+    ],
+    "findings": [
+      {
+        "severity": "medium",
+        "title": "Defoamer loading queried",
+        "detail": "The historical record carried a lower defoamer level than the current formula version."
+      }
+    ]
+  }
+]

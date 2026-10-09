@@ -1,0 +1,320 @@
+[
+  {
+    "id": "RM-101",
+    "name": "Aqua Base Concentrate",
+    "supplier": "Northbridge Chemworks",
+    "role": "Carrier",
+    "documentIds": [
+      "DOC-SDS-101"
+    ],
+    "summary": "Deionised water carrier used as the balance phase across liquid and paste products.",
+    "usageNote": "Used in a historically accepted demo formula as the primary carrier."
+  },
+  {
+    "id": "RM-102",
+    "name": "Polyol Humectant HX-2",
+    "supplier": "Marlow Specialty",
+    "role": "Humectant",
+    "documentIds": [
+      "DOC-SDS-102",
+      "DOC-COA-102"
+    ],
+    "demoConcentrationCeiling": 25,
+    "summary": "Humectant blend that keeps marker ink and glue from drying in the applicator.",
+    "usageNote": "Appears in several demo formulas with recorded outcomes in the synthetic history."
+  },
+  {
+    "id": "RM-103",
+    "name": "Cyan Dispersion Pigment C-14",
+    "supplier": "Helix Colour Labs",
+    "role": "Colorant",
+    "documentIds": [
+      "DOC-SDS-103",
+      "DOC-COA-103"
+    ],
+    "demoConcentrationCeiling": 12,
+    "summary": "Aqueous cyan pigment dispersion supplied at nominal 40% solids.",
+    "usageNote": "Used in a historically accepted demo formula at comparable loadings."
+  },
+  {
+    "id": "RM-104",
+    "name": "Magenta Dispersion Pigment M-21",
+    "supplier": "Helix Colour Labs",
+    "role": "Colorant",
+    "documentIds": [
+      "DOC-SDS-104"
+    ],
+    "demoConcentrationCeiling": 12,
+    "summary": "Aqueous magenta pigment dispersion. The supplier certificate of analysis has not been received.",
+    "usageNote": "Recorded feedback in the synthetic history asked for colorant certificates."
+  },
+  {
+    "id": "RM-105",
+    "name": "Yellow Dispersion Pigment Y-09",
+    "supplier": "Helix Colour Labs",
+    "role": "Colorant",
+    "documentIds": [
+      "DOC-SDS-105",
+      "DOC-COA-105"
+    ],
+    "demoConcentrationCeiling": 12,
+    "summary": "Aqueous yellow pigment dispersion used across paints, markers and modeling compounds.",
+    "usageNote": "Used in a historically accepted demo formula."
+  },
+  {
+    "id": "RM-106",
+    "name": "Carbon Dispersion Black K-02",
+    "supplier": "Westfall Pigments",
+    "role": "Colorant",
+    "documentIds": [
+      "DOC-SDS-106",
+      "DOC-COA-106"
+    ],
+    "demoConcentrationCeiling": 4,
+    "summary": "Carbon-based black dispersion for crayons and dry-erase inks.",
+    "usageNote": "Used in a historically accepted demo formula at low loadings."
+  },
+  {
+    "id": "RM-107",
+    "name": "Acrylic Binder Emulsion AB-30",
+    "supplier": "Keystone Polymers",
+    "role": "Binder",
+    "documentIds": [
+      "DOC-SDS-107",
+      "DOC-COA-107",
+      "DOC-LAB-107"
+    ],
+    "demoConcentrationCeiling": 30,
+    "requiresLabReport": true,
+    "summary": "Film-forming acrylic emulsion used as the binder phase in poster and finger paints.",
+    "usageNote": "Demo rule checks request a laboratory report for this binder family."
+  },
+  {
+    "id": "RM-108",
+    "name": "Vinyl Acetate Copolymer VC-11",
+    "supplier": "Keystone Polymers",
+    "role": "Binder",
+    "documentIds": [
+      "DOC-SDS-108"
+    ],
+    "demoConcentrationCeiling": 25,
+    "summary": "Copolymer emulsion binder used in tempera-style paints.",
+    "usageNote": "Appears in demo formulas with recorded outcomes in the synthetic history."
+  },
+  {
+    "id": "RM-109",
+    "name": "Nonionic Surfactant NS-7",
+    "supplier": "Marlow Specialty",
+    "role": "Surfactant",
+    "documentIds": [
+      "DOC-SDS-109"
+    ],
+    "demoConcentrationCeiling": 2.5,
+    "summary": "Wetting agent that controls flow in markers and gel glues. The safety data sheet on file is superseded.",
+    "usageNote": "The supplier issued a revised document set in the demo monitoring feed."
+  },
+  {
+    "id": "RM-110",
+    "name": "Preservative Blend PB-3",
+    "supplier": "Avery Lane Ingredients",
+    "role": "Preservative",
+    "documentIds": [
+      "DOC-SDS-110",
+      "DOC-COA-110"
+    ],
+    "demoConcentrationCeiling": 1,
+    "summary": "Current-generation preservative blend used across the water-based portfolio.",
+    "usageNote": "Used in a historically accepted demo formula as the preservative system."
+  },
+  {
+    "id": "RM-111",
+    "name": "Preservative Blend PB-9 (legacy)",
+    "supplier": "Avery Lane Ingredients",
+    "role": "Preservative",
+    "documentIds": [
+      "DOC-SDS-111",
+      "DOC-COA-111"
+    ],
+    "demoConcentrationCeiling": 0.5,
+    "requiresExpertAssessment": true,
+    "requiresLabReport": true,
+    "summary": "Legacy preservative blend retained in one modeling-compound formula. Flagged in this demo workspace for specialist assessment.",
+    "usageNote": "The demo rule set routes this material to a product safety specialist before any formula containing it progresses."
+  },
+  {
+    "id": "RM-112",
+    "name": "Calcium Carbonate Filler F-55",
+    "supplier": "Granite Hill Minerals",
+    "role": "Filler",
+    "documentIds": [
+      "DOC-SDS-112",
+      "DOC-COA-112"
+    ],
+    "demoConcentrationCeiling": 60,
+    "summary": "Ground mineral filler providing body in crayons, chalks and watercolour pans.",
+    "usageNote": "Used in a historically accepted demo formula as the bulk phase."
+  },
+  {
+    "id": "RM-113",
+    "name": "Paraffin Wax Grade W-18",
+    "supplier": "Granite Hill Minerals",
+    "role": "Binder",
+    "documentIds": [
+      "DOC-SDS-113",
+      "DOC-LAB-113"
+    ],
+    "demoConcentrationCeiling": 65,
+    "requiresLabReport": true,
+    "summary": "Refined wax grade forming the structural phase of stick products.",
+    "usageNote": "Recorded feedback in the synthetic history asked for wax grade confirmation."
+  },
+  {
+    "id": "RM-114",
+    "name": "Stearate Processing Aid SA-4",
+    "supplier": "Granite Hill Minerals",
+    "role": "Processing aid",
+    "documentIds": [
+      "DOC-SDS-114"
+    ],
+    "demoConcentrationCeiling": 6,
+    "summary": "Processing aid that improves mould release and lay-down for stick products.",
+    "usageNote": "Appears in demo formulas with recorded outcomes in the synthetic history."
+  },
+  {
+    "id": "RM-115",
+    "name": "Cellulose Thickener T-12",
+    "supplier": "Northbridge Chemworks",
+    "role": "Rheology modifier",
+    "documentIds": [
+      "DOC-SDS-115"
+    ],
+    "demoConcentrationCeiling": 8,
+    "summary": "Cellulose-derived thickener controlling viscosity in inks, paints and gel glues.",
+    "usageNote": "Recorded feedback in the synthetic history asked for thickener documentation."
+  },
+  {
+    "id": "RM-116",
+    "name": "Food-Grade Starch Base S-30",
+    "supplier": "Harvest Row Supply",
+    "role": "Structuring agent",
+    "documentIds": [
+      "DOC-SDS-116",
+      "DOC-COA-116"
+    ],
+    "summary": "Starch base providing structure and plasticity in modeling compounds.",
+    "usageNote": "Used in a historically accepted demo formula."
+  },
+  {
+    "id": "RM-117",
+    "name": "Mineral Oil Conditioner MO-6",
+    "supplier": "Marlow Specialty",
+    "role": "Processing aid",
+    "documentIds": [
+      "DOC-SDS-117"
+    ],
+    "demoConcentrationCeiling": 5,
+    "summary": "Conditioning oil that keeps modeling compounds pliable.",
+    "usageNote": "Appears in demo formulas with recorded outcomes in the synthetic history."
+  },
+  {
+    "id": "RM-118",
+    "name": "Glycerin Softener GL-2",
+    "supplier": "Harvest Row Supply",
+    "role": "Humectant",
+    "documentIds": [
+      "DOC-SDS-118"
+    ],
+    "demoConcentrationCeiling": 12,
+    "summary": "Softening humectant used in dough-style products.",
+    "usageNote": "Used in a historically accepted demo formula."
+  },
+  {
+    "id": "RM-119",
+    "name": "Sodium Chloride Grade NC-1",
+    "supplier": "Harvest Row Supply",
+    "role": "Structuring agent",
+    "documentIds": [
+      "DOC-SDS-119"
+    ],
+    "demoConcentrationCeiling": 15,
+    "summary": "Structuring salt used to control texture in modeling compounds.",
+    "usageNote": "Used in a historically accepted demo formula."
+  },
+  {
+    "id": "RM-120",
+    "name": "Citric Acid pH Adjuster PA-8",
+    "supplier": "Avery Lane Ingredients",
+    "role": "pH adjuster",
+    "documentIds": [
+      "DOC-SDS-120"
+    ],
+    "demoConcentrationCeiling": 1.5,
+    "summary": "pH adjuster used to hold water-based systems in their working range.",
+    "usageNote": "Used in a historically accepted demo formula."
+  },
+  {
+    "id": "RM-121",
+    "name": "Bittering Agent BA-5",
+    "supplier": "Avery Lane Ingredients",
+    "role": "Deterrent additive",
+    "documentIds": [
+      "DOC-SDS-121",
+      "DOC-COA-121",
+      "DOC-LAB-121"
+    ],
+    "demoConcentrationCeiling": 0.02,
+    "requiresLabReport": true,
+    "summary": "Bittering additive included at trace levels as an ingestion deterrent.",
+    "usageNote": "Demo rule checks request a laboratory report alongside the supplier documents."
+  },
+  {
+    "id": "RM-122",
+    "name": "Silicone Defoamer DF-3",
+    "supplier": "Northbridge Chemworks",
+    "role": "Processing aid",
+    "documentIds": [
+      "DOC-SDS-122"
+    ],
+    "demoConcentrationCeiling": 0.5,
+    "summary": "Defoamer used during manufacture of glue and gel products.",
+    "usageNote": "Recorded feedback in the synthetic history questioned the defoamer loading."
+  },
+  {
+    "id": "RM-123",
+    "name": "Blue Dye Solution B-27",
+    "supplier": "Westfall Pigments",
+    "role": "Colorant",
+    "documentIds": [],
+    "demoConcentrationCeiling": 2,
+    "summary": "Recently introduced colorant. No supplier documents have been received in this demo workspace yet.",
+    "usageNote": "Introduced in a current formula version with no supporting documents on file."
+  },
+  {
+    "id": "RM-124",
+    "name": "PVA Resin Solution PV-14",
+    "supplier": "Keystone Polymers",
+    "role": "Binder",
+    "documentIds": [
+      "DOC-SDS-124",
+      "DOC-COA-124",
+      "DOC-LAB-124"
+    ],
+    "demoConcentrationCeiling": 35,
+    "requiresLabReport": true,
+    "summary": "Polyvinyl acetate resin solution forming the adhesive phase of the glue range.",
+    "usageNote": "Used in a historically accepted demo formula as the adhesive binder."
+  },
+  {
+    "id": "RM-125",
+    "name": "Titanium White Dispersion W-01",
+    "supplier": "Westfall Pigments",
+    "role": "Opacifier",
+    "documentIds": [
+      "DOC-SDS-125",
+      "DOC-COA-125"
+    ],
+    "demoConcentrationCeiling": 10,
+    "summary": "White opacifying dispersion used to build coverage in paints and metallic sticks.",
+    "usageNote": "Used in a historically accepted demo formula."
+  }
+]

@@ -30,6 +30,7 @@ from app.engine import (
     screening_status_label,
 )
 from app.llm import AzureExplanationError, empty_explanation, explain, public_config
+from app.workspace_routes import router as workspace_router
 
 logger = logging.getLogger("affine.api")
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(message)s")
@@ -38,11 +39,12 @@ app = FastAPI(title="Affine Formula Screening", version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origin_regex=r"https?://(localhost|127\.0\.0\.1)(:\d+)?",
-    allow_methods=["GET", "POST"],
+    allow_methods=["GET", "POST", "PUT"],
     allow_headers=["*"],
 )
 
 STORE = load_store()
+app.include_router(workspace_router)
 
 
 class LegacyMaterial(BaseModel):
@@ -269,11 +271,14 @@ def _assessment(formula: Formula, version_changes: list | None = None) -> dict:
 
 @app.get("/api/health")
 def health():
+    from app.workspace_config import WORKSPACE
+
     azure = public_config()
     return {
         "status": "ok",
         "data_version": STORE["version"],
         "data_dir": STORE.get("data_dir"),
+        "workspace_dir": str(WORKSPACE),
         "azure_configured": azure["azure_configured"],
         "missing_azure": azure["missing"],
     }

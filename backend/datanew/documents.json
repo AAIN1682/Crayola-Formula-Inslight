@@ -1,0 +1,695 @@
+[
+  {
+    "id": "DOC-SDS-101",
+    "title": "SDS — Aqua Base Concentrate",
+    "type": "SDS",
+    "status": "available",
+    "issuedDate": "2026-01-22T04:30:00.000Z",
+    "supplier": "Northbridge Chemworks",
+    "rawMaterialId": "RM-101",
+    "summary": "Synthetic safety data sheet for Aqua Base Concentrate as supplied by Northbridge Chemworks. Handling, storage and transport sections are illustrative."
+  },
+  {
+    "id": "DOC-SDS-102",
+    "title": "SDS — Polyol Humectant HX-2",
+    "type": "SDS",
+    "status": "available",
+    "issuedDate": "2026-01-22T04:30:00.000Z",
+    "supplier": "Marlow Specialty",
+    "rawMaterialId": "RM-102",
+    "summary": "Synthetic safety data sheet for Polyol Humectant HX-2 as supplied by Marlow Specialty. Handling, storage and transport sections are illustrative."
+  },
+  {
+    "id": "DOC-COA-102",
+    "title": "Certificate of Analysis — Polyol Humectant HX-2",
+    "type": "Certificate of Analysis",
+    "status": "available",
+    "issuedDate": "2026-04-12T04:30:00.000Z",
+    "supplier": "Marlow Specialty",
+    "rawMaterialId": "RM-102",
+    "summary": "Synthetic batch certificate for Polyol Humectant HX-2, recording illustrative assay, appearance and moisture results."
+  },
+  {
+    "id": "DOC-SDS-103",
+    "title": "SDS — Cyan Dispersion Pigment C-14",
+    "type": "SDS",
+    "status": "available",
+    "issuedDate": "2026-01-22T04:30:00.000Z",
+    "supplier": "Helix Colour Labs",
+    "rawMaterialId": "RM-103",
+    "summary": "Synthetic safety data sheet for Cyan Dispersion Pigment C-14 as supplied by Helix Colour Labs. Handling, storage and transport sections are illustrative."
+  },
+  {
+    "id": "DOC-COA-103",
+    "title": "Certificate of Analysis — Cyan Dispersion Pigment C-14",
+    "type": "Certificate of Analysis",
+    "status": "available",
+    "issuedDate": "2026-04-12T04:30:00.000Z",
+    "supplier": "Helix Colour Labs",
+    "rawMaterialId": "RM-103",
+    "summary": "Synthetic batch certificate for Cyan Dispersion Pigment C-14, recording illustrative assay, appearance and moisture results."
+  },
+  {
+    "id": "DOC-SDS-104",
+    "title": "SDS — Magenta Dispersion Pigment M-21",
+    "type": "SDS",
+    "status": "available",
+    "issuedDate": "2026-01-22T04:30:00.000Z",
+    "supplier": "Helix Colour Labs",
+    "rawMaterialId": "RM-104",
+    "summary": "Synthetic safety data sheet for Magenta Dispersion Pigment M-21 as supplied by Helix Colour Labs. Handling, storage and transport sections are illustrative."
+  },
+  {
+    "id": "DOC-SDS-105",
+    "title": "SDS — Yellow Dispersion Pigment Y-09",
+    "type": "SDS",
+    "status": "available",
+    "issuedDate": "2026-01-22T04:30:00.000Z",
+    "supplier": "Helix Colour Labs",
+    "rawMaterialId": "RM-105",
+    "summary": "Synthetic safety data sheet for Yellow Dispersion Pigment Y-09 as supplied by Helix Colour Labs. Handling, storage and transport sections are illustrative."
+  },
+  {
+    "id": "DOC-COA-105",
+    "title": "Certificate of Analysis — Yellow Dispersion Pigment Y-09",
+    "type": "Certificate of Analysis",
+    "status": "available",
+    "issuedDate": "2026-04-12T04:30:00.000Z",
+    "supplier": "Helix Colour Labs",
+    "rawMaterialId": "RM-105",
+    "summary": "Synthetic batch certificate for Yellow Dispersion Pigment Y-09, recording illustrative assay, appearance and moisture results."
+  },
+  {
+    "id": "DOC-SDS-106",
+    "title": "SDS — Carbon Dispersion Black K-02",
+    "type": "SDS",
+    "status": "available",
+    "issuedDate": "2026-01-22T04:30:00.000Z",
+    "supplier": "Westfall Pigments",
+    "rawMaterialId": "RM-106",
+    "summary": "Synthetic safety data sheet for Carbon Dispersion Black K-02 as supplied by Westfall Pigments. Handling, storage and transport sections are illustrative."
+  },
+  {
+    "id": "DOC-COA-106",
+    "title": "Certificate of Analysis — Carbon Dispersion Black K-02",
+    "type": "Certificate of Analysis",
+    "status": "available",
+    "issuedDate": "2026-04-12T04:30:00.000Z",
+    "supplier": "Westfall Pigments",
+    "rawMaterialId": "RM-106",
+    "summary": "Synthetic batch certificate for Carbon Dispersion Black K-02, recording illustrative assay, appearance and moisture results."
+  },
+  {
+    "id": "DOC-SDS-107",
+    "title": "SDS — Acrylic Binder Emulsion AB-30",
+    "type": "SDS",
+    "status": "available",
+    "issuedDate": "2026-01-22T04:30:00.000Z",
+    "supplier": "Keystone Polymers",
+    "rawMaterialId": "RM-107",
+    "summary": "Synthetic safety data sheet for Acrylic Binder Emulsion AB-30 as supplied by Keystone Polymers. Handling, storage and transport sections are illustrative."
+  },
+  {
+    "id": "DOC-COA-107",
+    "title": "Certificate of Analysis — Acrylic Binder Emulsion AB-30",
+    "type": "Certificate of Analysis",
+    "status": "available",
+    "issuedDate": "2026-04-12T04:30:00.000Z",
+    "supplier": "Keystone Polymers",
+    "rawMaterialId": "RM-107",
+    "summary": "Synthetic batch certificate for Acrylic Binder Emulsion AB-30, recording illustrative assay, appearance and moisture results."
+  },
+  {
+    "id": "DOC-LAB-107",
+    "title": "Laboratory Report — Acrylic Binder Emulsion AB-30",
+    "type": "Laboratory Report",
+    "status": "available",
+    "issuedDate": "2026-05-22T04:30:00.000Z",
+    "supplier": "Keystone Polymers",
+    "rawMaterialId": "RM-107",
+    "summary": "Synthetic laboratory report covering Acrylic Binder Emulsion AB-30 under the demo workspace testing programme."
+  },
+  {
+    "id": "DOC-SDS-108",
+    "title": "SDS — Vinyl Acetate Copolymer VC-11",
+    "type": "SDS",
+    "status": "available",
+    "issuedDate": "2026-01-22T04:30:00.000Z",
+    "supplier": "Keystone Polymers",
+    "rawMaterialId": "RM-108",
+    "summary": "Synthetic safety data sheet for Vinyl Acetate Copolymer VC-11 as supplied by Keystone Polymers. Handling, storage and transport sections are illustrative."
+  },
+  {
+    "id": "DOC-SDS-109",
+    "title": "SDS — Nonionic Surfactant NS-7",
+    "type": "SDS",
+    "status": "outdated",
+    "issuedDate": "2024-09-09T04:30:00.000Z",
+    "supplier": "Marlow Specialty",
+    "rawMaterialId": "RM-109",
+    "summary": "Synthetic safety data sheet for Nonionic Surfactant NS-7 as supplied by Marlow Specialty. Handling, storage and transport sections are illustrative."
+  },
+  {
+    "id": "DOC-SDS-110",
+    "title": "SDS — Preservative Blend PB-3",
+    "type": "SDS",
+    "status": "available",
+    "issuedDate": "2026-01-22T04:30:00.000Z",
+    "supplier": "Avery Lane Ingredients",
+    "rawMaterialId": "RM-110",
+    "summary": "Synthetic safety data sheet for Preservative Blend PB-3 as supplied by Avery Lane Ingredients. Handling, storage and transport sections are illustrative."
+  },
+  {
+    "id": "DOC-COA-110",
+    "title": "Certificate of Analysis — Preservative Blend PB-3",
+    "type": "Certificate of Analysis",
+    "status": "available",
+    "issuedDate": "2026-04-12T04:30:00.000Z",
+    "supplier": "Avery Lane Ingredients",
+    "rawMaterialId": "RM-110",
+    "summary": "Synthetic batch certificate for Preservative Blend PB-3, recording illustrative assay, appearance and moisture results."
+  },
+  {
+    "id": "DOC-SDS-111",
+    "title": "SDS — Preservative Blend PB-9 (legacy)",
+    "type": "SDS",
+    "status": "available",
+    "issuedDate": "2026-01-22T04:30:00.000Z",
+    "supplier": "Avery Lane Ingredients",
+    "rawMaterialId": "RM-111",
+    "summary": "Synthetic safety data sheet for Preservative Blend PB-9 (legacy) as supplied by Avery Lane Ingredients. Handling, storage and transport sections are illustrative."
+  },
+  {
+    "id": "DOC-COA-111",
+    "title": "Certificate of Analysis — Preservative Blend PB-9 (legacy)",
+    "type": "Certificate of Analysis",
+    "status": "available",
+    "issuedDate": "2026-04-12T04:30:00.000Z",
+    "supplier": "Avery Lane Ingredients",
+    "rawMaterialId": "RM-111",
+    "summary": "Synthetic batch certificate for Preservative Blend PB-9 (legacy), recording illustrative assay, appearance and moisture results."
+  },
+  {
+    "id": "DOC-SDS-112",
+    "title": "SDS — Calcium Carbonate Filler F-55",
+    "type": "SDS",
+    "status": "available",
+    "issuedDate": "2026-01-22T04:30:00.000Z",
+    "supplier": "Granite Hill Minerals",
+    "rawMaterialId": "RM-112",
+    "summary": "Synthetic safety data sheet for Calcium Carbonate Filler F-55 as supplied by Granite Hill Minerals. Handling, storage and transport sections are illustrative."
+  },
+  {
+    "id": "DOC-COA-112",
+    "title": "Certificate of Analysis — Calcium Carbonate Filler F-55",
+    "type": "Certificate of Analysis",
+    "status": "available",
+    "issuedDate": "2026-04-12T04:30:00.000Z",
+    "supplier": "Granite Hill Minerals",
+    "rawMaterialId": "RM-112",
+    "summary": "Synthetic batch certificate for Calcium Carbonate Filler F-55, recording illustrative assay, appearance and moisture results."
+  },
+  {
+    "id": "DOC-SDS-113",
+    "title": "SDS — Paraffin Wax Grade W-18",
+    "type": "SDS",
+    "status": "available",
+    "issuedDate": "2026-01-22T04:30:00.000Z",
+    "supplier": "Granite Hill Minerals",
+    "rawMaterialId": "RM-113",
+    "summary": "Synthetic safety data sheet for Paraffin Wax Grade W-18 as supplied by Granite Hill Minerals. Handling, storage and transport sections are illustrative."
+  },
+  {
+    "id": "DOC-LAB-113",
+    "title": "Laboratory Report — Paraffin Wax Grade W-18",
+    "type": "Laboratory Report",
+    "status": "available",
+    "issuedDate": "2026-05-22T04:30:00.000Z",
+    "supplier": "Granite Hill Minerals",
+    "rawMaterialId": "RM-113",
+    "summary": "Synthetic laboratory report covering Paraffin Wax Grade W-18 under the demo workspace testing programme."
+  },
+  {
+    "id": "DOC-SDS-114",
+    "title": "SDS — Stearate Processing Aid SA-4",
+    "type": "SDS",
+    "status": "available",
+    "issuedDate": "2026-01-22T04:30:00.000Z",
+    "supplier": "Granite Hill Minerals",
+    "rawMaterialId": "RM-114",
+    "summary": "Synthetic safety data sheet for Stearate Processing Aid SA-4 as supplied by Granite Hill Minerals. Handling, storage and transport sections are illustrative."
+  },
+  {
+    "id": "DOC-SDS-115",
+    "title": "SDS — Cellulose Thickener T-12",
+    "type": "SDS",
+    "status": "available",
+    "issuedDate": "2026-01-22T04:30:00.000Z",
+    "supplier": "Northbridge Chemworks",
+    "rawMaterialId": "RM-115",
+    "summary": "Synthetic safety data sheet for Cellulose Thickener T-12 as supplied by Northbridge Chemworks. Handling, storage and transport sections are illustrative."
+  },
+  {
+    "id": "DOC-SDS-116",
+    "title": "SDS — Food-Grade Starch Base S-30",
+    "type": "SDS",
+    "status": "available",
+    "issuedDate": "2026-01-22T04:30:00.000Z",
+    "supplier": "Harvest Row Supply",
+    "rawMaterialId": "RM-116",
+    "summary": "Synthetic safety data sheet for Food-Grade Starch Base S-30 as supplied by Harvest Row Supply. Handling, storage and transport sections are illustrative."
+  },
+  {
+    "id": "DOC-COA-116",
+    "title": "Certificate of Analysis — Food-Grade Starch Base S-30",
+    "type": "Certificate of Analysis",
+    "status": "available",
+    "issuedDate": "2026-04-12T04:30:00.000Z",
+    "supplier": "Harvest Row Supply",
+    "rawMaterialId": "RM-116",
+    "summary": "Synthetic batch certificate for Food-Grade Starch Base S-30, recording illustrative assay, appearance and moisture results."
+  },
+  {
+    "id": "DOC-SDS-117",
+    "title": "SDS — Mineral Oil Conditioner MO-6",
+    "type": "SDS",
+    "status": "available",
+    "issuedDate": "2026-01-22T04:30:00.000Z",
+    "supplier": "Marlow Specialty",
+    "rawMaterialId": "RM-117",
+    "summary": "Synthetic safety data sheet for Mineral Oil Conditioner MO-6 as supplied by Marlow Specialty. Handling, storage and transport sections are illustrative."
+  },
+  {
+    "id": "DOC-SDS-118",
+    "title": "SDS — Glycerin Softener GL-2",
+    "type": "SDS",
+    "status": "available",
+    "issuedDate": "2026-01-22T04:30:00.000Z",
+    "supplier": "Harvest Row Supply",
+    "rawMaterialId": "RM-118",
+    "summary": "Synthetic safety data sheet for Glycerin Softener GL-2 as supplied by Harvest Row Supply. Handling, storage and transport sections are illustrative."
+  },
+  {
+    "id": "DOC-SDS-119",
+    "title": "SDS — Sodium Chloride Grade NC-1",
+    "type": "SDS",
+    "status": "available",
+    "issuedDate": "2026-01-22T04:30:00.000Z",
+    "supplier": "Harvest Row Supply",
+    "rawMaterialId": "RM-119",
+    "summary": "Synthetic safety data sheet for Sodium Chloride Grade NC-1 as supplied by Harvest Row Supply. Handling, storage and transport sections are illustrative."
+  },
+  {
+    "id": "DOC-SDS-120",
+    "title": "SDS — Citric Acid pH Adjuster PA-8",
+    "type": "SDS",
+    "status": "available",
+    "issuedDate": "2026-01-22T04:30:00.000Z",
+    "supplier": "Avery Lane Ingredients",
+    "rawMaterialId": "RM-120",
+    "summary": "Synthetic safety data sheet for Citric Acid pH Adjuster PA-8 as supplied by Avery Lane Ingredients. Handling, storage and transport sections are illustrative."
+  },
+  {
+    "id": "DOC-SDS-121",
+    "title": "SDS — Bittering Agent BA-5",
+    "type": "SDS",
+    "status": "available",
+    "issuedDate": "2026-01-22T04:30:00.000Z",
+    "supplier": "Avery Lane Ingredients",
+    "rawMaterialId": "RM-121",
+    "summary": "Synthetic safety data sheet for Bittering Agent BA-5 as supplied by Avery Lane Ingredients. Handling, storage and transport sections are illustrative."
+  },
+  {
+    "id": "DOC-COA-121",
+    "title": "Certificate of Analysis — Bittering Agent BA-5",
+    "type": "Certificate of Analysis",
+    "status": "available",
+    "issuedDate": "2026-04-12T04:30:00.000Z",
+    "supplier": "Avery Lane Ingredients",
+    "rawMaterialId": "RM-121",
+    "summary": "Synthetic batch certificate for Bittering Agent BA-5, recording illustrative assay, appearance and moisture results."
+  },
+  {
+    "id": "DOC-LAB-121",
+    "title": "Laboratory Report — Bittering Agent BA-5",
+    "type": "Laboratory Report",
+    "status": "available",
+    "issuedDate": "2026-05-22T04:30:00.000Z",
+    "supplier": "Avery Lane Ingredients",
+    "rawMaterialId": "RM-121",
+    "summary": "Synthetic laboratory report covering Bittering Agent BA-5 under the demo workspace testing programme."
+  },
+  {
+    "id": "DOC-SDS-122",
+    "title": "SDS — Silicone Defoamer DF-3",
+    "type": "SDS",
+    "status": "available",
+    "issuedDate": "2026-01-22T04:30:00.000Z",
+    "supplier": "Northbridge Chemworks",
+    "rawMaterialId": "RM-122",
+    "summary": "Synthetic safety data sheet for Silicone Defoamer DF-3 as supplied by Northbridge Chemworks. Handling, storage and transport sections are illustrative."
+  },
+  {
+    "id": "DOC-SDS-124",
+    "title": "SDS — PVA Resin Solution PV-14",
+    "type": "SDS",
+    "status": "available",
+    "issuedDate": "2026-01-22T04:30:00.000Z",
+    "supplier": "Keystone Polymers",
+    "rawMaterialId": "RM-124",
+    "summary": "Synthetic safety data sheet for PVA Resin Solution PV-14 as supplied by Keystone Polymers. Handling, storage and transport sections are illustrative."
+  },
+  {
+    "id": "DOC-COA-124",
+    "title": "Certificate of Analysis — PVA Resin Solution PV-14",
+    "type": "Certificate of Analysis",
+    "status": "available",
+    "issuedDate": "2026-04-12T04:30:00.000Z",
+    "supplier": "Keystone Polymers",
+    "rawMaterialId": "RM-124",
+    "summary": "Synthetic batch certificate for PVA Resin Solution PV-14, recording illustrative assay, appearance and moisture results."
+  },
+  {
+    "id": "DOC-LAB-124",
+    "title": "Laboratory Report — PVA Resin Solution PV-14",
+    "type": "Laboratory Report",
+    "status": "available",
+    "issuedDate": "2026-05-22T04:30:00.000Z",
+    "supplier": "Keystone Polymers",
+    "rawMaterialId": "RM-124",
+    "summary": "Synthetic laboratory report covering PVA Resin Solution PV-14 under the demo workspace testing programme."
+  },
+  {
+    "id": "DOC-SDS-125",
+    "title": "SDS — Titanium White Dispersion W-01",
+    "type": "SDS",
+    "status": "available",
+    "issuedDate": "2026-01-22T04:30:00.000Z",
+    "supplier": "Westfall Pigments",
+    "rawMaterialId": "RM-125",
+    "summary": "Synthetic safety data sheet for Titanium White Dispersion W-01 as supplied by Westfall Pigments. Handling, storage and transport sections are illustrative."
+  },
+  {
+    "id": "DOC-COA-125",
+    "title": "Certificate of Analysis — Titanium White Dispersion W-01",
+    "type": "Certificate of Analysis",
+    "status": "available",
+    "issuedDate": "2026-04-12T04:30:00.000Z",
+    "supplier": "Westfall Pigments",
+    "rawMaterialId": "RM-125",
+    "summary": "Synthetic batch certificate for Titanium White Dispersion W-01, recording illustrative assay, appearance and moisture results."
+  },
+  {
+    "id": "DOC-FRM-1001-01",
+    "title": "Washability panel study — ColorFlow v3.1",
+    "type": "Laboratory Report",
+    "status": "available",
+    "issuedDate": "2026-09-15T05:30:00.000Z",
+    "formulaId": "FML-1001",
+    "summary": "Synthetic internal study comparing wash-out performance of the v3.0 and v3.1 humectant systems on cotton substrates."
+  },
+  {
+    "id": "DOC-FRM-1003-01",
+    "title": "Opacity and dry-film study — StudioBright v2.0",
+    "type": "Laboratory Report",
+    "status": "available",
+    "issuedDate": "2026-09-02T05:30:00.000Z",
+    "formulaId": "FML-1003",
+    "summary": "Synthetic internal study recording contrast ratio and dry-film behaviour across three pigment loadings."
+  },
+  {
+    "id": "DOC-FRM-1007-01",
+    "title": "Stick integrity and lay-down report — BrightCore v5.2",
+    "type": "Laboratory Report",
+    "status": "available",
+    "issuedDate": "2026-08-10T05:30:00.000Z",
+    "formulaId": "FML-1007",
+    "summary": "Synthetic internal study covering break strength, lay-down density and mould release across three wax lots."
+  },
+  {
+    "id": "DOC-FRM-1009-01",
+    "title": "Bond strength and residue study — SureBond v3.0",
+    "type": "Laboratory Report",
+    "status": "available",
+    "issuedDate": "2026-06-28T05:30:00.000Z",
+    "formulaId": "FML-1009",
+    "summary": "Synthetic internal study recording peel strength on paper and residue behaviour after wash-out."
+  },
+  {
+    "id": "DOC-FRM-1011-01",
+    "title": "Pigment loading change note — ColorFlow Fine Line",
+    "type": "Correspondence",
+    "status": "available",
+    "issuedDate": "2026-10-01T05:30:00.000Z",
+    "formulaId": "FML-1011",
+    "summary": "Internal note recording the decision to raise the cyan dispersion from 7.8% to 9.4% for line intensity."
+  },
+  {
+    "id": "DOC-FRM-1013-01",
+    "title": "Texture and shelf-stability report — SoftShape Starter v2.3",
+    "type": "Laboratory Report",
+    "status": "available",
+    "issuedDate": "2026-08-01T05:30:00.000Z",
+    "formulaId": "FML-1013",
+    "summary": "Synthetic internal study recording plasticity and moisture retention across a twelve-week hold."
+  },
+  {
+    "id": "DOC-FRM-1017-01",
+    "title": "Skin-contact duration study — StudioBright Finger Paint v2.5",
+    "type": "Laboratory Report",
+    "status": "available",
+    "issuedDate": "2026-07-23T05:30:00.000Z",
+    "formulaId": "FML-1017",
+    "summary": "Synthetic internal study recording contact duration and wash-off behaviour in a supervised craft session."
+  },
+  {
+    "id": "DOC-COR-2301-01",
+    "title": "SUB-2301 — Round 1 — information request",
+    "type": "Correspondence",
+    "status": "available",
+    "issuedDate": "2024-12-06T06:30:00.000Z",
+    "formulaId": "FML-1001",
+    "submissionId": "SUB-2301",
+    "summary": "Please share the wash-out panel study covering the revised humectant level, along with the current supplier document set for the bittering additive."
+  },
+  {
+    "id": "DOC-COR-2301-02",
+    "title": "SUB-2301 — Round 1 — response",
+    "type": "Correspondence",
+    "status": "available",
+    "issuedDate": "2024-12-17T06:30:00.000Z",
+    "formulaId": "FML-1001",
+    "submissionId": "SUB-2301",
+    "summary": "Wash-out panel study attached. The bittering additive document set is current and unchanged from the previous submission."
+  },
+  {
+    "id": "DOC-COR-2302-01",
+    "title": "SUB-2302 — Round 1 — clarification",
+    "type": "Correspondence",
+    "status": "available",
+    "issuedDate": "2025-02-10T06:30:00.000Z",
+    "formulaId": "FML-1003",
+    "submissionId": "SUB-2302",
+    "summary": "Please state the pigment grade reference on the composition sheet so the record matches the supplier certificate."
+  },
+  {
+    "id": "DOC-COR-2303-01",
+    "title": "SUB-2303 — Round 1 — data request",
+    "type": "Correspondence",
+    "status": "available",
+    "issuedDate": "2025-05-08T06:30:00.000Z",
+    "formulaId": "FML-1005",
+    "submissionId": "SUB-2303",
+    "summary": "The submission does not include a laboratory report for the legacy preservative blend. Please provide one together with the supplier specification at the declared loading."
+  },
+  {
+    "id": "DOC-COR-2303-02",
+    "title": "SUB-2303 — Round 2 — interim response",
+    "type": "Correspondence",
+    "status": "available",
+    "issuedDate": "2025-05-31T06:30:00.000Z",
+    "formulaId": "FML-1005",
+    "submissionId": "SUB-2303",
+    "summary": "The supplier specification is attached. The laboratory report is still being scheduled with the external laboratory."
+  },
+  {
+    "id": "DOC-COR-2303-03",
+    "title": "SUB-2303 — Round 3 — outcome",
+    "type": "Correspondence",
+    "status": "available",
+    "issuedDate": "2025-06-24T06:30:00.000Z",
+    "formulaId": "FML-1005",
+    "submissionId": "SUB-2303",
+    "summary": "Recording the file as More Data Needed. Please resubmit once the laboratory report is available, or with an alternative preservative system."
+  },
+  {
+    "id": "DOC-COR-2304-01",
+    "title": "SUB-2304 — Round 1 — clarification",
+    "type": "Correspondence",
+    "status": "available",
+    "issuedDate": "2025-06-02T06:30:00.000Z",
+    "formulaId": "FML-1007",
+    "submissionId": "SUB-2304",
+    "summary": "Please confirm the refined wax grade matches the supplier specification referenced in the composition sheet."
+  },
+  {
+    "id": "DOC-COR-2305-01",
+    "title": "SUB-2305 — Round 1 — information request",
+    "type": "Correspondence",
+    "status": "available",
+    "issuedDate": "2025-08-21T06:30:00.000Z",
+    "formulaId": "FML-1009",
+    "submissionId": "SUB-2305",
+    "summary": "Please provide residue data after wash-out on fabric substrates, and record the thickener level on the composition sheet."
+  },
+  {
+    "id": "DOC-COR-2305-02",
+    "title": "SUB-2305 — Round 1 — response",
+    "type": "Correspondence",
+    "status": "available",
+    "issuedDate": "2025-09-05T06:30:00.000Z",
+    "formulaId": "FML-1009",
+    "submissionId": "SUB-2305",
+    "summary": "Residue study attached. The composition sheet has been updated with the thickener level."
+  },
+  {
+    "id": "DOC-COR-2306-01",
+    "title": "SUB-2306 — Round 1 — information request",
+    "type": "Correspondence",
+    "status": "available",
+    "issuedDate": "2025-11-02T06:30:00.000Z",
+    "formulaId": "FML-1002",
+    "submissionId": "SUB-2306",
+    "summary": "Please provide the certificate of analysis for the magenta dispersion and confirm the surfactant level in the finished ink."
+  },
+  {
+    "id": "DOC-COR-2306-02",
+    "title": "SUB-2306 — Round 2 — response",
+    "type": "Correspondence",
+    "status": "available",
+    "issuedDate": "2025-11-21T06:30:00.000Z",
+    "formulaId": "FML-1002",
+    "submissionId": "SUB-2306",
+    "summary": "The surfactant level is confirmed. The certificate of analysis has been requested from the supplier and is not yet available."
+  },
+  {
+    "id": "DOC-COR-2307-01",
+    "title": "SUB-2307 — Round 1 — data request",
+    "type": "Correspondence",
+    "status": "available",
+    "issuedDate": "2026-01-04T06:30:00.000Z",
+    "formulaId": "FML-1004",
+    "submissionId": "SUB-2307",
+    "summary": "Certificates of analysis are required for every colorant in the composition before the file can progress."
+  },
+  {
+    "id": "DOC-COR-2307-02",
+    "title": "SUB-2307 — Round 2 — interim response",
+    "type": "Correspondence",
+    "status": "available",
+    "issuedDate": "2026-01-23T06:30:00.000Z",
+    "formulaId": "FML-1004",
+    "submissionId": "SUB-2307",
+    "summary": "Two of three certificates are attached. The magenta dispersion certificate is outstanding with the supplier."
+  },
+  {
+    "id": "DOC-COR-2307-03",
+    "title": "SUB-2307 — Round 3 — outcome",
+    "type": "Correspondence",
+    "status": "available",
+    "issuedDate": "2026-02-11T06:30:00.000Z",
+    "formulaId": "FML-1004",
+    "submissionId": "SUB-2307",
+    "summary": "Recording the file as More Data Needed pending the outstanding colorant certificate."
+  },
+  {
+    "id": "DOC-COR-2308-01",
+    "title": "SUB-2308 — Round 1 — clarification",
+    "type": "Correspondence",
+    "status": "available",
+    "issuedDate": "2026-02-08T06:30:00.000Z",
+    "formulaId": "FML-1013",
+    "submissionId": "SUB-2308",
+    "summary": "Please record the starch source and grade on the composition sheet."
+  },
+  {
+    "id": "DOC-COR-2309-01",
+    "title": "SUB-2309 — Round 1 — information request",
+    "type": "Correspondence",
+    "status": "available",
+    "issuedDate": "2026-04-09T06:30:00.000Z",
+    "formulaId": "FML-1008",
+    "submissionId": "SUB-2309",
+    "summary": "The metallic pigment set appears partially disclosed. Please provide the full composition and confirm the intended age group."
+  },
+  {
+    "id": "DOC-COR-2309-02",
+    "title": "SUB-2309 — Round 2 — response",
+    "type": "Correspondence",
+    "status": "available",
+    "issuedDate": "2026-04-27T06:30:00.000Z",
+    "formulaId": "FML-1008",
+    "submissionId": "SUB-2309",
+    "summary": "Full pigment set provided. The age group is confirmed as 6+ and cautionary labelling has been drafted."
+  },
+  {
+    "id": "DOC-COR-2310-01",
+    "title": "SUB-2310 — Round 1 — clarification",
+    "type": "Correspondence",
+    "status": "available",
+    "issuedDate": "2026-05-25T06:30:00.000Z",
+    "formulaId": "FML-1017",
+    "submissionId": "SUB-2310",
+    "summary": "Please document the expected skin-contact duration for a supervised craft session."
+  },
+  {
+    "id": "DOC-COR-2311-01",
+    "title": "SUB-2311 — Round 1 — data request",
+    "type": "Correspondence",
+    "status": "available",
+    "issuedDate": "2026-07-11T06:30:00.000Z",
+    "formulaId": "FML-1010",
+    "submissionId": "SUB-2311",
+    "summary": "Please provide the thickener specification, and confirm that the surfactant safety data sheet on file is the current revision."
+  },
+  {
+    "id": "DOC-COR-2311-02",
+    "title": "SUB-2311 — Round 2 — interim response",
+    "type": "Correspondence",
+    "status": "available",
+    "issuedDate": "2026-07-29T06:30:00.000Z",
+    "formulaId": "FML-1010",
+    "submissionId": "SUB-2311",
+    "summary": "Thickener specification attached. The surfactant revision is still being chased with the supplier."
+  },
+  {
+    "id": "DOC-COR-2312-01",
+    "title": "SUB-2312 — Round 1 — information request",
+    "type": "Correspondence",
+    "status": "available",
+    "issuedDate": "2026-08-14T06:30:00.000Z",
+    "formulaId": "FML-1015",
+    "submissionId": "SUB-2312",
+    "summary": "Please justify the defoamer loading in the finished product and confirm the intended age group."
+  },
+  {
+    "id": "DOC-COR-2312-02",
+    "title": "SUB-2312 — Round 2 — response",
+    "type": "Correspondence",
+    "status": "available",
+    "issuedDate": "2026-08-28T06:30:00.000Z",
+    "formulaId": "FML-1015",
+    "submissionId": "SUB-2312",
+    "summary": "Defoamer rationale attached. The age group is confirmed as 6+."
+  },
+  {
+    "id": "DOC-COR-2312-03",
+    "title": "SUB-2312 — Round 3 — outcome",
+    "type": "Correspondence",
+    "status": "available",
+    "issuedDate": "2026-09-13T06:30:00.000Z",
+    "formulaId": "FML-1015",
+    "submissionId": "SUB-2312",
+    "summary": "Recorded as acceptance with cautionary labelling. Any increase in the defoamer level would require a fresh assessment."
+  }
+]

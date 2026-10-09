@@ -1,0 +1,438 @@
+[
+  {
+    "type": "formula-updated",
+    "actorId": "usr-dana",
+    "at": "2026-10-07T09:00:00.000Z",
+    "summary": "ColorFlow Fine Line Marker updated to v2.2",
+    "detail": "Cyan dispersion raised from 7.8% to 9.4%. The previous screening result is now outdated.",
+    "formulaId": "FML-1011",
+    "id": "ACT-0041"
+  },
+  {
+    "type": "alert-updated",
+    "actorId": "usr-marcus",
+    "at": "2026-10-07T03:15:00.000Z",
+    "summary": "Monitoring alert raised — Scheduled reassessment due for SureBond School Glue",
+    "detail": "FML-1009 has a recorded review date within the next two weeks.",
+    "alertId": "ALR-3004",
+    "id": "ACT-0046"
+  },
+  {
+    "type": "alert-updated",
+    "actorId": "usr-marcus",
+    "at": "2026-10-06T02:50:00.000Z",
+    "summary": "Monitoring alert raised — Demo safety-source entry updated for Preservative Blend PB-9 (legacy)",
+    "detail": "RM-111 is present in the composition of the affected formula at 0.6%.",
+    "alertId": "ALR-3001",
+    "id": "ACT-0043"
+  },
+  {
+    "type": "screening-run",
+    "actorId": "usr-marcus",
+    "at": "2026-10-05T10:15:00.000Z",
+    "summary": "Screening run completed for SoftShape Modeling Compound v4.0",
+    "detail": "Result: RED · evidence completeness 91%.",
+    "formulaId": "FML-1005",
+    "runId": "RUN-1005-01",
+    "id": "ACT-0023"
+  },
+  {
+    "type": "review-decision",
+    "actorId": "usr-marcus",
+    "at": "2026-10-04T10:40:00.000Z",
+    "summary": "Review decision recorded for SoftShape Scented Modeling Compound",
+    "detail": "Blue dye solution has no supplier documents. Requested the full set before the review continues.",
+    "formulaId": "FML-1006",
+    "runId": "RUN-1006-01",
+    "id": "ACT-0040"
+  },
+  {
+    "type": "review-decision",
+    "actorId": "usr-marcus",
+    "at": "2026-10-03T10:40:00.000Z",
+    "summary": "Review decision recorded for SureBond Glitter Glue",
+    "detail": "Defoamer loading is well above the illustrative demo ceiling. Returning to formulation for a revised level.",
+    "formulaId": "FML-1015",
+    "runId": "RUN-1015-01",
+    "id": "ACT-0038"
+  },
+  {
+    "type": "screening-run",
+    "actorId": "usr-marcus",
+    "at": "2026-10-03T10:15:00.000Z",
+    "summary": "Screening run completed for SoftShape Scented Modeling Compound v1.0",
+    "detail": "Result: AMBER · evidence completeness 80%.",
+    "formulaId": "FML-1006",
+    "runId": "RUN-1006-01",
+    "id": "ACT-0024"
+  },
+  {
+    "type": "alert-updated",
+    "actorId": "usr-marcus",
+    "at": "2026-10-03T03:40:00.000Z",
+    "summary": "Monitoring alert raised — Marlow Specialty issued a revised document set for Nonionic Surfactant NS-7",
+    "detail": "RM-109 appears in three active formulas.",
+    "alertId": "ALR-3002",
+    "id": "ACT-0044"
+  },
+  {
+    "type": "screening-run",
+    "actorId": "usr-marcus",
+    "at": "2026-10-02T10:15:00.000Z",
+    "summary": "Screening run completed for SureBond Glitter Glue v1.2",
+    "detail": "Result: RED · evidence completeness 100%.",
+    "formulaId": "FML-1015",
+    "runId": "RUN-1015-01",
+    "id": "ACT-0031"
+  },
+  {
+    "type": "review-decision",
+    "actorId": "usr-marcus",
+    "at": "2026-10-01T10:40:00.000Z",
+    "summary": "Review decision recorded for ColorFlow Ultra Washable Marker",
+    "detail": "Holding review until the magenta certificate of analysis and the revised surfactant safety data sheet arrive.",
+    "formulaId": "FML-1002",
+    "runId": "RUN-1002-01",
+    "id": "ACT-0036"
+  },
+  {
+    "type": "screening-run",
+    "actorId": "usr-marcus",
+    "at": "2026-09-30T10:15:00.000Z",
+    "summary": "Screening run completed for ColorFlow Ultra Washable Marker v1.4",
+    "detail": "Result: AMBER · evidence completeness 78%.",
+    "formulaId": "FML-1002",
+    "runId": "RUN-1002-01",
+    "id": "ACT-0020"
+  },
+  {
+    "type": "screening-run",
+    "actorId": "usr-priya",
+    "at": "2026-09-28T10:15:00.000Z",
+    "summary": "Screening run completed for ColorFlow Dry-Erase Marker v1.0",
+    "detail": "Result: AMBER · evidence completeness 88%.",
+    "formulaId": "FML-1016",
+    "runId": "RUN-1016-01",
+    "id": "ACT-0032"
+  },
+  {
+    "type": "alert-updated",
+    "actorId": "usr-marcus",
+    "at": "2026-09-28T04:35:00.000Z",
+    "summary": "Monitoring alert raised — Certificate of analysis missing for Magenta Dispersion Pigment M-21",
+    "detail": "RM-104 is used in four active formulas and has no certificate on file.",
+    "alertId": "ALR-3003",
+    "id": "ACT-0045"
+  },
+  {
+    "type": "screening-run",
+    "actorId": "usr-priya",
+    "at": "2026-09-27T10:15:00.000Z",
+    "summary": "Screening run completed for StudioBright Tempera Paint v1.2",
+    "detail": "Result: AMBER · evidence completeness 90%.",
+    "formulaId": "FML-1004",
+    "runId": "RUN-1004-01",
+    "id": "ACT-0022"
+  },
+  {
+    "type": "screening-run",
+    "actorId": "usr-marcus",
+    "at": "2026-09-24T10:15:00.000Z",
+    "summary": "Screening run completed for SureBond Gel Glue v1.6",
+    "detail": "Result: AMBER · evidence completeness 88%.",
+    "formulaId": "FML-1010",
+    "runId": "RUN-1010-01",
+    "id": "ACT-0028"
+  },
+  {
+    "type": "review-decision",
+    "actorId": "usr-marcus",
+    "at": "2026-09-22T10:40:00.000Z",
+    "summary": "Review decision recorded for ColorFlow Washable Marker",
+    "detail": "Demo checks clear and the full supplier document set is on file. Internal review closed for v3.1.",
+    "formulaId": "FML-1001",
+    "runId": "RUN-1001-01",
+    "id": "ACT-0035"
+  },
+  {
+    "type": "screening-run",
+    "actorId": "usr-marcus",
+    "at": "2026-09-21T10:15:00.000Z",
+    "summary": "Screening run completed for ColorFlow Washable Marker v3.1",
+    "detail": "Result: GREEN · evidence completeness 100%.",
+    "formulaId": "FML-1001",
+    "runId": "RUN-1001-01",
+    "id": "ACT-0019"
+  },
+  {
+    "type": "screening-run",
+    "actorId": "usr-priya",
+    "at": "2026-09-18T10:15:00.000Z",
+    "summary": "Screening run completed for BrightCore Crayon Metallic v2.1",
+    "detail": "Result: AMBER · evidence completeness 88%.",
+    "formulaId": "FML-1008",
+    "runId": "RUN-1008-01",
+    "id": "ACT-0026"
+  },
+  {
+    "type": "formula-created",
+    "actorId": "usr-elena",
+    "at": "2026-09-15T03:45:00.000Z",
+    "summary": "AquaTone Watercolor Set created",
+    "detail": "Initial record added for paints.",
+    "formulaId": "FML-1012",
+    "id": "ACT-0012"
+  },
+  {
+    "type": "screening-run",
+    "actorId": "usr-marcus",
+    "at": "2026-09-13T10:15:00.000Z",
+    "summary": "Screening run completed for ColorFlow Fine Line Marker v2.1",
+    "detail": "Result: GREEN · evidence completeness 100%.",
+    "formulaId": "FML-1011",
+    "runId": "RUN-1011-01",
+    "id": "ACT-0029"
+  },
+  {
+    "type": "screening-run",
+    "actorId": "usr-priya",
+    "at": "2026-09-11T10:15:00.000Z",
+    "summary": "Screening run completed for BrightCore Washable Crayon Twist v1.3",
+    "detail": "Result: AMBER · evidence completeness 89%.",
+    "formulaId": "FML-1018",
+    "runId": "RUN-1018-01",
+    "id": "ACT-0034"
+  },
+  {
+    "type": "review-decision",
+    "actorId": "usr-priya",
+    "at": "2026-09-09T10:40:00.000Z",
+    "summary": "Review decision recorded for StudioBright Poster Paint",
+    "detail": "No open concerns from the demo checks. Opacity study reviewed and accepted internally.",
+    "formulaId": "FML-1003",
+    "runId": "RUN-1003-01",
+    "id": "ACT-0037"
+  },
+  {
+    "type": "alert-updated",
+    "actorId": "usr-priya",
+    "at": "2026-09-09T09:30:00.000Z",
+    "summary": "Monitoring alert resolved — Bittering Agent BA-5",
+    "detail": "Trace levels confirmed on all three composition sheets.",
+    "alertId": "ALR-3008",
+    "id": "ACT-0042"
+  },
+  {
+    "type": "screening-run",
+    "actorId": "usr-priya",
+    "at": "2026-09-08T10:15:00.000Z",
+    "summary": "Screening run completed for StudioBright Poster Paint v2.0",
+    "detail": "Result: GREEN · evidence completeness 100%.",
+    "formulaId": "FML-1003",
+    "runId": "RUN-1003-01",
+    "id": "ACT-0021"
+  },
+  {
+    "type": "formula-created",
+    "actorId": "usr-elena",
+    "at": "2026-08-24T03:45:00.000Z",
+    "summary": "SoftShape Scented Modeling Compound created",
+    "detail": "Initial record added for modeling compounds.",
+    "formulaId": "FML-1006",
+    "id": "ACT-0006"
+  },
+  {
+    "type": "screening-run",
+    "actorId": "usr-priya",
+    "at": "2026-08-16T10:15:00.000Z",
+    "summary": "Screening run completed for BrightCore Crayon Classic v5.2",
+    "detail": "Result: GREEN · evidence completeness 100%.",
+    "formulaId": "FML-1007",
+    "runId": "RUN-1007-01",
+    "id": "ACT-0025"
+  },
+  {
+    "type": "screening-run",
+    "actorId": "usr-priya",
+    "at": "2026-08-07T10:15:00.000Z",
+    "summary": "Screening run completed for SoftShape Dough Starter Kit v2.3",
+    "detail": "Result: GREEN · evidence completeness 100%.",
+    "formulaId": "FML-1013",
+    "runId": "RUN-1013-01",
+    "id": "ACT-0030"
+  },
+  {
+    "type": "formula-created",
+    "actorId": "usr-elena",
+    "at": "2026-07-31T03:45:00.000Z",
+    "summary": "ColorFlow Dry-Erase Marker created",
+    "detail": "Initial record added for markers.",
+    "formulaId": "FML-1016",
+    "id": "ACT-0016"
+  },
+  {
+    "type": "screening-run",
+    "actorId": "usr-priya",
+    "at": "2026-07-29T10:15:00.000Z",
+    "summary": "Screening run completed for StudioBright Finger Paint v2.5",
+    "detail": "Result: GREEN · evidence completeness 100%.",
+    "formulaId": "FML-1017",
+    "runId": "RUN-1017-01",
+    "id": "ACT-0033"
+  },
+  {
+    "type": "review-decision",
+    "actorId": "usr-marcus",
+    "at": "2026-07-06T10:40:00.000Z",
+    "summary": "Review decision recorded for SureBond School Glue",
+    "detail": "Internal review complete for v3.0. Scheduled reassessment remains on the monitoring list.",
+    "formulaId": "FML-1009",
+    "runId": "RUN-1009-01",
+    "id": "ACT-0039"
+  },
+  {
+    "type": "screening-run",
+    "actorId": "usr-marcus",
+    "at": "2026-07-04T10:15:00.000Z",
+    "summary": "Screening run completed for SureBond School Glue v3.0",
+    "detail": "Result: GREEN · evidence completeness 100%.",
+    "formulaId": "FML-1009",
+    "runId": "RUN-1009-01",
+    "id": "ACT-0027"
+  },
+  {
+    "type": "formula-created",
+    "actorId": "usr-dana",
+    "at": "2026-06-11T03:45:00.000Z",
+    "summary": "SureBond Glitter Glue created",
+    "detail": "Initial record added for glue.",
+    "formulaId": "FML-1015",
+    "id": "ACT-0015"
+  },
+  {
+    "type": "formula-created",
+    "actorId": "usr-theo",
+    "at": "2026-05-12T03:45:00.000Z",
+    "summary": "BrightCore Crayon Jumbo created",
+    "detail": "Initial record added for crayons.",
+    "formulaId": "FML-1014",
+    "id": "ACT-0014"
+  },
+  {
+    "type": "formula-created",
+    "actorId": "usr-dana",
+    "at": "2026-05-02T03:45:00.000Z",
+    "summary": "BrightCore Washable Crayon Twist created",
+    "detail": "Initial record added for crayons.",
+    "formulaId": "FML-1018",
+    "id": "ACT-0018"
+  },
+  {
+    "type": "formula-created",
+    "actorId": "usr-theo",
+    "at": "2026-04-12T03:45:00.000Z",
+    "summary": "StudioBright Tempera Paint created",
+    "detail": "Initial record added for paints.",
+    "formulaId": "FML-1004",
+    "id": "ACT-0004"
+  },
+  {
+    "type": "formula-created",
+    "actorId": "usr-elena",
+    "at": "2026-03-13T03:45:00.000Z",
+    "summary": "ColorFlow Ultra Washable Marker created",
+    "detail": "Initial record added for markers.",
+    "formulaId": "FML-1002",
+    "id": "ACT-0002"
+  },
+  {
+    "type": "formula-created",
+    "actorId": "usr-elena",
+    "at": "2026-02-21T03:45:00.000Z",
+    "summary": "SureBond Gel Glue created",
+    "detail": "Initial record added for glue.",
+    "formulaId": "FML-1010",
+    "id": "ACT-0010"
+  },
+  {
+    "type": "formula-created",
+    "actorId": "usr-dana",
+    "at": "2026-02-01T03:45:00.000Z",
+    "summary": "BrightCore Crayon Metallic created",
+    "detail": "Initial record added for crayons.",
+    "formulaId": "FML-1008",
+    "id": "ACT-0008"
+  },
+  {
+    "type": "formula-created",
+    "actorId": "usr-dana",
+    "at": "2025-12-13T03:45:00.000Z",
+    "summary": "ColorFlow Fine Line Marker created",
+    "detail": "Initial record added for markers.",
+    "formulaId": "FML-1011",
+    "id": "ACT-0011"
+  },
+  {
+    "type": "formula-created",
+    "actorId": "usr-elena",
+    "at": "2025-10-09T03:45:00.000Z",
+    "summary": "StudioBright Poster Paint created",
+    "detail": "Initial record added for paints.",
+    "formulaId": "FML-1003",
+    "id": "ACT-0003"
+  },
+  {
+    "type": "formula-created",
+    "actorId": "usr-theo",
+    "at": "2025-09-04T03:45:00.000Z",
+    "summary": "SoftShape Dough Starter Kit created",
+    "detail": "Initial record added for modeling compounds.",
+    "formulaId": "FML-1013",
+    "id": "ACT-0013"
+  },
+  {
+    "type": "formula-created",
+    "actorId": "usr-dana",
+    "at": "2025-08-15T03:45:00.000Z",
+    "summary": "ColorFlow Washable Marker created",
+    "detail": "Initial record added for markers.",
+    "formulaId": "FML-1001",
+    "id": "ACT-0001"
+  },
+  {
+    "type": "formula-created",
+    "actorId": "usr-elena",
+    "at": "2025-06-16T03:45:00.000Z",
+    "summary": "StudioBright Finger Paint created",
+    "detail": "Initial record added for paints.",
+    "formulaId": "FML-1017",
+    "id": "ACT-0017"
+  },
+  {
+    "type": "formula-created",
+    "actorId": "usr-dana",
+    "at": "2025-04-17T03:45:00.000Z",
+    "summary": "SoftShape Modeling Compound created",
+    "detail": "Initial record added for modeling compounds.",
+    "formulaId": "FML-1005",
+    "id": "ACT-0005"
+  },
+  {
+    "type": "formula-created",
+    "actorId": "usr-dana",
+    "at": "2025-02-06T03:45:00.000Z",
+    "summary": "SureBond School Glue created",
+    "detail": "Initial record added for glue.",
+    "formulaId": "FML-1009",
+    "id": "ACT-0009"
+  },
+  {
+    "type": "formula-created",
+    "actorId": "usr-theo",
+    "at": "2024-10-19T03:45:00.000Z",
+    "summary": "BrightCore Crayon Classic created",
+    "detail": "Initial record added for crayons.",
+    "formulaId": "FML-1007",
+    "id": "ACT-0007"
+  }
+]
