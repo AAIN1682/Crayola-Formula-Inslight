@@ -31,6 +31,7 @@ export interface IngredientInput {
   /** May be `NaN` while a user is typing; validation reports it as an error. */
   concentration: number;
   supplier?: string;
+  grade?: string;
   evidenceIds?: string[];
   addedInVersion?: string;
   notes?: string;

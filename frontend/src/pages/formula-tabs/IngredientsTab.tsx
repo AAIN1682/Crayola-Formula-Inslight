@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { AlertTriangle, CircleCheck, Download } from 'lucide-react';
+import { AlertTriangle, Download } from 'lucide-react';
 import { useFormulaDetail } from '../FormulaDetailsPage';
 import { Card, CardBody, CardHeader } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
@@ -9,7 +9,7 @@ import { Notice } from '../../components/ui/DemoNotice';
 import { PrimaryCell, TBody, Table, TableScroll, Td, Th, THead, Tr } from '../../components/ui/Table';
 import { downloadCsv, timestampedFilename } from '../../utils/export';
 import { formatConcentration } from '../../utils/formatting';
-import { sumConcentrations, isTotalWithinTolerance } from '../../utils/validation';
+import { CONCENTRATION_TOLERANCE, sumConcentrations, isTotalWithinTolerance } from '../../utils/validation';
 import { useToast } from '../../components/ui/Toast';
 
 export function IngredientsTab() {
@@ -17,8 +17,10 @@ export function IngredientsTab() {
   const toast = useToast();
   const { formula, evidence } = detail;
 
-  const total = sumConcentrations(formula.ingredients);
-  const balanced = isTotalWithinTolerance(total);
+  const counted = formula.ingredients.filter((ingredient) => ingredient.screeningRole !== 'contaminant_analyte' && ingredient.measurementKind !== 'content' && ingredient.measurementKind !== 'migration');
+  const total = sumConcentrations(counted);
+  const requiresBalance = formula.compositionCompleteness === 'complete';
+  const balanced = !requiresBalance || isTotalWithinTolerance(total);
 
   const requirementsFor = (ingredientId: string) =>
     evidence.requirements.filter((requirement) => requirement.ingredientId === ingredientId);
@@ -110,14 +112,10 @@ export function IngredientsTab() {
                       <Td className="text-muted">{ingredient.supplier ?? '—'}</Td>
                       <Td>
                         {requirements.length === 0 ? (
-                          <span className="text-xs text-muted">Cannot be resolved</span>
-                        ) : satisfied === requirements.length ? (
-                          <Badge tone="success" icon={<CircleCheck aria-hidden className="size-3.5" />}>
-                            {satisfied}/{requirements.length} on file
-                          </Badge>
+                          <span className="text-xs text-muted">Not verified</span>
                         ) : (
-                          <Badge tone="warning" icon={<AlertTriangle aria-hidden className="size-3.5" />}>
-                            {satisfied}/{requirements.length} on file
+                          <Badge tone="neutral">
+                            {satisfied}/{requirements.length} linked
                           </Badge>
                         )}
                       </Td>
@@ -136,7 +134,11 @@ export function IngredientsTab() {
                     </span>
                   </td>
                   <td className="px-4 py-2.5 text-xs text-muted" colSpan={2}>
-                    {balanced ? 'Within the ±0.5% rounding tolerance.' : 'Outside the ±0.5% rounding tolerance.'}
+                    {requiresBalance
+                      ? balanced
+                        ? `Within the shared ±${CONCENTRATION_TOLERANCE}% tolerance. Contaminants are excluded.`
+                        : `Outside the shared ±${CONCENTRATION_TOLERANCE}% tolerance. Contaminants are excluded.`
+                      : `Partial composition totals ${formatConcentration(total)}. A complete list must reach 100% within ±${CONCENTRATION_TOLERANCE}%.`}
                   </td>
                 </tr>
               </tfoot>

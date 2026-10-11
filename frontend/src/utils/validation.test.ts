@@ -38,7 +38,7 @@ describe('concentration totals', () => {
   it('accepts a total inside the explicit rounding tolerance', () => {
     expect(isTotalWithinTolerance(100 - CONCENTRATION_TOLERANCE)).toBe(true);
     expect(isTotalWithinTolerance(100 + CONCENTRATION_TOLERANCE)).toBe(true);
-    expect(isTotalWithinTolerance(99.8)).toBe(true);
+    expect(isTotalWithinTolerance(99.8)).toBe(false);
   });
 
   it('rejects a total outside the tolerance', () => {
@@ -125,7 +125,6 @@ describe('formula validation', () => {
         'Product category',
         'Intended age group',
         'Physical form',
-        'Owner',
         'Intended use',
         'Ingredients',
       ]),

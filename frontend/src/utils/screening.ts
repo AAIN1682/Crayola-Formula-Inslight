@@ -22,7 +22,7 @@ import type {
   IngredientDiffRow,
 } from '../types/services';
 import { SEVERITY_ORDER } from './formatting';
-import { isTotalWithinTolerance, sumConcentrations } from './validation';
+import { CONCENTRATION_TOLERANCE, isTotalWithinTolerance, sumConcentrations } from './validation';
 import { ageGroupLabel, sameMarkets } from './audience';
 import { assessMarkets, europeanColorantLabFindings } from './markets';
 
@@ -592,7 +592,7 @@ export function computeScreening(context: ScreeningContext): ScreeningComputatio
       explanation:
         'An unbalanced composition means the recorded formula is incomplete, so downstream assessment inputs cannot be trusted.',
       evidenceReference: 'Formula record',
-      recommendedAction: 'Correct the ingredient concentrations so they total 100% within ±0.5%.',
+      recommendedAction: `Correct the ingredient concentrations so they total 100% within ±${CONCENTRATION_TOLERANCE}%.`,
       reviewState: 'open',
     });
     pushAction({

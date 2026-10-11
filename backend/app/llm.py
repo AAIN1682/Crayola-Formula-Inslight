@@ -4,12 +4,36 @@ from __future__ import annotations
 
 import json
 import logging
+import re
 import time
 
 from app.config import ROOT, azure_settings
 
 logger = logging.getLogger("affine.llm")
 PROMPT = (ROOT / "prompts" / "explanation.txt").read_text(encoding="utf-8")
+ASSESSMENT_PROMPT = (ROOT / "prompts" / "assessment.txt").read_text(encoding="utf-8")
+PROMPT_VERSION = "assessment_v1"
+FINDING_STATUSES = {
+    "meets_rule",
+    "does_not_meet_rule",
+    "needs_information",
+    "testing_required",
+    "unresolved_identity",
+    "uncertain_applicability",
+    "source_review_required",
+    "not_applicable",
+}
+PREDICTION_OUTCOMES = {"ap_leaning", "cl_leaning", "indeterminate"}
+SCREENING_OUTCOMES = {
+    "additional_information_required",
+    "changes_indicated",
+    "no_supported_concern_in_scope",
+    "not_assessed",
+}
+CERTIFICATION_CLAIM = re.compile(
+    r"\b(is certified|are certified|ap certified|cl certified|guaranteed safe|this certifies|official acceptance)\b",
+    re.I,
+)
 CONFIDENCE_LEVELS = {"low", "medium", "high"}
 GAP_STATUSES = {"missing", "unverified", "mismatched", "conflicting", "needs_review", "applicability_unknown"}
 SEVERITIES = {"critical", "high", "medium", "informational", "low"}
@@ -362,6 +386,285 @@ def empty_explanation(limitations: list[str] | None = None) -> dict:
     }
 
 
+def _checks(context: dict) -> list[dict]:
+    return list(context.get("calculated_checks") or context.get("checks") or [])
+
+
+def _evidence_rows(context: dict) -> list[dict]:
+    return list(context.get("evidence_checks") or [])
+
+
+def _material_ids(context: dict) -> set[str]:
+    ids = set()
+    for item in context.get("materials") or []:
+        if item.get("material_id"):
+            ids.add(item["material_id"])
+    for row in (context.get("formula") or {}).get("ingredients") or []:
+        if row.get("material_id"):
+            ids.add(row["material_id"])
+    return ids
+
+
+def _rule_ids(context: dict) -> set[str]:
+    ids = set()
+    for item in _checks(context) + (context.get("applicable_verified_rules") or []) + (context.get("reference_claims_pending_verification") or []):
+        if item.get("rule_id"):
+            ids.add(item["rule_id"])
+    return ids
+
+
+def _gap_present(context: dict) -> bool:
+    gap_statuses = {
+        "missing",
+        "needs_review",
+        "mismatched",
+        "needs_test_data",
+        "applicability_unknown",
+        "source_review_required",
+        "no_matching_rule",
+        "not_assessed",
+    }
+    return any(item.get("status") in gap_statuses for item in _checks(context) + _evidence_rows(context))
+
+
+def _failed_calculations(context: dict) -> bool:
+    return any(item.get("status") == "fail" for item in _checks(context))
+
+
+def _match_check(context: dict, finding: dict) -> dict | None:
+    rule_id = finding.get("rule_id")
+    ingredient_id = finding.get("ingredient_id")
+    for item in _checks(context):
+        if rule_id and item.get("rule_id") != rule_id:
+            continue
+        if ingredient_id and item.get("material_id") not in {None, ingredient_id}:
+            continue
+        if rule_id or ingredient_id:
+            return item
+    return None
+
+
+def _close(left, right) -> bool:
+    try:
+        return abs(float(left) - float(right)) <= 0.02
+    except (TypeError, ValueError):
+        return False
+
+
+def _ids_ok(values, known: set[str]) -> bool:
+    parsed = _string_list(values)
+    if parsed is None:
+        return False
+    return all(item in known for item in parsed)
+
+
+def validate_assessment(payload: dict, context: dict) -> tuple[dict | None, list[str]]:
+    errors: list[str] = []
+    if not isinstance(payload, dict):
+        return None, ["Response was not a JSON object."]
+    summary = str(payload.get("assessment_summary") or "").strip()
+    if len(summary) < 20:
+        errors.append("assessment_summary must describe this formula.")
+    if CERTIFICATION_CLAIM.search(summary):
+        errors.append("Do not claim certification or guaranteed safety.")
+    screening = str(payload.get("screening_outcome") or "").strip()
+    if screening not in SCREENING_OUTCOMES:
+        errors.append("screening_outcome is not an allowed value.")
+    prediction = payload.get("preliminary_prediction")
+    if not isinstance(prediction, dict):
+        return None, errors + ["preliminary_prediction is required."]
+    outcome = str(prediction.get("outcome") or "").strip()
+    level = str(prediction.get("analysis_confidence") or "").strip().lower()
+    if outcome not in PREDICTION_OUTCOMES:
+        errors.append("preliminary_prediction.outcome must be ap_leaning, cl_leaning, or indeterminate.")
+    if level not in CONFIDENCE_LEVELS or not str(prediction.get("confidence_reason") or "").strip():
+        errors.append("analysis_confidence and confidence_reason are required.")
+    if outcome == "ap_leaning" and _failed_calculations(context):
+        errors.append("ap_leaning conflicts with a calculated check that does not meet a rule.")
+    if outcome == "cl_leaning" and not _failed_calculations(context):
+        errors.append("cl_leaning requires a calculated check that does not meet a rule. Missing evidence is not a failure.")
+    if outcome == "indeterminate" and re.search(r"\b(ap-leaning|cl-leaning|leans ap|leans cl)\b", summary, re.I):
+        errors.append("The summary contradicts an indeterminate prediction.")
+    if level == "high" and _gap_present(context):
+        errors.append("analysis_confidence cannot be high while evidence, identity, or applicability gaps remain.")
+    estimate = prediction.get("numeric_estimate")
+    kind = str(prediction.get("estimate_kind") or "not_available")
+    if estimate is not None:
+        if kind != "uncalibrated_ai_estimate":
+            errors.append("A numeric estimate must use estimate_kind uncalibrated_ai_estimate.")
+        try:
+            number = float(estimate)
+        except (TypeError, ValueError):
+            errors.append("numeric_estimate must be a number or null.")
+            number = None
+        if number is not None and (number < 0 or number > 1):
+            errors.append("numeric_estimate must be null or a 0 to 1 uncalibrated value, not a percentage.")
+        if number is not None and outcome == "indeterminate":
+            errors.append("An indeterminate prediction cannot include a numeric estimate.")
+        if number is not None and abs(number - 0.5) < 1e-9 and _gap_present(context):
+            errors.append("Do not default a missing-evidence estimate to 0.5.")
+    elif kind not in {"not_available", "uncalibrated_ai_estimate"}:
+        errors.append("estimate_kind must be not_available or uncalibrated_ai_estimate.")
+    known = allowed_ids(context) | _material_ids(context) | _rule_ids(context)
+    if not _ids_ok(prediction.get("source_ids"), known):
+        errors.append("preliminary_prediction.source_ids contains an unknown id.")
+    blocking = _string_list(prediction.get("blocking_uncertainties"))
+    if blocking is None:
+        errors.append("blocking_uncertainties must be a list.")
+    findings_in = payload.get("findings")
+    if not isinstance(findings_in, list):
+        errors.append("findings must be a list.")
+        findings_in = []
+    findings = []
+    materials = _material_ids(context)
+    rules = _rule_ids(context)
+    saw_failure = False
+    for item in findings_in:
+        if not isinstance(item, dict):
+            errors.append("Each finding must be an object.")
+            continue
+        status = str(item.get("status") or "").strip()
+        if status not in FINDING_STATUSES:
+            errors.append(f"Finding status {status or 'blank'} is not allowed.")
+            continue
+        ingredient_id = item.get("ingredient_id")
+        if ingredient_id not in (None, "") and ingredient_id not in materials:
+            errors.append("A finding cites an ingredient that is not in the formula.")
+        rule_id = item.get("rule_id")
+        if rule_id not in (None, "") and rule_id not in rules:
+            errors.append("A finding cites a rule that was not supplied.")
+        if not _ids_ok(item.get("source_ids"), known):
+            errors.append("A finding cites an unknown source.")
+        reason = str(item.get("reason") or "")
+        if CERTIFICATION_CLAIM.search(reason) or CERTIFICATION_CLAIM.search(str(item.get("title") or "")):
+            errors.append("A finding claims certification.")
+        if re.search(r"\bindependently verified\b|\bapplication verified\b", reason, re.I):
+            errors.append("Do not describe an unreviewed source as verified by this application.")
+        check = _match_check(context, item)
+        if status == "does_not_meet_rule":
+            saw_failure = True
+            if not check or check.get("status") != "fail":
+                errors.append("does_not_meet_rule is not backed by a failed calculation.")
+        if status == "meets_rule" and (not check or check.get("status") != "pass"):
+            errors.append("meets_rule is not backed by a passing calculation.")
+        if item.get("observed_value") is not None and check and check.get("actual") is not None and not _close(item.get("observed_value"), check.get("actual")):
+            errors.append("A finding's observed value does not match the backend calculation.")
+        severity = str(item.get("severity") or "medium").lower()
+        if severity == "low":
+            severity = "informational"
+        if severity not in SEVERITIES:
+            errors.append("Finding severity is not allowed.")
+            continue
+        findings.append({
+            "finding_id": str(item.get("finding_id") or f"F-{len(findings) + 1}"),
+            "ingredient_id": ingredient_id or None,
+            "status": status,
+            "severity": severity,
+            "title": str(item.get("title") or "Finding").strip(),
+            "observed_value": item.get("observed_value"),
+            "unit": item.get("unit"),
+            "rule_id": rule_id or None,
+            "reason": reason.strip(),
+            "source_ids": _string_list(item.get("source_ids")) or [],
+            "required_action": str(item.get("required_action") or "").strip(),
+        })
+    if screening == "no_supported_concern_in_scope" and saw_failure:
+        errors.append("screening_outcome conflicts with a finding that does not meet a rule.")
+    if screening == "changes_indicated" and not saw_failure:
+        errors.append("changes_indicated requires a finding backed by a failed calculation.")
+    missing_documents = payload.get("missing_documents") if isinstance(payload.get("missing_documents"), list) else []
+    recommendations = payload.get("recommendations") if isinstance(payload.get("recommendations"), list) else []
+    next_actions = payload.get("next_actions") if isinstance(payload.get("next_actions"), list) else []
+    alerts = payload.get("alerts") if isinstance(payload.get("alerts"), list) else []
+    conflicts = payload.get("source_conflicts") if isinstance(payload.get("source_conflicts"), list) else []
+    limitations = _string_list(payload.get("limitations"))
+    if limitations is None:
+        errors.append("limitations must be a list.")
+        limitations = []
+    version = payload.get("version_comparison")
+    if version not in (None, "") and not isinstance(version, str):
+        errors.append("version_comparison must be a string or null.")
+        version = None
+    if errors:
+        return None, errors
+    return {
+        "assessment_summary": summary,
+        "screening_outcome": screening,
+        "preliminary_prediction": {
+            "outcome": outcome,
+            "basis": str(prediction.get("basis") or "").strip(),
+            "analysis_confidence": level,
+            "confidence_reason": str(prediction.get("confidence_reason") or "").strip(),
+            "numeric_estimate": None if estimate is None else float(estimate),
+            "estimate_kind": "uncalibrated_ai_estimate" if estimate is not None else "not_available",
+            "blocking_uncertainties": blocking or [],
+            "source_ids": _string_list(prediction.get("source_ids")) or [],
+        },
+        "findings": findings,
+        "missing_documents": [item for item in missing_documents if isinstance(item, dict)],
+        "source_conflicts": [item for item in conflicts if isinstance(item, dict)],
+        "recommendations": [item for item in recommendations if isinstance(item, dict) and str(item.get("action") or "").strip()],
+        "alerts": [item for item in alerts if isinstance(item, dict)],
+        "next_actions": [item for item in next_actions if isinstance(item, dict) and str(item.get("action") or "").strip()],
+        "version_comparison": None if not version else str(version).strip(),
+        "limitations": limitations,
+    }, []
+
+
+def _assessment_to_explanation(assessment: dict) -> dict:
+    prediction = assessment["preliminary_prediction"]
+    actions = []
+    for item in assessment.get("next_actions") or assessment.get("recommendations") or []:
+        actions.append({
+            "priority": str(item.get("priority") or "medium"),
+            "action": str(item.get("action") or "").strip(),
+            "rationale": str(item.get("reason") or item.get("rationale") or "").strip(),
+            "related_check_ids": [item["related_finding_id"]] if item.get("related_finding_id") else [],
+            "source_ids": _string_list(item.get("source_ids")) or [],
+            "requires_testing_or_review": True,
+            "can_create_scenario": False,
+        })
+    return {
+        "summary": assessment["assessment_summary"],
+        "key_reasons": [prediction.get("basis") or ""],
+        "finding_explanations": [
+            {
+                "check_id": item.get("finding_id") or item.get("rule_id") or "",
+                "explanation": item.get("reason") or "",
+                "source_ids": item.get("source_ids") or [],
+                "limitations": [],
+            }
+            for item in assessment.get("findings") or []
+        ],
+        "evidence_gaps": [],
+        "evidence_gap_explanations": [],
+        "recommendations": actions,
+        "prioritized_actions": actions,
+        "alerts": [
+            {
+                "severity": str(item.get("severity") or "medium"),
+                "title": str(item.get("title") or "Alert"),
+                "message": str(item.get("message") or ""),
+                "source_ids": _string_list(item.get("source_ids")) or [],
+            }
+            for item in assessment.get("alerts") or []
+            if str(item.get("message") or "").strip()
+        ],
+        "assessment_support_explanation": prediction.get("confidence_reason") or "",
+        "source_conflicts": assessment.get("source_conflicts") or [],
+        "analysis_confidence": {
+            "level": prediction.get("analysis_confidence") or "low",
+            "basis": prediction.get("confidence_reason") or prediction.get("basis") or "",
+            "limiting_factors": prediction.get("blocking_uncertainties") or [],
+            "source_ids": prediction.get("source_ids") or [],
+        },
+        "version_comparison_summary": assessment.get("version_comparison"),
+        "version_change_summary": assessment.get("version_comparison"),
+        "limitations": assessment.get("limitations") or [],
+        "version_change": assessment.get("version_comparison"),
+    }
+
+
 def explain(context: dict) -> dict:
     config = azure_config()
     if not config["ok"]:
@@ -377,33 +680,42 @@ def explain(context: dict) -> dict:
         max_retries=0,
     )
     messages = [
-        {"role": "system", "content": PROMPT},
+        {"role": "system", "content": ASSESSMENT_PROMPT},
         {"role": "user", "content": json.dumps({"assessment_context": _public_context(context)}, ensure_ascii=False)},
     ]
     last_error: Exception | None = None
     last_response = None
-    for json_mode in (True, False):
-        try:
-            request = {
-                "model": config["deployment"],
-                "messages": messages,
-                "max_completion_tokens": 4000,
-            }
-            if json_mode:
-                request["response_format"] = {"type": "json_object"}
-            response = client.chat.completions.create(**request)
-            last_response = response
-            text = ((response.choices[0].message.content if response.choices else None) or "").strip()
-            if not text:
-                raise RuntimeError("Azure OpenAI returned an empty explanation.")
-            cleaned = text.removeprefix("```json").removesuffix("```").strip()
-            parsed = json.loads(cleaned)
-            validated = validate_explanation(parsed, context)
-            if not validated:
-                raise RuntimeError("Explanation did not match the expected structure.")
-            response_id, request_id = _response_ids(response)
+    validation_errors: list[str] = []
+    for _attempt in range(2):
+        parsed = None
+        for json_mode in (True, False):
+            try:
+                request = {
+                    "model": config["deployment"],
+                    "messages": messages,
+                    "max_completion_tokens": 4000,
+                }
+                if json_mode:
+                    request["response_format"] = {"type": "json_object"}
+                response = client.chat.completions.create(**request)
+                last_response = response
+                text = ((response.choices[0].message.content if response.choices else None) or "").strip()
+                if not text:
+                    raise RuntimeError("Azure OpenAI returned an empty assessment.")
+                cleaned = text.removeprefix("```json").removesuffix("```").strip()
+                parsed = json.loads(cleaned)
+                break
+            except Exception as error:
+                last_error = error
+                logger.info("azure_explanation_failed code=%s", classify_error(error))
+        if parsed is None:
+            break
+        validated, validation_errors = validate_assessment(parsed, context)
+        if validated:
+            response_id, request_id = _response_ids(last_response)
             return {
-                "content": validated,
+                "content": _assessment_to_explanation(validated),
+                "assessment": validated,
                 "execution": {
                     "llm_status": "succeeded",
                     "llm_provider": "azure_openai",
@@ -411,14 +723,17 @@ def explain(context: dict) -> dict:
                     "response_id": response_id,
                     "request_id": request_id,
                     "latency_ms": int((time.perf_counter() - started) * 1000),
-                    "usage": _usage_dict(response),
+                    "usage": _usage_dict(last_response),
                     "error_code": None,
                     "error_message": None,
+                    "prompt_version": PROMPT_VERSION,
                 },
             }
-        except Exception as error:
-            last_error = error
-            logger.info("azure_explanation_failed code=%s", classify_error(error))
+        last_error = RuntimeError("Assessment did not match the expected structure.")
+        messages.append({
+            "role": "user",
+            "content": "The previous JSON failed validation: " + "; ".join(validation_errors[:12]) + ". Return corrected JSON only. Do not invent sources, measurements, or rules.",
+        })
     code = classify_error(last_error or RuntimeError("request_failed"))
     response_id = request_id = None
     usage = None

@@ -65,6 +65,7 @@ class Ingredient(BaseModel):
     batch_id: str | None = Field(default=None, max_length=100)
     supplier: str | None = Field(default=None, max_length=200)
     grade: str | None = Field(default=None, max_length=200)
+    notes: str | None = Field(default=None, max_length=500)
     measured_value: float | None = None
     measured_unit: str | None = Field(default=None, max_length=40)
     measured_bound: str | None = Field(default=None, max_length=40)
@@ -208,6 +209,21 @@ def _assessment(formula: Formula, version_changes: list | None = None) -> dict:
             content["prioritized_actions"] = clamp_priorities(content.get("prioritized_actions") or content.get("recommendations") or [], context)
             explanation = {"status": "generated", "source": "azure", "content": content}
             execution.update(generated["execution"])
+            preliminary = generated.get("assessment")
+            if isinstance(preliminary, dict):
+                prediction = preliminary.setdefault("preliminary_prediction", {})
+                clamped = content.get("analysis_confidence") or {}
+                if clamped.get("level"):
+                    prediction["analysis_confidence"] = clamped["level"]
+                preliminary["assessment_id"] = assessment_id
+                preliminary["formula_id"] = payload.get("formula_id")
+                preliminary["formula_version"] = payload.get("version_id")
+                preliminary["execution"] = {
+                    "llm_status": "succeeded",
+                    "deployment": execution.get("deployment"),
+                    "prompt_version": generated["execution"].get("prompt_version") or "assessment_v1",
+                }
+                context["preliminary_assessment"] = preliminary
             execution["generated_at"] = generated_at
             execution["retrieved_source_count"] = len(context.get("source_excerpts") or [])
             execution["input_hash"] = input_hash(payload)
@@ -241,6 +257,39 @@ def _assessment(formula: Formula, version_changes: list | None = None) -> dict:
             })
             del error
     confidence = None if explanation["status"] != "generated" else explanation["content"].get("analysis_confidence")
+    preliminary = context.get("preliminary_assessment")
+    if explanation["status"] == "failed":
+        message = execution.get("error_message") or "Azure OpenAI did not complete the assessment request."
+        preliminary = {
+            "assessment_id": assessment_id,
+            "formula_id": payload.get("formula_id"),
+            "formula_version": payload.get("version_id"),
+            "assessment_summary": "",
+            "screening_outcome": "not_assessed",
+            "preliminary_prediction": {
+                "outcome": "indeterminate",
+                "basis": "The AI assessment did not complete. Calculated checks remain available and were not replaced with a success result.",
+                "analysis_confidence": "low",
+                "confidence_reason": message,
+                "numeric_estimate": None,
+                "estimate_kind": "not_available",
+                "blocking_uncertainties": ["AI assessment failed"],
+                "source_ids": [],
+            },
+            "findings": [],
+            "missing_documents": [],
+            "source_conflicts": [],
+            "recommendations": [],
+            "alerts": [],
+            "next_actions": [],
+            "version_comparison": None,
+            "limitations": [f"AI assessment failed: {message}"],
+            "execution": {
+                "llm_status": "failed",
+                "deployment": execution.get("deployment"),
+                "prompt_version": "assessment_v1",
+            },
+        }
     logger.info(
         "assessment_done correlation_id=%s stage=complete llm_status=%s elapsed_ms=%s",
         assessment_id,
@@ -270,6 +319,7 @@ def _assessment(formula: Formula, version_changes: list | None = None) -> dict:
         "llm_context": _public_context(context),
         "explanation": explanation,
         "execution": execution,
+        "preliminary_assessment": preliminary,
     }
 
 

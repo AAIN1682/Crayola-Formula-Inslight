@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { GitCompare, PlayCircle } from 'lucide-react';
 import type { Formula, ScreeningRun, SourceReviewDraft } from '../../types/domain';
 import type { PackageAssessment, PackageCheck } from '../../api/formulaBackend';
-import { isLiveAzureAssessment, screeningStatusCopy } from '../../api/formulaBackend';
+import { isLiveAzureAssessment } from '../../api/formulaBackend';
 import { Badge, ScreeningBadge } from '../ui/Badge';
 import { Button } from '../ui/Button';
-import { Card, CardBody, CardHeader, DataPoint } from '../ui/Card';
+import { Card, CardBody, CardHeader } from '../ui/Card';
 import { Notice } from '../ui/DemoNotice';
 import { Drawer } from '../ui/Drawer';
 import { Field, TextArea, TextInput } from '../ui/Field';
@@ -67,16 +67,18 @@ export function AssessmentResultsView({
   const [sourceId, setSourceId] = useState<string | null>(null);
 
   const live = isLiveAzureAssessment(assessment);
-  const mode = run.assessmentMode ?? assessment?.assessment_mode ?? 'evidence';
+  const preliminary = live ? assessment?.preliminary_assessment : undefined;
+  const prediction = preliminary?.preliminary_prediction;
   const metrics = assessment?.metrics;
   const support = assessment?.assessment_support ?? metrics?.assessment_support;
   const content = assessment?.explanation.content;
+  const [showNotApplicable, setShowNotApplicable] = useState(false);
   const checks = useMemo(() => {
     const calculated = assessment?.llm_context.calculated_checks ?? assessment?.llm_context.checks ?? [];
-    const evidence = (assessment?.llm_context.evidence_checks ?? []).filter((item) => item.status !== 'not_applicable');
-    const rows = [...calculated, ...evidence];
+    const evidence = assessment?.llm_context.evidence_checks ?? [];
+    const rows = [...calculated, ...evidence].filter((item) => showNotApplicable || item.status !== 'not_applicable');
     return region === 'all' ? rows : rows.filter((item) => item.region === region);
-  }, [assessment, region]);
+  }, [assessment, region, showNotApplicable]);
   const names = new Map((assessment?.llm_context.materials ?? []).map((item) => [item.material_id, item.name]));
   const priorities = (content?.prioritized_actions ?? content?.recommendations ?? run.nextActions.map((item) => ({
     action: item.label,
@@ -100,7 +102,7 @@ export function AssessmentResultsView({
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-2">
           <Badge tone="neutral">{formula.name} {run.formulaVersion}</Badge>
-          <Badge tone={mode === 'scenario' ? 'warning' : 'info'}>{mode === 'scenario' ? 'Scenario assessment' : 'Evidence assessment'}</Badge>
+          <Badge tone="info">Preliminary assessment</Badge>
           <span className="text-[13px] text-muted">{formatDateTime(run.runAt)}</span>
           {(run.targetMarkets ?? []).map((item) => (
             <button
@@ -127,56 +129,23 @@ export function AssessmentResultsView({
         <CardBody className="space-y-3">
           <div className="flex flex-wrap items-center gap-2">
             <ScreeningBadge status={run.status} current={isCurrent} />
-            <p className="text-sm font-medium text-ink">{assessment?.screening_status_label || screeningStatusCopy(assessment?.screening_status || '', mode)}</p>
+            <p className="text-sm font-medium text-ink">
+              Preliminary AP/CL assessment: {prediction?.outcome === 'ap_leaning' ? 'AP-leaning' : prediction?.outcome === 'cl_leaning' ? 'CL-leaning' : 'Indeterminate'}
+            </p>
           </div>
-          <p className="max-w-3xl text-sm leading-6 text-ink">{summary}</p>
+          <p className="text-[15px] leading-7 text-ink">{prediction?.basis || summary}</p>
+          <p className="text-sm text-muted">
+            AI assessment confidence: {prediction?.analysis_confidence || content?.analysis_confidence?.level || 'low'}. {prediction?.confidence_reason || content?.analysis_confidence?.basis}
+          </p>
+          <p className="max-w-4xl text-[15px] leading-7 text-ink">{preliminary?.assessment_summary || summary}</p>
           {priorities[0] ? (
             <p className="text-[13px] leading-6 text-muted">
               Next: {priorities[0].action}. {priorities[0].rationale}
             </p>
           ) : null}
-          <p className="text-xs text-muted">AI execution: {aiStatus}. This is not a certification.</p>
+          <p className="text-sm text-muted">Preliminary internal assessment; not certification.</p>
         </CardBody>
       </Card>
-
-      <div className="grid gap-3 sm:grid-cols-3">
-        <Card>
-          <CardBody>
-            <DataPoint
-              label={metrics?.check_pass_rate_label || (mode === 'scenario' ? 'Configured concentration-check pass rate' : 'Check pass rate')}
-              value={passRate == null ? 'No checks evaluated' : `${passRate}%`}
-              hint={passCopy ?? undefined}
-            />
-          </CardBody>
-        </Card>
-        <Card>
-          <CardBody>
-            <DataPoint
-              label={metrics?.evidence_coverage_label || (mode === 'scenario' ? 'Scenario evidence completeness' : 'Verified evidence coverage')}
-              value={metrics?.evidence_coverage_percent == null ? '—' : `${metrics.evidence_coverage_percent}%`}
-              hint={evidenceCopy}
-            />
-          </CardBody>
-        </Card>
-        <Card>
-          <CardBody>
-            <DataPoint
-              label="Assessment support"
-              value={supportLabel(support?.level)}
-              hint={support?.basis}
-            />
-          </CardBody>
-        </Card>
-      </div>
-      <p className="text-xs leading-5 text-muted">
-        {mode === 'scenario'
-          ? 'Results use illustrative thresholds and evidence; they are not AP/CL predictions.'
-          : metrics?.rule_evaluation_coverage_copy}{' '}
-        Passed {metrics?.passed_checks ?? 0}. Failed {metrics?.failed_checks ?? 0}. Needs test data {metrics?.needs_test_data_checks ?? 0}. Applicability or source review {(metrics?.applicability_unknown_checks ?? 0) + (metrics?.source_review_required_checks ?? 0)}. Missing evidence {metrics?.evidence_missing ?? 0}. Awaiting review {metrics?.evidence_needs_review ?? 0}. Mismatched {metrics?.evidence_mismatched ?? 0}.
-        {metrics?.concentration_passed_checks != null && mode === 'scenario'
-          ? ` Concentration checks: ${metrics.concentration_passed_checks} pass, ${metrics.concentration_failed_checks ?? 0} fail.`
-          : ''}
-      </p>
 
       <div className="grid gap-3 lg:grid-cols-3">
         {priorities.map((item, index) => (
@@ -211,14 +180,22 @@ export function AssessmentResultsView({
             onClick={() => setTab(item)}
             className={`-mb-px border-b-2 px-3.5 py-2.5 text-[13px] font-medium capitalize ${tab === item ? 'border-brand-500 text-brand-500' : 'border-transparent text-muted'}`}
           >
-            {item === 'sources' ? 'Sources & Evidence' : item}
+            {item === 'findings' ? 'Findings' : item === 'recommendations' ? 'Recommendations and actions' : 'Documents and sources'}
           </button>
         ))}
       </div>
 
       {tab === 'findings' ? (
         <Card>
-          <CardHeader title="Findings" description="Failed checks are separate from gaps that could not be assessed." />
+          <CardHeader
+            title="Findings"
+            description="Not-applicable checks are hidden until you show them."
+            actions={
+              <Button size="sm" onClick={() => setShowNotApplicable((value) => !value)}>
+                {showNotApplicable ? 'Hide not applicable' : 'Show not applicable'}
+              </Button>
+            }
+          />
           <CardBody className="overflow-x-auto">
             <table className="w-full min-w-[720px] text-left text-[13px]">
               <thead className="text-xs uppercase tracking-wide text-subtle">
@@ -261,10 +238,10 @@ export function AssessmentResultsView({
                   <p className="text-[13px] leading-6 text-muted">{item.rationale}</p>
                   <p className="text-xs text-muted">
                     {item.requires_testing_or_review ? 'Requires testing or review. ' : ''}
-                    {item.source_ids?.length ? `Sources: ${item.source_ids.join(', ')}` : 'No fabricated source citation.'}
+                    {item.source_ids?.length ? `Sources: ${item.source_ids.join(', ')}` : 'No source was cited for this action.'}
                   </p>
                   {related ? (
-                    <Button onClick={() => setScenarioCheck(related)}>Create scenario</Button>
+                    <Button onClick={() => setScenarioCheck(related)}>Create revised version</Button>
                   ) : null}
                 </CardBody>
               </Card>
@@ -309,8 +286,11 @@ export function AssessmentResultsView({
       ) : null}
 
       <details className="rounded-card border border-line bg-surface px-5 py-4">
-        <summary className="cursor-pointer text-sm font-medium text-ink">Analysis details, limitations, and execution metadata</summary>
+        <summary className="cursor-pointer text-sm font-medium text-ink">Technical details, calculations, and scope</summary>
         <div className="mt-3 space-y-2 text-[13px] leading-6 text-muted">
+          <p>AI execution: {aiStatus}. Check pass rate {passRate == null ? 'not calculated' : `${passRate}%`}. {passCopy} {evidenceCopy}</p>
+          <p>Assessment support: {supportLabel(support?.level)}. {support?.basis}</p>
+          <p>State-specific requirements are excluded from this assessment and are not applied nationally.</p>
           <p>{content?.assessment_support_explanation || support?.basis}</p>
           {(content?.limitations ?? []).map((item) => (
             <p key={item}>{item}</p>
@@ -461,8 +441,8 @@ function CreateScenarioDrawer({
     <Drawer
       open={open}
       onClose={onClose}
-      title="Create scenario"
-      subtitle="Draft copy only. The original formula is not overwritten."
+      title="Create revised version"
+      subtitle="Draft copy only. The assessed version stays unchanged until you reassess the revision."
       footer={
         <>
           <Button onClick={onClose}>Cancel</Button>
@@ -472,7 +452,7 @@ function CreateScenarioDrawer({
             onClick={() => {
               services
                 .createFormula({
-                  name: `${formula.name} — scenario`,
+                  name: `${formula.name} — revised`,
                   category: formula.category,
                   ageGroup: formula.ageGroup,
                   targetMarkets: formula.targetMarkets,
@@ -483,8 +463,6 @@ function CreateScenarioDrawer({
                   version: 'v1.0',
                   lifecycle: 'draft',
                   evidenceIds: [...formula.evidenceIds],
-                  preferredAssessmentMode: 'scenario',
-                  scenarioOfFormulaId: formula.id,
                   ingredients: proposed.map((item) => ({
                     name: item.name,
                     rawMaterialId: item.rawMaterialId,
@@ -494,11 +472,11 @@ function CreateScenarioDrawer({
                   })),
                 })
                 .then((created) => {
-                  toast.success('Scenario draft created', 'Run Assessment in scenario mode to compare with the original.');
+                  toast.success('Revised version created', 'Review the draft, then run assessment again. The original result is unchanged.');
                   onCreated(created.id);
                 })
                 .catch((cause: unknown) => {
-                  toast.error('Scenario was not created', cause instanceof Error ? cause.message : 'Try again.');
+                  toast.error('Revised version was not created', cause instanceof Error ? cause.message : 'Try again.');
                 });
             }}
           >
@@ -508,7 +486,7 @@ function CreateScenarioDrawer({
       }
     >
       <div className="space-y-3 text-[13px] leading-6">
-        <p className="text-muted">Proposed quantity uses the configured example threshold. This is not a recommended legal limit.</p>
+        <p className="text-muted">Review the proposed concentrations before they are saved. Nothing is applied to the original formula.</p>
         <ul className="space-y-1">
           {proposed.map((item) => {
             const original = formula.ingredients.find((row) => row.id === item.id)?.concentration;

@@ -2,7 +2,8 @@ import type { FormulaInput } from '../types/services';
 
 /** Concentrations must add up to 100%, with an explicit rounding tolerance. */
 export const CONCENTRATION_TOTAL = 100;
-export const CONCENTRATION_TOLERANCE = 0.5;
+/** Shared with the backend default COMPOSITION_TOLERANCE (percentage points). */
+export const CONCENTRATION_TOLERANCE = 0.01;
 export const MIN_INGREDIENT_CONCENTRATION = 0.001;
 export const MAX_INGREDIENT_CONCENTRATION = 100;
 
@@ -96,7 +97,6 @@ export function validateFormulaInput(input: FormulaInput): ValidationResult {
     issues.push({ field: 'physicalForm', step: 1, severity: 'error', message: 'Physical form is required.' });
     missingFieldLabels.push('Physical form');
   }
-  requireText(input.ownerId, 'ownerId', 'Owner', 1);
   requireText(input.intendedUse, 'intendedUse', 'Intended use', 3, 10);
 
   if (input.ingredients.length === 0) {
@@ -204,10 +204,7 @@ export function validateFormulaInput(input: FormulaInput): ValidationResult {
 
   const counted = input.ingredients.filter((ingredient) => ingredient.screeningRole !== 'contaminant_analyte' && ingredient.measurementKind !== 'content' && ingredient.measurementKind !== 'migration');
   const total = sumConcentrations(counted);
-  const packageCatalog =
-    input.ingredients.length > 0 &&
-    input.ingredients.every((ingredient) => Boolean(ingredient.rawMaterialId && /^[a-z][a-z0-9_]*$/.test(ingredient.rawMaterialId)));
-  const tolerance = packageCatalog || input.compositionCompleteness ? 0.01 : CONCENTRATION_TOLERANCE;
+  const tolerance = CONCENTRATION_TOLERANCE;
   const totalWithinTolerance = Math.abs(total - CONCENTRATION_TOTAL) <= tolerance + 1e-9;
 
   if (input.compositionCompleteness === 'partial') {
@@ -232,7 +229,7 @@ export function validateFormulaInput(input: FormulaInput): ValidationResult {
       field: 'evidenceIds',
       step: 3,
       severity: 'warning',
-      message: 'No formula-level evidence is linked yet. Screening will report this as a gap.',
+      message: 'No documents are linked yet. That is an evidence gap, not a completed evidence check.',
     });
   }
 

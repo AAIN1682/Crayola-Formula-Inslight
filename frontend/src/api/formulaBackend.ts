@@ -143,6 +143,47 @@ export interface AssessmentExecution {
   error_message?: string | null;
 }
 
+export interface PreliminaryFinding {
+  finding_id: string;
+  ingredient_id?: string | null;
+  status: string;
+  severity?: string;
+  title: string;
+  observed_value?: number | null;
+  unit?: string | null;
+  rule_id?: string | null;
+  reason?: string;
+  source_ids?: string[];
+  required_action?: string;
+}
+
+export interface PreliminaryAssessment {
+  assessment_id?: string;
+  formula_id?: string;
+  formula_version?: string;
+  assessment_summary?: string;
+  screening_outcome?: string;
+  preliminary_prediction?: {
+    outcome?: 'ap_leaning' | 'cl_leaning' | 'indeterminate' | string;
+    basis?: string;
+    analysis_confidence?: 'low' | 'medium' | 'high' | string;
+    confidence_reason?: string;
+    numeric_estimate?: number | null;
+    estimate_kind?: string;
+    blocking_uncertainties?: string[];
+    source_ids?: string[];
+  };
+  findings?: PreliminaryFinding[];
+  missing_documents?: { title?: string; document_type?: string; reason?: string; ingredient_id?: string | null }[];
+  source_conflicts?: { explanation?: string; source_ids?: string[] }[];
+  recommendations?: { priority?: string; action?: string; reason?: string; related_finding_id?: string | null }[];
+  alerts?: { severity?: string; title?: string; message?: string }[];
+  next_actions?: { priority?: string; action?: string; reason?: string; related_finding_id?: string | null }[];
+  version_comparison?: string | null;
+  limitations?: string[];
+  execution?: { llm_status?: string; deployment?: string | null; prompt_version?: string };
+}
+
 export interface PackageAssessment {
   assessment_id: string;
   created_at: string;
@@ -234,6 +275,7 @@ export interface PackageAssessment {
     };
   };
   execution?: AssessmentExecution;
+  preliminary_assessment?: PreliminaryAssessment | null;
   llm_context: {
     checks: PackageCheck[];
     calculated_checks?: PackageCheck[];
@@ -350,7 +392,11 @@ export function formulaToPackageRequest(
     physical_form: UI_FORM_TO_API[formula.physicalForm] ?? formula.physicalForm.toLowerCase(),
     intended_use: formula.intendedUse,
     composition_completeness: formula.compositionCompleteness ?? 'partial',
-    us_states: formula.usStates ?? [],
+    us_states: [],
+    document_ids: Array.from(new Set([
+      ...(formula.evidenceIds ?? []),
+      ...formula.ingredients.flatMap((ingredient) => ingredient.evidenceIds ?? []),
+    ])),
     intended_age_detail: formula.intendedAgeDetail || null,
     toy_childcare_scope: formula.toyChildcareScope || null,
     component_type: formula.componentType || null,
@@ -359,6 +405,8 @@ export function formulaToPackageRequest(
       material_id: ingredient.rawMaterialId,
       concentration_percent: ingredient.screeningRole === 'contaminant_analyte' ? null : ingredient.concentration,
       batch_id: ingredient.batchId?.trim() || null,
+      supplier: ingredient.supplier || null,
+      grade: ingredient.grade || null,
       measured_value: ingredient.measuredValue ?? null,
       measured_unit: ingredient.measuredUnit || null,
       measured_bound: ingredient.measuredBound || null,
@@ -561,7 +609,27 @@ export function mapPackageAssessment(result: PackageAssessment) {
   const evidence = result.llm_context.evidence_checks;
   const available = evidence.filter((item) => item.status === 'satisfied' || item.status === 'available').length;
   const live = isLiveAzureAssessment(result);
-  const actionsSource = result.explanation.content.prioritized_actions ?? result.explanation.content.recommendations ?? [];
+  const preliminary = live ? result.preliminary_assessment : undefined;
+  const preliminaryFindings: FindingRecord[] = (preliminary?.findings ?? []).map((item) => ({
+    id: item.finding_id,
+    severity: item.severity === 'high' || item.severity === 'critical' ? 'high' : item.severity === 'low' || item.severity === 'informational' ? 'info' : item.status === 'does_not_meet_rule' ? 'high' : 'medium',
+    scope: item.ingredient_id ? 'ingredient' : 'formula',
+    reference: names.get(item.ingredient_id ?? '') ?? item.ingredient_id ?? 'Formula',
+    ruleId: item.rule_id || item.finding_id,
+    concern: item.title,
+    explanation: item.reason || item.title,
+    evidenceReference: item.source_ids?.length ? item.source_ids.join(', ') : 'No source cited',
+    recommendedAction: item.required_action || 'Review this finding.',
+    reviewState: 'open',
+  }));
+  const displayedFindings = preliminaryFindings.length > 0 ? preliminaryFindings : findings;
+  const actionsSource = preliminary?.next_actions?.length
+    ? preliminary.next_actions.map((item) => ({
+        action: item.action || 'Review',
+        rationale: item.reason,
+        source_ids: [] as string[],
+      }))
+    : result.explanation.content.prioritized_actions ?? result.explanation.content.recommendations ?? [];
   const nextActions: NextActionRecord[] = live
     ? actionsSource.slice(0, 3).map((item, index) => ({
         id: `ACT-${index + 1}`,
@@ -579,12 +647,12 @@ export function mapPackageAssessment(result: PackageAssessment) {
       }));
   const aiFailed = result.explanation.status === 'failed' || result.execution?.llm_status === 'failed';
   const summary = live
-    ? result.explanation.content.summary || calculatedSummary(result)
-    : `${aiFailed ? 'AI analysis failed. ' : ''}${calculatedSummary(result)}`;
+    ? preliminary?.assessment_summary || result.explanation.content.summary || calculatedSummary(result)
+    : `${aiFailed ? 'AI assessment failed. Calculated checks were kept. ' : ''}${calculatedSummary(result)}`;
   return {
     status: screeningStatus(result.screening_status),
     summary,
-    findings,
+    findings: displayedFindings,
     marketResults: Object.entries(result.regions).map(([market, value]) => ({
       market: market as TargetMarket,
       status: marketStatus(value.screening_status),
@@ -593,7 +661,7 @@ export function mapPackageAssessment(result: PackageAssessment) {
         : value.screening_status === 'no_issues_found_in_assessed_scope'
           ? 'Evaluated checks passed in the configured scope. This is not a certification.'
           : 'More information is required. Gaps or unevaluable checks remain.',
-      findingIds: findings.map((finding) => finding.id),
+      findingIds: displayedFindings.map((finding) => finding.id),
     })),
     nextActions,
     evidenceCompleteness: result.metrics.evidence_coverage_percent ?? 0,

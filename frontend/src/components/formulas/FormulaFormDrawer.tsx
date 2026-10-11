@@ -1,15 +1,15 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { AlertTriangle, CheckCircle2, Plus, Trash2 } from 'lucide-react';
 import type { AgeGroup, Formula, PhysicalForm, ProductCategory, TargetMarket } from '../../types/domain';
 import { AGE_GROUP_LABEL, AGE_GROUPS, PHYSICAL_FORMS, PRODUCT_CATEGORIES, SCREENING_MARKETS, TARGET_MARKETS } from '../../types/domain';
 import type { FormulaInput } from '../../types/services';
 import { type AssessmentMode } from '../../api/formulaBackend';
-import { useDemoSelector, useServices, useSettings } from '../../state/DemoDataProvider';
+import { useDemoSelector, useServices } from '../../state/DemoDataProvider';
 import { useAsyncAction } from '../../hooks/useAsyncData';
 import { useToast } from '../ui/Toast';
 import { Drawer } from '../ui/Drawer';
 import { Button } from '../ui/Button';
-import { Checkbox, Field, SearchSelect, Select, TextArea, TextInput } from '../ui/Field';
+import { Field, SearchSelect, Select, TextArea, TextInput } from '../ui/Field';
 import { FormStepper, type StepDescriptor } from '../ui/Stepper';
 import { Notice } from '../ui/DemoNotice';
 import { Badge } from '../ui/Badge';
@@ -25,7 +25,7 @@ import { cn } from '../../utils/cn';
 const STEPS: StepDescriptor[] = [
   { id: 'details', label: 'Product details' },
   { id: 'ingredients', label: 'Ingredients' },
-  { id: 'evidence', label: 'Evidence & use' },
+  { id: 'evidence', label: 'Documents and intended use' },
   { id: 'review', label: 'Review & save' },
 ];
 
@@ -36,6 +36,7 @@ interface IngredientRow {
   rawMaterialId: string;
   concentrationText: string;
   supplier: string;
+  grade: string;
   notes: string;
   batchId: string;
   addedInVersion?: string;
@@ -93,6 +94,7 @@ function emptyRow(section: 'formulation' | 'contaminant' = 'formulation'): Ingre
     rawMaterialId: '',
     concentrationText: '',
     supplier: '',
+    grade: '',
     notes: '',
     batchId: '',
     compositionType: '',
@@ -106,7 +108,9 @@ function emptyRow(section: 'formulation' | 'contaminant' = 'formulation'): Ingre
   };
 }
 
-function toFormState(formula: Formula | undefined, defaults: { ownerId: string; reviewerId: string }): FormState {
+const FICTIONAL_USER_IDS = new Set(['usr-dana', 'usr-marcus', 'usr-priya', 'usr-theo', 'usr-elena']);
+
+function toFormState(formula: Formula | undefined): FormState {
   if (!formula) {
     return {
       name: '',
@@ -116,8 +120,8 @@ function toFormState(formula: Formula | undefined, defaults: { ownerId: string; 
       targetMarkets: [],
       physicalForm: '',
       intendedUse: '',
-      ownerId: defaults.ownerId,
-      reviewerId: defaults.reviewerId,
+      ownerId: '',
+      reviewerId: '',
       description: '',
       ingredients: [emptyRow(), emptyRow()],
       evidenceIds: [],
@@ -148,6 +152,7 @@ function toFormState(formula: Formula | undefined, defaults: { ownerId: string; 
       rawMaterialId: ingredient.rawMaterialId ?? '',
       concentrationText: String(ingredient.concentration),
       supplier: ingredient.supplier ?? '',
+      grade: ingredient.grade ?? '',
       notes: ingredient.notes ?? '',
       batchId: ingredient.batchId ?? '',
       addedInVersion: ingredient.addedInVersion,
@@ -192,6 +197,7 @@ function toInput(form: FormState, lifecycle: 'draft' | 'active'): FormulaInput {
         rawMaterialId: row.rawMaterialId || undefined,
         concentration: row.concentrationText.trim() === '' ? Number.NaN : Number(row.concentrationText),
         supplier: row.supplier || undefined,
+        grade: row.grade || undefined,
         notes: row.notes || undefined,
         batchId: row.batchId.trim() || undefined,
         addedInVersion: row.addedInVersion,
@@ -206,7 +212,7 @@ function toInput(form: FormState, lifecycle: 'draft' | 'active'): FormulaInput {
     evidenceIds: form.evidenceIds,
     preferredAssessmentMode: form.preferredAssessmentMode,
     compositionCompleteness: form.compositionCompleteness,
-    usStates: form.usStates,
+    usStates: [],
     intendedAgeDetail: form.intendedAgeDetail || undefined,
     toyChildcareScope: form.toyChildcareScope || undefined,
     componentType: form.componentType || undefined,
@@ -258,15 +264,20 @@ export function FormulaFormDrawer({
 }) {
   const services = useServices();
   const toast = useToast();
-  const settings = useSettings();
   const people = useDemoSelector((state) => state.people);
-  const documents = useDemoSelector((state) => state.documents);
+  const configuredPeople = people.filter((person) => !FICTIONAL_USER_IDS.has(person.id) || person.id === formula?.ownerId || person.id === formula?.reviewerId);
 
   const [step, setStep] = useState(0);
   const [furthest, setFurthest] = useState(0);
-  const [form, setForm] = useState<FormState>(() =>
-    toFormState(formula, { ownerId: settings.currentUserId, reviewerId: settings.defaultReviewerId }),
-  );
+  const [form, setForm] = useState<FormState>(() => toFormState(formula));
+  const [uploads, setUploads] = useState<{ document_id: string; filename?: string; document_type?: string; processing_status?: string; evidence_status?: string; material_id?: string | null; extraction_status?: string }[]>([]);
+  const [uploadError, setUploadError] = useState<string>();
+  const [uploading, setUploading] = useState(false);
+  const [docType, setDocType] = useState('coa');
+  const [docScope, setDocScope] = useState<'material' | 'finished_product'>('finished_product');
+  const [docMaterial, setDocMaterial] = useState('');
+  const fileInput = useRef<HTMLInputElement>(null);
+  const uploadTarget = useRef<string | undefined>(undefined);
   const [showAllIssues, setShowAllIssues] = useState(false);
   const [substances, setSubstances] = useState<CatalogSubstance[]>([]);
   const [materialTypes, setMaterialTypes] = useState<string[]>([]);
@@ -275,11 +286,13 @@ export function FormulaFormDrawer({
 
   useEffect(() => {
     if (!open) return;
-    setForm(toFormState(formula, { ownerId: settings.currentUserId, reviewerId: settings.defaultReviewerId }));
+    setForm(toFormState(formula));
+    setUploads([]);
+    setUploadError(undefined);
     setStep(0);
     setFurthest(0);
     setShowAllIssues(false);
-  }, [open, formula, settings.currentUserId, settings.defaultReviewerId]);
+  }, [open, formula]);
 
   const screeningMarkets = form.targetMarkets.filter((market) => market === 'US' || market === 'EU');
 
@@ -328,15 +341,41 @@ export function FormulaFormDrawer({
 
   const catalogIds = useMemo(() => new Set(substances.map((item) => item.substance_id)), [substances]);
 
-  const linkableDocuments = useMemo(
-    () =>
-      documents.filter(
-        (document) =>
-          (document.type === 'Laboratory Report' || document.type === 'Correspondence') &&
-          (!document.formulaId || document.formulaId === formula?.id),
-      ),
-    [documents, formula?.id],
-  );
+  const uploadFiles = async (files: FileList | null, materialId?: string) => {
+    if (!files?.length) return;
+    setUploading(true);
+    setUploadError(undefined);
+    try {
+      const saved: { document_id: string; filename?: string; document_type?: string; processing_status?: string; evidence_status?: string; material_id?: string | null; extraction_status?: string }[] = [];
+      for (const file of Array.from(files)) {
+        const body = new FormData();
+        body.set('file', file);
+        body.set('document_type', docType);
+        body.set('scope', materialId ? 'material' : docScope);
+        if (materialId || docMaterial) body.set('material_id', materialId || docMaterial);
+        if (formula?.id) body.set('formula_id', formula.id);
+        if (form.version) body.set('version_id', form.version);
+        body.set('regions', form.targetMarkets.filter((market) => market === 'US' || market === 'EU').join(','));
+        const response = await fetch('/api/documents', { method: 'POST', body });
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          const detail = payload.detail;
+          throw new Error(typeof detail === 'string' ? detail : 'The document was not saved.');
+        }
+        saved.push(payload);
+      }
+      setUploads((current) => [...saved, ...current]);
+      setForm((current) => ({
+        ...current,
+        evidenceIds: Array.from(new Set([...current.evidenceIds, ...saved.map((item) => item.document_id as string)])),
+      }));
+    } catch (cause) {
+      setUploadError(cause instanceof Error ? cause.message : 'The document was not saved.');
+    } finally {
+      setUploading(false);
+      if (fileInput.current) fileInput.current.value = '';
+    }
+  };
 
   const update = <K extends keyof FormState>(key: K, value: FormState[K]) =>
     setForm((current) => ({ ...current, [key]: value }));
@@ -387,7 +426,7 @@ export function FormulaFormDrawer({
     <Drawer
       open={open}
       onClose={onClose}
-      width="lg"
+      width="xl"
       eyebrow={mode === 'edit' ? 'Edit formula' : 'New formula'}
       title={mode === 'edit' ? (formula?.name ?? 'Edit formula') : 'Create a formula'}
       subtitle="Drafts can be saved with missing fields and completed later."
@@ -397,7 +436,7 @@ export function FormulaFormDrawer({
             {validation.errors.length === 0 ? (
               <>
                 <CheckCircle2 aria-hidden className="size-4 text-success" />
-                Ready to save as a complete record
+                Input can be saved. Evidence is reviewed during assessment.
               </>
             ) : (
               <>
@@ -445,6 +484,14 @@ export function FormulaFormDrawer({
       }
     >
       <div className="space-y-5">
+        <input
+          ref={fileInput}
+          type="file"
+          accept="application/pdf,.pdf"
+          multiple
+          className="hidden"
+          onChange={(event) => void uploadFiles(event.target.files, uploadTarget.current)}
+        />
         <FormStepper steps={STEPS} current={step} furthest={furthest} onSelect={goTo} />
 
         {step === 0 ? (
@@ -580,22 +627,22 @@ export function FormulaFormDrawer({
                 />
               </Field>
 
-              <Field label="Owner" htmlFor="formula-owner" required error={fieldError(validation, 'ownerId')}>
+              <Field label="Owner" htmlFor="formula-owner" hint="Optional. Only configured workspace users are listed.">
                 <Select
                   id="formula-owner"
                   value={form.ownerId}
-                  placeholder="Select an owner"
-                  options={people.map((person) => ({ value: person.id, label: `${person.name} · ${person.role}` }))}
+                  placeholder={configuredPeople.length ? 'Unassigned' : 'No configured users'}
+                  options={configuredPeople.map((person) => ({ value: person.id, label: `${person.name} · ${person.role}` }))}
                   onChange={(event) => update('ownerId', event.target.value)}
                 />
               </Field>
 
-              <Field label="Assigned reviewer" htmlFor="formula-reviewer" hint="Optional at this stage">
+              <Field label="Assigned reviewer" htmlFor="formula-reviewer" hint="Optional">
                 <Select
                   id="formula-reviewer"
                   value={form.reviewerId}
-                  placeholder="Unassigned"
-                  options={people.map((person) => ({ value: person.id, label: `${person.name} · ${person.role}` }))}
+                  placeholder={configuredPeople.length ? 'Unassigned' : 'No configured users'}
+                  options={configuredPeople.map((person) => ({ value: person.id, label: `${person.name} · ${person.role}` }))}
                   onChange={(event) => update('reviewerId', event.target.value)}
                 />
               </Field>
@@ -624,88 +671,24 @@ export function FormulaFormDrawer({
             <Notice tone="warning" title="Catalog coverage incomplete">
               {catalogNote} This list is not an approved recipe. Restricted substances and laboratory analytes stay separate from formulation ingredients.
             </Notice>
-            <div className="grid gap-3 sm:grid-cols-2">
-              <Field label="Composition declaration">
-                <Select
-                  value={form.compositionCompleteness}
-                  options={[
-                    { value: 'partial', label: 'Partial substance screening' },
-                    { value: 'complete', label: 'Declared ingredient list totals 100%' },
-                  ]}
-                  onChange={(event) => update('compositionCompleteness', event.target.value as 'partial' | 'complete')}
-                />
-              </Field>
-              <Field label="Component the concentration describes">
-                <Select
-                  value={form.componentType}
-                  options={[
-                    { value: 'finished_formula', label: 'Finished formula' },
-                    { value: 'plasticised_material', label: 'Plasticised material' },
-                    { value: 'substrate', label: 'Substrate' },
-                    { value: 'surface_coating', label: 'Surface coating' },
-                    { value: 'dried_film', label: 'Dried film' },
-                  ]}
-                  onChange={(event) => update('componentType', event.target.value)}
-                />
-              </Field>
-              {form.targetMarkets.includes('US') ? (
-                <Field label="US state, when a state rule should apply" hint="Leave unset for a generic US assessment. State rules are not applied automatically.">
-                  <Select
-                    value={form.usStates[0] ?? ''}
-                    placeholder="No state selected"
-                    options={[
-                      { value: 'WA', label: 'Washington' },
-                      { value: 'VT', label: 'Vermont' },
-                      { value: 'CA', label: 'California' },
-                    ]}
-                    onChange={(event) => update('usStates', event.target.value ? [event.target.value] : [])}
-                  />
-                </Field>
-              ) : null}
-              <Field label="Intended age within the band" hint="The age band only filters the catalog. Narrower rule boundaries stay unresolved until this is selected.">
-                <Select
-                  value={form.intendedAgeDetail}
-                  placeholder="Not specified"
-                  options={[
-                    { value: 'under_36_months', label: 'Under 36 months' },
-                    { value: 'age_3_to_under_6', label: '3 to under 6' },
-                    { value: 'age_6_to_under_12', label: '6 to under 12' },
-                    { value: 'age_12_to_under_14', label: '12 to under 14' },
-                    { value: 'age_14_plus', label: '14 and above' },
-                  ]}
-                  onChange={(event) => update('intendedAgeDetail', event.target.value)}
-                />
-              </Field>
-              <Field label="Toy or childcare article">
-                <Select
-                  value={form.toyChildcareScope}
-                  placeholder="Not specified"
-                  options={[
-                    { value: 'yes', label: 'Yes' },
-                    { value: 'no', label: 'No' },
-                    { value: 'unknown', label: 'Unknown' },
-                  ]}
-                  onChange={(event) => update('toyChildcareScope', event.target.value)}
-                />
-              </Field>
-              <Field label="Test material category">
-                <Select
-                  value={form.testMaterialCategory}
-                  placeholder="Not specified"
-                  options={[
-                    { value: 'en71_cat_i', label: 'EN 71-3 Category I' },
-                    { value: 'en71_cat_ii', label: 'EN 71-3 Category II' },
-                    { value: 'en71_cat_iii', label: 'EN 71-3 Category III' },
-                  ]}
-                  onChange={(event) => update('testMaterialCategory', event.target.value)}
-                />
-              </Field>
-            </div>
+            <Field label="Composition declaration">
+              <Select
+                value={form.compositionCompleteness}
+                options={[
+                  { value: 'partial', label: 'Partial formula — may be saved and assessed as incomplete' },
+                  { value: 'complete', label: 'Complete list — must total 100% within ±0.01%' },
+                ]}
+                onChange={(event) => update('compositionCompleteness', event.target.value as 'partial' | 'complete')}
+              />
+            </Field>
+            <p className="text-[13px] leading-6 text-muted">
+              Narrower age bands and test-material categories are requested only when a rule needs them. State-specific rules stay in the source data and are excluded from this assessment.
+            </p>
             <div className="flex flex-wrap items-center justify-between gap-2">
               <p className="text-[13px] text-muted">
                 {form.compositionCompleteness === 'partial'
                   ? 'Partial composition. Formulation percentages do not need to total 100%. Contaminant rows are excluded.'
-                  : 'A declared complete list must total 100% within ±0.01%.'}
+                  : 'A declared complete list must total 100% within ±0.01 percentage points. Contaminant rows are excluded.'}
               </p>
               <Badge tone={form.compositionCompleteness === 'partial' || withinTolerance ? 'success' : 'warning'}>
                 Formulation total {formatConcentration(total)}
@@ -829,30 +812,42 @@ export function FormulaFormDrawer({
                         </Field>
                       )}
 
-                      <Field label="Supplier" className="sm:col-span-4">
-                        <TextInput
-                          value={row.supplier}
-                          onChange={(event) => updateRow(row.key, { supplier: event.target.value })}
-                          placeholder="Supplier name"
-                        />
-                      </Field>
-
-                      <Field label="Batch" className="sm:col-span-3">
-                        <TextInput
-                          value={row.batchId}
-                          onChange={(event) => updateRow(row.key, { batchId: event.target.value })}
-                          placeholder="Optional"
-                        />
-                      </Field>
-
-                      <Field label="Note" className="sm:col-span-5">
-                        <TextInput
-                          value={row.notes}
-                          onChange={(event) => updateRow(row.key, { notes: event.target.value })}
-                          placeholder="Optional"
-                        />
-                      </Field>
+                      <div className="sm:col-span-5 flex flex-wrap items-end gap-2">
+                        <div className="text-[13px] text-muted">
+                          Documents {uploads.filter((item) => item.material_id === row.rawMaterialId).length + (row.rawMaterialId ? 0 : 0)} linked
+                          <span className="block text-xs">Linked files are not verified evidence.</span>
+                        </div>
+                        <Button
+                          type="button"
+                          onClick={() => {
+                            uploadTarget.current = row.rawMaterialId;
+                            setDocScope('material');
+                            setDocMaterial(row.rawMaterialId);
+                            fileInput.current?.click();
+                          }}
+                          disabled={!row.rawMaterialId || uploading}
+                        >
+                          Attach document
+                        </Button>
+                      </div>
                     </div>
+                    <details className="mt-3">
+                      <summary className="cursor-pointer text-[13px] font-medium text-brand-500">Supplier, grade, batch, and notes</summary>
+                      <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                        <Field label="Supplier">
+                          <TextInput value={row.supplier} onChange={(event) => updateRow(row.key, { supplier: event.target.value })} placeholder="Optional" />
+                        </Field>
+                        <Field label="Grade">
+                          <TextInput value={row.grade} onChange={(event) => updateRow(row.key, { grade: event.target.value })} placeholder="Optional" />
+                        </Field>
+                        <Field label="Batch">
+                          <TextInput value={row.batchId} onChange={(event) => updateRow(row.key, { batchId: event.target.value })} placeholder="Optional" />
+                        </Field>
+                        <Field label="Notes">
+                          <TextInput value={row.notes} onChange={(event) => updateRow(row.key, { notes: event.target.value })} placeholder="Optional" />
+                        </Field>
+                      </div>
+                    </details>
                     {unmapped ? (
                       <p className="mt-2 text-xs text-danger">
                         This row still uses a legacy identity. Select the correct catalog material. Names are not matched by similarity.
@@ -895,36 +890,78 @@ export function FormulaFormDrawer({
               />
             </Field>
 
-            <div>
-              <p className="mb-1 text-[13px] font-medium text-ink">Evidence references</p>
-              <p className="mb-2.5 text-xs text-muted">
-                Link formula-level documents. Supplier documents are resolved automatically from each
-                ingredient&rsquo;s raw-material reference.
-              </p>
-              {linkableDocuments.length === 0 ? (
-                <p className="rounded-lg border border-line bg-canvas px-3 py-3 text-[13px] text-muted">
-                  No formula-level documents are available to link yet.
+            <div className="space-y-3 rounded-lg border border-line p-4">
+              <div>
+                <p className="text-sm font-medium text-ink">Upload documents</p>
+                <p className="mt-1 text-[13px] leading-6 text-muted">
+                  Add SDS, CoA, laboratory report, label, or other PDFs. A product file does not satisfy every ingredient. Processing a file does not verify it.
                 </p>
-              ) : (
-                <div className="max-h-64 space-y-2 overflow-y-auto rounded-lg border border-line p-3">
-                  {linkableDocuments.map((document) => (
-                    <Checkbox
-                      key={document.id}
-                      checked={form.evidenceIds.includes(document.id)}
-                      onChange={(event) =>
-                        update(
-                          'evidenceIds',
-                          event.target.checked
-                            ? [...form.evidenceIds, document.id]
-                            : form.evidenceIds.filter((id) => id !== document.id),
-                        )
-                      }
-                      label={document.title}
-                      description={`${document.type} · ${document.id}`}
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <Field label="Document type">
+                  <Select
+                    value={docType}
+                    options={[
+                      { value: 'sds', label: 'SDS' },
+                      { value: 'coa', label: 'CoA' },
+                      { value: 'lab_report', label: 'Laboratory report' },
+                      { value: 'label', label: 'Label / artwork' },
+                      { value: 'other', label: 'Other' },
+                    ]}
+                    onChange={(event) => setDocType(event.target.value)}
+                  />
+                </Field>
+                <Field label="Applies to">
+                  <Select
+                    value={docScope}
+                    options={[
+                      { value: 'finished_product', label: 'Entire product' },
+                      { value: 'material', label: 'Selected ingredient' },
+                    ]}
+                    onChange={(event) => setDocScope(event.target.value as 'material' | 'finished_product')}
+                  />
+                </Field>
+                {docScope === 'material' ? (
+                  <Field label="Ingredient">
+                    <Select
+                      value={docMaterial}
+                      placeholder="Select an ingredient"
+                      options={form.ingredients.filter((row) => row.rawMaterialId).map((row) => ({ value: row.rawMaterialId, label: row.name || row.rawMaterialId }))}
+                      onChange={(event) => setDocMaterial(event.target.value)}
                     />
-                  ))}
-                </div>
-              )}
+                  </Field>
+                ) : null}
+              </div>
+              <Button
+                onClick={() => {
+                  uploadTarget.current = docScope === 'material' ? docMaterial : undefined;
+                  fileInput.current?.click();
+                }}
+                loading={uploading}
+              >
+                Choose PDF files
+              </Button>
+              {uploadError ? <p className="text-sm text-danger">{uploadError}</p> : null}
+              <ul className="space-y-2">
+                {uploads.map((item) => (
+                  <li key={item.document_id} className="rounded-lg border border-line px-3 py-2 text-[13px] leading-6">
+                    <p className="font-medium text-ink">{item.filename || item.document_id}</p>
+                    <p className="text-muted">
+                      {item.document_type} · processing {item.processing_status || item.extraction_status || 'processed'} · evidence {item.evidence_status || 'pending review'}
+                    </p>
+                    <button
+                      type="button"
+                      className="text-brand-500 hover:underline"
+                      onClick={() => {
+                        setUploads((current) => current.filter((row) => row.document_id !== item.document_id));
+                        update('evidenceIds', form.evidenceIds.filter((id) => id !== item.document_id));
+                      }}
+                    >
+                      Remove
+                    </button>
+                  </li>
+                ))}
+              </ul>
             </div>
 
             <IssueList issues={stepIssues} />
@@ -955,15 +992,17 @@ export function FormulaFormDrawer({
               </dl>
             </div>
 
-            {validation.missingFieldLabels.length > 0 ? (
-              <Notice tone="warning" title="Missing for a complete record">
-                {validation.missingFieldLabels.join(', ')}. You can still save this as a draft — the formula
-                record will list what is outstanding.
+            {validation.errors.length > 0 ? (
+              <Notice tone="warning" title="Input is incomplete">
+                {validation.missingFieldLabels.join(', ') || 'Fix the items above'}. You can still save a draft. Saving does not run an assessment.
+              </Notice>
+            ) : form.evidenceIds.length === 0 ? (
+              <Notice tone="warning" title="Input can be saved. Evidence is not sufficient.">
+                No documents are linked. An assessment can still run and will treat the missing documents as uncertainty. Saving does not complete an assessment.
               </Notice>
             ) : (
-              <Notice tone="success" title="All required fields are complete">
-                Saving will create an active record. Screening has not run yet, so the formula starts with no
-                screening result.
+              <Notice tone="success" title="Input is complete">
+                Documents are linked and still need processing and review. A processed file is not verified evidence, and this save does not run an assessment.
               </Notice>
             )}
 

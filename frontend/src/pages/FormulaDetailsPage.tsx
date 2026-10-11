@@ -129,13 +129,13 @@ export function FormulaDetailsPage() {
             hint={latestRun ? `Run on ${latestRun.formulaVersion}` : 'No run recorded'}
           />
           <DataPoint
-            label="Evidence"
+            label="Documents"
             value={
               evidence.requiredCount === 0
-                ? 'None required'
-                : `${evidence.presentCount} of ${evidence.requiredCount}`
+                ? 'See assessment'
+                : `${evidence.presentCount} linked`
             }
-            hint={`${evidence.completeness}% complete`}
+            hint="Linked files are not verified evidence."
           />
           <DataPoint
             label="Next review"

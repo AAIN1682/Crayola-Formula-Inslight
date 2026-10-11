@@ -140,7 +140,7 @@ export function EvidenceTab() {
         <Card>
           <CardHeader
             title="Outstanding requirements"
-            description={`${evidence.presentCount} of ${evidence.requiredCount} required documents are on file.`}
+            description={`${evidence.presentCount} of ${evidence.requiredCount} linked. A linked file is not verified evidence.`}
           />
           <CardBody className="space-y-3">
             <div className="flex items-center gap-3">

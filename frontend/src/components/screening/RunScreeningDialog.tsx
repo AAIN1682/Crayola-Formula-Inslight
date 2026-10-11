@@ -1,15 +1,20 @@
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ShieldCheck } from 'lucide-react';
 import type { Formula, ScreeningRun } from '../../types/domain';
-import type { AssessmentMode } from '../../api/formulaBackend';
 import { useServices } from '../../state/DemoDataProvider';
 import { Modal } from '../ui/Modal';
 import { Button } from '../ui/Button';
 import { Notice } from '../ui/DemoNotice';
-import { ScreeningBadge } from '../ui/Badge';
 import { useToast } from '../ui/Toast';
 import { isLiveAzureAssessment } from '../../api/formulaBackend';
 import { isUnresolvedIdentityError } from '../../utils/catalog';
+
+function predictionLabel(outcome?: string) {
+  if (outcome === 'ap_leaning') return 'AP-leaning';
+  if (outcome === 'cl_leaning') return 'CL-leaning';
+  return 'Indeterminate';
+}
 
 export function RunScreeningDialog({
   open,
@@ -26,7 +31,7 @@ export function RunScreeningDialog({
 }) {
   const services = useServices();
   const toast = useToast();
-  const [mode, setMode] = useState<AssessmentMode>(formula.preferredAssessmentMode ?? 'evidence');
+  const navigate = useNavigate();
   const [started, setStarted] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const [run, setRun] = useState<ScreeningRun | undefined>();
@@ -43,12 +48,11 @@ export function RunScreeningDialog({
       setRun(undefined);
       setError(undefined);
       setStarted(false);
-      setMode(formula.preferredAssessmentMode ?? 'evidence');
       return;
     }
     if (!started) return;
 
-    const key = `${formula.id}:${mode}:${attempt}`;
+    const key = `${formula.id}:${formula.version}:${attempt}`;
     if (startedKeyRef.current === key) return;
     startedKeyRef.current = key;
     abortRef.current?.abort();
@@ -61,20 +65,18 @@ export function RunScreeningDialog({
     services
       .runScreening(formula.id, {
         signal: controller.signal,
-        assessmentMode: mode,
+        assessmentMode: 'evidence',
       })
       .then((result) => {
         if (controller.signal.aborted) return;
         setRun(result);
         const live = isLiveAzureAssessment(result.formulaAssessment);
         if (live) {
-          toast.success(
-            'Assessment complete',
-            `${mode === 'scenario' ? 'Scenario assessment' : 'Evidence assessment'} stored for ${result.formulaVersion}. ${mode === 'scenario' ? 'Scenario evidence completeness' : 'Verified evidence coverage'} ${result.evidenceCompleteness}%.`,
-          );
+          const outcome = predictionLabel(result.formulaAssessment?.preliminary_assessment?.preliminary_prediction?.outcome);
+          toast.success('Assessment complete', `${outcome} preliminary assessment stored for ${result.formulaVersion}.`);
         } else {
           toast.error(
-            'AI analysis unavailable',
+            'AI assessment failed',
             result.formulaAssessment?.execution?.error_message || result.summary,
           );
         }
@@ -83,34 +85,52 @@ export function RunScreeningDialog({
         if (controller.signal.aborted) return;
         setError(cause instanceof Error ? cause.message : 'The screening run did not complete.');
       });
-  }, [open, started, attempt, mode, formula.id, formula.preferredAssessmentMode, services, toast]);
+  }, [open, started, attempt, formula.id, formula.version, services, toast]);
 
   const finished = Boolean(run);
   const live = isLiveAzureAssessment(run?.formulaAssessment);
   const aiFailed = Boolean(run && !live);
   const identityError = isUnresolvedIdentityError(error);
+  const preliminary = run?.formulaAssessment?.preliminary_assessment;
+  const prediction = preliminary?.preliminary_prediction;
+  const aiFindings = (preliminary?.findings ?? []).slice(0, 3);
+  const fallbackFindings = aiFindings.length > 0 ? [] : (run?.findings ?? []).slice(0, 3);
+  const missing = preliminary?.missing_documents ?? [];
+  const actions = preliminary?.next_actions ?? [];
 
   return (
     <Modal
       open={open}
       onClose={onClose}
+      size="xl"
       dismissible={!started || finished || Boolean(error)}
       title={
         error
           ? 'Assessment did not finish'
-          : live
-            ? 'Assessment complete'
-            : aiFailed
-              ? 'AI analysis unavailable'
+          : aiFailed
+            ? 'AI assessment failed'
+            : live
+              ? 'Preliminary assessment'
               : started
                 ? 'Running assessment'
                 : 'Run assessment'
       }
-      description={`${formula.name} ${formula.version} · ${(formula.targetMarkets ?? []).join(', ') || 'No market selected'}`}
+      description={`${formula.name} ${formula.version} · ${(formula.targetMarkets ?? []).join(', ') || 'No region selected'}`}
       footer={
         finished && run ? (
           <>
-            <Button onClick={onClose}>Stay on this page</Button>
+            <Button onClick={onClose}>Close</Button>
+            <Button onClick={() => navigate(`/formulas/${formula.id}/evidence`)}>Upload documents</Button>
+            <Button onClick={() => navigate(`/formulas/${formula.id}/evidence`)}>Review evidence</Button>
+            <Button
+              onClick={() => {
+                onClose();
+                onEditFormula?.();
+              }}
+            >
+              Edit as new version
+            </Button>
+            <Button onClick={() => navigate(`/formulas/${formula.id}/screening`)}>Compare versions</Button>
             <Button variant="primary" onClick={() => onComplete?.(run)}>
               View full result
             </Button>
@@ -138,38 +158,26 @@ export function RunScreeningDialog({
             </>
           )
         ) : started ? (
-          <p className="text-xs text-muted">Analyzing the formula against the packaged source documents.</p>
+          <p className="text-sm text-muted">Retrieving rules, calculations, and document evidence, then requesting the assessment.</p>
         ) : (
           <>
             <Button onClick={onClose}>Cancel</Button>
             <Button variant="primary" onClick={() => setStarted(true)}>
-              Start {mode === 'scenario' ? 'scenario' : 'evidence'} assessment
+              Run assessment
             </Button>
           </>
         )
       }
     >
-      <div className="space-y-4">
+      <div className="space-y-4 text-[15px] leading-7 text-ink">
         {!started && !error ? (
-          <fieldset className="space-y-2">
-            <legend className="text-[13px] font-medium text-ink">Assessment mode</legend>
-            <label className="flex items-start gap-2 text-[13px] leading-6 text-ink">
-              <input type="radio" name="assessment-mode" checked={mode === 'evidence'} onChange={() => setMode('evidence')} />
-              <span>
-                <span className="font-medium">Evidence assessment</span> — reviewed applicable rules and evidence only. Example thresholds are not verdicts.
-              </span>
-            </label>
-            <label className="flex items-start gap-2 text-[13px] leading-6 text-ink">
-              <input type="radio" name="assessment-mode" checked={mode === 'scenario'} onChange={() => setMode('scenario')} />
-              <span>
-                <span className="font-medium">Scenario assessment</span> — evaluates editable example thresholds. Not regulatory compliance or an AP/CL prediction.
-              </span>
-            </label>
-          </fieldset>
+          <p>
+            This runs one preliminary assessment of the saved {formula.version} record for the selected regions. Missing documents stay as uncertainty. Invalid numbers are reported as field errors.
+          </p>
         ) : null}
 
         {started && !finished && !error ? (
-          <p className="text-sm text-ink">Analyzing formula and supporting documents…</p>
+          <p>Assessing {formula.name} {formula.version}…</p>
         ) : null}
 
         {error ? (
@@ -179,26 +187,66 @@ export function RunScreeningDialog({
         ) : null}
 
         {aiFailed && run ? (
-          <Notice tone="danger" title="AI analysis unavailable">
-            {run.formulaAssessment?.execution?.error_message || 'Azure generation did not succeed. Calculated checks are shown as a partial result.'}
+          <Notice tone="danger" title="AI assessment failed">
+            {run.formulaAssessment?.execution?.error_message || 'Azure did not return a validated assessment. Calculated checks were kept and were not replaced with a success result.'}
           </Notice>
         ) : null}
 
         {finished && run ? (
-          <div className="rounded-lg border border-line bg-canvas/60 p-4">
-            <div className="flex flex-wrap items-center gap-2">
-              <ScreeningBadge status={run.status} />
-              <span className="text-[13px] text-muted tabular">
-                {run.assessmentMode === 'scenario' ? 'Scenario assessment' : 'Evidence assessment'} · {run.assessmentMode === 'scenario' ? 'Scenario evidence completeness' : 'Verified evidence coverage'} {run.evidenceCompleteness}%
-              </span>
+          <div className="space-y-4">
+            <div>
+              <p className="text-xs font-semibold tracking-wide text-subtle uppercase">Preliminary AP/CL assessment</p>
+              <p className="mt-1 text-lg font-semibold text-navy-800">{predictionLabel(prediction?.outcome)}</p>
+              <p className="text-muted">{prediction?.basis || run.summary}</p>
             </div>
-            <p className="mt-2 text-[13px] leading-6 text-ink">{run.summary}</p>
+            <div>
+              <p className="text-xs font-semibold tracking-wide text-subtle uppercase">AI assessment confidence</p>
+              <p className="mt-1 capitalize">{prediction?.analysis_confidence || 'low'}</p>
+              <p className="text-muted">{prediction?.confidence_reason || 'Confidence describes support for this assessment, not a measured chance of certification.'}</p>
+            </div>
+            <p>{preliminary?.assessment_summary || run.summary}</p>
+            {aiFindings.length > 0 || fallbackFindings.length > 0 ? (
+              <ul className="space-y-2">
+                {aiFindings.map((item) => (
+                  <li key={item.finding_id} className="rounded-lg border border-line px-3 py-2">
+                    <p className="font-medium">{item.title}</p>
+                    <p className="text-sm text-muted">{item.reason}</p>
+                  </li>
+                ))}
+                {fallbackFindings.map((item) => (
+                  <li key={item.id} className="rounded-lg border border-line px-3 py-2">
+                    <p className="font-medium">{item.concern}</p>
+                    <p className="text-sm text-muted">{item.explanation}</p>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+            {missing.length > 0 ? (
+              <div>
+                <p className="font-medium">Missing documents or information</p>
+                <ul className="mt-1 list-disc pl-5 text-muted">
+                  {missing.slice(0, 3).map((item) => (
+                    <li key={`${item.title}-${item.document_type}`}>{item.title || item.document_type}: {item.reason}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+            {actions[0] ? (
+              <p>
+                <span className="font-medium">Next: </span>
+                {actions[0].action}. {actions[0].reason}
+              </p>
+            ) : null}
+            {prediction?.numeric_estimate != null ? (
+              <p className="text-sm text-muted">
+                Uncalibrated AI estimate {prediction.numeric_estimate}. This is not a measured acceptance probability.
+              </p>
+            ) : null}
           </div>
         ) : null}
 
         <Notice tone="neutral" icon={<ShieldCheck aria-hidden className="size-4" />}>
-          Configured checks for the selected markets. This is not a toxicity model, a regulatory evaluation,
-          or a certification.
+          Preliminary internal assessment; not certification.
         </Notice>
       </div>
     </Modal>

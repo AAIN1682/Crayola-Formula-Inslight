@@ -12,10 +12,10 @@ import re
 from functools import lru_cache
 from pathlib import Path
 
-from app.config import DATA
+from app.config import DATA, composition_tolerance
 
 REFERENCE_FILES = {"US": "us_ 2.json", "EU": "eu_ 2.json"}
-TOLERANCE = 0.01
+TOLERANCE = composition_tolerance()
 AGE_TO_SOURCE = {"under_12": "Under_12", "12_and_above": "Age_12_Plus"}
 SOURCE_TO_AGE = {value: key for key, value in AGE_TO_SOURCE.items()}
 AGE_ALIASES = {
@@ -1070,7 +1070,7 @@ def _evaluate_rule(rule: dict, row: dict, formula: dict, substance: dict) -> dic
 def _evaluate_ingredient(row, formula, catalog, regions, category, age, calculated, applicable_rules, seen_rules, group_members) -> None:
     substance = catalog["substances"][row["material_id"]]
     for region in regions:
-        matched = [
+        catalog_matches = [
             rule for rule in catalog["rules"]
             if rule["substance_id"] == row["material_id"]
             and rule["region"] == region
@@ -1078,6 +1078,9 @@ def _evaluate_ingredient(row, formula, catalog, regions, category, age, calculat
             and rule["age_group"] == age
             and not rule.get("duplicate_of")
         ]
+        matched = [rule for rule in catalog_matches if not rule.get("state_code")]
+        if catalog_matches and not matched:
+            continue
         if not matched:
             calculated.append({
                 "check_id": f"{region}:{row['material_id']}:NO-RULE",
@@ -1226,8 +1229,8 @@ def build_threshold_context(formula: dict, version_changes: list | None = None) 
     limitations = [
         catalog["coverage_note"],
         "Source verification status is the status stated in the supplied file. This application does not independently verify it.",
-        "AP and CL decisions are not issued here.",
-        "Partial composition." if partial else "The declared formulation ingredients total 100% within tolerance. This is still not an approved-recipe or full regulatory certification.",
+        "State-specific requirements remain in the source dataset and are excluded from this assessment. They are not applied to a generic United States result.",
+        "Partial composition." if partial else f"The declared formulation ingredients total 100% within ±{TOLERANCE} percentage points. This is still not an approved-recipe or full regulatory certification.",
     ]
     public_formula = {
         "formula_id": formula.get("formula_id"),
@@ -1254,6 +1257,8 @@ def build_threshold_context(formula: dict, version_changes: list | None = None) 
                 "name": catalog["substances"][row["material_id"]]["name"],
                 "concentration_percent": row.get("concentration_percent"),
                 "batch_id": row.get("batch_id"),
+                "supplier": row.get("supplier"),
+                "grade": row.get("grade"),
                 "role": catalog["substances"][row["material_id"]]["role"],
                 "role_label": catalog["substances"][row["material_id"]]["role_label"],
                 "cas": catalog["substances"][row["material_id"]].get("cas_number"),
@@ -1388,28 +1393,45 @@ def _evidence(formula: dict, documents: list[dict], catalog: dict) -> tuple[list
         for row in formula["ingredients"]:
             material_id = row["material_id"]
             batch = row.get("batch_id")
-            for document_type, scope in (("coa", "material"), ("lab_report", "material")):
+            for document_type, scope in (("coa", "material"), ("sds", "material"), ("lab_report", "material")):
                 requirement_id = f"REQ:{region}:{material_id}:{document_type}"
                 related = [
                     document for document in documents
                     if document.get("document_type") == document_type
-                    and document.get("material_id") in {None, material_id}
+                    and document.get("scope") != "finished_product"
+                    and document.get("material_id") == material_id
                     and (not document.get("regions") or region in document.get("regions"))
                 ]
-                exact = [
-                    document for document in related
-                    if (batch and document.get("batch_id") == batch) or (not batch and not document.get("batch_id"))
-                ]
-                wrong = [document for document in related if batch and document.get("batch_id") and document.get("batch_id") != batch]
-                if document_type == "coa" and wrong and not exact:
+                if document_type == "sds":
+                    exact = []
+                    wrong = []
+                    for document in related:
+                        supplier_clash = row.get("supplier") and document.get("supplier") and str(row.get("supplier")).strip().lower() != str(document.get("supplier")).strip().lower()
+                        grade_clash = row.get("grade") and document.get("grade") and str(row.get("grade")).strip().lower() != str(document.get("grade")).strip().lower()
+                        if supplier_clash or grade_clash:
+                            wrong.append(document)
+                        else:
+                            exact.append(document)
+                else:
+                    exact = [
+                        document for document in related
+                        if (batch and document.get("batch_id") == batch) or (not batch and not document.get("batch_id"))
+                    ]
+                    wrong = [document for document in related if batch and document.get("batch_id") and document.get("batch_id") != batch]
+                if document_type in {"coa", "lab_report"} and wrong and not exact:
                     status = "mismatched"
                     ids = [document["document_id"] for document in wrong]
                     message = f"{', '.join(ids)} does not match batch {batch}."
-                    action = "Obtain the correct batch CoA or correct the entered batch."
+                    action = "Obtain the correct batch document or correct the entered batch."
+                elif document_type == "sds" and wrong and not exact:
+                    status = "mismatched"
+                    ids = [document["document_id"] for document in wrong]
+                    message = f"{', '.join(ids)} does not match the recorded supplier or grade. Batch is not required for an SDS."
+                    action = "Review the SDS identity. Do not treat a different grade as this material."
                 elif exact and any(document.get("review_status") == "confirmed" for document in exact):
                     status = "satisfied"
                     ids = [document["document_id"] for document in exact if document.get("review_status") == "confirmed"]
-                    message = "Reviewed evidence matches this material and batch."
+                    message = "Reviewed evidence matches this material." if document_type == "sds" else "Reviewed evidence matches this material and batch."
                     action = "No further upload is required for this matching document."
                 elif exact:
                     status = "needs_review"
@@ -1421,8 +1443,12 @@ def _evidence(formula: dict, documents: list[dict], catalog: dict) -> tuple[list
                 else:
                     status = "missing"
                     ids = []
-                    message = "No matching document is on file for this material and batch."
-                    action = "Upload the document for this scope."
+                    message = (
+                        "No matching SDS is on file for this material. Batch is not required for an SDS."
+                        if document_type == "sds"
+                        else "No matching document is on file for this material and batch."
+                    )
+                    action = "Upload the document for this ingredient. A product-level file does not satisfy this requirement."
                 check = {
                     "check_id": f"E:{region}:{requirement_id}",
                     "requirement_id": requirement_id,

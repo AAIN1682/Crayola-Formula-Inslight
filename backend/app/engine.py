@@ -7,12 +7,12 @@ import json
 import logging
 from pathlib import Path
 
-from app.config import DATA
+from app.config import DATA, composition_tolerance
 from app.extract import extract_document
 
 logger = logging.getLogger("affine.engine")
 
-TOLERANCE = 0.01
+TOLERANCE = composition_tolerance()
 REGIONS = ("US", "EU", "UK", "CA")
 AGES = ("under_12", "12_and_above")
 REGION_ALIASES = {"usa": "US", "united_states": "US", "europe": "EU", "united_kingdom": "UK", "gb": "UK", "canada": "CA"}

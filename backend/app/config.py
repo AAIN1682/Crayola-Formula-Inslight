@@ -56,6 +56,18 @@ def resolve_data_dir() -> Path:
 DATA = resolve_data_dir()
 
 
+def composition_tolerance() -> float:
+    """Shared composition tolerance in percentage points. Frontend default matches 0.01."""
+    raw = os.environ.get("COMPOSITION_TOLERANCE", "0.01").strip()
+    try:
+        value = float(raw)
+    except ValueError:
+        value = 0.01
+    if value < 0 or value > 1:
+        return 0.01
+    return value
+
+
 def azure_settings() -> dict:
     key = _first("AZURE_OPENAI_API_KEY", "AZURE_OPENAI_KEY")
     endpoint = _first("AZURE_OPENAI_ENDPOINT")

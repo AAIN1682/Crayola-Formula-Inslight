@@ -196,6 +196,7 @@ def save_upload(content: bytes, original_filename: str, metadata: dict) -> dict:
     scope = str(metadata.get("scope") or "")
     if scope not in {"material", "finished_product"}:
         raise UploadError("Scope must be material or finished product.")
+    safe_name = re.sub(r"[^A-Za-z0-9._-]+", "_", Path(original_filename or "upload.pdf").name).strip("._")[:120] or "upload.pdf"
     document_id = "UPL-" + uuid4().hex[:12]
     digest = hashlib.sha256(content).hexdigest()
     stored = _store_bytes(document_id, content, "application/pdf")
@@ -228,7 +229,7 @@ def save_upload(content: bytes, original_filename: str, metadata: dict) -> dict:
         extraction_status = "empty"
     record = {
         "document_id": document_id,
-        "original_filename": Path(original_filename or "upload.pdf").name,
+        "original_filename": safe_name,
         "stored_name": stored["stored_name"],
         "storage": stored["storage"],
         "url": stored.get("url"),
@@ -249,8 +250,10 @@ def save_upload(content: bytes, original_filename: str, metadata: dict) -> dict:
         "test_scope": metadata.get("test_scope") or None,
         "created_at": datetime.now(timezone.utc).isoformat(),
         "extraction_status": extraction_status,
+        "processing_status": "processed" if extraction_status == "extracted" else "failed",
+        "evidence_status": "pending_review" if extraction_status == "extracted" else "insufficient",
         "ocr_required": extraction_status == "ocr_required",
-        "ocr_message": "OCR required" if extraction_status == "ocr_required" else None,
+        "ocr_message": "This PDF has no extractable text and OCR is unavailable." if extraction_status == "ocr_required" else None,
         "review_status": "extracted_unreviewed" if extraction_status == "extracted" else extraction_status,
         "authenticity_status": "not_established",
         "applicability_status": "unconfirmed",
@@ -298,6 +301,8 @@ def review_upload(document_id: str, corrections: list[dict]) -> dict:
         field["provenance"] = "user_correction"
     if corrections:
         match["review_status"] = "confirmed"
+        match["evidence_status"] = "pending_review"
+        match["processing_status"] = match.get("processing_status") or "processed"
     _write_index(rows)
     return _public(match)
 

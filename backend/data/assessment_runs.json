@@ -2136,15 +2136,3119 @@
         "error_code": null,
         "error_message": null
       }
+    },
+    {
+      "assessment_id": "88e46ae8-44b4-4b3a-9970-8e25bca03fe3",
+      "created_at": "2026-10-11T12:42:10.808833+00:00",
+      "data_version": "us-eu-thresholds-2026-10-08-2026-10-08-5c566df8f4e5",
+      "dataset_kind": "threshold_reference",
+      "screening_status_label": "Changes required",
+      "data_hash": "5c566df8f4e5fc9545b5ecd9efa1e72dc98a4932bf56bfc086accc17727439fa",
+      "input_hash": "a3af29818d4aeab6e03bad40ffb35844710ea2ce01d3adeb36821ee79e2fbb45",
+      "input_snapshot": {
+        "formula_id": "FML-1019",
+        "version_id": "v1.0",
+        "name": "Crayola Classic Wax Crayon",
+        "product_category": "Crayons",
+        "age_group": "under_12",
+        "regions": [
+          "US"
+        ],
+        "physical_form": "solid",
+        "intended_use": "Solid extruded wax crayon intended for drawing and coloring on paper by young children in home and classroom environments.",
+        "ingredients": [
+          {
+            "material_id": "s_natural_waxes_beeswax_carnauba",
+            "concentration_percent": 60.0,
+            "batch_id": "BATCH-PAR-2026-A",
+            "supplier": null,
+            "grade": null,
+            "measured_value": null,
+            "measured_unit": null,
+            "measured_bound": null,
+            "measurement_kind": null,
+            "test_method": null,
+            "analyte": null,
+            "below_detection": false,
+            "role": "formulation_ingredient"
+          },
+          {
+            "material_id": "s_di_n_pentyl_phthalate_131180",
+            "concentration_percent": 40.0,
+            "batch_id": "BATCH-STE-991",
+            "supplier": null,
+            "grade": null,
+            "measured_value": null,
+            "measured_unit": null,
+            "measured_bound": null,
+            "measurement_kind": null,
+            "test_method": null,
+            "analyte": null,
+            "below_detection": false,
+            "role": "formulation_ingredient"
+          }
+        ],
+        "legacy_materials": [],
+        "generate_explanation": true,
+        "assessment_mode": "evidence",
+        "composition_completeness": "complete",
+        "us_states": [
+          "WA"
+        ],
+        "intended_age_detail": "age_6_to_under_12",
+        "toy_childcare_scope": "yes",
+        "component_type": "finished_formula",
+        "test_material_category": "en71_cat_i",
+        "document_ids": [],
+        "category_supported": true
+      },
+      "screening_status": "changes_required",
+      "regulatory_status": "not_assessed",
+      "ap_cl_decision": null,
+      "acceptance_probability": null,
+      "ap_acceptance_probability": null,
+      "model_confidence": null,
+      "analysis_confidence": {
+        "level": "low",
+        "basis": "No applicable checks can be evaluated, or essential identity, evidence, or applicability gaps prevent a complete assessment.",
+        "limiting_factors": [
+          "Verified evidence coverage is 0%.",
+          "Both material COAs are missing.",
+          "One rule is not applicable to this assessment.",
+          "40% compared with > 0.1 % (stated_weight). Outside the stated boundary.",
+          "No matching document is on file for this material and batch."
+        ],
+        "source_ids": [
+          "us:2:0:18:0",
+          "us:2:0:26:0"
+        ],
+        "assessment_support": "insufficient"
+      },
+      "assessment_support": {
+        "level": "insufficient",
+        "basis": "No applicable checks can be evaluated, or essential identity, evidence, or applicability gaps prevent a complete assessment.",
+        "limiting_factors": [
+          "40% compared with > 0.1 % (stated_weight). Outside the stated boundary.",
+          "No matching document is on file for this material and batch.",
+          "No matching document is on file for this material and batch."
+        ]
+      },
+      "assessment_mode": "evidence",
+      "metrics": {
+        "assessment_mode": "evidence",
+        "passed_checks": 0,
+        "failed_checks": 1,
+        "concentration_passed_checks": 0,
+        "concentration_failed_checks": 1,
+        "not_assessed_checks": 0,
+        "needs_test_data_checks": 0,
+        "applicability_unknown_checks": 0,
+        "source_review_required_checks": 0,
+        "no_matching_rule_checks": 0,
+        "not_applicable_checks": 1,
+        "evaluated_checks": 1,
+        "identified_applicable_checks": 1,
+        "check_pass_rate_percent": 0.0,
+        "check_pass_rate_label": "Check pass rate",
+        "evidence_coverage_label": "Verified evidence coverage",
+        "check_pass_rate_copy": "0 of 1 evaluated checks passed.",
+        "rule_evaluation_coverage_percent": 100.0,
+        "rule_evaluation_coverage_copy": "1 of 1 identified applicable checks were evaluated. This is coverage of the configured rule set, not every possible regulation.",
+        "evidence_coverage_percent": 0.0,
+        "evidence_coverage_partial": false,
+        "evidence_satisfied": 0,
+        "evidence_missing": 2,
+        "evidence_needs_review": 0,
+        "evidence_mismatched": 0,
+        "evidence_applicability_unknown": 0,
+        "evidence_not_applicable": 0,
+        "evidence_applicable_count": 2,
+        "metrics_note": "Check pass rate uses evaluated applicable checks only. Rule evaluation coverage uses the configured rule set. Verified evidence coverage uses satisfied applicable requirements. Neither value is an acceptance probability.",
+        "ap_acceptance_note": "AP acceptance estimate unavailable: validated outcome data/model required.",
+        "assessment_support": {
+          "level": "insufficient",
+          "basis": "No applicable checks can be evaluated, or essential identity, evidence, or applicability gaps prevent a complete assessment.",
+          "limiting_factors": [
+            "40% compared with > 0.1 % (stated_weight). Outside the stated boundary.",
+            "No matching document is on file for this material and batch.",
+            "No matching document is on file for this material and batch."
+          ]
+        }
+      },
+      "regions": {
+        "US": {
+          "screening_status": "changes_required",
+          "regulatory_status": "not_assessed",
+          "ap_cl_decision": null
+        }
+      },
+      "llm_context": {
+        "formula": {
+          "formula_id": "FML-1019",
+          "version_id": "v1.0",
+          "name": "Crayola Classic Wax Crayon",
+          "product_category": "Crayons",
+          "age_group": "under_12",
+          "regions": [
+            "US"
+          ],
+          "physical_form": "solid",
+          "intended_use": "Solid extruded wax crayon intended for drawing and coloring on paper by young children in home and classroom environments.",
+          "assessment_mode": "evidence",
+          "composition_completeness": "complete",
+          "partial_composition": false,
+          "catalog_coverage_incomplete": true,
+          "composition_total_percent": 100.0,
+          "us_states": [
+            "WA"
+          ],
+          "intended_age_detail": "age_6_to_under_12",
+          "toy_childcare_scope": "yes",
+          "component_type": "finished_formula",
+          "test_material_category": "en71_cat_i",
+          "ingredients": [
+            {
+              "material_id": "s_natural_waxes_beeswax_carnauba",
+              "name": "Natural Waxes (Beeswax, Carnauba)",
+              "concentration_percent": 60.0,
+              "batch_id": "BATCH-PAR-2026-A",
+              "role": "formulation_ingredient",
+              "role_label": "Formulation ingredient",
+              "cas": null,
+              "counts_toward_ingredient_total": true
+            },
+            {
+              "material_id": "s_di_n_pentyl_phthalate_131180",
+              "name": "Di-n-pentyl phthalate (DPENP)",
+              "concentration_percent": 40.0,
+              "batch_id": "BATCH-STE-991",
+              "role": "formulation_ingredient",
+              "role_label": "Formulation ingredient",
+              "cas": "131-18-0",
+              "counts_toward_ingredient_total": true
+            }
+          ]
+        },
+        "materials": [
+          {
+            "material_id": "s_natural_waxes_beeswax_carnauba",
+            "name": "Natural Waxes (Beeswax, Carnauba)",
+            "kind": "formulation_ingredient",
+            "cas": null
+          },
+          {
+            "material_id": "s_di_n_pentyl_phthalate_131180",
+            "name": "Di-n-pentyl phthalate (DPENP)",
+            "kind": "formulation_ingredient",
+            "cas": "131-18-0"
+          }
+        ],
+        "calculated_checks": [
+          {
+            "check_id": "US:s_natural_waxes_beeswax_carnauba:us:2:0:26:0",
+            "material_id": "s_natural_waxes_beeswax_carnauba",
+            "region": "US",
+            "rule_id": "us:2:0:26:0",
+            "status": "not_applicable",
+            "actual": 60.0,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "operator": null,
+            "route": "status_text",
+            "verification_status": "Pending Verification",
+            "verified_limit_available": false,
+            "json_pointer": "/productCategories/2/ageGroups/0/composition/26/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "priority": "medium",
+            "reason_code": "not_applicable",
+            "message": "State rule for CA is not applied to a generic US assessment.",
+            "action": "Resolve applicability before treating this as a pass or a failure.",
+            "check_kind": "status_text"
+          },
+          {
+            "check_id": "US:s_di_n_pentyl_phthalate_131180:us:2:0:18:0",
+            "material_id": "s_di_n_pentyl_phthalate_131180",
+            "region": "US",
+            "rule_id": "us:2:0:18:0",
+            "status": "fail",
+            "actual": 40.0,
+            "threshold": 0.1,
+            "unit": "%",
+            "basis": "stated_weight",
+            "operator": ">",
+            "route": "concentration",
+            "verification_status": "Verified",
+            "verified_limit_available": true,
+            "json_pointer": "/productCategories/2/ageGroups/0/composition/18/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "priority": "high",
+            "reason_code": "fail",
+            "message": "40% compared with > 0.1 % (stated_weight). Outside the stated boundary.",
+            "action": "The numerical comparison is from the backend, using the source operator and basis.",
+            "check_kind": "concentration"
+          }
+        ],
+        "applicable_verified_rules": [
+          {
+            "rule_id": "us:2:0:18:0",
+            "substance_id": "s_di_n_pentyl_phthalate_131180",
+            "region": "US",
+            "threshold_type": "regulatory limit",
+            "threshold_value": 0.1,
+            "threshold_unit": "%",
+            "normalized_unit": "percent",
+            "basis": "stated_weight",
+            "operator": ">",
+            "route": "concentration",
+            "regulation": "16 CFR § 1307.3",
+            "applies_to": "All children's toys & child care articles (individual phthalate, not sum)",
+            "limit_text": "more than 0.1 percent is prohibited (individual phthalate)",
+            "verification_status": "Verified",
+            "source_url": "https://www.ecfr.gov/current/title-16/chapter-II/subchapter-B/part-1307",
+            "section": "§1307.3(b)",
+            "json_pointer": "/productCategories/2/ageGroups/0/composition/18/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "state_code": null
+          }
+        ],
+        "reference_claims_pending_verification": [
+          {
+            "rule_id": "us:2:0:26:0",
+            "substance_id": "s_natural_waxes_beeswax_carnauba",
+            "region": "US",
+            "threshold_type": "exemption",
+            "threshold_value": null,
+            "threshold_unit": null,
+            "normalized_unit": null,
+            "basis": null,
+            "operator": null,
+            "route": "status_text",
+            "regulation": "CA CARB / ASTM D4236",
+            "applies_to": "VOC and solvent limits",
+            "limit_text": "EXEMPT from VOC and solvent limits.",
+            "verification_status": "Pending Verification",
+            "source_url": null,
+            "section": null,
+            "json_pointer": "/productCategories/2/ageGroups/0/composition/26/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "state_code": "CA"
+          }
+        ],
+        "evidence_requirements": [
+          {
+            "requirement_id": "REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "criticality": "high"
+          },
+          {
+            "requirement_id": "REQ:US:s_di_n_pentyl_phthalate_131180:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "criticality": "high"
+          }
+        ],
+        "evidence_matches": [],
+        "missing_evidence": [
+          {
+            "check_id": "E:US:REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+            "requirement_id": "REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "material_id": "s_natural_waxes_beeswax_carnauba",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching document is on file for this material and batch.",
+            "reason_code": "missing",
+            "action": "Upload the document for this scope.",
+            "criticality": "high",
+            "gap_status": "missing"
+          },
+          {
+            "check_id": "E:US:REQ:US:s_di_n_pentyl_phthalate_131180:coa",
+            "requirement_id": "REQ:US:s_di_n_pentyl_phthalate_131180:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "material_id": "s_di_n_pentyl_phthalate_131180",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching document is on file for this material and batch.",
+            "reason_code": "missing",
+            "action": "Upload the document for this scope.",
+            "criticality": "high",
+            "gap_status": "missing"
+          }
+        ],
+        "source_conflicts": [],
+        "source_excerpts": [],
+        "version_changes": [],
+        "documented_history": [],
+        "assessment_limitations": [
+          "Catalog coverage incomplete. These files list restricted substances, impurities, and test analytes. They do not contain enough ordinary ingredients to describe a full recipe. A submission is a partial substance screening unless the user explicitly declares a complete ingredient list totaling 100%.",
+          "Source verification status is the status stated in the supplied file. This application does not independently verify it.",
+          "AP and CL decisions are not issued here.",
+          "The declared formulation ingredients total 100% within tolerance. This is still not an approved-recipe or full regulatory certification."
+        ],
+        "checks": [
+          {
+            "check_id": "US:s_natural_waxes_beeswax_carnauba:us:2:0:26:0",
+            "material_id": "s_natural_waxes_beeswax_carnauba",
+            "region": "US",
+            "rule_id": "us:2:0:26:0",
+            "status": "not_applicable",
+            "actual": 60.0,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "operator": null,
+            "route": "status_text",
+            "verification_status": "Pending Verification",
+            "verified_limit_available": false,
+            "json_pointer": "/productCategories/2/ageGroups/0/composition/26/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "priority": "medium",
+            "reason_code": "not_applicable",
+            "message": "State rule for CA is not applied to a generic US assessment.",
+            "action": "Resolve applicability before treating this as a pass or a failure.",
+            "check_kind": "status_text"
+          },
+          {
+            "check_id": "US:s_di_n_pentyl_phthalate_131180:us:2:0:18:0",
+            "material_id": "s_di_n_pentyl_phthalate_131180",
+            "region": "US",
+            "rule_id": "us:2:0:18:0",
+            "status": "fail",
+            "actual": 40.0,
+            "threshold": 0.1,
+            "unit": "%",
+            "basis": "stated_weight",
+            "operator": ">",
+            "route": "concentration",
+            "verification_status": "Verified",
+            "verified_limit_available": true,
+            "json_pointer": "/productCategories/2/ageGroups/0/composition/18/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "priority": "high",
+            "reason_code": "fail",
+            "message": "40% compared with > 0.1 % (stated_weight). Outside the stated boundary.",
+            "action": "The numerical comparison is from the backend, using the source operator and basis.",
+            "check_kind": "concentration"
+          }
+        ],
+        "evidence_checks": [
+          {
+            "check_id": "E:US:REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+            "requirement_id": "REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "material_id": "s_natural_waxes_beeswax_carnauba",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching document is on file for this material and batch.",
+            "reason_code": "missing",
+            "action": "Upload the document for this scope.",
+            "criticality": "high"
+          },
+          {
+            "check_id": "E:US:REQ:US:s_di_n_pentyl_phthalate_131180:coa",
+            "requirement_id": "REQ:US:s_di_n_pentyl_phthalate_131180:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "material_id": "s_di_n_pentyl_phthalate_131180",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching document is on file for this material and batch.",
+            "reason_code": "missing",
+            "action": "Upload the document for this scope.",
+            "criticality": "high"
+          }
+        ],
+        "documents": [],
+        "extracted_facts": [],
+        "source_issues": [],
+        "applicable_rules": [
+          {
+            "rule_id": "us:2:0:18:0",
+            "substance_id": "s_di_n_pentyl_phthalate_131180",
+            "region": "US",
+            "threshold_type": "regulatory limit",
+            "threshold_value": 0.1,
+            "threshold_unit": "%",
+            "normalized_unit": "percent",
+            "basis": "stated_weight",
+            "operator": ">",
+            "route": "concentration",
+            "regulation": "16 CFR § 1307.3",
+            "applies_to": "All children's toys & child care articles (individual phthalate, not sum)",
+            "limit_text": "more than 0.1 percent is prohibited (individual phthalate)",
+            "verification_status": "Verified",
+            "source_url": "https://www.ecfr.gov/current/title-16/chapter-II/subchapter-B/part-1307",
+            "section": "§1307.3(b)",
+            "json_pointer": "/productCategories/2/ageGroups/0/composition/18/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "state_code": null
+          }
+        ],
+        "applicable_scenario_rules": [],
+        "regulatory_reference_status": "Threshold records are limited to the selected region, category, and age branch.",
+        "regulatory_rows_disabled": 445,
+        "historical_cases": [],
+        "composition_total_percent": 100.0,
+        "assessment_mode": "evidence",
+        "dataset_kind": "threshold_reference",
+        "dataset_version": "us-eu-thresholds-2026-10-08-2026-10-08-5c566df8f4e5",
+        "scenario_provenance": {
+          "dataset_kind": "threshold_reference",
+          "dataset_version": "us-eu-thresholds-2026-10-08-2026-10-08-5c566df8f4e5",
+          "provenance": "supplied_us_eu_json",
+          "is_regulatory_requirement": false,
+          "note": "Dummy concentration rules are not used in this workflow."
+        }
+      },
+      "explanation": {
+        "status": "generated",
+        "source": "azure",
+        "content": {
+          "summary": "A verified US phthalate limit is exceeded for DPENP. Two high-criticality material COAs are missing, and one other US rule is marked not applicable, so full evidence support is insufficient.",
+          "key_reasons": [
+            "DPENP is 40% against a verified limit of >0.1% under 16 CFR §1307.3(b).",
+            "Required COA evidence is missing for both listed materials.",
+            "One state-related rule is not applicable to this generic US assessment."
+          ],
+          "finding_explanations": [
+            {
+              "check_id": "US:s_di_n_pentyl_phthalate_131180:us:2:0:18:0",
+              "explanation": "This verified concentration check failed: 40% exceeds the stated boundary of >0.1% for DPENP under the cited US phthalate rule.",
+              "source_ids": [
+                "us:2:0:18:0"
+              ],
+              "limitations": [
+                "Does not by itself determine overall product acceptability.",
+                "No substitute concentration is provided by the backend."
+              ]
+            },
+            {
+              "check_id": "US:s_natural_waxes_beeswax_carnauba:us:2:0:26:0",
+              "explanation": "This rule is marked not applicable, so it is not a pass or fail. The backend says the CA state rule is not applied to a generic US assessment.",
+              "source_ids": [
+                "us:2:0:26:0"
+              ],
+              "limitations": [
+                "Pending Verification remains a file status, not an independent verification.",
+                "Applicability should be resolved before using this rule in conclusions."
+              ]
+            }
+          ],
+          "evidence_gaps": [
+            {
+              "requirement_id": "REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+              "status": "missing",
+              "explanation": "No matching COA document is on file for the natural waxes material and batch.",
+              "required_action": "Upload the COA for this material and batch.",
+              "source_ids": []
+            },
+            {
+              "requirement_id": "REQ:US:s_di_n_pentyl_phthalate_131180:coa",
+              "status": "missing",
+              "explanation": "No matching COA document is on file for the DPENP material and batch.",
+              "required_action": "Upload the COA for this material and batch.",
+              "source_ids": []
+            }
+          ],
+          "evidence_gap_explanations": [
+            {
+              "requirement_id": "REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+              "status": "missing",
+              "explanation": "No matching COA document is on file for the natural waxes material and batch.",
+              "required_action": "Upload the COA for this material and batch.",
+              "source_ids": []
+            },
+            {
+              "requirement_id": "REQ:US:s_di_n_pentyl_phthalate_131180:coa",
+              "status": "missing",
+              "explanation": "No matching COA document is on file for the DPENP material and batch.",
+              "required_action": "Upload the COA for this material and batch.",
+              "source_ids": []
+            }
+          ],
+          "recommendations": [
+            {
+              "priority": "critical",
+              "action": "Reduce DPENP to at or below 0.1%",
+              "rationale": "The verified limit is exceeded. Rebalance the formula total and assess again using the configured US rule set.",
+              "related_check_ids": [
+                "US:s_di_n_pentyl_phthalate_131180:us:2:0:18:0"
+              ],
+              "source_ids": [
+                "us:2:0:18:0"
+              ],
+              "requires_testing_or_review": true,
+              "can_create_scenario": true
+            },
+            {
+              "priority": "high",
+              "action": "Provide COAs for both materials",
+              "rationale": "Both material-level COA requirements are missing, leaving verified evidence coverage incomplete for the evaluated ingredients.",
+              "related_check_ids": [
+                "E:US:REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+                "E:US:REQ:US:s_di_n_pentyl_phthalate_131180:coa"
+              ],
+              "source_ids": [],
+              "requires_testing_or_review": true,
+              "can_create_scenario": false
+            },
+            {
+              "priority": "medium",
+              "action": "Review rule applicability for the wax ingredient",
+              "rationale": "The backend marks the CA-related rule as not applicable in this generic US assessment, so it should not be treated as a substantive pass or failure.",
+              "related_check_ids": [
+                "US:s_natural_waxes_beeswax_carnauba:us:2:0:26:0"
+              ],
+              "source_ids": [
+                "us:2:0:26:0"
+              ],
+              "requires_testing_or_review": true,
+              "can_create_scenario": false
+            }
+          ],
+          "prioritized_actions": [
+            {
+              "priority": "critical",
+              "action": "Reduce DPENP to at or below 0.1%",
+              "rationale": "The verified limit is exceeded. Rebalance the formula total and assess again using the configured US rule set.",
+              "related_check_ids": [
+                "US:s_di_n_pentyl_phthalate_131180:us:2:0:18:0"
+              ],
+              "source_ids": [
+                "us:2:0:18:0"
+              ],
+              "requires_testing_or_review": true,
+              "can_create_scenario": true
+            },
+            {
+              "priority": "high",
+              "action": "Provide COAs for both materials",
+              "rationale": "Both material-level COA requirements are missing, leaving verified evidence coverage incomplete for the evaluated ingredients.",
+              "related_check_ids": [
+                "E:US:REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+                "E:US:REQ:US:s_di_n_pentyl_phthalate_131180:coa"
+              ],
+              "source_ids": [],
+              "requires_testing_or_review": true,
+              "can_create_scenario": false
+            },
+            {
+              "priority": "medium",
+              "action": "Review rule applicability for the wax ingredient",
+              "rationale": "The backend marks the CA-related rule as not applicable in this generic US assessment, so it should not be treated as a substantive pass or failure.",
+              "related_check_ids": [
+                "US:s_natural_waxes_beeswax_carnauba:us:2:0:26:0"
+              ],
+              "source_ids": [
+                "us:2:0:26:0"
+              ],
+              "requires_testing_or_review": true,
+              "can_create_scenario": false
+            }
+          ],
+          "alerts": [
+            {
+              "severity": "high",
+              "title": "Verified phthalate limit exceeded",
+              "message": "DPENP is reported at 40%, above the verified US boundary of >0.1%.",
+              "source_ids": [
+                "us:2:0:18:0"
+              ]
+            },
+            {
+              "severity": "medium",
+              "title": "Required material evidence missing",
+              "message": "COAs are missing for both listed materials, so verified evidence coverage is incomplete.",
+              "source_ids": []
+            },
+            {
+              "severity": "informational",
+              "title": "One rule not applicable",
+              "message": "The wax-related CA rule is not applied to this generic US assessment.",
+              "source_ids": [
+                "us:2:0:26:0"
+              ]
+            }
+          ],
+          "assessment_support_explanation": "Support is insufficient because one evaluated check fails, one rule is not applicable, and both required COAs are missing. The backend explicitly says verified evidence coverage is 0%, so the assessment cannot be treated as fully supported.",
+          "source_conflicts": [],
+          "analysis_confidence": {
+            "level": "low",
+            "basis": "No applicable checks can be evaluated, or essential identity, evidence, or applicability gaps prevent a complete assessment.",
+            "limiting_factors": [
+              "Verified evidence coverage is 0%.",
+              "Both material COAs are missing.",
+              "One rule is not applicable to this assessment.",
+              "40% compared with > 0.1 % (stated_weight). Outside the stated boundary.",
+              "No matching document is on file for this material and batch."
+            ],
+            "source_ids": [
+              "us:2:0:18:0",
+              "us:2:0:26:0"
+            ],
+            "assessment_support": "insufficient"
+          },
+          "version_comparison_summary": null,
+          "version_change_summary": null,
+          "limitations": [
+            "Evidence mode uses only the supplied US threshold files for the selected region/category/age branch.",
+            "AP and CL decisions are not issued here.",
+            "Missing COAs are evidence gaps, not independent proof of noncompliance beyond the evaluated fail.",
+            "No verified applicable threshold is available for the wax rule in this assessment context."
+          ],
+          "version_change": null
+        }
+      },
+      "execution": {
+        "assessment_id": "88e46ae8-44b4-4b3a-9970-8e25bca03fe3",
+        "execution_mode": "live",
+        "llm_provider": "azure_openai",
+        "llm_status": "succeeded",
+        "deployment": "gpt-5.4-mini",
+        "response_id": "chatcmpl-EXnAfFJHtPRs0MTmiE9656yqMgjbf",
+        "request_id": "e2a992c8-5478-481c-9bff-184a27196b36",
+        "generated_at": "2026-10-11T12:42:10.808833+00:00",
+        "latency_ms": 19093,
+        "usage": {
+          "completion_tokens": 1378,
+          "prompt_tokens": 3775,
+          "total_tokens": 5153,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": 0,
+            "audio_tokens": 0,
+            "reasoning_tokens": 0,
+            "rejected_prediction_tokens": 0
+          },
+          "prompt_tokens_details": {
+            "audio_tokens": 0,
+            "cached_tokens": 3328
+          },
+          "latency_checkpoint": {
+            "engine_tbt_ms": 4,
+            "engine_ttft_ms": 63,
+            "engine_ttlt_ms": 5762,
+            "pre_inference_ms": 131,
+            "service_tbt_ms": 4,
+            "service_ttft_ms": 502,
+            "service_ttlt_ms": 6175,
+            "user_visible_ttft_ms": 372
+          }
+        },
+        "retrieved_source_count": 0,
+        "input_hash": "a3af29818d4aeab6e03bad40ffb35844710ea2ce01d3adeb36821ee79e2fbb45",
+        "data_hash": "5c566df8f4e5fc9545b5ecd9efa1e72dc98a4932bf56bfc086accc17727439fa",
+        "error_code": null,
+        "error_message": null
+      }
+    },
+    {
+      "assessment_id": "ae1c02be-c1b9-4712-aec2-3f9a00db30b7",
+      "created_at": "2026-10-11T14:16:21.198814+00:00",
+      "data_version": "us-eu-thresholds-2026-10-08-2026-10-08-5c566df8f4e5",
+      "dataset_kind": "threshold_reference",
+      "screening_status_label": "Changes required",
+      "data_hash": "5c566df8f4e5fc9545b5ecd9efa1e72dc98a4932bf56bfc086accc17727439fa",
+      "input_hash": "a3af29818d4aeab6e03bad40ffb35844710ea2ce01d3adeb36821ee79e2fbb45",
+      "input_snapshot": {
+        "formula_id": "FML-1019",
+        "version_id": "v1.0",
+        "name": "Crayola Classic Wax Crayon",
+        "product_category": "Crayons",
+        "age_group": "under_12",
+        "regions": [
+          "US"
+        ],
+        "physical_form": "solid",
+        "intended_use": "Solid extruded wax crayon intended for drawing and coloring on paper by young children in home and classroom environments.",
+        "ingredients": [
+          {
+            "material_id": "s_natural_waxes_beeswax_carnauba",
+            "concentration_percent": 60.0,
+            "batch_id": "BATCH-PAR-2026-A",
+            "supplier": null,
+            "grade": null,
+            "measured_value": null,
+            "measured_unit": null,
+            "measured_bound": null,
+            "measurement_kind": null,
+            "test_method": null,
+            "analyte": null,
+            "below_detection": false,
+            "role": "formulation_ingredient"
+          },
+          {
+            "material_id": "s_di_n_pentyl_phthalate_131180",
+            "concentration_percent": 40.0,
+            "batch_id": "BATCH-STE-991",
+            "supplier": null,
+            "grade": null,
+            "measured_value": null,
+            "measured_unit": null,
+            "measured_bound": null,
+            "measurement_kind": null,
+            "test_method": null,
+            "analyte": null,
+            "below_detection": false,
+            "role": "formulation_ingredient"
+          }
+        ],
+        "legacy_materials": [],
+        "generate_explanation": true,
+        "assessment_mode": "evidence",
+        "composition_completeness": "complete",
+        "us_states": [
+          "WA"
+        ],
+        "intended_age_detail": "age_6_to_under_12",
+        "toy_childcare_scope": "yes",
+        "component_type": "finished_formula",
+        "test_material_category": "en71_cat_i",
+        "document_ids": [],
+        "category_supported": true
+      },
+      "screening_status": "changes_required",
+      "regulatory_status": "not_assessed",
+      "ap_cl_decision": null,
+      "acceptance_probability": null,
+      "ap_acceptance_probability": null,
+      "model_confidence": null,
+      "analysis_confidence": {
+        "level": "low",
+        "basis": "No applicable checks can be evaluated, or essential identity, evidence, or applicability gaps prevent a complete assessment.",
+        "limiting_factors": [
+          "Missing COA evidence for both materials",
+          "One verified concentration failure",
+          "One not-applicable status item is unresolved at source level",
+          "40% compared with > 0.1 % (stated_weight). Outside the stated boundary.",
+          "No matching document is on file for this material and batch."
+        ],
+        "source_ids": [
+          "us:2:0:18:0",
+          "us:2:0:26:0"
+        ],
+        "assessment_support": "insufficient"
+      },
+      "assessment_support": {
+        "level": "insufficient",
+        "basis": "No applicable checks can be evaluated, or essential identity, evidence, or applicability gaps prevent a complete assessment.",
+        "limiting_factors": [
+          "40% compared with > 0.1 % (stated_weight). Outside the stated boundary.",
+          "No matching document is on file for this material and batch.",
+          "No matching document is on file for this material and batch."
+        ]
+      },
+      "assessment_mode": "evidence",
+      "metrics": {
+        "assessment_mode": "evidence",
+        "passed_checks": 0,
+        "failed_checks": 1,
+        "concentration_passed_checks": 0,
+        "concentration_failed_checks": 1,
+        "not_assessed_checks": 0,
+        "needs_test_data_checks": 0,
+        "applicability_unknown_checks": 0,
+        "source_review_required_checks": 0,
+        "no_matching_rule_checks": 0,
+        "not_applicable_checks": 1,
+        "evaluated_checks": 1,
+        "identified_applicable_checks": 1,
+        "check_pass_rate_percent": 0.0,
+        "check_pass_rate_label": "Check pass rate",
+        "evidence_coverage_label": "Verified evidence coverage",
+        "check_pass_rate_copy": "0 of 1 evaluated checks passed.",
+        "rule_evaluation_coverage_percent": 100.0,
+        "rule_evaluation_coverage_copy": "1 of 1 identified applicable checks were evaluated. This is coverage of the configured rule set, not every possible regulation.",
+        "evidence_coverage_percent": 0.0,
+        "evidence_coverage_partial": false,
+        "evidence_satisfied": 0,
+        "evidence_missing": 2,
+        "evidence_needs_review": 0,
+        "evidence_mismatched": 0,
+        "evidence_applicability_unknown": 0,
+        "evidence_not_applicable": 0,
+        "evidence_applicable_count": 2,
+        "metrics_note": "Check pass rate uses evaluated applicable checks only. Rule evaluation coverage uses the configured rule set. Verified evidence coverage uses satisfied applicable requirements. Neither value is an acceptance probability.",
+        "ap_acceptance_note": "AP acceptance estimate unavailable: validated outcome data/model required.",
+        "assessment_support": {
+          "level": "insufficient",
+          "basis": "No applicable checks can be evaluated, or essential identity, evidence, or applicability gaps prevent a complete assessment.",
+          "limiting_factors": [
+            "40% compared with > 0.1 % (stated_weight). Outside the stated boundary.",
+            "No matching document is on file for this material and batch.",
+            "No matching document is on file for this material and batch."
+          ]
+        }
+      },
+      "regions": {
+        "US": {
+          "screening_status": "changes_required",
+          "regulatory_status": "not_assessed",
+          "ap_cl_decision": null
+        }
+      },
+      "llm_context": {
+        "formula": {
+          "formula_id": "FML-1019",
+          "version_id": "v1.0",
+          "name": "Crayola Classic Wax Crayon",
+          "product_category": "Crayons",
+          "age_group": "under_12",
+          "regions": [
+            "US"
+          ],
+          "physical_form": "solid",
+          "intended_use": "Solid extruded wax crayon intended for drawing and coloring on paper by young children in home and classroom environments.",
+          "assessment_mode": "evidence",
+          "composition_completeness": "complete",
+          "partial_composition": false,
+          "catalog_coverage_incomplete": true,
+          "composition_total_percent": 100.0,
+          "us_states": [
+            "WA"
+          ],
+          "intended_age_detail": "age_6_to_under_12",
+          "toy_childcare_scope": "yes",
+          "component_type": "finished_formula",
+          "test_material_category": "en71_cat_i",
+          "ingredients": [
+            {
+              "material_id": "s_natural_waxes_beeswax_carnauba",
+              "name": "Natural Waxes (Beeswax, Carnauba)",
+              "concentration_percent": 60.0,
+              "batch_id": "BATCH-PAR-2026-A",
+              "role": "formulation_ingredient",
+              "role_label": "Formulation ingredient",
+              "cas": null,
+              "counts_toward_ingredient_total": true
+            },
+            {
+              "material_id": "s_di_n_pentyl_phthalate_131180",
+              "name": "Di-n-pentyl phthalate (DPENP)",
+              "concentration_percent": 40.0,
+              "batch_id": "BATCH-STE-991",
+              "role": "formulation_ingredient",
+              "role_label": "Formulation ingredient",
+              "cas": "131-18-0",
+              "counts_toward_ingredient_total": true
+            }
+          ]
+        },
+        "materials": [
+          {
+            "material_id": "s_natural_waxes_beeswax_carnauba",
+            "name": "Natural Waxes (Beeswax, Carnauba)",
+            "kind": "formulation_ingredient",
+            "cas": null
+          },
+          {
+            "material_id": "s_di_n_pentyl_phthalate_131180",
+            "name": "Di-n-pentyl phthalate (DPENP)",
+            "kind": "formulation_ingredient",
+            "cas": "131-18-0"
+          }
+        ],
+        "calculated_checks": [
+          {
+            "check_id": "US:s_natural_waxes_beeswax_carnauba:us:2:0:26:0",
+            "material_id": "s_natural_waxes_beeswax_carnauba",
+            "region": "US",
+            "rule_id": "us:2:0:26:0",
+            "status": "not_applicable",
+            "actual": 60.0,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "operator": null,
+            "route": "status_text",
+            "verification_status": "Pending Verification",
+            "verified_limit_available": false,
+            "json_pointer": "/productCategories/2/ageGroups/0/composition/26/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "priority": "medium",
+            "reason_code": "not_applicable",
+            "message": "State rule for CA is not applied to a generic US assessment.",
+            "action": "Resolve applicability before treating this as a pass or a failure.",
+            "check_kind": "status_text"
+          },
+          {
+            "check_id": "US:s_di_n_pentyl_phthalate_131180:us:2:0:18:0",
+            "material_id": "s_di_n_pentyl_phthalate_131180",
+            "region": "US",
+            "rule_id": "us:2:0:18:0",
+            "status": "fail",
+            "actual": 40.0,
+            "threshold": 0.1,
+            "unit": "%",
+            "basis": "stated_weight",
+            "operator": ">",
+            "route": "concentration",
+            "verification_status": "Verified",
+            "verified_limit_available": true,
+            "json_pointer": "/productCategories/2/ageGroups/0/composition/18/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "priority": "high",
+            "reason_code": "fail",
+            "message": "40% compared with > 0.1 % (stated_weight). Outside the stated boundary.",
+            "action": "The numerical comparison is from the backend, using the source operator and basis.",
+            "check_kind": "concentration"
+          }
+        ],
+        "applicable_verified_rules": [
+          {
+            "rule_id": "us:2:0:18:0",
+            "substance_id": "s_di_n_pentyl_phthalate_131180",
+            "region": "US",
+            "threshold_type": "regulatory limit",
+            "threshold_value": 0.1,
+            "threshold_unit": "%",
+            "normalized_unit": "percent",
+            "basis": "stated_weight",
+            "operator": ">",
+            "route": "concentration",
+            "regulation": "16 CFR § 1307.3",
+            "applies_to": "All children's toys & child care articles (individual phthalate, not sum)",
+            "limit_text": "more than 0.1 percent is prohibited (individual phthalate)",
+            "verification_status": "Verified",
+            "source_url": "https://www.ecfr.gov/current/title-16/chapter-II/subchapter-B/part-1307",
+            "section": "§1307.3(b)",
+            "json_pointer": "/productCategories/2/ageGroups/0/composition/18/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "state_code": null
+          }
+        ],
+        "reference_claims_pending_verification": [
+          {
+            "rule_id": "us:2:0:26:0",
+            "substance_id": "s_natural_waxes_beeswax_carnauba",
+            "region": "US",
+            "threshold_type": "exemption",
+            "threshold_value": null,
+            "threshold_unit": null,
+            "normalized_unit": null,
+            "basis": null,
+            "operator": null,
+            "route": "status_text",
+            "regulation": "CA CARB / ASTM D4236",
+            "applies_to": "VOC and solvent limits",
+            "limit_text": "EXEMPT from VOC and solvent limits.",
+            "verification_status": "Pending Verification",
+            "source_url": null,
+            "section": null,
+            "json_pointer": "/productCategories/2/ageGroups/0/composition/26/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "state_code": "CA"
+          }
+        ],
+        "evidence_requirements": [
+          {
+            "requirement_id": "REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "criticality": "high"
+          },
+          {
+            "requirement_id": "REQ:US:s_di_n_pentyl_phthalate_131180:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "criticality": "high"
+          }
+        ],
+        "evidence_matches": [],
+        "missing_evidence": [
+          {
+            "check_id": "E:US:REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+            "requirement_id": "REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "material_id": "s_natural_waxes_beeswax_carnauba",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching document is on file for this material and batch.",
+            "reason_code": "missing",
+            "action": "Upload the document for this scope.",
+            "criticality": "high",
+            "gap_status": "missing"
+          },
+          {
+            "check_id": "E:US:REQ:US:s_di_n_pentyl_phthalate_131180:coa",
+            "requirement_id": "REQ:US:s_di_n_pentyl_phthalate_131180:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "material_id": "s_di_n_pentyl_phthalate_131180",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching document is on file for this material and batch.",
+            "reason_code": "missing",
+            "action": "Upload the document for this scope.",
+            "criticality": "high",
+            "gap_status": "missing"
+          }
+        ],
+        "source_conflicts": [],
+        "source_excerpts": [],
+        "version_changes": [],
+        "documented_history": [],
+        "assessment_limitations": [
+          "Catalog coverage incomplete. These files list restricted substances, impurities, and test analytes. They do not contain enough ordinary ingredients to describe a full recipe. A submission is a partial substance screening unless the user explicitly declares a complete ingredient list totaling 100%.",
+          "Source verification status is the status stated in the supplied file. This application does not independently verify it.",
+          "AP and CL decisions are not issued here.",
+          "The declared formulation ingredients total 100% within tolerance. This is still not an approved-recipe or full regulatory certification."
+        ],
+        "checks": [
+          {
+            "check_id": "US:s_natural_waxes_beeswax_carnauba:us:2:0:26:0",
+            "material_id": "s_natural_waxes_beeswax_carnauba",
+            "region": "US",
+            "rule_id": "us:2:0:26:0",
+            "status": "not_applicable",
+            "actual": 60.0,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "operator": null,
+            "route": "status_text",
+            "verification_status": "Pending Verification",
+            "verified_limit_available": false,
+            "json_pointer": "/productCategories/2/ageGroups/0/composition/26/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "priority": "medium",
+            "reason_code": "not_applicable",
+            "message": "State rule for CA is not applied to a generic US assessment.",
+            "action": "Resolve applicability before treating this as a pass or a failure.",
+            "check_kind": "status_text"
+          },
+          {
+            "check_id": "US:s_di_n_pentyl_phthalate_131180:us:2:0:18:0",
+            "material_id": "s_di_n_pentyl_phthalate_131180",
+            "region": "US",
+            "rule_id": "us:2:0:18:0",
+            "status": "fail",
+            "actual": 40.0,
+            "threshold": 0.1,
+            "unit": "%",
+            "basis": "stated_weight",
+            "operator": ">",
+            "route": "concentration",
+            "verification_status": "Verified",
+            "verified_limit_available": true,
+            "json_pointer": "/productCategories/2/ageGroups/0/composition/18/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "priority": "high",
+            "reason_code": "fail",
+            "message": "40% compared with > 0.1 % (stated_weight). Outside the stated boundary.",
+            "action": "The numerical comparison is from the backend, using the source operator and basis.",
+            "check_kind": "concentration"
+          }
+        ],
+        "evidence_checks": [
+          {
+            "check_id": "E:US:REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+            "requirement_id": "REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "material_id": "s_natural_waxes_beeswax_carnauba",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching document is on file for this material and batch.",
+            "reason_code": "missing",
+            "action": "Upload the document for this scope.",
+            "criticality": "high"
+          },
+          {
+            "check_id": "E:US:REQ:US:s_di_n_pentyl_phthalate_131180:coa",
+            "requirement_id": "REQ:US:s_di_n_pentyl_phthalate_131180:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "material_id": "s_di_n_pentyl_phthalate_131180",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching document is on file for this material and batch.",
+            "reason_code": "missing",
+            "action": "Upload the document for this scope.",
+            "criticality": "high"
+          }
+        ],
+        "documents": [],
+        "extracted_facts": [],
+        "source_issues": [],
+        "applicable_rules": [
+          {
+            "rule_id": "us:2:0:18:0",
+            "substance_id": "s_di_n_pentyl_phthalate_131180",
+            "region": "US",
+            "threshold_type": "regulatory limit",
+            "threshold_value": 0.1,
+            "threshold_unit": "%",
+            "normalized_unit": "percent",
+            "basis": "stated_weight",
+            "operator": ">",
+            "route": "concentration",
+            "regulation": "16 CFR § 1307.3",
+            "applies_to": "All children's toys & child care articles (individual phthalate, not sum)",
+            "limit_text": "more than 0.1 percent is prohibited (individual phthalate)",
+            "verification_status": "Verified",
+            "source_url": "https://www.ecfr.gov/current/title-16/chapter-II/subchapter-B/part-1307",
+            "section": "§1307.3(b)",
+            "json_pointer": "/productCategories/2/ageGroups/0/composition/18/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "state_code": null
+          }
+        ],
+        "applicable_scenario_rules": [],
+        "regulatory_reference_status": "Threshold records are limited to the selected region, category, and age branch.",
+        "regulatory_rows_disabled": 445,
+        "historical_cases": [],
+        "composition_total_percent": 100.0,
+        "assessment_mode": "evidence",
+        "dataset_kind": "threshold_reference",
+        "dataset_version": "us-eu-thresholds-2026-10-08-2026-10-08-5c566df8f4e5",
+        "scenario_provenance": {
+          "dataset_kind": "threshold_reference",
+          "dataset_version": "us-eu-thresholds-2026-10-08-2026-10-08-5c566df8f4e5",
+          "provenance": "supplied_us_eu_json",
+          "is_regulatory_requirement": false,
+          "note": "Dummy concentration rules are not used in this workflow."
+        }
+      },
+      "explanation": {
+        "status": "generated",
+        "source": "azure",
+        "content": {
+          "summary": "One verified US concentration check failed for di-n-pentyl phthalate at 40% versus a >0.1% limit. A wax-related US status item is not applicable, and required COA evidence is missing for both materials.",
+          "key_reasons": [
+            "A verified applicable rule for di-n-pentyl phthalate failed.",
+            "The wax record is not applicable to this US assessment and is not a pass.",
+            "No COA documents were found for either material/batch."
+          ],
+          "finding_explanations": [
+            {
+              "check_id": "US:s_di_n_pentyl_phthalate_131180:us:2:0:18:0",
+              "explanation": "This verified concentration check failed because 40% exceeds the stated >0.1% boundary for the individual phthalate rule under 16 CFR § 1307.3(b).",
+              "source_ids": [
+                "us:2:0:18:0"
+              ],
+              "limitations": [
+                "Assessment support remains insufficient due to missing evidence.",
+                "This is a backend-evaluated check, not a certification decision."
+              ]
+            },
+            {
+              "check_id": "US:s_natural_waxes_beeswax_carnauba:us:2:0:26:0",
+              "explanation": "This item is marked not applicable for the generic US assessment, with a note that the CA state rule is not applied here.",
+              "source_ids": [
+                "us:2:0:26:0"
+              ],
+              "limitations": [
+                "Pending Verification status means the source file status is unresolved here.",
+                "Not applicable is not a pass or a failure."
+              ]
+            }
+          ],
+          "evidence_gaps": [
+            {
+              "requirement_id": "REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+              "status": "missing",
+              "explanation": "No matching COA document is on file for the wax material and batch.",
+              "required_action": "Upload the material COA for this scope.",
+              "source_ids": []
+            },
+            {
+              "requirement_id": "REQ:US:s_di_n_pentyl_phthalate_131180:coa",
+              "status": "missing",
+              "explanation": "No matching COA document is on file for the phthalate material and batch.",
+              "required_action": "Upload the material COA for this scope.",
+              "source_ids": []
+            }
+          ],
+          "evidence_gap_explanations": [
+            {
+              "requirement_id": "REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+              "status": "missing",
+              "explanation": "No matching COA document is on file for the wax material and batch.",
+              "required_action": "Upload the material COA for this scope.",
+              "source_ids": []
+            },
+            {
+              "requirement_id": "REQ:US:s_di_n_pentyl_phthalate_131180:coa",
+              "status": "missing",
+              "explanation": "No matching COA document is on file for the phthalate material and batch.",
+              "required_action": "Upload the material COA for this scope.",
+              "source_ids": []
+            }
+          ],
+          "recommendations": [
+            {
+              "priority": "critical",
+              "action": "Remove phthalate and re-evaluate the formula",
+              "rationale": "The verified limit-exceeding ingredient drives the failed check. The formula total must be rebalanced and assessed again against the applicable US rule.",
+              "related_check_ids": [
+                "US:s_di_n_pentyl_phthalate_131180:us:2:0:18:0"
+              ],
+              "source_ids": [
+                "us:2:0:18:0"
+              ],
+              "requires_testing_or_review": true,
+              "can_create_scenario": true
+            },
+            {
+              "priority": "high",
+              "action": "Provide COAs for both materials and batches",
+              "rationale": "Both high-criticality material evidence requirements are missing, preventing a complete evidence-supported review for the listed ingredients.",
+              "related_check_ids": [
+                "E:US:REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+                "E:US:REQ:US:s_di_n_pentyl_phthalate_131180:coa"
+              ],
+              "source_ids": [],
+              "requires_testing_or_review": true,
+              "can_create_scenario": false
+            },
+            {
+              "priority": "medium",
+              "action": "Review the US applicability of the wax status record",
+              "rationale": "The wax entry is currently not applicable under the generic US assessment and should be checked only if a more specific jurisdictional rule applies.",
+              "related_check_ids": [
+                "US:s_natural_waxes_beeswax_carnauba:us:2:0:26:0"
+              ],
+              "source_ids": [
+                "us:2:0:26:0"
+              ],
+              "requires_testing_or_review": true,
+              "can_create_scenario": false
+            }
+          ],
+          "prioritized_actions": [
+            {
+              "priority": "critical",
+              "action": "Remove phthalate and re-evaluate the formula",
+              "rationale": "The verified limit-exceeding ingredient drives the failed check. The formula total must be rebalanced and assessed again against the applicable US rule.",
+              "related_check_ids": [
+                "US:s_di_n_pentyl_phthalate_131180:us:2:0:18:0"
+              ],
+              "source_ids": [
+                "us:2:0:18:0"
+              ],
+              "requires_testing_or_review": true,
+              "can_create_scenario": true
+            },
+            {
+              "priority": "high",
+              "action": "Provide COAs for both materials and batches",
+              "rationale": "Both high-criticality material evidence requirements are missing, preventing a complete evidence-supported review for the listed ingredients.",
+              "related_check_ids": [
+                "E:US:REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+                "E:US:REQ:US:s_di_n_pentyl_phthalate_131180:coa"
+              ],
+              "source_ids": [],
+              "requires_testing_or_review": true,
+              "can_create_scenario": false
+            },
+            {
+              "priority": "medium",
+              "action": "Review the US applicability of the wax status record",
+              "rationale": "The wax entry is currently not applicable under the generic US assessment and should be checked only if a more specific jurisdictional rule applies.",
+              "related_check_ids": [
+                "US:s_natural_waxes_beeswax_carnauba:us:2:0:26:0"
+              ],
+              "source_ids": [
+                "us:2:0:26:0"
+              ],
+              "requires_testing_or_review": true,
+              "can_create_scenario": false
+            }
+          ],
+          "alerts": [
+            {
+              "severity": "high",
+              "title": "Verified phthalate limit exceeded",
+              "message": "Di-n-pentyl phthalate is 40%, above the verified >0.1% individual phthalate limit.",
+              "source_ids": [
+                "us:2:0:18:0"
+              ]
+            },
+            {
+              "severity": "medium",
+              "title": "Missing material evidence",
+              "message": "COA evidence is missing for both listed materials and their batches.",
+              "source_ids": []
+            }
+          ],
+          "assessment_support_explanation": "Support is insufficient because one verified applicable concentration check failed and the required COAs for both materials are missing. The wax item is not applicable, so it does not add affirmative support for the assessment.",
+          "source_conflicts": [],
+          "analysis_confidence": {
+            "level": "low",
+            "basis": "No applicable checks can be evaluated, or essential identity, evidence, or applicability gaps prevent a complete assessment.",
+            "limiting_factors": [
+              "Missing COA evidence for both materials",
+              "One verified concentration failure",
+              "One not-applicable status item is unresolved at source level",
+              "40% compared with > 0.1 % (stated_weight). Outside the stated boundary.",
+              "No matching document is on file for this material and batch."
+            ],
+            "source_ids": [
+              "us:2:0:18:0",
+              "us:2:0:26:0"
+            ],
+            "assessment_support": "insufficient"
+          },
+          "version_comparison_summary": null,
+          "version_change_summary": null,
+          "limitations": [
+            "Evidence mode only uses the supplied US threshold files for the selected region and age branch.",
+            "Pending Verification is the source file status and not a legal verdict.",
+            "AP and CL decisions are not issued here."
+          ],
+          "version_change": null
+        }
+      },
+      "execution": {
+        "assessment_id": "ae1c02be-c1b9-4712-aec2-3f9a00db30b7",
+        "execution_mode": "live",
+        "llm_provider": "azure_openai",
+        "llm_status": "succeeded",
+        "deployment": "gpt-5.4-mini",
+        "response_id": "chatcmpl-EXodbTKLZ7redOfNG4LtGrfehocQb",
+        "request_id": "cc8b0e16-42de-4db1-b975-01219e12a218",
+        "generated_at": "2026-10-11T14:16:21.198814+00:00",
+        "latency_ms": 8692,
+        "usage": {
+          "completion_tokens": 1324,
+          "prompt_tokens": 3775,
+          "total_tokens": 5099,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": 0,
+            "audio_tokens": 0,
+            "reasoning_tokens": 0,
+            "rejected_prediction_tokens": 0
+          },
+          "prompt_tokens_details": {
+            "audio_tokens": 0,
+            "cached_tokens": 0
+          },
+          "latency_checkpoint": {
+            "engine_tbt_ms": 4,
+            "engine_ttft_ms": 85,
+            "engine_ttlt_ms": 5803,
+            "pre_inference_ms": 123,
+            "service_tbt_ms": 4,
+            "service_ttft_ms": 514,
+            "service_ttlt_ms": 6228,
+            "user_visible_ttft_ms": 391
+          }
+        },
+        "retrieved_source_count": 0,
+        "input_hash": "a3af29818d4aeab6e03bad40ffb35844710ea2ce01d3adeb36821ee79e2fbb45",
+        "data_hash": "5c566df8f4e5fc9545b5ecd9efa1e72dc98a4932bf56bfc086accc17727439fa",
+        "error_code": null,
+        "error_message": null
+      }
+    },
+    {
+      "assessment_id": "2f5a69da-8ab9-4456-8584-05f7a8c79654",
+      "created_at": "2026-10-11T14:26:41.818916+00:00",
+      "data_version": "us-eu-thresholds-2026-10-08-2026-10-08-5c566df8f4e5",
+      "dataset_kind": "threshold_reference",
+      "screening_status_label": "Changes required",
+      "data_hash": "5c566df8f4e5fc9545b5ecd9efa1e72dc98a4932bf56bfc086accc17727439fa",
+      "input_hash": "a3af29818d4aeab6e03bad40ffb35844710ea2ce01d3adeb36821ee79e2fbb45",
+      "input_snapshot": {
+        "formula_id": "FML-1019",
+        "version_id": "v1.0",
+        "name": "Crayola Classic Wax Crayon",
+        "product_category": "Crayons",
+        "age_group": "under_12",
+        "regions": [
+          "US"
+        ],
+        "physical_form": "solid",
+        "intended_use": "Solid extruded wax crayon intended for drawing and coloring on paper by young children in home and classroom environments.",
+        "ingredients": [
+          {
+            "material_id": "s_natural_waxes_beeswax_carnauba",
+            "concentration_percent": 60.0,
+            "batch_id": "BATCH-PAR-2026-A",
+            "supplier": null,
+            "grade": null,
+            "measured_value": null,
+            "measured_unit": null,
+            "measured_bound": null,
+            "measurement_kind": null,
+            "test_method": null,
+            "analyte": null,
+            "below_detection": false,
+            "role": "formulation_ingredient"
+          },
+          {
+            "material_id": "s_di_n_pentyl_phthalate_131180",
+            "concentration_percent": 40.0,
+            "batch_id": "BATCH-STE-991",
+            "supplier": null,
+            "grade": null,
+            "measured_value": null,
+            "measured_unit": null,
+            "measured_bound": null,
+            "measurement_kind": null,
+            "test_method": null,
+            "analyte": null,
+            "below_detection": false,
+            "role": "formulation_ingredient"
+          }
+        ],
+        "legacy_materials": [],
+        "generate_explanation": true,
+        "assessment_mode": "evidence",
+        "composition_completeness": "complete",
+        "us_states": [
+          "WA"
+        ],
+        "intended_age_detail": "age_6_to_under_12",
+        "toy_childcare_scope": "yes",
+        "component_type": "finished_formula",
+        "test_material_category": "en71_cat_i",
+        "document_ids": [],
+        "category_supported": true
+      },
+      "screening_status": "changes_required",
+      "regulatory_status": "not_assessed",
+      "ap_cl_decision": null,
+      "acceptance_probability": null,
+      "ap_acceptance_probability": null,
+      "model_confidence": null,
+      "analysis_confidence": {
+        "level": "low",
+        "basis": "No applicable checks can be evaluated, or essential identity, evidence, or applicability gaps prevent a complete assessment.",
+        "limiting_factors": [
+          "Missing COAs for both materials.",
+          "Wax applicability was not applicable, not a verdict.",
+          "No broader acceptance determination is available.",
+          "40% compared with > 0.1 % (stated_weight). Outside the stated boundary.",
+          "No matching document is on file for this material and batch."
+        ],
+        "source_ids": [
+          "us:2:0:18:0",
+          "US:s_di_n_pentyl_phthalate_131180:us:2:0:18:0"
+        ],
+        "assessment_support": "insufficient"
+      },
+      "assessment_support": {
+        "level": "insufficient",
+        "basis": "No applicable checks can be evaluated, or essential identity, evidence, or applicability gaps prevent a complete assessment.",
+        "limiting_factors": [
+          "40% compared with > 0.1 % (stated_weight). Outside the stated boundary.",
+          "No matching document is on file for this material and batch.",
+          "No matching document is on file for this material and batch."
+        ]
+      },
+      "assessment_mode": "evidence",
+      "metrics": {
+        "assessment_mode": "evidence",
+        "passed_checks": 0,
+        "failed_checks": 1,
+        "concentration_passed_checks": 0,
+        "concentration_failed_checks": 1,
+        "not_assessed_checks": 0,
+        "needs_test_data_checks": 0,
+        "applicability_unknown_checks": 0,
+        "source_review_required_checks": 0,
+        "no_matching_rule_checks": 0,
+        "not_applicable_checks": 1,
+        "evaluated_checks": 1,
+        "identified_applicable_checks": 1,
+        "check_pass_rate_percent": 0.0,
+        "check_pass_rate_label": "Check pass rate",
+        "evidence_coverage_label": "Verified evidence coverage",
+        "check_pass_rate_copy": "0 of 1 evaluated checks passed.",
+        "rule_evaluation_coverage_percent": 100.0,
+        "rule_evaluation_coverage_copy": "1 of 1 identified applicable checks were evaluated. This is coverage of the configured rule set, not every possible regulation.",
+        "evidence_coverage_percent": 0.0,
+        "evidence_coverage_partial": false,
+        "evidence_satisfied": 0,
+        "evidence_missing": 2,
+        "evidence_needs_review": 0,
+        "evidence_mismatched": 0,
+        "evidence_applicability_unknown": 0,
+        "evidence_not_applicable": 0,
+        "evidence_applicable_count": 2,
+        "metrics_note": "Check pass rate uses evaluated applicable checks only. Rule evaluation coverage uses the configured rule set. Verified evidence coverage uses satisfied applicable requirements. Neither value is an acceptance probability.",
+        "ap_acceptance_note": "AP acceptance estimate unavailable: validated outcome data/model required.",
+        "assessment_support": {
+          "level": "insufficient",
+          "basis": "No applicable checks can be evaluated, or essential identity, evidence, or applicability gaps prevent a complete assessment.",
+          "limiting_factors": [
+            "40% compared with > 0.1 % (stated_weight). Outside the stated boundary.",
+            "No matching document is on file for this material and batch.",
+            "No matching document is on file for this material and batch."
+          ]
+        }
+      },
+      "regions": {
+        "US": {
+          "screening_status": "changes_required",
+          "regulatory_status": "not_assessed",
+          "ap_cl_decision": null
+        }
+      },
+      "llm_context": {
+        "formula": {
+          "formula_id": "FML-1019",
+          "version_id": "v1.0",
+          "name": "Crayola Classic Wax Crayon",
+          "product_category": "Crayons",
+          "age_group": "under_12",
+          "regions": [
+            "US"
+          ],
+          "physical_form": "solid",
+          "intended_use": "Solid extruded wax crayon intended for drawing and coloring on paper by young children in home and classroom environments.",
+          "assessment_mode": "evidence",
+          "composition_completeness": "complete",
+          "partial_composition": false,
+          "catalog_coverage_incomplete": true,
+          "composition_total_percent": 100.0,
+          "us_states": [
+            "WA"
+          ],
+          "intended_age_detail": "age_6_to_under_12",
+          "toy_childcare_scope": "yes",
+          "component_type": "finished_formula",
+          "test_material_category": "en71_cat_i",
+          "ingredients": [
+            {
+              "material_id": "s_natural_waxes_beeswax_carnauba",
+              "name": "Natural Waxes (Beeswax, Carnauba)",
+              "concentration_percent": 60.0,
+              "batch_id": "BATCH-PAR-2026-A",
+              "role": "formulation_ingredient",
+              "role_label": "Formulation ingredient",
+              "cas": null,
+              "counts_toward_ingredient_total": true
+            },
+            {
+              "material_id": "s_di_n_pentyl_phthalate_131180",
+              "name": "Di-n-pentyl phthalate (DPENP)",
+              "concentration_percent": 40.0,
+              "batch_id": "BATCH-STE-991",
+              "role": "formulation_ingredient",
+              "role_label": "Formulation ingredient",
+              "cas": "131-18-0",
+              "counts_toward_ingredient_total": true
+            }
+          ]
+        },
+        "materials": [
+          {
+            "material_id": "s_natural_waxes_beeswax_carnauba",
+            "name": "Natural Waxes (Beeswax, Carnauba)",
+            "kind": "formulation_ingredient",
+            "cas": null
+          },
+          {
+            "material_id": "s_di_n_pentyl_phthalate_131180",
+            "name": "Di-n-pentyl phthalate (DPENP)",
+            "kind": "formulation_ingredient",
+            "cas": "131-18-0"
+          }
+        ],
+        "calculated_checks": [
+          {
+            "check_id": "US:s_natural_waxes_beeswax_carnauba:us:2:0:26:0",
+            "material_id": "s_natural_waxes_beeswax_carnauba",
+            "region": "US",
+            "rule_id": "us:2:0:26:0",
+            "status": "not_applicable",
+            "actual": 60.0,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "operator": null,
+            "route": "status_text",
+            "verification_status": "Pending Verification",
+            "verified_limit_available": false,
+            "json_pointer": "/productCategories/2/ageGroups/0/composition/26/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "priority": "medium",
+            "reason_code": "not_applicable",
+            "message": "State rule for CA is not applied to a generic US assessment.",
+            "action": "Resolve applicability before treating this as a pass or a failure.",
+            "check_kind": "status_text"
+          },
+          {
+            "check_id": "US:s_di_n_pentyl_phthalate_131180:us:2:0:18:0",
+            "material_id": "s_di_n_pentyl_phthalate_131180",
+            "region": "US",
+            "rule_id": "us:2:0:18:0",
+            "status": "fail",
+            "actual": 40.0,
+            "threshold": 0.1,
+            "unit": "%",
+            "basis": "stated_weight",
+            "operator": ">",
+            "route": "concentration",
+            "verification_status": "Verified",
+            "verified_limit_available": true,
+            "json_pointer": "/productCategories/2/ageGroups/0/composition/18/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "priority": "high",
+            "reason_code": "fail",
+            "message": "40% compared with > 0.1 % (stated_weight). Outside the stated boundary.",
+            "action": "The numerical comparison is from the backend, using the source operator and basis.",
+            "check_kind": "concentration"
+          }
+        ],
+        "applicable_verified_rules": [
+          {
+            "rule_id": "us:2:0:18:0",
+            "substance_id": "s_di_n_pentyl_phthalate_131180",
+            "region": "US",
+            "threshold_type": "regulatory limit",
+            "threshold_value": 0.1,
+            "threshold_unit": "%",
+            "normalized_unit": "percent",
+            "basis": "stated_weight",
+            "operator": ">",
+            "route": "concentration",
+            "regulation": "16 CFR § 1307.3",
+            "applies_to": "All children's toys & child care articles (individual phthalate, not sum)",
+            "limit_text": "more than 0.1 percent is prohibited (individual phthalate)",
+            "verification_status": "Verified",
+            "source_url": "https://www.ecfr.gov/current/title-16/chapter-II/subchapter-B/part-1307",
+            "section": "§1307.3(b)",
+            "json_pointer": "/productCategories/2/ageGroups/0/composition/18/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "state_code": null
+          }
+        ],
+        "reference_claims_pending_verification": [
+          {
+            "rule_id": "us:2:0:26:0",
+            "substance_id": "s_natural_waxes_beeswax_carnauba",
+            "region": "US",
+            "threshold_type": "exemption",
+            "threshold_value": null,
+            "threshold_unit": null,
+            "normalized_unit": null,
+            "basis": null,
+            "operator": null,
+            "route": "status_text",
+            "regulation": "CA CARB / ASTM D4236",
+            "applies_to": "VOC and solvent limits",
+            "limit_text": "EXEMPT from VOC and solvent limits.",
+            "verification_status": "Pending Verification",
+            "source_url": null,
+            "section": null,
+            "json_pointer": "/productCategories/2/ageGroups/0/composition/26/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "state_code": "CA"
+          }
+        ],
+        "evidence_requirements": [
+          {
+            "requirement_id": "REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "criticality": "high"
+          },
+          {
+            "requirement_id": "REQ:US:s_di_n_pentyl_phthalate_131180:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "criticality": "high"
+          }
+        ],
+        "evidence_matches": [],
+        "missing_evidence": [
+          {
+            "check_id": "E:US:REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+            "requirement_id": "REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "material_id": "s_natural_waxes_beeswax_carnauba",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching document is on file for this material and batch.",
+            "reason_code": "missing",
+            "action": "Upload the document for this scope.",
+            "criticality": "high",
+            "gap_status": "missing"
+          },
+          {
+            "check_id": "E:US:REQ:US:s_di_n_pentyl_phthalate_131180:coa",
+            "requirement_id": "REQ:US:s_di_n_pentyl_phthalate_131180:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "material_id": "s_di_n_pentyl_phthalate_131180",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching document is on file for this material and batch.",
+            "reason_code": "missing",
+            "action": "Upload the document for this scope.",
+            "criticality": "high",
+            "gap_status": "missing"
+          }
+        ],
+        "source_conflicts": [],
+        "source_excerpts": [],
+        "version_changes": [],
+        "documented_history": [],
+        "assessment_limitations": [
+          "Catalog coverage incomplete. These files list restricted substances, impurities, and test analytes. They do not contain enough ordinary ingredients to describe a full recipe. A submission is a partial substance screening unless the user explicitly declares a complete ingredient list totaling 100%.",
+          "Source verification status is the status stated in the supplied file. This application does not independently verify it.",
+          "AP and CL decisions are not issued here.",
+          "The declared formulation ingredients total 100% within tolerance. This is still not an approved-recipe or full regulatory certification."
+        ],
+        "checks": [
+          {
+            "check_id": "US:s_natural_waxes_beeswax_carnauba:us:2:0:26:0",
+            "material_id": "s_natural_waxes_beeswax_carnauba",
+            "region": "US",
+            "rule_id": "us:2:0:26:0",
+            "status": "not_applicable",
+            "actual": 60.0,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "operator": null,
+            "route": "status_text",
+            "verification_status": "Pending Verification",
+            "verified_limit_available": false,
+            "json_pointer": "/productCategories/2/ageGroups/0/composition/26/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "priority": "medium",
+            "reason_code": "not_applicable",
+            "message": "State rule for CA is not applied to a generic US assessment.",
+            "action": "Resolve applicability before treating this as a pass or a failure.",
+            "check_kind": "status_text"
+          },
+          {
+            "check_id": "US:s_di_n_pentyl_phthalate_131180:us:2:0:18:0",
+            "material_id": "s_di_n_pentyl_phthalate_131180",
+            "region": "US",
+            "rule_id": "us:2:0:18:0",
+            "status": "fail",
+            "actual": 40.0,
+            "threshold": 0.1,
+            "unit": "%",
+            "basis": "stated_weight",
+            "operator": ">",
+            "route": "concentration",
+            "verification_status": "Verified",
+            "verified_limit_available": true,
+            "json_pointer": "/productCategories/2/ageGroups/0/composition/18/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "priority": "high",
+            "reason_code": "fail",
+            "message": "40% compared with > 0.1 % (stated_weight). Outside the stated boundary.",
+            "action": "The numerical comparison is from the backend, using the source operator and basis.",
+            "check_kind": "concentration"
+          }
+        ],
+        "evidence_checks": [
+          {
+            "check_id": "E:US:REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+            "requirement_id": "REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "material_id": "s_natural_waxes_beeswax_carnauba",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching document is on file for this material and batch.",
+            "reason_code": "missing",
+            "action": "Upload the document for this scope.",
+            "criticality": "high"
+          },
+          {
+            "check_id": "E:US:REQ:US:s_di_n_pentyl_phthalate_131180:coa",
+            "requirement_id": "REQ:US:s_di_n_pentyl_phthalate_131180:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "material_id": "s_di_n_pentyl_phthalate_131180",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching document is on file for this material and batch.",
+            "reason_code": "missing",
+            "action": "Upload the document for this scope.",
+            "criticality": "high"
+          }
+        ],
+        "documents": [],
+        "extracted_facts": [],
+        "source_issues": [],
+        "applicable_rules": [
+          {
+            "rule_id": "us:2:0:18:0",
+            "substance_id": "s_di_n_pentyl_phthalate_131180",
+            "region": "US",
+            "threshold_type": "regulatory limit",
+            "threshold_value": 0.1,
+            "threshold_unit": "%",
+            "normalized_unit": "percent",
+            "basis": "stated_weight",
+            "operator": ">",
+            "route": "concentration",
+            "regulation": "16 CFR § 1307.3",
+            "applies_to": "All children's toys & child care articles (individual phthalate, not sum)",
+            "limit_text": "more than 0.1 percent is prohibited (individual phthalate)",
+            "verification_status": "Verified",
+            "source_url": "https://www.ecfr.gov/current/title-16/chapter-II/subchapter-B/part-1307",
+            "section": "§1307.3(b)",
+            "json_pointer": "/productCategories/2/ageGroups/0/composition/18/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "state_code": null
+          }
+        ],
+        "applicable_scenario_rules": [],
+        "regulatory_reference_status": "Threshold records are limited to the selected region, category, and age branch.",
+        "regulatory_rows_disabled": 445,
+        "historical_cases": [],
+        "composition_total_percent": 100.0,
+        "assessment_mode": "evidence",
+        "dataset_kind": "threshold_reference",
+        "dataset_version": "us-eu-thresholds-2026-10-08-2026-10-08-5c566df8f4e5",
+        "scenario_provenance": {
+          "dataset_kind": "threshold_reference",
+          "dataset_version": "us-eu-thresholds-2026-10-08-2026-10-08-5c566df8f4e5",
+          "provenance": "supplied_us_eu_json",
+          "is_regulatory_requirement": false,
+          "note": "Dummy concentration rules are not used in this workflow."
+        }
+      },
+      "explanation": {
+        "status": "generated",
+        "source": "azure",
+        "content": {
+          "summary": "One evaluated US phthalate rule failed for DPENP at 40% against a 0.1% limit. Wax is not applicable in this US assessment, and both material COAs are missing.",
+          "key_reasons": [
+            "DPENP has a verified applicable US concentration limit and the backend marked it fail.",
+            "Natural waxes were marked not applicable in the US assessment, not pass or fail.",
+            "Required COAs for both materials are missing, leaving evidence coverage at 0%."
+          ],
+          "finding_explanations": [
+            {
+              "check_id": "US:s_di_n_pentyl_phthalate_131180:us:2:0:18:0",
+              "explanation": "The backend evaluated DPENP at 40% against a verified US individual-phthalate limit of 0.1% and returned fail. This is a configured threshold exceedance for the evaluated rule, with verified limit available.",
+              "source_ids": [
+                "us:2:0:18:0",
+                "US:s_di_n_pentyl_phthalate_131180:us:2:0:18:0"
+              ],
+              "limitations": [
+                "This does not by itself determine overall product acceptance.",
+                "The assessment support is insufficient because required evidence is missing."
+              ]
+            },
+            {
+              "check_id": "US:s_natural_waxes_beeswax_carnauba:us:2:0:26:0",
+              "explanation": "The wax check was marked not_applicable for the generic US assessment. The pending CA-related reference claim is not a verdict in this evidence-mode US assessment.",
+              "source_ids": [
+                "US:s_natural_waxes_beeswax_carnauba:us:2:0:26:0"
+              ],
+              "limitations": [
+                "Not applicable is not a pass.",
+                "Pending Verification source status is not an independent verdict."
+              ]
+            }
+          ],
+          "evidence_gaps": [
+            {
+              "requirement_id": "REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+              "status": "missing",
+              "explanation": "No matching COA document is on file for the wax material and batch.",
+              "required_action": "Review the material scope and obtain the COA for this batch.",
+              "source_ids": []
+            },
+            {
+              "requirement_id": "REQ:US:s_di_n_pentyl_phthalate_131180:coa",
+              "status": "missing",
+              "explanation": "No matching COA document is on file for the DPENP material and batch.",
+              "required_action": "Review the material scope and obtain the COA for this batch.",
+              "source_ids": []
+            }
+          ],
+          "evidence_gap_explanations": [
+            {
+              "requirement_id": "REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+              "status": "missing",
+              "explanation": "No matching COA document is on file for the wax material and batch.",
+              "required_action": "Review the material scope and obtain the COA for this batch.",
+              "source_ids": []
+            },
+            {
+              "requirement_id": "REQ:US:s_di_n_pentyl_phthalate_131180:coa",
+              "status": "missing",
+              "explanation": "No matching COA document is on file for the DPENP material and batch.",
+              "required_action": "Review the material scope and obtain the COA for this batch.",
+              "source_ids": []
+            }
+          ],
+          "recommendations": [
+            {
+              "priority": "critical",
+              "action": "Reduce DPENP to at or below 0.1%",
+              "rationale": "The current level exceeds the verified individual-phthalate limit in the evaluated US rule. The formula total must be rebalanced and assessed again.",
+              "related_check_ids": [
+                "US:s_di_n_pentyl_phthalate_131180:us:2:0:18:0"
+              ],
+              "source_ids": [
+                "us:2:0:18:0"
+              ],
+              "requires_testing_or_review": true,
+              "can_create_scenario": true
+            },
+            {
+              "priority": "high",
+              "action": "Review or obtain both material COAs",
+              "rationale": "Both required material-level COAs are missing, so evidence coverage remains incomplete for the listed materials.",
+              "related_check_ids": [
+                "E:US:REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+                "E:US:REQ:US:s_di_n_pentyl_phthalate_131180:coa"
+              ],
+              "source_ids": [],
+              "requires_testing_or_review": true,
+              "can_create_scenario": false
+            },
+            {
+              "priority": "medium",
+              "action": "Review applicability for the wax record",
+              "rationale": "The wax entry was marked not_applicable in the generic US assessment, so it should not be treated as an evaluated pass or failure.",
+              "related_check_ids": [
+                "US:s_natural_waxes_beeswax_carnauba:us:2:0:26:0"
+              ],
+              "source_ids": [
+                "US:s_natural_waxes_beeswax_carnauba:us:2:0:26:0"
+              ],
+              "requires_testing_or_review": true,
+              "can_create_scenario": false
+            }
+          ],
+          "prioritized_actions": [
+            {
+              "priority": "critical",
+              "action": "Reduce DPENP to at or below 0.1%",
+              "rationale": "The current level exceeds the verified individual-phthalate limit in the evaluated US rule. The formula total must be rebalanced and assessed again.",
+              "related_check_ids": [
+                "US:s_di_n_pentyl_phthalate_131180:us:2:0:18:0"
+              ],
+              "source_ids": [
+                "us:2:0:18:0"
+              ],
+              "requires_testing_or_review": true,
+              "can_create_scenario": true
+            },
+            {
+              "priority": "high",
+              "action": "Review or obtain both material COAs",
+              "rationale": "Both required material-level COAs are missing, so evidence coverage remains incomplete for the listed materials.",
+              "related_check_ids": [
+                "E:US:REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+                "E:US:REQ:US:s_di_n_pentyl_phthalate_131180:coa"
+              ],
+              "source_ids": [],
+              "requires_testing_or_review": true,
+              "can_create_scenario": false
+            },
+            {
+              "priority": "medium",
+              "action": "Review applicability for the wax record",
+              "rationale": "The wax entry was marked not_applicable in the generic US assessment, so it should not be treated as an evaluated pass or failure.",
+              "related_check_ids": [
+                "US:s_natural_waxes_beeswax_carnauba:us:2:0:26:0"
+              ],
+              "source_ids": [
+                "US:s_natural_waxes_beeswax_carnauba:us:2:0:26:0"
+              ],
+              "requires_testing_or_review": true,
+              "can_create_scenario": false
+            }
+          ],
+          "alerts": [
+            {
+              "severity": "high",
+              "title": "Verified phthalate limit exceeded",
+              "message": "DPENP was evaluated at 40% against a verified 0.1% US limit and failed.",
+              "source_ids": [
+                "us:2:0:18:0",
+                "US:s_di_n_pentyl_phthalate_131180:us:2:0:18:0"
+              ]
+            },
+            {
+              "severity": "medium",
+              "title": "Evidence coverage is incomplete",
+              "message": "Both listed material COAs are missing, so verified evidence coverage is 0%.",
+              "source_ids": []
+            }
+          ],
+          "assessment_support_explanation": "Support is insufficient because the key evaluated rule failed and both required material COAs are missing. The backend also reports that evidence coverage is 0%, so the available record does not support a complete assessment.",
+          "source_conflicts": [],
+          "analysis_confidence": {
+            "level": "low",
+            "basis": "No applicable checks can be evaluated, or essential identity, evidence, or applicability gaps prevent a complete assessment.",
+            "limiting_factors": [
+              "Missing COAs for both materials.",
+              "Wax applicability was not applicable, not a verdict.",
+              "No broader acceptance determination is available.",
+              "40% compared with > 0.1 % (stated_weight). Outside the stated boundary.",
+              "No matching document is on file for this material and batch."
+            ],
+            "source_ids": [
+              "us:2:0:18:0",
+              "US:s_di_n_pentyl_phthalate_131180:us:2:0:18:0"
+            ],
+            "assessment_support": "insufficient"
+          },
+          "version_comparison_summary": null,
+          "version_change_summary": null,
+          "limitations": [
+            "Evidence mode uses only the supplied US threshold records for the selected region and age branch.",
+            "Not applicable is not a pass.",
+            "Pending Verification is the source file status, not an independent verdict.",
+            "AP and CL decisions are not issued here."
+          ],
+          "version_change": null
+        }
+      },
+      "execution": {
+        "assessment_id": "2f5a69da-8ab9-4456-8584-05f7a8c79654",
+        "execution_mode": "live",
+        "llm_provider": "azure_openai",
+        "llm_status": "succeeded",
+        "deployment": "gpt-5.4-mini",
+        "response_id": "chatcmpl-EXoncMgULMDf67Ue9gA2tchopcHcd",
+        "request_id": "670b15b3-9e47-498c-b04c-84dbcc040c1c",
+        "generated_at": "2026-10-11T14:26:41.818916+00:00",
+        "latency_ms": 10722,
+        "usage": {
+          "completion_tokens": 1670,
+          "prompt_tokens": 3775,
+          "total_tokens": 5445,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": 0,
+            "audio_tokens": 0,
+            "reasoning_tokens": 0,
+            "rejected_prediction_tokens": 0
+          },
+          "prompt_tokens_details": {
+            "audio_tokens": 0,
+            "cached_tokens": 0
+          },
+          "latency_checkpoint": {
+            "engine_tbt_ms": 4,
+            "engine_ttft_ms": 72,
+            "engine_ttlt_ms": 6803,
+            "pre_inference_ms": 98,
+            "service_tbt_ms": 4,
+            "service_ttft_ms": 460,
+            "service_ttlt_ms": 7187,
+            "user_visible_ttft_ms": 362
+          }
+        },
+        "retrieved_source_count": 0,
+        "input_hash": "a3af29818d4aeab6e03bad40ffb35844710ea2ce01d3adeb36821ee79e2fbb45",
+        "data_hash": "5c566df8f4e5fc9545b5ecd9efa1e72dc98a4932bf56bfc086accc17727439fa",
+        "error_code": null,
+        "error_message": null
+      }
+    },
+    {
+      "assessment_id": "afc2b1c9-b377-4dc9-b846-2294001a06fb",
+      "created_at": "2026-10-11T14:57:40.074518+00:00",
+      "data_version": "us-eu-thresholds-2026-10-08-2026-10-08-5c566df8f4e5",
+      "dataset_kind": "threshold_reference",
+      "screening_status_label": "Changes required",
+      "data_hash": "5c566df8f4e5fc9545b5ecd9efa1e72dc98a4932bf56bfc086accc17727439fa",
+      "input_hash": "a3af29818d4aeab6e03bad40ffb35844710ea2ce01d3adeb36821ee79e2fbb45",
+      "input_snapshot": {
+        "formula_id": "FML-1019",
+        "version_id": "v1.0",
+        "name": "Crayola Classic Wax Crayon",
+        "product_category": "Crayons",
+        "age_group": "under_12",
+        "regions": [
+          "US"
+        ],
+        "physical_form": "solid",
+        "intended_use": "Solid extruded wax crayon intended for drawing and coloring on paper by young children in home and classroom environments.",
+        "ingredients": [
+          {
+            "material_id": "s_natural_waxes_beeswax_carnauba",
+            "concentration_percent": 60.0,
+            "batch_id": "BATCH-PAR-2026-A",
+            "supplier": "ExxonMobil Chemical",
+            "grade": null,
+            "notes": null,
+            "measured_value": null,
+            "measured_unit": null,
+            "measured_bound": null,
+            "measurement_kind": null,
+            "test_method": null,
+            "analyte": null,
+            "below_detection": false,
+            "role": "formulation_ingredient"
+          },
+          {
+            "material_id": "s_di_n_pentyl_phthalate_131180",
+            "concentration_percent": 40.0,
+            "batch_id": "BATCH-STE-991",
+            "supplier": "Emery Oleochemicals",
+            "grade": null,
+            "notes": null,
+            "measured_value": null,
+            "measured_unit": null,
+            "measured_bound": null,
+            "measurement_kind": null,
+            "test_method": null,
+            "analyte": null,
+            "below_detection": false,
+            "role": "formulation_ingredient"
+          }
+        ],
+        "legacy_materials": [],
+        "generate_explanation": true,
+        "assessment_mode": "evidence",
+        "composition_completeness": "complete",
+        "us_states": [],
+        "intended_age_detail": "age_6_to_under_12",
+        "toy_childcare_scope": "yes",
+        "component_type": "finished_formula",
+        "test_material_category": "en71_cat_i",
+        "document_ids": [
+          "DOC-LAB-113"
+        ],
+        "category_supported": true
+      },
+      "screening_status": "changes_required",
+      "regulatory_status": "not_assessed",
+      "ap_cl_decision": null,
+      "acceptance_probability": null,
+      "ap_acceptance_probability": null,
+      "model_confidence": null,
+      "analysis_confidence": {
+        "level": "low",
+        "basis": "No applicable checks can be evaluated, or essential identity, evidence, or applicability gaps prevent a complete assessment.",
+        "limiting_factors": [
+          "Required COA and SDS documents are missing for s_natural_waxes_beeswax_carnauba.",
+          "Required COA and SDS documents are missing for s_di_n_pentyl_phthalate_131180.",
+          "The exemption reference for s_natural_waxes_beeswax_carnauba is pending verification and is not used as a confirmed basis.",
+          "40% compared with > 0.1 % (stated_weight). Outside the stated boundary.",
+          "No matching document is on file for this material and batch.",
+          "No matching SDS is on file for this material. Batch is not required for an SDS."
+        ],
+        "source_ids": [
+          "US:s_di_n_pentyl_phthalate_131180:us:2:0:18:0",
+          "us:2:0:18:0",
+          "REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+          "REQ:US:s_natural_waxes_beeswax_carnauba:sds",
+          "REQ:US:s_di_n_pentyl_phthalate_131180:coa",
+          "REQ:US:s_di_n_pentyl_phthalate_131180:sds",
+          "us:2:0:26:0"
+        ],
+        "assessment_support": "insufficient"
+      },
+      "assessment_support": {
+        "level": "insufficient",
+        "basis": "No applicable checks can be evaluated, or essential identity, evidence, or applicability gaps prevent a complete assessment.",
+        "limiting_factors": [
+          "40% compared with > 0.1 % (stated_weight). Outside the stated boundary.",
+          "No matching document is on file for this material and batch.",
+          "No matching SDS is on file for this material. Batch is not required for an SDS.",
+          "No matching document is on file for this material and batch.",
+          "No matching SDS is on file for this material. Batch is not required for an SDS."
+        ]
+      },
+      "assessment_mode": "evidence",
+      "metrics": {
+        "assessment_mode": "evidence",
+        "passed_checks": 0,
+        "failed_checks": 1,
+        "concentration_passed_checks": 0,
+        "concentration_failed_checks": 1,
+        "not_assessed_checks": 0,
+        "needs_test_data_checks": 0,
+        "applicability_unknown_checks": 0,
+        "source_review_required_checks": 0,
+        "no_matching_rule_checks": 0,
+        "not_applicable_checks": 0,
+        "evaluated_checks": 1,
+        "identified_applicable_checks": 1,
+        "check_pass_rate_percent": 0.0,
+        "check_pass_rate_label": "Check pass rate",
+        "evidence_coverage_label": "Verified evidence coverage",
+        "check_pass_rate_copy": "0 of 1 evaluated checks passed.",
+        "rule_evaluation_coverage_percent": 100.0,
+        "rule_evaluation_coverage_copy": "1 of 1 identified applicable checks were evaluated. This is coverage of the configured rule set, not every possible regulation.",
+        "evidence_coverage_percent": 0.0,
+        "evidence_coverage_partial": false,
+        "evidence_satisfied": 0,
+        "evidence_missing": 4,
+        "evidence_needs_review": 0,
+        "evidence_mismatched": 0,
+        "evidence_applicability_unknown": 0,
+        "evidence_not_applicable": 0,
+        "evidence_applicable_count": 4,
+        "metrics_note": "Check pass rate uses evaluated applicable checks only. Rule evaluation coverage uses the configured rule set. Verified evidence coverage uses satisfied applicable requirements. Neither value is an acceptance probability.",
+        "ap_acceptance_note": "AP acceptance estimate unavailable: validated outcome data/model required.",
+        "assessment_support": {
+          "level": "insufficient",
+          "basis": "No applicable checks can be evaluated, or essential identity, evidence, or applicability gaps prevent a complete assessment.",
+          "limiting_factors": [
+            "40% compared with > 0.1 % (stated_weight). Outside the stated boundary.",
+            "No matching document is on file for this material and batch.",
+            "No matching SDS is on file for this material. Batch is not required for an SDS.",
+            "No matching document is on file for this material and batch.",
+            "No matching SDS is on file for this material. Batch is not required for an SDS."
+          ]
+        }
+      },
+      "regions": {
+        "US": {
+          "screening_status": "changes_required",
+          "regulatory_status": "not_assessed",
+          "ap_cl_decision": null
+        }
+      },
+      "llm_context": {
+        "formula": {
+          "formula_id": "FML-1019",
+          "version_id": "v1.0",
+          "name": "Crayola Classic Wax Crayon",
+          "product_category": "Crayons",
+          "age_group": "under_12",
+          "regions": [
+            "US"
+          ],
+          "physical_form": "solid",
+          "intended_use": "Solid extruded wax crayon intended for drawing and coloring on paper by young children in home and classroom environments.",
+          "assessment_mode": "evidence",
+          "composition_completeness": "complete",
+          "partial_composition": false,
+          "catalog_coverage_incomplete": true,
+          "composition_total_percent": 100.0,
+          "us_states": [],
+          "intended_age_detail": "age_6_to_under_12",
+          "toy_childcare_scope": "yes",
+          "component_type": "finished_formula",
+          "test_material_category": "en71_cat_i",
+          "ingredients": [
+            {
+              "material_id": "s_natural_waxes_beeswax_carnauba",
+              "name": "Natural Waxes (Beeswax, Carnauba)",
+              "concentration_percent": 60.0,
+              "batch_id": "BATCH-PAR-2026-A",
+              "supplier": "ExxonMobil Chemical",
+              "grade": null,
+              "role": "formulation_ingredient",
+              "role_label": "Formulation ingredient",
+              "cas": null,
+              "counts_toward_ingredient_total": true
+            },
+            {
+              "material_id": "s_di_n_pentyl_phthalate_131180",
+              "name": "Di-n-pentyl phthalate (DPENP)",
+              "concentration_percent": 40.0,
+              "batch_id": "BATCH-STE-991",
+              "supplier": "Emery Oleochemicals",
+              "grade": null,
+              "role": "formulation_ingredient",
+              "role_label": "Formulation ingredient",
+              "cas": "131-18-0",
+              "counts_toward_ingredient_total": true
+            }
+          ]
+        },
+        "materials": [
+          {
+            "material_id": "s_natural_waxes_beeswax_carnauba",
+            "name": "Natural Waxes (Beeswax, Carnauba)",
+            "kind": "formulation_ingredient",
+            "cas": null
+          },
+          {
+            "material_id": "s_di_n_pentyl_phthalate_131180",
+            "name": "Di-n-pentyl phthalate (DPENP)",
+            "kind": "formulation_ingredient",
+            "cas": "131-18-0"
+          }
+        ],
+        "calculated_checks": [
+          {
+            "check_id": "US:s_di_n_pentyl_phthalate_131180:us:2:0:18:0",
+            "material_id": "s_di_n_pentyl_phthalate_131180",
+            "region": "US",
+            "rule_id": "us:2:0:18:0",
+            "status": "fail",
+            "actual": 40.0,
+            "threshold": 0.1,
+            "unit": "%",
+            "basis": "stated_weight",
+            "operator": ">",
+            "route": "concentration",
+            "verification_status": "Verified",
+            "verified_limit_available": true,
+            "json_pointer": "/productCategories/2/ageGroups/0/composition/18/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "priority": "high",
+            "reason_code": "fail",
+            "message": "40% compared with > 0.1 % (stated_weight). Outside the stated boundary.",
+            "action": "The numerical comparison is from the backend, using the source operator and basis.",
+            "check_kind": "concentration"
+          }
+        ],
+        "applicable_verified_rules": [
+          {
+            "rule_id": "us:2:0:18:0",
+            "substance_id": "s_di_n_pentyl_phthalate_131180",
+            "region": "US",
+            "threshold_type": "regulatory limit",
+            "threshold_value": 0.1,
+            "threshold_unit": "%",
+            "normalized_unit": "percent",
+            "basis": "stated_weight",
+            "operator": ">",
+            "route": "concentration",
+            "regulation": "16 CFR § 1307.3",
+            "applies_to": "All children's toys & child care articles (individual phthalate, not sum)",
+            "limit_text": "more than 0.1 percent is prohibited (individual phthalate)",
+            "verification_status": "Verified",
+            "source_url": "https://www.ecfr.gov/current/title-16/chapter-II/subchapter-B/part-1307",
+            "section": "§1307.3(b)",
+            "json_pointer": "/productCategories/2/ageGroups/0/composition/18/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "state_code": null
+          }
+        ],
+        "reference_claims_pending_verification": [
+          {
+            "rule_id": "us:2:0:26:0",
+            "substance_id": "s_natural_waxes_beeswax_carnauba",
+            "region": "US",
+            "threshold_type": "exemption",
+            "threshold_value": null,
+            "threshold_unit": null,
+            "normalized_unit": null,
+            "basis": null,
+            "operator": null,
+            "route": "status_text",
+            "regulation": "CA CARB / ASTM D4236",
+            "applies_to": "VOC and solvent limits",
+            "limit_text": "EXEMPT from VOC and solvent limits.",
+            "verification_status": "Pending Verification",
+            "source_url": null,
+            "section": null,
+            "json_pointer": "/productCategories/2/ageGroups/0/composition/26/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "state_code": "CA"
+          }
+        ],
+        "evidence_requirements": [
+          {
+            "requirement_id": "REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "criticality": "high"
+          },
+          {
+            "requirement_id": "REQ:US:s_natural_waxes_beeswax_carnauba:sds",
+            "document_type": "sds",
+            "scope": "material",
+            "criticality": "high"
+          },
+          {
+            "requirement_id": "REQ:US:s_di_n_pentyl_phthalate_131180:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "criticality": "high"
+          },
+          {
+            "requirement_id": "REQ:US:s_di_n_pentyl_phthalate_131180:sds",
+            "document_type": "sds",
+            "scope": "material",
+            "criticality": "high"
+          }
+        ],
+        "evidence_matches": [],
+        "missing_evidence": [
+          {
+            "check_id": "E:US:REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+            "requirement_id": "REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "material_id": "s_natural_waxes_beeswax_carnauba",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching document is on file for this material and batch.",
+            "reason_code": "missing",
+            "action": "Upload the document for this ingredient. A product-level file does not satisfy this requirement.",
+            "criticality": "high",
+            "gap_status": "missing"
+          },
+          {
+            "check_id": "E:US:REQ:US:s_natural_waxes_beeswax_carnauba:sds",
+            "requirement_id": "REQ:US:s_natural_waxes_beeswax_carnauba:sds",
+            "document_type": "sds",
+            "scope": "material",
+            "material_id": "s_natural_waxes_beeswax_carnauba",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching SDS is on file for this material. Batch is not required for an SDS.",
+            "reason_code": "missing",
+            "action": "Upload the document for this ingredient. A product-level file does not satisfy this requirement.",
+            "criticality": "high",
+            "gap_status": "missing"
+          },
+          {
+            "check_id": "E:US:REQ:US:s_di_n_pentyl_phthalate_131180:coa",
+            "requirement_id": "REQ:US:s_di_n_pentyl_phthalate_131180:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "material_id": "s_di_n_pentyl_phthalate_131180",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching document is on file for this material and batch.",
+            "reason_code": "missing",
+            "action": "Upload the document for this ingredient. A product-level file does not satisfy this requirement.",
+            "criticality": "high",
+            "gap_status": "missing"
+          },
+          {
+            "check_id": "E:US:REQ:US:s_di_n_pentyl_phthalate_131180:sds",
+            "requirement_id": "REQ:US:s_di_n_pentyl_phthalate_131180:sds",
+            "document_type": "sds",
+            "scope": "material",
+            "material_id": "s_di_n_pentyl_phthalate_131180",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching SDS is on file for this material. Batch is not required for an SDS.",
+            "reason_code": "missing",
+            "action": "Upload the document for this ingredient. A product-level file does not satisfy this requirement.",
+            "criticality": "high",
+            "gap_status": "missing"
+          }
+        ],
+        "source_conflicts": [],
+        "source_excerpts": [],
+        "version_changes": [],
+        "documented_history": [],
+        "assessment_limitations": [
+          "Catalog coverage incomplete. These files list restricted substances, impurities, and test analytes. They do not contain enough ordinary ingredients to describe a full recipe. A submission is a partial substance screening unless the user explicitly declares a complete ingredient list totaling 100%.",
+          "Source verification status is the status stated in the supplied file. This application does not independently verify it.",
+          "State-specific requirements remain in the source dataset and are excluded from this assessment. They are not applied to a generic United States result.",
+          "The declared formulation ingredients total 100% within ±0.01 percentage points. This is still not an approved-recipe or full regulatory certification."
+        ],
+        "checks": [
+          {
+            "check_id": "US:s_di_n_pentyl_phthalate_131180:us:2:0:18:0",
+            "material_id": "s_di_n_pentyl_phthalate_131180",
+            "region": "US",
+            "rule_id": "us:2:0:18:0",
+            "status": "fail",
+            "actual": 40.0,
+            "threshold": 0.1,
+            "unit": "%",
+            "basis": "stated_weight",
+            "operator": ">",
+            "route": "concentration",
+            "verification_status": "Verified",
+            "verified_limit_available": true,
+            "json_pointer": "/productCategories/2/ageGroups/0/composition/18/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "priority": "high",
+            "reason_code": "fail",
+            "message": "40% compared with > 0.1 % (stated_weight). Outside the stated boundary.",
+            "action": "The numerical comparison is from the backend, using the source operator and basis.",
+            "check_kind": "concentration"
+          }
+        ],
+        "evidence_checks": [
+          {
+            "check_id": "E:US:REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+            "requirement_id": "REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "material_id": "s_natural_waxes_beeswax_carnauba",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching document is on file for this material and batch.",
+            "reason_code": "missing",
+            "action": "Upload the document for this ingredient. A product-level file does not satisfy this requirement.",
+            "criticality": "high"
+          },
+          {
+            "check_id": "E:US:REQ:US:s_natural_waxes_beeswax_carnauba:sds",
+            "requirement_id": "REQ:US:s_natural_waxes_beeswax_carnauba:sds",
+            "document_type": "sds",
+            "scope": "material",
+            "material_id": "s_natural_waxes_beeswax_carnauba",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching SDS is on file for this material. Batch is not required for an SDS.",
+            "reason_code": "missing",
+            "action": "Upload the document for this ingredient. A product-level file does not satisfy this requirement.",
+            "criticality": "high"
+          },
+          {
+            "check_id": "E:US:REQ:US:s_di_n_pentyl_phthalate_131180:coa",
+            "requirement_id": "REQ:US:s_di_n_pentyl_phthalate_131180:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "material_id": "s_di_n_pentyl_phthalate_131180",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching document is on file for this material and batch.",
+            "reason_code": "missing",
+            "action": "Upload the document for this ingredient. A product-level file does not satisfy this requirement.",
+            "criticality": "high"
+          },
+          {
+            "check_id": "E:US:REQ:US:s_di_n_pentyl_phthalate_131180:sds",
+            "requirement_id": "REQ:US:s_di_n_pentyl_phthalate_131180:sds",
+            "document_type": "sds",
+            "scope": "material",
+            "material_id": "s_di_n_pentyl_phthalate_131180",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching SDS is on file for this material. Batch is not required for an SDS.",
+            "reason_code": "missing",
+            "action": "Upload the document for this ingredient. A product-level file does not satisfy this requirement.",
+            "criticality": "high"
+          }
+        ],
+        "documents": [],
+        "extracted_facts": [],
+        "source_issues": [],
+        "applicable_rules": [
+          {
+            "rule_id": "us:2:0:18:0",
+            "substance_id": "s_di_n_pentyl_phthalate_131180",
+            "region": "US",
+            "threshold_type": "regulatory limit",
+            "threshold_value": 0.1,
+            "threshold_unit": "%",
+            "normalized_unit": "percent",
+            "basis": "stated_weight",
+            "operator": ">",
+            "route": "concentration",
+            "regulation": "16 CFR § 1307.3",
+            "applies_to": "All children's toys & child care articles (individual phthalate, not sum)",
+            "limit_text": "more than 0.1 percent is prohibited (individual phthalate)",
+            "verification_status": "Verified",
+            "source_url": "https://www.ecfr.gov/current/title-16/chapter-II/subchapter-B/part-1307",
+            "section": "§1307.3(b)",
+            "json_pointer": "/productCategories/2/ageGroups/0/composition/18/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "state_code": null
+          }
+        ],
+        "applicable_scenario_rules": [],
+        "regulatory_reference_status": "Threshold records are limited to the selected region, category, and age branch.",
+        "regulatory_rows_disabled": 445,
+        "historical_cases": [],
+        "composition_total_percent": 100.0,
+        "assessment_mode": "evidence",
+        "dataset_kind": "threshold_reference",
+        "dataset_version": "us-eu-thresholds-2026-10-08-2026-10-08-5c566df8f4e5",
+        "scenario_provenance": {
+          "dataset_kind": "threshold_reference",
+          "dataset_version": "us-eu-thresholds-2026-10-08-2026-10-08-5c566df8f4e5",
+          "provenance": "supplied_us_eu_json",
+          "is_regulatory_requirement": false,
+          "note": "Dummy concentration rules are not used in this workflow."
+        }
+      },
+      "explanation": {
+        "status": "generated",
+        "source": "azure",
+        "content": {
+          "summary": "The supplied evidence identifies one applicable US concentration rule for di-n-pentyl phthalate (DPENP) in a children's toy/child care article context, and the backend calculation shows a fail at 40.0% against a >0.1% limit on stated weight basis. This is a supported concern. However, four required material-level documents are missing for the two ingredients, and the natural waxes exemption claim is pending verification only, so the assessment remains incomplete overall.",
+          "key_reasons": [
+            "One supplied concentration check failed for s_di_n_pentyl_phthalate_131180 under rule us:2:0:18:0, which prevents an AP-leaning outcome. At the same time, required material-level COA/SDS evidence is missing for both ingredients, and the claimed exemption for s_natural_waxes_beeswax_carnauba is pending verification. These gaps block a CL-leaning prediction and leave the overall direction indeterminate."
+          ],
+          "finding_explanations": [
+            {
+              "check_id": "F1",
+              "explanation": "The supplied calculated check reports fail for s_di_n_pentyl_phthalate_131180: 40.0% compared with a >0.1% limit on stated weight basis. This is a supported nonconformance for the supplied rule.",
+              "source_ids": [
+                "US:s_di_n_pentyl_phthalate_131180:us:2:0:18:0",
+                "us:2:0:18:0"
+              ],
+              "limitations": []
+            },
+            {
+              "check_id": "F2",
+              "explanation": "A required material-level COA is missing for s_natural_waxes_beeswax_carnauba. Missing evidence is an information gap, not a measured failure.",
+              "source_ids": [
+                "REQ:US:s_natural_waxes_beeswax_carnauba:coa"
+              ],
+              "limitations": []
+            },
+            {
+              "check_id": "F3",
+              "explanation": "A required material-level SDS is missing for s_natural_waxes_beeswax_carnauba. Missing evidence is an information gap, not a measured failure.",
+              "source_ids": [
+                "REQ:US:s_natural_waxes_beeswax_carnauba:sds"
+              ],
+              "limitations": []
+            },
+            {
+              "check_id": "F4",
+              "explanation": "A required material-level COA is missing for s_di_n_pentyl_phthalate_131180. Missing evidence is an information gap, not a measured failure.",
+              "source_ids": [
+                "REQ:US:s_di_n_pentyl_phthalate_131180:coa"
+              ],
+              "limitations": []
+            },
+            {
+              "check_id": "F5",
+              "explanation": "A required material-level SDS is missing for s_di_n_pentyl_phthalate_131180. Missing evidence is an information gap, not a measured failure.",
+              "source_ids": [
+                "REQ:US:s_di_n_pentyl_phthalate_131180:sds"
+              ],
+              "limitations": []
+            },
+            {
+              "check_id": "F6",
+              "explanation": "The supplied exemption reference is pending verification and refers to VOC and solvent limits. Its applicability to this assessment is not established in the supplied evidence, so it should be reviewed rather than treated as confirmed.",
+              "source_ids": [
+                "us:2:0:26:0"
+              ],
+              "limitations": []
+            }
+          ],
+          "evidence_gaps": [],
+          "evidence_gap_explanations": [],
+          "recommendations": [
+            {
+              "priority": "high",
+              "action": "Verify whether DPENP is correctly identified and whether the 40.0% concentration is accurate.",
+              "rationale": "The supplied check fails the cited concentration limit.",
+              "related_check_ids": [],
+              "source_ids": [],
+              "requires_testing_or_review": true,
+              "can_create_scenario": false
+            },
+            {
+              "priority": "high",
+              "action": "Obtain and review the missing ingredient-level COA and SDS documents for both materials.",
+              "rationale": "These documents are required evidence and are currently absent.",
+              "related_check_ids": [],
+              "source_ids": [],
+              "requires_testing_or_review": true,
+              "can_create_scenario": false
+            },
+            {
+              "priority": "medium",
+              "action": "Review the pending exemption reference for natural waxes separately from the missing-document request.",
+              "rationale": "The exemption claim is unverified and should be assessed on its own terms.",
+              "related_check_ids": [],
+              "source_ids": [],
+              "requires_testing_or_review": true,
+              "can_create_scenario": false
+            }
+          ],
+          "prioritized_actions": [
+            {
+              "priority": "high",
+              "action": "Verify whether DPENP is correctly identified and whether the 40.0% concentration is accurate.",
+              "rationale": "The supplied check fails the cited concentration limit.",
+              "related_check_ids": [],
+              "source_ids": [],
+              "requires_testing_or_review": true,
+              "can_create_scenario": false
+            },
+            {
+              "priority": "high",
+              "action": "Obtain and review the missing ingredient-level COA and SDS documents for both materials.",
+              "rationale": "These documents are required evidence and are currently absent.",
+              "related_check_ids": [],
+              "source_ids": [],
+              "requires_testing_or_review": true,
+              "can_create_scenario": false
+            },
+            {
+              "priority": "medium",
+              "action": "Review the pending exemption reference for natural waxes separately from the missing-document request.",
+              "rationale": "The exemption claim is unverified and should be assessed on its own terms.",
+              "related_check_ids": [],
+              "source_ids": [],
+              "requires_testing_or_review": true,
+              "can_create_scenario": false
+            }
+          ],
+          "alerts": [
+            {
+              "severity": "high",
+              "title": "Supplied concentration fail for DPENP",
+              "message": "The backend check reports 40.0% versus a >0.1% limit for the identified phthalate ingredient. This is a supported nonconformance concern.",
+              "source_ids": [
+                "US:s_di_n_pentyl_phthalate_131180:us:2:0:18:0",
+                "us:2:0:18:0"
+              ]
+            },
+            {
+              "severity": "medium",
+              "title": "Material-level documentation is incomplete",
+              "message": "COA and SDS documents are missing for both ingredients, so the evidence base remains incomplete.",
+              "source_ids": [
+                "REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+                "REQ:US:s_natural_waxes_beeswax_carnauba:sds",
+                "REQ:US:s_di_n_pentyl_phthalate_131180:coa",
+                "REQ:US:s_di_n_pentyl_phthalate_131180:sds"
+              ]
+            }
+          ],
+          "assessment_support_explanation": "The failed DPENP concentration check is supported, but the assessment lacks the required ingredient documents for both materials and includes an unverified exemption claim. Missing evidence creates uncertainty rather than a second failure, so the overall prediction cannot be directional.",
+          "source_conflicts": [],
+          "analysis_confidence": {
+            "level": "low",
+            "basis": "No applicable checks can be evaluated, or essential identity, evidence, or applicability gaps prevent a complete assessment.",
+            "limiting_factors": [
+              "Required COA and SDS documents are missing for s_natural_waxes_beeswax_carnauba.",
+              "Required COA and SDS documents are missing for s_di_n_pentyl_phthalate_131180.",
+              "The exemption reference for s_natural_waxes_beeswax_carnauba is pending verification and is not used as a confirmed basis.",
+              "40% compared with > 0.1 % (stated_weight). Outside the stated boundary.",
+              "No matching document is on file for this material and batch.",
+              "No matching SDS is on file for this material. Batch is not required for an SDS."
+            ],
+            "source_ids": [
+              "US:s_di_n_pentyl_phthalate_131180:us:2:0:18:0",
+              "us:2:0:18:0",
+              "REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+              "REQ:US:s_natural_waxes_beeswax_carnauba:sds",
+              "REQ:US:s_di_n_pentyl_phthalate_131180:coa",
+              "REQ:US:s_di_n_pentyl_phthalate_131180:sds",
+              "us:2:0:26:0"
+            ],
+            "assessment_support": "insufficient"
+          },
+          "version_comparison_summary": null,
+          "version_change_summary": null,
+          "limitations": [
+            "This is a preliminary evidence-based assessment and not an official certification decision.",
+            "Missing evidence creates uncertainty; it does not by itself establish failure.",
+            "State-specific requirements were excluded from this assessment.",
+            "Only the supplied rule and evidence identifiers were used."
+          ],
+          "version_change": null
+        }
+      },
+      "execution": {
+        "assessment_id": "afc2b1c9-b377-4dc9-b846-2294001a06fb",
+        "execution_mode": "live",
+        "llm_provider": "azure_openai",
+        "llm_status": "succeeded",
+        "deployment": "gpt-5.4-mini",
+        "response_id": "chatcmpl-EXpHnVhIR1bHpXoJM2S5y0XmJ204C",
+        "request_id": "c46ce909-64b2-4448-ac09-08722bb3eb4d",
+        "generated_at": "2026-10-11T14:57:40.074518+00:00",
+        "latency_ms": 22136,
+        "usage": {
+          "completion_tokens": 2901,
+          "prompt_tokens": 4011,
+          "total_tokens": 6912,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": 0,
+            "audio_tokens": 0,
+            "reasoning_tokens": 0,
+            "rejected_prediction_tokens": 0
+          },
+          "prompt_tokens_details": {
+            "audio_tokens": 0,
+            "cached_tokens": 3840
+          },
+          "latency_checkpoint": {
+            "engine_tbt_ms": 3,
+            "engine_ttft_ms": 50,
+            "engine_ttlt_ms": 7866,
+            "pre_inference_ms": 122,
+            "service_tbt_ms": 3,
+            "service_ttft_ms": 361,
+            "service_ttlt_ms": 8172,
+            "user_visible_ttft_ms": 240
+          }
+        },
+        "retrieved_source_count": 0,
+        "input_hash": "a3af29818d4aeab6e03bad40ffb35844710ea2ce01d3adeb36821ee79e2fbb45",
+        "data_hash": "5c566df8f4e5fc9545b5ecd9efa1e72dc98a4932bf56bfc086accc17727439fa",
+        "error_code": null,
+        "error_message": null,
+        "prompt_version": "assessment_v1"
+      },
+      "preliminary_assessment": {
+        "assessment_summary": "The supplied evidence identifies one applicable US concentration rule for di-n-pentyl phthalate (DPENP) in a children's toy/child care article context, and the backend calculation shows a fail at 40.0% against a >0.1% limit on stated weight basis. This is a supported concern. However, four required material-level documents are missing for the two ingredients, and the natural waxes exemption claim is pending verification only, so the assessment remains incomplete overall.",
+        "screening_outcome": "changes_indicated",
+        "preliminary_prediction": {
+          "outcome": "indeterminate",
+          "basis": "One supplied concentration check failed for s_di_n_pentyl_phthalate_131180 under rule us:2:0:18:0, which prevents an AP-leaning outcome. At the same time, required material-level COA/SDS evidence is missing for both ingredients, and the claimed exemption for s_natural_waxes_beeswax_carnauba is pending verification. These gaps block a CL-leaning prediction and leave the overall direction indeterminate.",
+          "analysis_confidence": "low",
+          "confidence_reason": "The failed DPENP concentration check is supported, but the assessment lacks the required ingredient documents for both materials and includes an unverified exemption claim. Missing evidence creates uncertainty rather than a second failure, so the overall prediction cannot be directional.",
+          "numeric_estimate": null,
+          "estimate_kind": "not_available",
+          "blocking_uncertainties": [
+            "Required COA and SDS documents are missing for s_natural_waxes_beeswax_carnauba.",
+            "Required COA and SDS documents are missing for s_di_n_pentyl_phthalate_131180.",
+            "The exemption reference for s_natural_waxes_beeswax_carnauba is pending verification and is not used as a confirmed basis."
+          ],
+          "source_ids": [
+            "US:s_di_n_pentyl_phthalate_131180:us:2:0:18:0",
+            "us:2:0:18:0",
+            "REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+            "REQ:US:s_natural_waxes_beeswax_carnauba:sds",
+            "REQ:US:s_di_n_pentyl_phthalate_131180:coa",
+            "REQ:US:s_di_n_pentyl_phthalate_131180:sds",
+            "us:2:0:26:0"
+          ]
+        },
+        "findings": [
+          {
+            "finding_id": "F1",
+            "ingredient_id": "s_di_n_pentyl_phthalate_131180",
+            "status": "does_not_meet_rule",
+            "severity": "high",
+            "title": "DPENP concentration exceeds the supplied US individual phthalate limit",
+            "observed_value": 40.0,
+            "unit": "%",
+            "rule_id": "us:2:0:18:0",
+            "reason": "The supplied calculated check reports fail for s_di_n_pentyl_phthalate_131180: 40.0% compared with a >0.1% limit on stated weight basis. This is a supported nonconformance for the supplied rule.",
+            "source_ids": [
+              "US:s_di_n_pentyl_phthalate_131180:us:2:0:18:0",
+              "us:2:0:18:0"
+            ],
+            "required_action": "Review the formulation for this ingredient and verify whether the ingredient identity or concentration is correct; if correct, the formula as supplied does not satisfy this specific concentration rule."
+          },
+          {
+            "finding_id": "F2",
+            "ingredient_id": "s_natural_waxes_beeswax_carnauba",
+            "status": "needs_information",
+            "severity": "medium",
+            "title": "Missing material COA for natural waxes",
+            "observed_value": null,
+            "unit": null,
+            "rule_id": null,
+            "reason": "A required material-level COA is missing for s_natural_waxes_beeswax_carnauba. Missing evidence is an information gap, not a measured failure.",
+            "source_ids": [
+              "REQ:US:s_natural_waxes_beeswax_carnauba:coa"
+            ],
+            "required_action": "Provide the ingredient-level COA for the specific material and batch."
+          },
+          {
+            "finding_id": "F3",
+            "ingredient_id": "s_natural_waxes_beeswax_carnauba",
+            "status": "needs_information",
+            "severity": "medium",
+            "title": "Missing material SDS for natural waxes",
+            "observed_value": null,
+            "unit": null,
+            "rule_id": null,
+            "reason": "A required material-level SDS is missing for s_natural_waxes_beeswax_carnauba. Missing evidence is an information gap, not a measured failure.",
+            "source_ids": [
+              "REQ:US:s_natural_waxes_beeswax_carnauba:sds"
+            ],
+            "required_action": "Provide the ingredient-level SDS for the material."
+          },
+          {
+            "finding_id": "F4",
+            "ingredient_id": "s_di_n_pentyl_phthalate_131180",
+            "status": "needs_information",
+            "severity": "medium",
+            "title": "Missing material COA for DPENP",
+            "observed_value": null,
+            "unit": null,
+            "rule_id": null,
+            "reason": "A required material-level COA is missing for s_di_n_pentyl_phthalate_131180. Missing evidence is an information gap, not a measured failure.",
+            "source_ids": [
+              "REQ:US:s_di_n_pentyl_phthalate_131180:coa"
+            ],
+            "required_action": "Provide the ingredient-level COA for the specific material and batch."
+          },
+          {
+            "finding_id": "F5",
+            "ingredient_id": "s_di_n_pentyl_phthalate_131180",
+            "status": "needs_information",
+            "severity": "medium",
+            "title": "Missing material SDS for DPENP",
+            "observed_value": null,
+            "unit": null,
+            "rule_id": null,
+            "reason": "A required material-level SDS is missing for s_di_n_pentyl_phthalate_131180. Missing evidence is an information gap, not a measured failure.",
+            "source_ids": [
+              "REQ:US:s_di_n_pentyl_phthalate_131180:sds"
+            ],
+            "required_action": "Provide the ingredient-level SDS for the material."
+          },
+          {
+            "finding_id": "F6",
+            "ingredient_id": "s_natural_waxes_beeswax_carnauba",
+            "status": "uncertain_applicability",
+            "severity": "informational",
+            "title": "Unverified exemption reference for natural waxes",
+            "observed_value": null,
+            "unit": null,
+            "rule_id": "us:2:0:26:0",
+            "reason": "The supplied exemption reference is pending verification and refers to VOC and solvent limits. Its applicability to this assessment is not established in the supplied evidence, so it should be reviewed rather than treated as confirmed.",
+            "source_ids": [
+              "us:2:0:26:0"
+            ],
+            "required_action": "Review the exemption reference and confirm whether it applies to this material and assessment scope."
+          }
+        ],
+        "missing_documents": [
+          {
+            "title": "Ingredient COA for Natural Waxes (Beeswax, Carnauba), batch BATCH-PAR-2026-A",
+            "document_type": "coa",
+            "reason": "Required material-level evidence is missing for s_natural_waxes_beeswax_carnauba.",
+            "ingredient_id": "s_natural_waxes_beeswax_carnauba",
+            "source_ids": [
+              "REQ:US:s_natural_waxes_beeswax_carnauba:coa"
+            ]
+          },
+          {
+            "title": "Ingredient SDS for Natural Waxes (Beeswax, Carnauba)",
+            "document_type": "sds",
+            "reason": "Required material-level evidence is missing for s_natural_waxes_beeswax_carnauba.",
+            "ingredient_id": "s_natural_waxes_beeswax_carnauba",
+            "source_ids": [
+              "REQ:US:s_natural_waxes_beeswax_carnauba:sds"
+            ]
+          },
+          {
+            "title": "Ingredient COA for Di-n-pentyl phthalate (DPENP), batch BATCH-STE-991",
+            "document_type": "coa",
+            "reason": "Required material-level evidence is missing for s_di_n_pentyl_phthalate_131180.",
+            "ingredient_id": "s_di_n_pentyl_phthalate_131180",
+            "source_ids": [
+              "REQ:US:s_di_n_pentyl_phthalate_131180:coa"
+            ]
+          },
+          {
+            "title": "Ingredient SDS for Di-n-pentyl phthalate (DPENP)",
+            "document_type": "sds",
+            "reason": "Required material-level evidence is missing for s_di_n_pentyl_phthalate_131180.",
+            "ingredient_id": "s_di_n_pentyl_phthalate_131180",
+            "source_ids": [
+              "REQ:US:s_di_n_pentyl_phthalate_131180:sds"
+            ]
+          }
+        ],
+        "source_conflicts": [],
+        "recommendations": [
+          {
+            "priority": "high",
+            "action": "Review the DPENP ingredient identity and formulation concentration immediately.",
+            "reason": "The supplied concentration check fails at 40.0% against the cited US limit, which is a supported concern.",
+            "related_finding_id": "F1",
+            "source_ids": [
+              "US:s_di_n_pentyl_phthalate_131180:us:2:0:18:0",
+              "us:2:0:18:0"
+            ]
+          },
+          {
+            "priority": "high",
+            "action": "Provide the missing COA and SDS documents for both ingredients at the material level.",
+            "reason": "Four high-criticality material-level evidence gaps remain unresolved.",
+            "related_finding_id": null,
+            "source_ids": [
+              "REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+              "REQ:US:s_natural_waxes_beeswax_carnauba:sds",
+              "REQ:US:s_di_n_pentyl_phthalate_131180:coa",
+              "REQ:US:s_di_n_pentyl_phthalate_131180:sds"
+            ]
+          },
+          {
+            "priority": "medium",
+            "action": "Review the pending exemption reference for natural waxes before relying on it in any assessment.",
+            "reason": "The exemption is not verified in the supplied evidence and its scope is not established for this assessment.",
+            "related_finding_id": "F6",
+            "source_ids": [
+              "us:2:0:26:0"
+            ]
+          }
+        ],
+        "alerts": [
+          {
+            "severity": "high",
+            "title": "Supplied concentration fail for DPENP",
+            "message": "The backend check reports 40.0% versus a >0.1% limit for the identified phthalate ingredient. This is a supported nonconformance concern.",
+            "source_ids": [
+              "US:s_di_n_pentyl_phthalate_131180:us:2:0:18:0",
+              "us:2:0:18:0"
+            ]
+          },
+          {
+            "severity": "medium",
+            "title": "Material-level documentation is incomplete",
+            "message": "COA and SDS documents are missing for both ingredients, so the evidence base remains incomplete.",
+            "source_ids": [
+              "REQ:US:s_natural_waxes_beeswax_carnauba:coa",
+              "REQ:US:s_natural_waxes_beeswax_carnauba:sds",
+              "REQ:US:s_di_n_pentyl_phthalate_131180:coa",
+              "REQ:US:s_di_n_pentyl_phthalate_131180:sds"
+            ]
+          }
+        ],
+        "next_actions": [
+          {
+            "priority": "high",
+            "action": "Verify whether DPENP is correctly identified and whether the 40.0% concentration is accurate.",
+            "reason": "The supplied check fails the cited concentration limit."
+          },
+          {
+            "priority": "high",
+            "action": "Obtain and review the missing ingredient-level COA and SDS documents for both materials.",
+            "reason": "These documents are required evidence and are currently absent."
+          },
+          {
+            "priority": "medium",
+            "action": "Review the pending exemption reference for natural waxes separately from the missing-document request.",
+            "reason": "The exemption claim is unverified and should be assessed on its own terms."
+          }
+        ],
+        "version_comparison": null,
+        "limitations": [
+          "This is a preliminary evidence-based assessment and not an official certification decision.",
+          "Missing evidence creates uncertainty; it does not by itself establish failure.",
+          "State-specific requirements were excluded from this assessment.",
+          "Only the supplied rule and evidence identifiers were used."
+        ],
+        "assessment_id": "afc2b1c9-b377-4dc9-b846-2294001a06fb",
+        "formula_id": "FML-1019",
+        "formula_version": "v1.0",
+        "execution": {
+          "llm_status": "succeeded",
+          "deployment": "gpt-5.4-mini",
+          "prompt_version": "assessment_v1"
+        }
+      }
     }
   ],
   "latest": {
     "FML-1019": {
-      "assessment_id": "5455b68f-eb95-402d-8409-a648047230fe",
+      "assessment_id": "afc2b1c9-b377-4dc9-b846-2294001a06fb",
       "screening_status": "changes_required",
       "screening_status_label": "Changes required",
       "assessment_mode": "evidence",
-      "created_at": "2026-10-09T12:45:11.580549+00:00",
+      "created_at": "2026-10-11T14:57:40.074518+00:00",
       "version_id": "v1.0"
     }
   }

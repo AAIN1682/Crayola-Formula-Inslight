@@ -645,7 +645,7 @@ describe('backend formula and dashboard services', () => {
       ingredientSnapshot: [],
       formulaAssessment: { assessment_id: 'A-SAVED', screening_status: 'changes_required' },
       legacySample: false,
-    } as ScreeningRun;
+    } as unknown as ScreeningRun;
     store.dispatch({ type: 'run/add', run });
 
     vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL) => {

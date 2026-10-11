@@ -180,8 +180,9 @@ def test_migration_without_a_result_needs_test_data():
 def test_state_rule_is_not_applied_to_generic_us():
     assessed = client.post("/api/assessments", json=formula()).json()
     state_checks = [item for item in assessed["llm_context"]["calculated_checks"] if "State rule" in item.get("message", "")]
-    assert state_checks
-    assert all(item["status"] == "not_applicable" for item in state_checks)
+    assert state_checks == []
+    limitations = assessed["llm_context"]["assessment_limitations"]
+    assert any("State-specific" in item for item in limitations)
 
 
 def _blank_pdf() -> bytes:
@@ -229,7 +230,8 @@ def test_pdf_upload_ocr_and_wrong_batch(upload_dir):
     status = client.get(f"/api/documents/{body['document_id']}/status").json()
     assert status["authenticity_status"] == "not_established"
     if blank.status_code == 200 and blank.json().get("ocr_required"):
-        assert blank.json()["ocr_message"] == "OCR required"
+        assert "OCR" in blank.json()["ocr_message"]
+        assert blank.json()["processing_status"] == "failed"
 
 
 def test_non_pdf_is_rejected(upload_dir):

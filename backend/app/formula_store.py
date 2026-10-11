@@ -58,6 +58,7 @@ class Ingredient(BaseModel):
     rawMaterialId: str | None = None
     concentration: float
     supplier: str | None = None
+    grade: str | None = None
     evidenceIds: list[str] = Field(default_factory=list)
     addedInVersion: str | None = None
     notes: str | None = None
@@ -85,7 +86,7 @@ class Formula(BaseModel):
     targetMarkets: list[TargetMarket] = Field(min_length=1)
     physicalForm: PhysicalForm
     intendedUse: str = Field(min_length=1, max_length=1000)
-    ownerId: str = Field(min_length=1, max_length=80)
+    ownerId: str = Field(default="", max_length=80)
     reviewerId: str | None = None
     lifecycle: Lifecycle
     ingredients: list[Ingredient] = Field(default_factory=list)
@@ -119,6 +120,7 @@ class IngredientCreate(BaseModel):
     rawMaterialId: str | None = None
     concentration: float
     supplier: str | None = None
+    grade: str | None = None
     evidenceIds: list[str] = Field(default_factory=list)
     addedInVersion: str | None = None
     notes: str | None = None
@@ -145,7 +147,7 @@ class FormulaCreate(BaseModel):
     targetMarkets: list[TargetMarket] | None = None
     physicalForm: PhysicalForm | None = None
     intendedUse: str = Field(min_length=1, max_length=1000)
-    ownerId: str = Field(min_length=1, max_length=80)
+    ownerId: str = Field(default="", max_length=80)
     reviewerId: str | None = None
     lifecycle: Lifecycle | None = None
     ingredients: list[IngredientCreate] = Field(default_factory=list)
@@ -175,7 +177,7 @@ class FormulaUpdate(BaseModel):
     targetMarkets: list[TargetMarket] | None = None
     physicalForm: PhysicalForm | None = None
     intendedUse: str | None = Field(default=None, min_length=1, max_length=1000)
-    ownerId: str | None = Field(default=None, min_length=1, max_length=80)
+    ownerId: str | None = Field(default=None, max_length=80)
     reviewerId: str | None = None
     lifecycle: Lifecycle | None = None
     ingredients: list[Ingredient] | None = None
@@ -374,6 +376,7 @@ def _build_from_create(body: FormulaCreate, existing: list[Formula]) -> Formula:
             rawMaterialId=ingredient.rawMaterialId,
             concentration=ingredient.concentration if math.isfinite(ingredient.concentration) else 0,
             supplier=ingredient.supplier,
+            grade=ingredient.grade,
             evidenceIds=ingredient.evidenceIds,
             addedInVersion=ingredient.addedInVersion,
             notes=ingredient.notes,

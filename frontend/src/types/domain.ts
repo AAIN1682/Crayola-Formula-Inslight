@@ -204,6 +204,7 @@ export interface Ingredient {
   /** Percentage of the total formula, 0–100. */
   concentration: number;
   supplier?: string;
+  grade?: string;
   /** Evidence documents explicitly attached at the ingredient level. */
   evidenceIds: string[];
   /** Version in which this ingredient first appeared — drives "new ingredient" checks. */
