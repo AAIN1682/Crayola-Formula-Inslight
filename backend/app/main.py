@@ -6,7 +6,7 @@ import logging
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Annotated
+from typing import Annotated, Literal
 from uuid import uuid4
 
 from fastapi import Body, FastAPI, File, Form, HTTPException, UploadFile
@@ -410,6 +410,31 @@ class ReviewBody(BaseModel):
     corrections: list[FieldCorrection] = Field(default_factory=list, max_length=80)
 
 
+class LinkIngredientBody(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    ingredient_key: str = Field(min_length=1, max_length=120)
+    document_type: Literal["sds", "coa"]
+
+
+@app.post("/api/screening/parse-acmi-template")
+async def parse_acmi_template(file: UploadFile = File(...)):
+    from app.acmi_template_parser import parse_acmi_template
+
+    content = await file.read()
+    return parse_acmi_template(content)
+
+
+@app.post("/api/documents/{document_id}/link-ingredient")
+def link_document_ingredient(document_id: str, body: LinkIngredientBody):
+    from app.uploads import UploadError, link_upload_ingredient
+
+    try:
+        return link_upload_ingredient(document_id, body.ingredient_key, body.document_type)
+    except UploadError as error:
+        raise HTTPException(status_code=404, detail=error.message) from error
+
+
 @app.post("/api/documents")
 async def upload_document(
     file: UploadFile = File(...),
@@ -510,19 +535,35 @@ def assessments(formula: Formula):
 
 
 @app.post("/api/formulas/{id}/assessments")
-def formula_assessments(id: str, formula: Annotated[Formula | None, Body()] = None):
+async def formula_assessments(id: str, formula: Annotated[Formula | None, Body()] = None):
     from pydantic import ValidationError
 
+    from app.formula_store import apply_screening_outcome, engine_screening_to_formula_status
     from app.screening_service import ScreeningServiceError, assess_saved_formula, load_saved_formula
 
     try:
         if formula is None:
             formula = Formula.model_validate(load_saved_formula(id))
-        return assess_saved_formula(id, formula, _assessment)
+        result = assess_saved_formula(id, formula, _assessment)
     except ScreeningServiceError as error:
         raise HTTPException(status_code=error.status_code, detail=error.detail) from error
     except ValidationError as error:
         raise HTTPException(status_code=422, detail=error.errors()) from error
+
+    try:
+        stored = await apply_screening_outcome(
+            id,
+            screening_status=engine_screening_to_formula_status(str(result.get("screening_status") or "")),
+            latest_run_id=str(result.get("assessment_id") or ""),
+            last_screened_at=str(result.get("created_at") or ""),
+            review_status="in-review",
+            preferred_assessment_mode=str(result.get("assessment_mode") or "") or None,
+        )
+        result["formula_record"] = stored.model_dump(mode="json")
+    except HTTPException as error:
+        if error.status_code != 404:
+            raise
+    return result
 
 
 @app.post("/api/compare")

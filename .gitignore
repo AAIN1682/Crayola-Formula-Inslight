@@ -13,6 +13,7 @@ backend/.pytest_cache
 backend/**/__pycache__
 backend/**/*.pyc
 backend/data/.extract_cache
+backend/data/user_uploads/
 
 # Repo-root server dependencies
 node_modules

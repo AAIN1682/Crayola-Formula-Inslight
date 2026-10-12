@@ -16,11 +16,10 @@ import type {
   FormulaDetail,
   FormulaFilters,
   FormulaInput,
-  FormulaRow,
   MonitoringAlertUpdate,
   MonitoringFilters,
   MonitoringSummary,
-  Paginated,
+  PaginatedFormulaLibrary,
   RawMaterialDetail,
   RawMaterialFilters,
   RawMaterialRow,
@@ -40,12 +39,15 @@ import type {
  * substituted in `services/index.ts` without touching any page.
  */
 export interface FormulaInsightServices {
-  listFormulas(filters?: FormulaFilters): Promise<Paginated<FormulaRow>>;
+  listFormulas(filters?: FormulaFilters): Promise<PaginatedFormulaLibrary>;
   getFormula(id: string): Promise<FormulaDetail>;
   createFormula(input: FormulaInput): Promise<Formula>;
   updateFormula(id: string, input: FormulaInput): Promise<Formula>;
   duplicateFormula(id: string): Promise<Formula>;
+  duplicateFormulaVersion(id: string): Promise<Formula>;
   archiveFormula(id: string): Promise<Formula>;
+  restoreFormula(id: string): Promise<Formula>;
+  deleteFormula(id: string): Promise<void>;
 
   runScreening(formulaId: string, options?: RunScreeningOptions): Promise<ScreeningRun>;
   retryExplanation(runId: string): Promise<ScreeningRun>;

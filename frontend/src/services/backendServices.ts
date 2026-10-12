@@ -4,8 +4,6 @@ import type {
   FormulaDetail,
   FormulaFilters,
   FormulaInput,
-  FormulaRow,
-  Paginated,
   SearchResult,
 } from '../types/services';
 import type { DemoStore } from '../state/store';
@@ -14,13 +12,17 @@ import {
   archiveStoredFormula,
   createStoredFormula,
   duplicateStoredFormula,
+  duplicateStoredFormulaVersion,
+  deleteStoredFormula,
+  restoreStoredFormula,
   fetchAllFormulas,
+  fetchFormulaLibrary,
   fetchDashboardSummary,
   fetchFormula,
   fetchPersistedScreeningStatuses,
   updateStoredFormula,
 } from '../api/formulaBackend';
-import { includesAny, paginate, sortRows } from '../utils/filtering';
+import { includesAny } from '../utils/filtering';
 import { ServiceError, type FormulaInsightServices } from './contracts';
 import { createMockServices } from './mock/mockServices';
 
@@ -79,50 +81,34 @@ export function createBackendServices(store: DemoStore): FormulaInsightServices 
   return {
     ...local,
 
-    async listFormulas(filters: FormulaFilters = {}): Promise<Paginated<FormulaRow>> {
+    async listFormulas(filters: FormulaFilters = {}): Promise<import('../types/services').PaginatedFormulaLibrary> {
       try {
-        const { formulas, missingEvidence } = await fetchAllFormulas({
+        const library = await fetchFormulaLibrary({
           search: filters.query,
           categories: filters.categories,
           reviewStatuses: filters.reviewStatuses,
           ownerIds: filters.ownerIds,
-          lifecycle: filters.lifecycle,
+          lifecycle: filters.lifecycle ?? ['draft', 'active'],
+          screeningBand: filters.screeningBand ?? 'all',
+          page: filters.page ?? 1,
+          pageSize: filters.pageSize ?? PAGE_SIZE,
+          sortKey: filters.sortKey ?? 'updatedAt',
+          sortDirection: filters.sortDirection ?? 'desc',
         });
         const saved = await fetchPersistedScreeningStatuses();
-        let rows = formulas.map((formula) => {
-          const current = applyPersistedScreeningStatus(formula, saved[formula.id]);
-          const missing = missingEvidence[formula.id] ?? 0;
-          return {
-            formula: current,
-            ownerName: personName(formula.ownerId),
-            reviewerName: formula.reviewerId ? personName(formula.reviewerId) : 'Unassigned',
-            ingredientCount: formula.ingredients.length,
-            missingEvidenceCount: missing,
-            evidenceCompleteness: 0,
-            mainConcern: '',
-          } satisfies FormulaRow;
-        });
-        rows = rows.filter((row) => {
+        let items = library.items.map((row) => ({
+          ...row,
+          formula: applyPersistedScreeningStatus(row.formula, saved[row.formula.id]),
+          ownerName: personName(row.formula.ownerId),
+          reviewerName: row.formula.reviewerId ? personName(row.formula.reviewerId) : 'Unassigned',
+        }));
+        items = items.filter((row) => {
           if (!includesAny(filters.screeningStatuses, row.formula.screeningStatus)) return false;
-          if (filters.onlyOutdated && row.formula.screeningCurrent) return false;
-          if (filters.onlyOutdated && row.formula.screeningStatus === 'not-screened') return false;
+          if (filters.onlyOutdated && !row.latestRunSummary?.outdated) return false;
           if (filters.onlyMissingEvidence && row.missingEvidenceCount === 0) return false;
           return true;
         });
-        const sortKey = filters.sortKey ?? 'updatedAt';
-        const direction = filters.sortDirection ?? (sortKey === 'updatedAt' ? 'desc' : 'asc');
-        const selectors: Record<string, (row: FormulaRow) => string | number | undefined> = {
-          name: (row) => row.formula.name,
-          version: (row) => row.formula.version,
-          category: (row) => row.formula.category,
-          ingredientCount: (row) => row.ingredientCount,
-          screeningStatus: (row) => row.formula.screeningStatus,
-          reviewStatus: (row) => row.formula.reviewStatus,
-          owner: (row) => row.ownerName,
-          updatedAt: (row) => new Date(row.formula.updatedAt).getTime(),
-        };
-        const sorted = sortRows(rows, selectors[sortKey] ?? selectors.name!, direction);
-        return paginate(sorted, filters.page ?? 1, filters.pageSize ?? PAGE_SIZE);
+        return { ...library, items };
       } catch (error) {
         throw asServiceError(error, 'The formula library could not be loaded.');
       }
@@ -188,6 +174,30 @@ export function createBackendServices(store: DemoStore): FormulaInsightServices 
       }
     },
 
+    async duplicateFormulaVersion(id: string): Promise<Formula> {
+      try {
+        return await duplicateStoredFormulaVersion(id);
+      } catch (error) {
+        throw asServiceError(error, 'The formula version could not be created.');
+      }
+    },
+
+    async restoreFormula(id: string): Promise<Formula> {
+      try {
+        return await restoreStoredFormula(id);
+      } catch (error) {
+        throw asServiceError(error, 'The formula could not be restored.');
+      }
+    },
+
+    async deleteFormula(id: string): Promise<void> {
+      try {
+        await deleteStoredFormula(id);
+      } catch (error) {
+        throw asServiceError(error, 'The formula could not be deleted.');
+      }
+    },
+
     async getDashboardSummary(): Promise<DashboardSummary> {
       try {
         return await fetchDashboardSummary();
@@ -206,10 +216,12 @@ export function createBackendServices(store: DemoStore): FormulaInsightServices 
     },
 
     async getScreeningResult(runId: string) {
-      const stored = store.getState().runs.find((item) => item.id === runId);
+      const stored =
+        store.getState().runs.find((item) => item.id === runId) ??
+        store.getState().runs.find((item) => item.formulaAssessment?.assessment_id === runId);
       let view;
       try {
-        view = await local.getScreeningResult(runId);
+        view = await local.getScreeningResult(stored?.id ?? runId);
       } catch (error) {
         if (!stored) throw error;
         const formula = await fetchFormula(stored.formulaId);

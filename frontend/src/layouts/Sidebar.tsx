@@ -8,6 +8,7 @@ import {
   Radar,
   Settings2,
   TestTubes,
+  FlaskConical,
 } from 'lucide-react';
 import { BrandMark } from '../components/graphics/Illustrations';
 import { useDemoSelector } from '../state/DemoDataProvider';
@@ -16,6 +17,7 @@ import { cn } from '../utils/cn';
 const NAV_ITEMS = [
   { to: '/', label: 'Overview', icon: LayoutDashboard, end: true },
   { to: '/formulas', label: 'Formula Library', icon: TestTubes, end: false },
+  { to: '/screening/new', label: 'New screening', icon: FlaskConical, end: false },
   { to: '/submissions', label: 'Submission History', icon: History, end: false },
   { to: '/monitoring', label: 'Monitoring', icon: Radar, end: false },
   { to: '/materials', label: 'Raw Materials', icon: Boxes, end: false },

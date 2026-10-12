@@ -119,9 +119,17 @@ export function buildEvidenceRequirements(
     }
 
     for (const documentType of requiredDocumentTypes(material)) {
-      const document = documents.find(
+      let document = documents.find(
         (candidate) => candidate.rawMaterialId === material.id && candidate.type === documentType,
       );
+      if (!document?.status || document.status !== 'available') {
+        const linkedId = ingredient.evidenceIds?.find((id) =>
+          documents.some((candidate) => candidate.id === id && candidate.type === documentType),
+        );
+        if (linkedId) {
+          document = documents.find((candidate) => candidate.id === linkedId);
+        }
+      }
       const satisfied = document?.status === 'available';
       requirements.push({
         id: `${ingredient.id}-${slug(documentType)}`,

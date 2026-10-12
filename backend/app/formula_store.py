@@ -110,6 +110,8 @@ class Formula(BaseModel):
     componentType: str | None = None
     testMaterialCategory: str | None = None
     missingEvidenceCount: int | None = None
+    formulaCode: str | None = None
+    productColor: str | None = None
 
 
 class IngredientCreate(BaseModel):
@@ -163,6 +165,8 @@ class FormulaCreate(BaseModel):
     toyChildcareScope: str | None = None
     componentType: str | None = None
     testMaterialCategory: str | None = None
+    formulaCode: str | None = None
+    productColor: str | None = None
 
 
 class FormulaUpdate(BaseModel):
@@ -198,6 +202,8 @@ class FormulaUpdate(BaseModel):
     toyChildcareScope: str | None = None
     componentType: str | None = None
     testMaterialCategory: str | None = None
+    formulaCode: str | None = None
+    productColor: str | None = None
 
 
 class PaginatedFormulas(BaseModel):
@@ -206,6 +212,19 @@ class PaginatedFormulas(BaseModel):
     page: int
     pageSize: int
     pageCount: int
+
+
+class FormulaListItem(Formula):
+    latestRunSummary: Any | None = None
+
+
+class PaginatedFormulaLibrary(BaseModel):
+    items: list[FormulaListItem]
+    total: int
+    page: int
+    pageSize: int
+    pageCount: int
+    summary: Any | None = None
 
 
 def _restore_from_seed() -> bool:
@@ -334,8 +353,8 @@ def _normalize(value: str | None) -> str:
 def _matches_search(formula: Formula, needle: str) -> bool:
     if not needle:
         return True
-    fields = [formula.name, formula.id, formula.description or ""]
-    return any(needle in field.lower() for field in fields)
+    fields = [formula.name, formula.id, formula.description or "", formula.formulaCode or ""]
+    return any(needle in field.lower() for field in fields if field)
 
 
 def _ingredient_signature(ingredients: list[Ingredient]) -> tuple[tuple[Any, ...], ...]:
@@ -349,20 +368,28 @@ def _ingredient_signature(ingredients: list[Ingredient]) -> tuple[tuple[Any, ...
     )
 
 
-def _screening_inputs_changed(previous: Formula, updated: Formula) -> bool:
-    if previous.version != updated.version:
-        return True
-    if previous.ageGroup != updated.ageGroup:
-        return True
-    if previous.targetMarkets != updated.targetMarkets:
-        return True
-    if previous.physicalForm != updated.physicalForm:
-        return True
-    if previous.intendedUse != updated.intendedUse:
-        return True
-    if previous.category != updated.category:
-        return True
+def _ingredients_or_percentages_changed(previous: Formula, updated: Formula) -> bool:
     return _ingredient_signature(previous.ingredients) != _ingredient_signature(updated.ingredients)
+
+
+def _bump_version_label(version: str) -> str:
+    text = (version or "v1.0").strip()
+    match = re.match(r"^v?(\d+)\.(\d+)$", text, re.IGNORECASE)
+    if match:
+        return f"v{int(match.group(1))}.{int(match.group(2)) + 1}"
+    match_major = re.match(r"^v?(\d+)$", text, re.IGNORECASE)
+    if match_major:
+        return f"v{int(match_major.group(1))}.1"
+    return f"{text}-next"
+
+
+def engine_screening_to_formula_status(status: str) -> ScreeningStatus:
+    normalized = (status or "").strip().lower()
+    if normalized == "changes_required":
+        return "red"
+    if normalized == "no_issues_found_in_assessed_scope":
+        return "green"
+    return "amber"
 
 
 def _build_from_create(body: FormulaCreate, existing: list[Formula]) -> Formula:
@@ -424,6 +451,8 @@ def _build_from_create(body: FormulaCreate, existing: list[Formula]) -> Formula:
         toyChildcareScope=body.toyChildcareScope,
         componentType=body.componentType,
         testMaterialCategory=body.testMaterialCategory,
+        formulaCode=body.formulaCode,
+        productColor=body.productColor,
     )
 
 
@@ -435,7 +464,7 @@ def _apply_update(base: Formula, body: FormulaUpdate) -> Formula:
     merged.update(patch)
     merged["updatedAt"] = _utc_now_iso()
     updated = Formula.model_validate(merged)
-    if base.latestRunId and _screening_inputs_changed(base, updated):
+    if base.latestRunId and _ingredients_or_percentages_changed(base, updated):
         updated = updated.model_copy(update={"screeningCurrent": False})
     return updated
 
@@ -460,20 +489,32 @@ def _sort_key(formula: Formula, sort_key: str) -> str | float:
     return formula.updatedAt
 
 
-@router.get("/api/formulas", response_model=PaginatedFormulas)
+@router.get("/api/formulas")
 async def list_formulas(
     search: str | None = Query(default=None),
     category: Annotated[list[str] | None, Query()] = None,
     screeningStatus: Annotated[list[str] | None, Query()] = None,
+    screeningBand: str | None = Query(default=None),
     reviewStatus: Annotated[list[str] | None, Query()] = None,
     ownerId: Annotated[list[str] | None, Query()] = None,
     lifecycle: Annotated[list[str] | None, Query()] = None,
+    include: str | None = Query(default=None),
     page: int = Query(default=1, ge=1),
     pageSize: int = Query(default=10, ge=1, le=1000),
     sortKey: str = Query(default="updatedAt"),
     sortDirection: Literal["asc", "desc"] = Query(default="desc"),
-) -> PaginatedFormulas:
+) -> PaginatedFormulas | PaginatedFormulaLibrary:
     """List formulas with filters aligned to the frontend FormulaFilters HTTP encoding."""
+    from app.dashboard_service import load_assessment_store, missing_evidence_count, resolve_latest_run
+    from app.formula_library_service import (
+        DisplayStatus,
+        LatestRunSummary,
+        LibrarySummaryCounts,
+        count_summary,
+        enrich_formula_row,
+        matches_band,
+    )
+
     store = await load_formulas()
     lifecycle_set = {item.strip() for item in lifecycle} if lifecycle else {"draft", "active"}
     categories = {_normalize(item) for item in category} if category else None
@@ -481,6 +522,10 @@ async def list_formulas(
     reviews = {_normalize(item) for item in reviewStatus} if reviewStatus else None
     owners = {_normalize(item) for item in ownerId} if ownerId else None
     needle = _normalize(search)
+    band = (screeningBand or "all").strip().lower() if screeningBand else "all"
+    if band not in {"all", "likely-ap", "at-risk", "likely-cl", "not-screened"}:
+        band = "all"
+    with_latest = include == "latest_run"
 
     filtered: list[Formula] = []
     for formula in store:
@@ -498,6 +543,64 @@ async def list_formulas(
             continue
         filtered.append(formula)
 
+    runs, latest = load_assessment_store()
+
+    if with_latest:
+        enriched: list[tuple[Formula, LatestRunSummary | None, DisplayStatus]] = []
+        for formula in filtered:
+            summary, display = enrich_formula_row(formula, runs, latest)
+            if not matches_band(display, band):  # type: ignore[arg-type]
+                continue
+            enriched.append((formula, summary, display))
+
+        summary_counts: LibrarySummaryCounts = count_summary(
+            [(item[0], item[2]) for item in enriched],
+        )
+
+        reverse = sortDirection == "desc"
+
+        def sort_tuple(row: tuple[Formula, LatestRunSummary | None, DisplayStatus]) -> tuple[Any, ...]:
+            formula, run_summary, _display = row
+            if sortKey == "lastScreenedAt":
+                stamp = (run_summary.lastScreenedAt if run_summary else "") or ""
+                return (stamp,)
+            if sortKey == "score":
+                value = run_summary.scoreValue if run_summary else None
+                return (value if value is not None else -1,)
+            if sortKey == "screeningStatus":
+                return ((run_summary.displayStatus if run_summary else "not-screened"),)
+            if sortKey == "updatedAt":
+                return (formula.updatedAt,)
+            return (_sort_key(formula, sortKey),)
+
+        enriched.sort(key=sort_tuple, reverse=reverse)
+
+        total = len(enriched)
+        page_count = max(1, math.ceil(total / pageSize)) if total else 1
+        safe_page = min(page, page_count)
+        start = (safe_page - 1) * pageSize
+        page_rows = enriched[start : start + pageSize]
+        items: list[FormulaListItem] = []
+        for formula, run_summary, _display in page_rows:
+            latest_run = resolve_latest_run(formula.id, runs, latest)
+            items.append(
+                FormulaListItem.model_validate(
+                    {
+                        **formula.model_dump(),
+                        "missingEvidenceCount": missing_evidence_count(formula.model_dump(), latest_run),
+                        "latestRunSummary": run_summary.model_dump(mode="json") if run_summary else None,
+                    }
+                )
+            )
+        return PaginatedFormulaLibrary(
+            items=items,
+            total=total,
+            page=safe_page,
+            pageSize=pageSize,
+            pageCount=page_count,
+            summary=summary_counts.model_dump(mode="json"),
+        )
+
     reverse = sortDirection == "desc"
     if sortKey == "updatedAt":
         filtered.sort(key=lambda item: item.updatedAt, reverse=reverse)
@@ -508,10 +611,6 @@ async def list_formulas(
     page_count = max(1, math.ceil(total / pageSize)) if total else 1
     safe_page = min(page, page_count)
     start = (safe_page - 1) * pageSize
-    # Reuse dashboard evidence counting. Imported here so formula storage and dashboard aggregation do not cycle at import.
-    from app.dashboard_service import load_assessment_store, missing_evidence_count, resolve_latest_run
-
-    runs, latest = load_assessment_store()
     page_items = filtered[start : start + pageSize]
     items = [
         item.model_copy(
@@ -613,3 +712,70 @@ async def archive_formula(formula_id: str) -> Formula:
         await save_formulas(store)
         return archived
     raise HTTPException(status_code=404, detail=f"Formula {formula_id} was not found.")
+
+
+@router.post("/api/formulas/{formula_id}/restore", response_model=Formula)
+async def restore_formula(formula_id: str) -> Formula:
+    store = await load_formulas()
+    for index, formula in enumerate(store):
+        if formula.id != formula_id:
+            continue
+        if formula.lifecycle != "archived":
+            raise HTTPException(status_code=422, detail="Only archived formulas can be restored.")
+        restored = formula.model_copy(update={"lifecycle": "active", "updatedAt": _utc_now_iso()})
+        store[index] = restored
+        await save_formulas(store)
+        return restored
+    raise HTTPException(status_code=404, detail=f"Formula {formula_id} was not found.")
+
+
+@router.delete("/api/formulas/{formula_id}", status_code=204)
+async def delete_archived_formula(formula_id: str) -> None:
+    store = await load_formulas()
+    for index, formula in enumerate(store):
+        if formula.id != formula_id:
+            continue
+        if formula.lifecycle != "archived":
+            raise HTTPException(status_code=422, detail="Only archived formulas can be deleted.")
+        store.pop(index)
+        await save_formulas(store)
+        return
+    raise HTTPException(status_code=404, detail=f"Formula {formula_id} was not found.")
+
+
+@router.post("/api/formulas/{formula_id}/duplicate-version", response_model=Formula)
+async def duplicate_formula_version(formula_id: str) -> Formula:
+    from app.formula_version_history import append_snapshot
+
+    store = await load_formulas()
+    for index, formula in enumerate(store):
+        if formula.id != formula_id:
+            continue
+        await append_snapshot(formula.id, formula.version, list(formula.ingredients))
+        next_version = _bump_version_label(formula.version)
+        updated = formula.model_copy(
+            update={
+                "version": next_version,
+                "screeningStatus": "not-screened",
+                "screeningCurrent": False,
+                "latestRunId": None,
+                "lastScreenedAt": None,
+                "reviewStatus": "not-started",
+                "updatedAt": _utc_now_iso(),
+            }
+        )
+        store[index] = updated
+        await save_formulas(store)
+        return updated
+    raise HTTPException(status_code=404, detail=f"Formula {formula_id} was not found.")
+
+
+@router.get("/api/formulas/{formula_id}/version-history")
+async def formula_version_history(formula_id: str) -> dict[str, list[dict[str, Any]]]:
+    from app.formula_version_history import list_snapshots
+
+    store = await load_formulas()
+    if not any(item.id == formula_id for item in store):
+        raise HTTPException(status_code=404, detail=f"Formula {formula_id} was not found.")
+    snapshots = await list_snapshots(formula_id)
+    return {"items": [item.model_dump(mode="json") for item in snapshots]}

@@ -261,6 +261,10 @@ export interface Formula {
   toyChildcareScope?: string;
   componentType?: string;
   testMaterialCategory?: string;
+  /** Optional product / ACMI template code; shown in library when set. */
+  formulaCode?: string;
+  /** CSS hex color for library swatch, e.g. #FF5733 */
+  productColor?: string;
 }
 
 export interface RawMaterial {

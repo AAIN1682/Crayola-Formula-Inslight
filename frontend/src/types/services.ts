@@ -69,6 +69,8 @@ export interface FormulaInput {
   toyChildcareScope?: string;
   componentType?: string;
   testMaterialCategory?: string;
+  formulaCode?: string;
+  productColor?: string;
 }
 
 export interface ReviewDecisionInput {
@@ -109,7 +111,11 @@ export type FormulaSortKey =
   | 'screeningStatus'
   | 'reviewStatus'
   | 'owner'
-  | 'updatedAt';
+  | 'updatedAt'
+  | 'lastScreenedAt'
+  | 'score';
+
+export type ScreeningBandFilter = 'all' | 'likely-ap' | 'at-risk' | 'likely-cl' | 'not-screened';
 
 export type SortDirection = 'asc' | 'desc';
 
@@ -117,6 +123,7 @@ export interface FormulaFilters {
   query?: string;
   categories?: ProductCategory[];
   screeningStatuses?: ScreeningStatus[];
+  screeningBand?: ScreeningBandFilter;
   reviewStatuses?: ReviewStatus[];
   ownerIds?: string[];
   lifecycle?: FormulaLifecycle[];
@@ -192,6 +199,19 @@ export interface FormulaRow {
   missingEvidenceCount: number;
   evidenceCompleteness: number;
   mainConcern: string;
+  latestRunSummary?: import('../utils/libraryScreeningDisplay').LatestRunSummary;
+}
+
+export interface FormulaLibrarySummaryCounts {
+  total: number;
+  likelyAp: number;
+  atRisk: number;
+  likelyCl: number;
+  notScreened: number;
+}
+
+export interface PaginatedFormulaLibrary extends Paginated<FormulaRow> {
+  summary?: FormulaLibrarySummaryCounts;
 }
 
 export interface FormulaDetail {

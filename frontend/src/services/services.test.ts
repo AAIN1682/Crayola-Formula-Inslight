@@ -100,9 +100,9 @@ const catalogFormula: FormulaInput = {
   evidenceIds: [],
 };
 
-function mockLiveAssessment(body: Record<string, unknown>): PackageAssessment {
+function mockLiveAssessment(body: Record<string, unknown>, assessmentId = 'A-LIVE'): PackageAssessment {
   return {
-    assessment_id: 'A-LIVE',
+    assessment_id: assessmentId,
     created_at: new Date().toISOString(),
     data_version: '1.0.0',
     data_hash: 'datahash',
@@ -134,7 +134,7 @@ function mockLiveAssessment(body: Record<string, unknown>): PackageAssessment {
       },
     },
     execution: {
-      assessment_id: 'A-LIVE',
+      assessment_id: assessmentId,
       execution_mode: 'live',
       llm_provider: 'azure_openai',
       llm_status: 'succeeded',
@@ -177,6 +177,7 @@ function mockLiveAssessment(body: Record<string, unknown>): PackageAssessment {
 }
 
 function mockFetch() {
+  let assessmentSeq = 0;
   return vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
     const url = String(input);
     if (url.includes('/api/catalog')) {
@@ -188,7 +189,9 @@ function mockFetch() {
     }
     if ((path.endsWith('/api/assessments') && init?.method === 'POST') || /\/api\/formulas\/[^/]+\/assessments$/.test(path)) {
       const body = JSON.parse(String(init?.body ?? '{}')) as Record<string, unknown>;
-      return new Response(JSON.stringify(mockLiveAssessment(body)), { status: 200 });
+      assessmentSeq += 1;
+      const assessmentId = `A-LIVE-${assessmentSeq}`;
+      return new Response(JSON.stringify(mockLiveAssessment(body, assessmentId)), { status: 200 });
     }
     return new Response(JSON.stringify({ message: 'not found' }), { status: 404 });
   });

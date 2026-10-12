@@ -14,6 +14,7 @@ import { SubmissionHistoryPage } from '../pages/SubmissionHistoryPage';
 import { MonitoringPage } from '../pages/MonitoringPage';
 import { RawMaterialsPage } from '../pages/RawMaterialsPage';
 import { SettingsPage } from '../pages/SettingsPage';
+import { NewScreeningPage } from '../pages/NewScreeningPage';
 
 /** Providers wrap the shell so every route shares one dataset and one toast surface. */
 function Root() {
@@ -40,6 +41,9 @@ export const routes: RouteObject[] = [
     children: [
       { index: true, element: <OverviewPage /> },
       { path: 'formulas', element: <FormulaLibraryPage /> },
+      { path: 'screening/new', element: <NewScreeningPage /> },
+      { path: 'formulas/new', element: <NewScreeningPage /> },
+      { path: 'formulas/:formulaId/edit', element: <NewScreeningPage /> },
       {
         path: 'formulas/:formulaId',
         element: <FormulaDetailsPage />,

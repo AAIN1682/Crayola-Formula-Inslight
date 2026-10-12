@@ -1,0 +1,1555 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PreSeal Formula Screener</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: two-pane app shell. A quiet left rail for navigation, a scrolling work area.
+   Results put the verdict first, evidence in the main column, the fix plan pinned right. */
+:root{
+  --paper:#F4F5F9;
+  --surface:#FFFFFF;
+  --sunken:#ECEEF4;
+  --ink:#14192B;
+  --ink-2:#4A526C;
+  --ink-3:#717990;
+  --line:#DFE2EB;
+  --line-2:#C7CCD9;
+  --accent:#2B43C6;        /* ultramarine, after Pigment Blue 29 */
+  --accent-ink:#FFFFFF;
+  --accent-soft:#E6E9FA;
+  --ap:#1C7A4F;   --ap-soft:#DDF1E6;
+  --risk:#9A5F07; --risk-soft:#FAEDD2;
+  --cl:#BF352B;   --cl-soft:#FAE1DE;
+  --na-soft:#ECEEF4;
+  --shadow:0 1px 2px rgba(20,25,43,.05),0 10px 28px rgba(20,25,43,.08);
+  --scrim:rgba(20,25,43,.36);
+  --f-display:"Bricolage Grotesque","IBM Plex Sans",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --r-sm:6px; --r-md:10px; --r-lg:14px;
+  --rail:236px;
+  --pad:20px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0D111D; --surface:#151A2A; --sunken:#1C2236;
+    --ink:#E6E9F2; --ink-2:#A9B0C5; --ink-3:#848CA3;
+    --line:#252C42; --line-2:#363E5A;
+    --accent:#8E9DFF; --accent-ink:#0D111D; --accent-soft:#1F2650;
+    --ap:#55C891; --ap-soft:#11301F;
+    --risk:#E6AC50; --risk-soft:#33270F;
+    --cl:#F37E72; --cl-soft:#3D1B17;
+    --na-soft:#1C2236;
+    --shadow:0 1px 2px rgba(0,0,0,.45),0 10px 28px rgba(0,0,0,.4);
+    --scrim:rgba(0,0,0,.55);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0D111D; --surface:#151A2A; --sunken:#1C2236;
+  --ink:#E6E9F2; --ink-2:#A9B0C5; --ink-3:#848CA3;
+  --line:#252C42; --line-2:#363E5A;
+  --accent:#8E9DFF; --accent-ink:#0D111D; --accent-soft:#1F2650;
+  --ap:#55C891; --ap-soft:#11301F;
+  --risk:#E6AC50; --risk-soft:#33270F;
+  --cl:#F37E72; --cl-soft:#3D1B17;
+  --na-soft:#1C2236;
+  --shadow:0 1px 2px rgba(0,0,0,.45),0 10px 28px rgba(0,0,0,.4);
+  --scrim:rgba(0,0,0,.55);
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0}
+[hidden]{display:none!important}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0;font-family:var(--f-display);font-weight:650;letter-spacing:-.01em;text-wrap:balance;color:var(--ink)}
+h1{font-size:clamp(22px,2.3vw,30px);line-height:1.15}
+h2{font-size:16px;line-height:1.3}
+h3{font-size:17px;line-height:1.35}
+p{margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--accent)}
+.mono{font-family:var(--f-mono);font-size:.92em}
+.small{font-size:12.5px}
+.xsmall{font-size:11.5px}
+.muted{color:var(--ink-3)}
+.min0{min-width:0}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* ---------- shell ---------- */
+.app{display:grid;grid-template-columns:var(--rail) minmax(0,1fr);min-height:100%}
+.rail{position:sticky;top:env(safe-area-inset-top,0px);align-self:start;height:100vh;display:flex;flex-direction:column;gap:22px;padding:20px 14px;background:var(--surface);border-right:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;padding:2px 8px}
+.brand svg{width:30px;height:30px;flex:none}
+.seal-bg{fill:var(--accent)}
+.seal-ring{fill:none;stroke:var(--accent-ink);stroke-opacity:.5;stroke-width:1;stroke-dasharray:1.4 2}
+.seal-check{fill:none;stroke:var(--accent-ink);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.wordmark{font-family:var(--f-display);font-weight:700;font-size:20px;letter-spacing:-.02em;line-height:1}
+.brand .xsmall{margin-top:3px}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav a{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--r-sm);color:var(--ink-2);text-decoration:none;font-weight:500}
+.nav a:hover{background:var(--sunken);color:var(--ink)}
+.nav a[aria-current="page"]{background:var(--accent-soft);color:var(--accent)}
+.nav svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.badge{margin-left:auto;font-size:11px;font-weight:600;min-width:20px;padding:1px 6px;border-radius:999px;background:var(--cl-soft);color:var(--cl);text-align:center;font-variant-numeric:tabular-nums}
+.rail-foot{margin-top:auto;display:grid;gap:8px;padding:0 8px;justify-items:start}
+.work{min-width:0;padding-block:28px 72px;padding-inline:clamp(16px,3.2vw,44px)}
+.work-inner{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr);gap:20px}
+
+/* ---------- page head ---------- */
+.page-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px}
+.eyebrow{font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px}
+.lede{color:var(--ink-2);max-width:64ch;margin-top:6px}
+.meta{color:var(--ink-3);margin-top:6px;font-size:12.5px}
+.head-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+h1.with-sw{display:flex;align-items:center;gap:12px}
+
+/* ---------- controls ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:36px;padding:0 14px;border-radius:var(--r-sm);border:1px solid var(--line-2);background:var(--surface);color:var(--ink);font-weight:500;cursor:pointer;text-decoration:none;white-space:nowrap}
+.btn:hover{border-color:var(--ink-3)}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn-primary:hover{filter:brightness(1.08);border-color:var(--accent)}
+.btn-ghost{background:transparent;border-color:transparent;color:var(--accent)}
+.btn-ghost:hover{background:var(--accent-soft);border-color:transparent}
+.btn[disabled]{opacity:.45;cursor:not-allowed;filter:none}
+.text-link{background:none;border:0;padding:0;color:var(--accent);font-weight:500;cursor:pointer;text-decoration:none;font-size:inherit}
+.text-link:hover{text-decoration:underline}
+.icon-btn{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:var(--r-sm);border:1px solid transparent;background:transparent;color:var(--ink-3);cursor:pointer;font-size:18px;line-height:1}
+.icon-btn:hover{background:var(--sunken);color:var(--ink)}
+.link-btn{background:none;border:0;padding:0;font-weight:600;color:var(--ink);cursor:pointer;text-align:left}
+.link-btn:hover{color:var(--accent)}
+.in{height:36px;padding:0 10px;border:1px solid var(--line-2);border-radius:var(--r-sm);background:var(--surface);color:var(--ink);width:100%;min-width:0}
+textarea.in{height:auto;padding:8px 10px;resize:vertical;line-height:1.45}
+.in:focus{outline:2px solid var(--accent);outline-offset:-1px;border-color:var(--accent)}
+.in.num{text-align:right;font-family:var(--f-mono);font-size:13px;width:104px}
+input[type="checkbox"]{accent-color:var(--accent);width:16px;height:16px}
+
+/* ---------- chips, tags ---------- */
+.chip{display:inline-flex;align-items:center;gap:5px;height:22px;padding:0 9px;border-radius:999px;font-size:11.5px;font-weight:600;white-space:nowrap;border:1px solid transparent}
+.chip.lg{height:28px;padding:0 12px;font-size:13px}
+.tone-ap{background:var(--ap-soft);color:var(--ap)}
+.tone-risk{background:var(--risk-soft);color:var(--risk)}
+.tone-cl{background:var(--cl-soft);color:var(--cl)}
+.tone-na{background:var(--na-soft);color:var(--ink-3)}
+.tone-accent{background:var(--accent-soft);color:var(--accent)}
+.tone-outline{background:transparent;border-color:var(--line-2);color:var(--ink-2)}
+.bg-ap{background:var(--ap)} .bg-risk{background:var(--risk)} .bg-cl{background:var(--cl)} .bg-neutral{background:var(--ink-3)}
+.tx-ap{color:var(--ap)} .tx-risk{color:var(--risk)} .tx-cl{color:var(--cl)}
+.tag{display:inline-flex;align-items:center;height:20px;padding:0 7px;border-radius:4px;background:var(--sunken);color:var(--ink-2);font-size:11.5px;font-weight:500;white-space:nowrap}
+.tags{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.pill{display:inline-flex;align-items:center;gap:7px;padding:4px 10px;border-radius:999px;border:1px solid var(--line);font-size:12.5px;color:var(--ink-2);background:var(--surface)}
+button.pill{cursor:pointer}
+button.pill:hover{border-color:var(--accent);color:var(--accent)}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.sw{display:inline-block;width:14px;height:14px;border-radius:50%;background:var(--sw);box-shadow:0 0 0 1px var(--line-2);flex:none}
+.sw.lg{width:24px;height:24px;box-shadow:0 0 0 1px var(--line-2),0 0 0 4px var(--surface),0 0 0 5px var(--line)}
+
+/* ---------- panels ---------- */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:18px var(--pad);display:grid;grid-template-columns:minmax(0,1fr);gap:14px;min-width:0;align-content:start}
+.panel-head{display:grid;gap:4px}
+.panel-head.row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.panel-head.wrap{flex-wrap:wrap}
+.sn{display:inline-grid;place-items:center;width:22px;height:22px;margin-right:8px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-family:var(--f-mono);font-size:12px;font-weight:500;vertical-align:2px}
+
+/* ---------- portfolio ---------- */
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg)}
+.kpi{padding:16px 20px;display:grid;gap:2px;border-left:1px solid var(--line);min-width:0}
+.kpi:first-child{border-left:0}
+.kpi-label{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:500;color:var(--ink-2)}
+.kpi-dot{width:8px;height:8px;border-radius:50%}
+.kpi-num{font-family:var(--f-display);font-size:32px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}
+.kpi-cap{font-size:12px;color:var(--ink-3)}
+.split{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(0,1fr);gap:20px;align-items:start}
+
+.strip{position:relative;display:grid;gap:6px;overflow:clip}
+.strip-bands{display:flex;height:calc(var(--lanes) * 26px + 40px);border-radius:var(--r-md);overflow:hidden}
+.sb{position:relative;height:100%}
+.sb-cl{background:var(--cl-soft)} .sb-risk{background:var(--risk-soft)} .sb-ap{background:var(--ap-soft)}
+.sb em{position:absolute;top:7px;left:10px;font-style:normal;font-size:10.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;white-space:nowrap}
+.sb-cl em{color:var(--cl)} .sb-risk em{color:var(--risk)} .sb-ap em{color:var(--ap)}
+.strip-dots{position:absolute;left:0;right:0;top:0;height:calc(var(--lanes) * 26px + 40px)}
+.dot{position:absolute;top:calc(32px + var(--lane) * 26px);left:var(--x);transform:translateX(-50%);width:18px;height:18px;padding:0;border-radius:50%;background:var(--sw);border:2px solid var(--surface);box-shadow:0 0 0 1px var(--line-2);cursor:pointer;transition:transform .12s}
+.dot:hover,.dot:focus-visible{transform:translateX(-50%) scale(1.22)}
+.dot-tip{position:absolute;bottom:calc(100% + 5px);left:50%;transform:translateX(-50%);padding:2px 7px;border-radius:4px;background:var(--ink);color:var(--surface);font-size:11px;font-family:var(--f-mono);white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .12s}
+.dot.tip-r .dot-tip{left:auto;right:-4px;transform:none}
+.dot.tip-l .dot-tip{left:-4px;transform:none}
+.dot:hover .dot-tip,.dot:focus-visible .dot-tip{opacity:1}
+.axis{position:relative;height:16px;font-size:11px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.axis span{position:absolute;top:0;transform:translateX(-50%);white-space:nowrap}
+.axis span.first{transform:none}
+.axis span.last{transform:translateX(-100%)}
+
+.alert-mini{display:grid;gap:5px;padding:12px 0;border-top:1px solid var(--line)}
+.alert-mini:first-of-type{border-top:0;padding-top:0}
+.alert-mini p{font-weight:500}
+
+.filters{display:flex;flex-wrap:wrap;gap:6px}
+.fchip{height:30px;padding:0 11px;border-radius:999px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink-2);font-size:12.5px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.fchip .n{font-variant-numeric:tabular-nums;color:var(--ink-3)}
+.fchip.on{background:var(--ink);border-color:var(--ink);color:var(--surface)}
+.fchip.on .n{color:inherit;opacity:.7}
+
+.tbl-wrap{overflow-x:auto;margin-inline:calc(-1 * var(--pad));padding-inline:var(--pad)}
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+.tbl th{text-align:left;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl td{padding:11px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+.tbl tbody tr:last-child td{border-bottom:0}
+.tbl th.num,.tbl td.num{text-align:right;font-variant-numeric:tabular-nums}
+.rowlink{cursor:pointer}
+.rowlink:hover td{background:var(--sunken)}
+.fcell{display:flex;align-items:center;gap:10px;min-width:230px}
+.lk{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.lk-bar{width:64px;height:6px;border-radius:3px;background:var(--sunken);overflow:hidden}
+.lk-bar i{display:block;height:100%;border-radius:3px}
+.num-strong{font-weight:600;font-variant-numeric:tabular-nums;min-width:38px;text-align:right}
+.issue-cell{min-width:200px}
+
+/* ---------- result ---------- */
+.verdict{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:32px;align-items:center;padding:22px 24px;border-radius:var(--r-lg);border:1px solid var(--line);background:var(--surface)}
+.v-score{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.v-num{font-family:var(--f-display);font-size:68px;font-weight:700;line-height:.95;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.v-num small{font-size:.42em;font-weight:600;margin-left:3px;color:var(--ink-3);letter-spacing:0}
+.band-ap .v-num{color:var(--ap)} .band-risk .v-num{color:var(--risk)} .band-cl .v-num{color:var(--cl)}
+.v-label{font-size:12.5px;color:var(--ink-3);margin-top:6px}
+.v-sentence{font-size:15.5px;max-width:52ch;margin-top:10px}
+.v-meta{display:flex;flex-wrap:wrap;gap:8px 24px;margin:16px 0 0}
+.v-meta div{display:grid}
+.v-meta dt{font-size:11.5px;color:var(--ink-3)}
+.v-meta dd{margin:0;font-weight:600;font-variant-numeric:tabular-nums}
+.v-watch{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:14px;font-size:12.5px;color:var(--ink-2)}
+
+.scale{position:relative;padding:26px 0 30px}
+.scale-track{display:flex;height:26px;border-radius:6px;overflow:hidden}
+.scale-track .sb em{top:50%;transform:translateY(-50%);left:8px;font-size:10px}
+.scale .axis{margin-top:5px}
+.mark{position:absolute;width:0}
+.mark.now{top:18px;height:40px;border-left:2px solid var(--ink)}
+.mark.now span{position:absolute;top:-20px;left:0;transform:translateX(-50%);font-size:12px;font-weight:600;white-space:nowrap;font-variant-numeric:tabular-nums}
+.mark.proj{top:22px;height:56px;border-left:2px dashed var(--accent)}
+.mark.proj span{position:absolute;top:100%;left:0;transform:translateX(-50%);margin-top:2px;font-size:12px;font-weight:600;color:var(--accent);white-space:nowrap;font-variant-numeric:tabular-nums}
+.mark.edge-r span{transform:translateX(-100%)}
+.mark.edge-l span{transform:none}
+
+.result-grid{display:grid;grid-template-columns:minmax(0,1fr) 344px;grid-template-areas:"why side" "evid side";gap:20px;align-items:start}
+.r-why{grid-area:why}
+.r-evid{grid-area:evid;display:grid;grid-template-columns:minmax(0,1fr);gap:20px;min-width:0}
+.r-side{grid-area:side;position:sticky;top:calc(env(safe-area-inset-top,0px) + 20px)}
+
+.reasons{list-style:none;margin:0;padding:0;counter-reset:r}
+.reason{display:grid;grid-template-columns:26px minmax(0,1fr);gap:12px;padding:13px 0;border-top:1px solid var(--line);counter-increment:r}
+.reason:first-child{border-top:0;padding-top:2px}
+.reason::before{content:counter(r);width:24px;height:24px;border-radius:50%;background:var(--sunken);color:var(--ink-2);font-size:12px;font-weight:600;display:grid;place-items:center;font-variant-numeric:tabular-nums}
+.reason p{font-size:14.5px;max-width:72ch}
+.reason .tags{margin-top:7px}
+
+.checks{list-style:none;margin:0;padding:0}
+.check{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:12px;align-items:start;padding:10px 0;border-top:1px solid var(--line)}
+.check:first-child{border-top:0;padding-top:0}
+.st-icon{width:22px;height:22px;border-radius:50%;display:grid;place-items:center}
+.st-icon svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+.st-pass .st-icon{background:var(--ap-soft);color:var(--ap)}
+.st-data .st-icon{background:var(--risk-soft);color:var(--risk)}
+.st-fail .st-icon{background:var(--cl-soft);color:var(--cl)}
+.st-na .st-icon{background:var(--na-soft);color:var(--ink-3)}
+.check-name{font-weight:500}
+.check-detail{font-size:12.5px;color:var(--ink-2)}
+.check-side{display:grid;justify-items:end;gap:2px;text-align:right}
+.st-word{font-size:12px;font-weight:600}
+.st-pass .st-word{color:var(--ap)} .st-data .st-word{color:var(--risk)} .st-fail .st-word{color:var(--cl)} .st-na .st-word{color:var(--ink-3)}
+.st-na .check-name{color:var(--ink-2)}
+
+.expo{display:grid;gap:7px}
+.expo-row{display:grid;grid-template-columns:minmax(130px,220px) minmax(0,1fr) 66px;gap:12px;align-items:center}
+.expo-name{font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.expo-track{position:relative;height:16px;border-radius:3px;background:linear-gradient(to right,var(--line) 1px,transparent 1px) 0 0/20% 100% repeat-x,var(--sunken)}
+.expo-track::after{content:"";position:absolute;left:20%;top:-3px;bottom:-3px;border-left:2px solid var(--cl)}
+.expo-bar{position:absolute;left:0;top:3px;bottom:3px;border-radius:0 3px 3px 0}
+.expo-val{text-align:right;font-family:var(--f-mono);font-size:12.5px;font-variant-numeric:tabular-nums}
+.expo-nodata{position:absolute;inset:0;display:flex;align-items:center;padding-left:8px;font-size:11.5px;font-weight:500;color:var(--cl);background:repeating-linear-gradient(45deg,var(--cl-soft) 0 6px,transparent 6px 12px);border-radius:3px;white-space:nowrap;overflow:hidden}
+.expo .axis{font-size:10.5px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--ink-2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:2px;display:inline-block}
+.note{font-size:12.5px;color:var(--ink-3);max-width:78ch}
+
+.hist{list-style:none;margin:0;padding:0}
+.hist li{display:grid;grid-template-columns:54px minmax(0,1fr) auto;gap:12px;align-items:center;padding:11px 0;border-top:1px solid var(--line)}
+.hist li:first-child{border-top:0;padding-top:0}
+.hist-sim{display:grid;line-height:1.2}
+.hist-sim b{font-variant-numeric:tabular-nums;font-size:15px}
+.rev{margin:0;padding:12px 14px;border-radius:var(--r-md);background:var(--sunken);display:grid;gap:6px}
+.rev p{font-style:italic;color:var(--ink-2)}
+
+.fixes{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.fix{display:grid;grid-template-columns:18px minmax(0,1fr) auto;gap:10px;align-items:start;padding:11px 12px;border:1px solid var(--line);border-radius:var(--r-md);cursor:pointer}
+.fix:hover{border-color:var(--line-2)}
+.fix:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.fix input{margin:2px 0 0}
+.fix-body{display:grid;gap:4px;min-width:0}
+.fix-label{font-weight:500;line-height:1.35}
+.fix-gain{font-family:var(--f-mono);font-weight:500;color:var(--ap);font-size:13px;white-space:nowrap}
+.proj{display:grid;gap:8px;padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.proj-row{display:flex;align-items:center;gap:8px}
+.proj-row span:first-child{flex:1;color:var(--ink-2)}
+.proj-row b{font-variant-numeric:tabular-nums;font-size:17px;font-family:var(--f-display)}
+.fix-actions{display:flex;flex-wrap:wrap;gap:8px}
+.empty{display:grid;gap:12px;justify-items:start}
+
+/* ---------- form ---------- */
+.startfrom{display:flex;align-items:center;gap:8px}
+.startfrom .in{width:auto;max-width:280px}
+.form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 16px}
+.field{display:grid;gap:5px;min-width:0;align-content:start}
+.field.wide{grid-column:1/-1}
+.flabel,.field>label{font-size:12.5px;font-weight:500;color:var(--ink-2)}
+.color-in{display:flex;align-items:center;gap:10px}
+input[type="color"]{width:46px;height:36px;padding:3px;border:1px solid var(--line-2);border-radius:var(--r-sm);background:var(--surface);cursor:pointer}
+.mkts{display:flex;flex-wrap:wrap;gap:6px}
+.mkt{display:inline-flex;align-items:center;gap:7px;height:32px;padding:0 11px;border:1px solid var(--line-2);border-radius:999px;cursor:pointer;font-size:13px}
+.mkt:has(input:checked){border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+.comp td{padding:7px 8px}
+.comp select.in{min-width:240px}
+.comp input[type="text"].in{min-width:130px}
+.comp td.cas{font-family:var(--f-mono);font-size:12.5px;white-space:nowrap}
+.comp td.fn{font-size:12.5px;color:var(--ink-3);white-space:nowrap}
+.comp-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
+.total{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.total-bar{width:140px;height:6px;border-radius:3px;background:var(--sunken);overflow:hidden}
+.total-bar i{display:block;height:100%}
+.total.ok .total-bar i{background:var(--ap)} .total.off .total-bar i{background:var(--risk)}
+.total.ok .small{color:var(--ap)} .total.off .small{color:var(--risk)}
+.total .mono{font-weight:500}
+.drop{display:grid;justify-items:center;gap:4px;padding:22px 16px;border:1.5px dashed var(--line-2);border-radius:var(--r-md);text-align:center;cursor:pointer;color:var(--ink-2)}
+.drop:hover,.drop.over{border-color:var(--accent);background:var(--accent-soft)}
+.drop b{color:var(--ink)}
+.files{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.files li{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;font-size:13px}
+.files .mono{word-break:break-all}
+.actionbar{position:sticky;bottom:0;z-index:5;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow)}
+
+/* ---------- watchlist ---------- */
+.alerts{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+.alert-top{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.alert p{color:var(--ink-2);max-width:72ch}
+.alert-impact{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.label{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);margin-bottom:7px}
+
+/* ---------- library ---------- */
+.search{flex:1;min-width:200px;max-width:440px}
+
+/* ---------- sources ---------- */
+.flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+.step{position:relative;padding:14px;border:1px solid var(--line);border-radius:var(--r-md);background:var(--surface);display:grid;gap:5px;align-content:start}
+.step.input{background:var(--sunken)}
+.step-n{font-family:var(--f-mono);font-size:11.5px;color:var(--accent)}
+.step b{font-family:var(--f-display);font-size:15.5px;font-weight:650}
+.step p{font-size:12.5px;color:var(--ink-2)}
+.step:not(:last-child)::after{content:"";position:absolute;right:-11px;top:50%;width:8px;height:8px;border-top:1.5px solid var(--ink-3);border-right:1.5px solid var(--ink-3);transform:translateY(-50%) rotate(45deg)}
+.handoff{list-style:none;margin:0;padding:0;display:grid}
+.handoff li{display:grid;grid-template-columns:minmax(0,250px) minmax(0,1fr);gap:16px;padding:11px 0;border-top:1px solid var(--line)}
+.handoff li:first-child{border-top:0;padding-top:0}
+.handoff code{font-family:var(--f-mono);font-size:12.5px;color:var(--accent);word-break:break-word}
+
+/* ---------- drawer, runner, toast ---------- */
+.scrim{position:fixed;inset:0;background:var(--scrim);z-index:40}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);z-index:41;background:var(--surface);border-left:1px solid var(--line);box-shadow:var(--shadow);display:grid;grid-template-rows:auto minmax(0,1fr) auto auto auto;gap:12px;padding:calc(18px + env(safe-area-inset-top,0px)) 18px calc(16px + env(safe-area-inset-bottom,0px))}
+.drawer-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.thread{overflow-y:auto;display:grid;gap:12px;align-content:start;padding-right:2px}
+.msg{padding:10px 12px;border-radius:var(--r-md);font-size:13.5px;display:grid;gap:7px}
+.msg.q{justify-self:end;background:var(--accent);color:var(--accent-ink);max-width:88%}
+.msg.a{background:var(--sunken)}
+.msg ul{margin:0;padding-left:18px;display:grid;gap:5px}
+.msg .src{font-size:11.5px;color:var(--ink-3)}
+.suggest{display:flex;flex-wrap:wrap;gap:6px}
+.sugg{padding:6px 11px;border-radius:999px;border:1px solid var(--line-2);background:var(--surface);font-size:12.5px;cursor:pointer;text-align:left}
+.sugg:hover{border-color:var(--accent);color:var(--accent)}
+.ask-form{display:flex;gap:8px;align-items:flex-end}
+.ask-form textarea{flex:1}
+.runner{position:fixed;inset:0;z-index:50;display:grid;place-items:center;background:var(--scrim);padding:16px}
+.runner-card{width:min(440px,100%);background:var(--surface);border-radius:var(--r-lg);padding:22px;display:grid;gap:16px;box-shadow:var(--shadow)}
+.runner ol{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.runner li{display:grid;grid-template-columns:18px minmax(0,1fr);gap:10px;align-items:center;color:var(--ink-3)}
+.runner .st{width:16px;height:16px;border-radius:50%;border:2px solid var(--line-2)}
+.runner li.active{color:var(--ink)}
+.runner li.active .st{border-color:var(--accent);border-top-color:transparent;animation:spin .8s linear infinite}
+.runner li.done{color:var(--ink-2)}
+.runner li.done .st{border-color:var(--ap);background:var(--ap)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:60;width:max-content;max-width:min(540px,calc(100% - 32px));padding:10px 14px;border-radius:var(--r-md);background:var(--ink);color:var(--surface);font-size:13px;box-shadow:var(--shadow)}
+
+/* ---------- responsive ---------- */
+@media (max-width:1100px){
+  .result-grid{grid-template-columns:minmax(0,1fr);grid-template-areas:"why" "side" "evid"}
+  .r-side{position:static}
+}
+@media (max-width:1000px){
+  .split{grid-template-columns:minmax(0,1fr)}
+  .flow{grid-template-columns:minmax(0,1fr)}
+  .step:not(:last-child)::after{right:auto;left:24px;top:auto;bottom:-12px;transform:rotate(135deg)}
+}
+@media (max-width:900px){ .form-grid{grid-template-columns:repeat(2,minmax(0,1fr))} .verdict{grid-template-columns:minmax(0,1fr);gap:8px} }
+@media (max-width:880px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  .rail{z-index:20;height:auto;flex-direction:row;align-items:center;gap:12px;padding:10px 16px;border-right:0;border-bottom:1px solid var(--line)}
+  .brand{padding:0}
+  .brand .xsmall{display:none}
+  .nav{flex-direction:row;overflow-x:auto;gap:2px;min-width:0;flex:1;scrollbar-width:none}
+  .nav a{white-space:nowrap;padding:7px 10px}
+  .nav svg{display:none}
+  .rail-foot{display:none}
+}
+@media (max-width:720px){
+  :root{--pad:16px}
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .kpi:nth-child(3){border-left:0}
+  .kpi:nth-child(n+3){border-top:1px solid var(--line)}
+  .alert-impact{grid-template-columns:minmax(0,1fr)}
+  .handoff li{grid-template-columns:minmax(0,1fr);gap:4px}
+  .v-num{font-size:56px}
+  .verdict{padding:18px 16px}
+}
+@media (max-width:560px){
+  .form-grid{grid-template-columns:minmax(0,1fr)}
+  .check{grid-template-columns:22px minmax(0,1fr)}
+  .check-side{grid-column:2;display:flex;gap:10px;align-items:center;justify-items:start;text-align:left}
+  .expo-row{grid-template-columns:100px minmax(0,1fr) 54px;gap:8px}
+  .hist li{grid-template-columns:44px minmax(0,1fr)}
+  .hist li .chip{grid-column:2;justify-self:start}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+
+</head>
+<body>
+<div class="app">
+  <aside class="rail">
+    <div class="brand">
+      <svg viewBox="0 0 30 30" aria-hidden="true"><circle class="seal-bg" cx="15" cy="15" r="14"/><circle class="seal-ring" cx="15" cy="15" r="10.5"/><path class="seal-check" d="M10.3 15.3l3.1 3.1 6.3-6.5"/></svg>
+      <div><div class="wordmark">PreSeal</div><div class="xsmall muted">ACMI pre-check</div></div>
+    </div>
+    <nav class="nav" aria-label="Main">
+      <a href="#portfolio" data-view="portfolio"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="6" height="6" rx="1.5"/><rect x="11" y="3" width="6" height="6" rx="1.5"/><rect x="3" y="11" width="6" height="6" rx="1.5"/><rect x="11" y="11" width="6" height="6" rx="1.5"/></svg><span>Portfolio</span></a>
+      <a href="#new" data-view="new"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="14" height="14" rx="3"/><path d="M10 6.5v7M6.5 10h7"/></svg><span>New screening</span></a>
+      <a href="#result" data-view="result"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3.5 14a6.5 6.5 0 1 1 13 0"/><path d="M10 14l3.2-4"/></svg><span>Latest result</span></a>
+      <a href="#watch" data-view="watch"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 13.5V9a5 5 0 0 1 10 0v4.5l1.5 1.5h-13z"/><path d="M8.5 17.5h3"/></svg><span>Watchlist</span><span class="badge" id="watch-badge"></span></a>
+      <a href="#library" data-view="library"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M8 3h4M8.8 3v4.6L4.4 15a1.5 1.5 0 0 0 1.3 2.2h8.6a1.5 1.5 0 0 0 1.3-2.2l-4.4-7.4V3"/><path d="M6.4 12.5h7.2"/></svg><span>Ingredient library</span></a>
+      <a href="#sources" data-view="sources"><svg viewBox="0 0 20 20" aria-hidden="true"><ellipse cx="10" cy="5" rx="6" ry="2.2"/><path d="M4 5v10c0 1.2 2.7 2.2 6 2.2s6-1 6-2.2V5"/><path d="M4 10c0 1.2 2.7 2.2 6 2.2s6-1 6-2.2"/></svg><span>Data sources</span></a>
+    </nav>
+    <div class="rail-foot">
+      <span class="chip tone-risk">Sample data</span>
+      <div class="xsmall muted">Client workspace: Crayola (demo)<br>Prototype v0.1 · Affine</div>
+    </div>
+  </aside>
+  <main id="main" class="work"></main>
+</div>
+
+<div id="scrim" class="scrim" data-action="close-ask" hidden></div>
+<aside id="ask" class="drawer" role="dialog" aria-modal="true" aria-labelledby="ask-title" hidden>
+  <div class="drawer-head">
+    <div class="min0"><h2 id="ask-title">Ask PreSeal</h2><p class="small muted" id="ask-ctx"></p></div>
+    <button class="icon-btn" data-action="close-ask" aria-label="Close">×</button>
+  </div>
+  <div class="thread" id="ask-thread"></div>
+  <div class="suggest" id="ask-suggest"></div>
+  <form id="ask-form" class="ask-form">
+    <label class="sr" for="ask-q">Your question</label>
+    <textarea id="ask-q" class="in" rows="2" placeholder="Ask about this result"></textarea>
+    <button class="btn btn-primary" type="submit">Ask</button>
+  </form>
+  <p class="xsmall muted">Prototype: answers are assembled from the result data. Your build team connects a language model here.</p>
+</aside>
+
+<div id="runner" class="runner" hidden>
+  <div class="runner-card" role="status" aria-live="polite">
+    <div><h2>Running pre-check</h2><p class="small muted" id="runner-sub"></p></div>
+    <ol>
+      <li><span class="st"></span><span>Checking rules: CPSIA, ASTM F963, IARC, Prop 65</span></li>
+      <li><span class="st"></span><span>Estimating exposure for a young child</span></li>
+      <li><span class="st"></span><span>Comparing with past review decisions</span></li>
+      <li><span class="st"></span><span>Writing reasons and fixes</span></li>
+    </ol>
+    <p class="xsmall muted">Sample engine. Nothing leaves this page.</p>
+  </div>
+</div>
+
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+<script>
+'use strict';
+/* =====================================================================
+   PreSeal · ACMI pre-check prototype (UI only)
+   ---------------------------------------------------------------------
+   Everything on this page runs on SAMPLE DATA inside the browser.
+   Build-team map (search for "TODO(team)"):
+     LIB       -> ingredient service: raw-material library + PubChem / EPA CompTox lookups
+     FORMULAS  -> formulation / PLM system
+     HISTORY   -> archived ACMI submissions and toxicologist letters
+     ALERTS    -> watcher jobs on IARC, ECHA, Prop 65 and state-law feeds
+     screen()  -> POST /screenings (rules engine + exposure model + history model).
+                  Keep the returned shape so every view keeps working.
+     answer()  -> LLM call grounded on the result JSON, rule texts and past letters.
+   ===================================================================== */
+
+/* ---------- helpers ---------- */
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const clone = o => JSON.parse(JSON.stringify(o));
+const wait = ms => new Promise(r => setTimeout(r, ms));
+const reduceMotion = () => { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; } };
+const fmtPct = p => (+p || 0).toFixed(3).replace(/\.?0+$/, '') + '%';
+const fmtMos = m => m >= 100 ? Math.round(m).toLocaleString('en-US') + '×' : m >= 10 ? Math.round(m) + '×' : m.toFixed(1) + '×';
+
+/* =====================================================================
+   SAMPLE DATA
+   ===================================================================== */
+
+/* Ingredient library.
+   mos / refPct: sample safety margin (safe dose ÷ estimated child dose) at a reference % w/w.
+   flags: hooks the sample rules engine reads.
+   TODO(team): replace with the client's raw-material library, enriched from PubChem,
+   EPA CompTox / ToxValDB (safe doses), ECHA CLP, IARC and Prop 65. */
+const LIB = {
+  water:    { name: 'Water', cas: '7732-18-5', fn: 'Solvent', usedIn: 120, outcome: 'Accepted', tone: 'ap', mos: null, src: ['EPA', 'ECHA'] },
+  glycerin: { name: 'Glycerin', cas: '56-81-5', fn: 'Humectant', usedIn: 84, outcome: 'Accepted', tone: 'ap', mos: 4000, refPct: 12, src: ['EPA', 'ECHA'] },
+  pg:       { name: 'Propylene glycol', cas: '57-55-6', fn: 'Humectant', usedIn: 61, outcome: 'Accepted', tone: 'ap', mos: 900, refPct: 6, src: ['EPA', 'ECHA'] },
+  pvp:      { name: 'Polyvinylpyrrolidone', cas: '9003-39-8', fn: 'Binder', usedIn: 14, outcome: 'Accepted', tone: 'ap', mos: 1200, refPct: 3, src: ['ECHA'] },
+  tea:      { name: 'Triethanolamine', cas: '102-71-6', fn: 'pH adjuster', usedIn: 19, outcome: 'Accepted', tone: 'ap', mos: 160, refPct: 0.5, src: ['EPA', 'ECHA', 'IARC'] },
+  surf:     { name: 'Alcohol ethoxylate (C9–11)', cas: '68439-46-3', fn: 'Wetting agent', usedIn: 23, outcome: 'Accepted', tone: 'ap', mos: 85, refPct: 0.8, src: ['ECHA'] },
+  pdms:     { name: 'Silicone defoamer (PDMS)', cas: '63148-62-9', fn: 'Defoamer', usedIn: 30, outcome: 'Accepted', tone: 'ap', mos: 3000, refPct: 0.1, src: ['EPA', 'ECHA'] },
+  mit:      { name: 'Methylisothiazolinone (MIT)', short: 'MIT', cas: '2682-20-4', fn: 'Preservative', usedIn: 6, outcome: 'Flagged above 0.005%', tone: 'cl', mos: 0.6, refPct: 0.012, src: ['EPA', 'ECHA'], note: 'Skin sensitizer',
+              flags: { sensitizer: { limit: 0.005, replaceWith: 'bit', replacePct: 0.01 } } },
+  bit:      { name: 'Benzisothiazolinone (BIT)', short: 'BIT', cas: '2634-33-5', fn: 'Preservative', usedIn: 31, outcome: 'Accepted up to 0.01%', tone: 'ap', mos: 3.2, refPct: 0.01, src: ['EPA', 'ECHA'], note: 'Mild sensitizer, level-capped',
+              flags: { sensitizer: { limit: 0.01 } } },
+  ar52:     { name: 'Acid Red 52', cas: '3520-42-1', fn: 'Dye', usedIn: 7, outcome: 'Accepted with supplier CoA', tone: 'risk', mos: 14, refPct: 2.4, src: ['ECHA'], note: 'Limited long-term data',
+              flags: { needsCoA: { check: 'docs', short: 'CoA missing: Acid Red 52', detail: 'No CoA with impurity data for Acid Red 52.',
+                reason: 'There is no certificate of analysis with impurity data for Acid Red 52. The dye has limited long-term data, so the reviewer will likely ask for it.',
+                fix: 'Request a CoA with impurity data from {supplier}' } } },
+  pr571:    { name: 'Pigment Red 57:1', cas: '5281-04-9', fn: 'Pigment', usedIn: 9, outcome: 'Accepted with soluble Ba result', tone: 'risk', mos: 22, refPct: 1.8, src: ['ECHA'], note: 'Barium lake pigment',
+              flags: { solubleMetal: 'barium' } },
+  pr122:    { name: 'Pigment Red 122', cas: '980-26-7', fn: 'Pigment', usedIn: 12, outcome: 'Accepted', tone: 'ap', mos: 400, refPct: 1.8, src: ['ECHA'] },
+  pb153:    { name: 'Pigment Blue 15:3', cas: '147-14-8', fn: 'Pigment', usedIn: 40, outcome: 'Accepted', tone: 'ap', mos: 650, refPct: 1.5, src: ['EPA', 'ECHA'] },
+  py74:     { name: 'Pigment Yellow 74', cas: '6358-31-2', fn: 'Pigment', usedIn: 22, outcome: 'Accepted', tone: 'ap', mos: 300, refPct: 1.5, src: ['ECHA'] },
+  paraffin: { name: 'Paraffin wax', cas: '8002-74-2', fn: 'Wax base', usedIn: 18, outcome: 'Accepted', tone: 'ap', mos: 2500, refPct: 60, src: ['EPA', 'ECHA'] },
+  stearic:  { name: 'Stearic acid', cas: '57-11-4', fn: 'Hardener', usedIn: 16, outcome: 'Accepted', tone: 'ap', mos: 1800, refPct: 10, src: ['EPA', 'ECHA'] },
+  caco3:    { name: 'Calcium carbonate', cas: '471-34-1', fn: 'Filler', usedIn: 27, outcome: 'Accepted', tone: 'ap', mos: 5000, refPct: 20, src: ['EPA', 'ECHA'] },
+  talc:     { name: 'Talc', cas: '14807-96-6', fn: 'Filler', usedIn: 5, outcome: 'Needs asbestos-free certificate', tone: 'risk', mos: 120, refPct: 8, src: ['EPA', 'ECHA', 'IARC', 'P65'], note: 'IARC Group 2A (2024)',
+              flags: { talc: true } },
+  gypsum:   { name: 'Calcium sulfate (gypsum)', cas: '10101-41-4', fn: 'Chalk base', usedIn: 8, outcome: 'Accepted', tone: 'ap', mos: 3000, refPct: 70, src: ['ECHA'] },
+  silica:   { name: 'Crystalline silica (quartz)', cas: '14808-60-7', fn: 'Mineral impurity', usedIn: 1, outcome: 'Needs dust test', tone: 'risk', mos: 4, refPct: 0.8, src: ['EPA', 'ECHA', 'IARC', 'P65'], note: 'Respirable dust hazard',
+              flags: { respirable: true } },
+  pva:      { name: 'Polyvinyl alcohol', cas: '9002-89-5', fn: 'Binder', usedIn: 3, outcome: 'Accepted', tone: 'ap', mos: 2000, refPct: 6, src: ['ECHA'] },
+  borax:    { name: 'Sodium tetraborate decahydrate (borax)', short: 'Borax', cas: '1303-96-4', fn: 'Slime activator', usedIn: 2, outcome: 'Accepted up to 0.4%', tone: 'risk', mos: 0.8, refPct: 1.2, src: ['EPA', 'ECHA'], note: 'Reproductive toxicant at high dose',
+              flags: { boron: { max: 0.4 } } },
+  pvac:     { name: 'Polyvinyl acetate emulsion', cas: '9003-20-7', fn: 'Binder', usedIn: 11, outcome: 'Accepted', tone: 'ap', mos: 1500, refPct: 30, src: ['ECHA'] },
+  glitter:  { name: 'PET glitter', cas: '25038-59-9', fn: 'Decorative', usedIn: 6, outcome: 'Accepted', tone: 'ap', mos: 5000, refPct: 4, src: ['ECHA'] },
+  hec:      { name: 'Hydroxyethyl cellulose', cas: '9004-62-0', fn: 'Thickener', usedIn: 21, outcome: 'Accepted', tone: 'ap', mos: 2500, refPct: 1.5, src: ['ECHA'] },
+  cmc:      { name: 'Carboxymethyl cellulose', cas: '9004-32-4', fn: 'Binder', usedIn: 15, outcome: 'Accepted', tone: 'ap', mos: 3000, refPct: 6, src: ['ECHA'] },
+  lacquer:  { name: 'Nitrocellulose lacquer (coating)', cas: '9004-70-0', fn: 'Coating', usedIn: 9, outcome: 'Accepted with coating lead result', tone: 'risk', mos: 250, refPct: 2, src: ['ECHA'], note: 'Coating lead limit 90 ppm',
+              flags: { needsCoA: { check: 'lead', short: 'Coating lead result missing', detail: 'No lead result for the pencil coating.',
+                reason: 'There is no lead result for the pencil coating. Surface coatings must stay under the 90 ppm CPSIA limit.',
+                fix: 'Get a coating lead test from {supplier}' } } },
+  frag118:  { name: 'Fragrance blend F-118', cas: 'Undisclosed', fn: 'Fragrance', usedIn: 2, outcome: 'Composition not disclosed', tone: 'cl', mos: null, mosIfDisclosed: 6, src: [], note: 'Supplier blend',
+              flags: { undisclosed: true } },
+};
+const LIB_SORTED = Object.entries(LIB).sort((a, b) => a[1].name.localeCompare(b[1].name));
+const shortName = L => L.short || L.name;
+
+const ing = (id, pct, o = {}) => ({
+  id, pct, supplier: o.supplier || '', sds: o.sds !== false, coa: o.coa !== false,
+  labData: !!o.labData, cert: !!o.cert, disclosed: !!o.disclosed, dustData: !!o.dustData,
+});
+
+/* Formulas in the pipeline. TODO(team): load from the formulation / PLM system. */
+const FORMULAS = [
+  { code: 'FX-2291', name: 'Washable Neon Marker – Electric Pink', category: 'Marker', form: 'Water-based ink, fiber tip', age: '3+',
+    use: 'Drawing and coloring on paper. Washes off skin and most fabrics.', swatch: '#FF3EA5', markets: ['US', 'CA', 'EU'],
+    stage: 'Screened', updated: '2 Oct', histAdj: 0, similarCount: 14,
+    ing: [ing('water', 73.388, { supplier: 'In-house' }), ing('glycerin', 12, { supplier: 'Supplier A' }), ing('pg', 6, { supplier: 'Supplier B' }),
+      ing('pvp', 3, { supplier: 'Supplier B' }), ing('ar52', 2.4, { supplier: 'Supplier C', coa: false }), ing('pr571', 1.8, { supplier: 'Supplier D' }),
+      ing('surf', 0.8, { supplier: 'Supplier A' }), ing('tea', 0.5, { supplier: 'Supplier B' }), ing('pdms', 0.1, { supplier: 'Supplier E' }),
+      ing('mit', 0.012, { supplier: 'Supplier F' })] },
+  { code: 'FX-2288', name: 'Scented Marker – Watermelon', category: 'Marker', form: 'Water-based ink, fiber tip', age: '3+',
+    use: 'Drawing on paper. Each color carries a matching scent.', swatch: '#F25C66', markets: ['US', 'CA', 'EU'],
+    stage: 'Screened', updated: '1 Oct', histAdj: 0, similarCount: 6,
+    ing: [ing('water', 72.39, { supplier: 'In-house' }), ing('glycerin', 12, { supplier: 'Supplier A' }), ing('pg', 6, { supplier: 'Supplier B' }),
+      ing('pvp', 3, { supplier: 'Supplier B' }), ing('ar52', 2.4, { supplier: 'Supplier C' }), ing('pr571', 1.6, { supplier: 'Supplier D' }),
+      ing('frag118', 1.2, { supplier: 'Supplier G' }), ing('surf', 0.8, { supplier: 'Supplier A' }), ing('tea', 0.5, { supplier: 'Supplier B' }),
+      ing('pdms', 0.1, { supplier: 'Supplier E' }), ing('bit', 0.01, { supplier: 'Supplier F' })] },
+  { code: 'CR-1140', name: 'Gel Crayon – Coral Reef', category: 'Crayon', form: 'Twist-up gel stick', age: '3+',
+    use: 'Smooth coloring on paper, cardboard and dark paper.', swatch: '#FF7F66', markets: ['US', 'CA'],
+    stage: 'Submitted', updated: '28 Sep', histAdj: 0, similarCount: 22,
+    ing: [ing('paraffin', 64, { supplier: 'Supplier H' }), ing('stearic', 12, { supplier: 'Supplier H' }), ing('caco3', 18, { supplier: 'Supplier J' }),
+      ing('py74', 2.5, { supplier: 'Supplier D' }), ing('pr571', 2, { supplier: 'Supplier D' }), ing('pr122', 1.5, { supplier: 'Supplier D' })] },
+  { code: 'CL-0907', name: 'Air-Dry Modeling Clay – White', category: 'Clay', form: 'Soft paste, air-dries in 24 h', age: '3+',
+    use: 'Modeling and sculpting. Dries without baking.', swatch: '#F4F1EC', markets: ['US', 'CA', 'EU'],
+    stage: 'Draft', updated: '4 Oct', histAdj: 0, similarCount: 5,
+    ing: [ing('water', 38, { supplier: 'In-house' }), ing('caco3', 40, { supplier: 'Supplier J' }), ing('pva', 8, { supplier: 'Supplier K' }),
+      ing('talc', 8, { supplier: 'Supplier L' }), ing('glycerin', 5.99, { supplier: 'Supplier A' }), ing('bit', 0.01, { supplier: 'Supplier F' })] },
+  { code: 'PT-3312', name: 'Washable Finger Paint – Sky Blue', category: 'Paint', form: 'Thick paint, squeeze bottle', age: '2+',
+    use: 'Finger painting on paper. Washes off skin and clothing.', swatch: '#5DB7F0', markets: ['US', 'CA', 'EU'],
+    stage: 'AP granted', updated: '19 Sep', histAdj: 1, similarCount: 31,
+    ing: [ing('water', 62, { supplier: 'In-house' }), ing('caco3', 25, { supplier: 'Supplier J' }), ing('glycerin', 8, { supplier: 'Supplier A' }),
+      ing('hec', 1.5, { supplier: 'Supplier K' }), ing('pb153', 3.492, { supplier: 'Supplier D' }), ing('bit', 0.008, { supplier: 'Supplier F' })] },
+  { code: 'GL-0415', name: 'Glitter Glue – Gold', category: 'Glue', form: 'Gel glue, fine nozzle', age: '4+',
+    use: 'Decorating paper crafts. Dries clear with glitter.', swatch: '#E0B43C', markets: ['US', 'CA'],
+    stage: 'Screened', updated: '30 Sep', histAdj: -4, similarCount: 9,
+    ing: [ing('water', 55, { supplier: 'In-house' }), ing('pvac', 30, { supplier: 'Supplier K' }), ing('glitter', 6, { supplier: 'Supplier M' }),
+      ing('glycerin', 6, { supplier: 'Supplier A' }), ing('py74', 2.99, { supplier: 'Supplier D' }), ing('bit', 0.01, { supplier: 'Supplier F' })] },
+  { code: 'SL-0201', name: 'Stretch Slime Kit – Galaxy', category: 'Slime', form: 'Glue base plus activator', age: '6+',
+    use: 'Make-and-play slime. Child mixes base and activator.', swatch: '#6B4FD8', markets: ['US'],
+    stage: 'Screened', updated: '3 Oct', histAdj: 0, similarCount: 3,
+    ing: [ing('water', 85, { supplier: 'In-house' }), ing('pva', 6, { supplier: 'Supplier K' }), ing('borax', 1.2, { supplier: 'Supplier N' }),
+      ing('glycerin', 4, { supplier: 'Supplier A' }), ing('glitter', 2, { supplier: 'Supplier M' }), ing('pb153', 0.9, { supplier: 'Supplier D' }),
+      ing('pr571', 0.9, { supplier: 'Supplier D' })] },
+  { code: 'CH-0730', name: 'Sidewalk Chalk – Sunset Mix', category: 'Chalk', form: 'Molded jumbo sticks', age: '3+',
+    use: 'Drawing on pavement outdoors. Rinses away with water.', swatch: '#FFA552', markets: ['US', 'CA'],
+    stage: 'Submitted', updated: '25 Sep', histAdj: 0, similarCount: 7,
+    ing: [ing('gypsum', 70, { supplier: 'Supplier P' }), ing('caco3', 25.2, { supplier: 'Supplier J' }), ing('silica', 0.8, { supplier: 'Supplier P' }),
+      ing('py74', 2.5, { supplier: 'Supplier D' }), ing('pr122', 1.5, { supplier: 'Supplier D' })] },
+  { code: 'PT-3320', name: 'Washable Tempera – Brilliant Red', category: 'Paint', form: 'Liquid paint, 16 oz bottle', age: '3+',
+    use: 'Brush painting on paper and posterboard.', swatch: '#E2332F', markets: ['US', 'CA', 'EU'],
+    stage: 'AP granted', updated: '12 Sep', histAdj: 0, similarCount: 28,
+    ing: [ing('water', 58, { supplier: 'In-house' }), ing('caco3', 28, { supplier: 'Supplier J' }), ing('glycerin', 8, { supplier: 'Supplier A' }),
+      ing('hec', 1.5, { supplier: 'Supplier K' }), ing('pr122', 4.49, { supplier: 'Supplier D' }), ing('bit', 0.01, { supplier: 'Supplier F' })] },
+  { code: 'PC-1102', name: 'Colored Pencil Set – 24 Classic', category: 'Pencil', form: 'Wood-cased pencils, lacquered', age: '5+',
+    use: 'Drawing and coloring. Pre-sharpened.', swatch: '#2F8F5B', markets: ['US', 'CA', 'EU'],
+    stage: 'Draft', updated: '5 Oct', histAdj: -1, similarCount: 11,
+    ing: [ing('talc', 30, { supplier: 'Supplier L', cert: true }), ing('paraffin', 25, { supplier: 'Supplier H' }), ing('caco3', 25, { supplier: 'Supplier J' }),
+      ing('cmc', 6, { supplier: 'Supplier K' }), ing('pb153', 4, { supplier: 'Supplier D' }), ing('py74', 4, { supplier: 'Supplier D' }),
+      ing('pr122', 4, { supplier: 'Supplier D' }), ing('lacquer', 2, { supplier: 'Supplier Q', coa: false })] },
+];
+
+/* Past review decisions. TODO(team): build from archived submissions + toxicologist letters
+   (an LLM can turn each letter into structured outcome + reason labels). */
+const HISTORY = {
+  'FX-2291': { similar: [
+      { code: 'FX-2245', name: 'Washable Marker – Hot Magenta', year: 2023, sim: 94, outcome: 'AP', note: 'Same ink base. Used BIT at 0.01% instead of MIT.' },
+      { code: 'FX-1987', name: 'Washable Neon Marker – Flame Orange', year: 2022, sim: 91, outcome: 'AP, 2nd round', note: 'Reviewer asked for soluble barium data on Pigment Red 57:1. Passed on resubmission.' },
+      { code: 'PS-0876', name: 'Washable Paint Stick – Fuchsia', year: 2021, sim: 78, outcome: 'CL', note: 'MIT at 0.015% flagged as a sensitizer for ages 3+.' },
+      { code: 'FX-1730', name: 'Washable Marker – Berry', year: 2020, sim: 75, outcome: 'AP', note: 'No isothiazolinone preservative.' }],
+    comment: { on: 'PS-0876 (2021)', text: 'Isothiazolinone preservatives at this level are a sensitization concern for products used by young children. Consider an alternative preservative system or a lower level.' } },
+  'FX-2288': { similar: [
+      { code: 'FX-1650', name: 'Scented Marker – Mixed Berry', year: 2022, sim: 89, outcome: 'AP, 2nd round', note: 'Full fragrance disclosure supplied under NDA after the first review.' },
+      { code: 'FX-1402', name: 'Scented Marker – Orange', year: 2019, sim: 83, outcome: 'CL', note: 'Fragrance blend was never fully disclosed.' }],
+    comment: { on: 'FX-1402 (2019)', text: 'The allergen assessment cannot be completed without the full fragrance composition.' } },
+  'CR-1140': { similar: [
+      { code: 'CR-1092', name: 'Gel Crayon – Mango', year: 2024, sim: 92, outcome: 'AP', note: 'Same wax base. Soluble barium result supplied up front.' },
+      { code: 'CR-0988', name: 'Gel Crayon – Ruby', year: 2023, sim: 88, outcome: 'AP', note: 'Used Pigment Red 122 only.' }] },
+  'CL-0907': { similar: [
+      { code: 'CL-0611', name: 'Modeling Dough – Brights', year: 2023, sim: 81, outcome: 'AP', note: 'Talc lot certified asbestos-free by XRD and TEM.' },
+      { code: 'CL-0540', name: 'Air-Dry Clay – Terracotta', year: 2021, sim: 77, outcome: 'AP, 2nd round', note: 'Certificate requested after the first review.' }] },
+  'PT-3312': { similar: [
+      { code: 'PT-3101', name: 'Washable Finger Paint – Grass Green', year: 2024, sim: 96, outcome: 'AP', note: 'Same base and preservative.' },
+      { code: 'PT-2980', name: 'Washable Finger Paint – Sunshine', year: 2023, sim: 93, outcome: 'AP', note: 'Same base.' }] },
+  'GL-0415': { similar: [
+      { code: 'GL-0322', name: 'Glitter Glue – Silver', year: 2024, sim: 90, outcome: 'AP', note: 'Same binder system.' },
+      { code: 'GL-0210', name: 'Glitter Glue – Rainbow', year: 2022, sim: 84, outcome: 'AP', note: 'Reviewer asked for glitter particle size data.' }] },
+  'SL-0201': { similar: [
+      { code: 'SL-0118', name: 'Stretch Slime – Ocean', year: 2024, sim: 86, outcome: 'AP, 2nd round', note: 'Borax cut from 1.0% to 0.4% after the first review.' },
+      { code: 'SL-0090', name: 'Fluffy Slime Kit', year: 2023, sim: 71, outcome: 'CL', note: 'Boron above the accepted level.' }],
+    comment: { on: 'SL-0118 (2024)', text: 'Boron content in the activated slime should be reduced. Children in the target age group handle the product for long periods.' } },
+  'CH-0730': { similar: [
+      { code: 'CH-0655', name: 'Sidewalk Chalk – Pastels', year: 2024, sim: 88, outcome: 'AP', note: 'Dust test showed no respirable crystalline silica.' },
+      { code: 'CH-0590', name: 'Jumbo Chalk – Brights', year: 2022, sim: 80, outcome: 'AP, 2nd round', note: 'Dust test requested after the first review.' }] },
+  'PT-3320': { similar: [
+      { code: 'PT-3210', name: 'Washable Tempera – Ocean Blue', year: 2024, sim: 95, outcome: 'AP', note: 'Same base.' },
+      { code: 'PT-3001', name: 'Washable Tempera – Black', year: 2023, sim: 91, outcome: 'AP', note: 'Same base.' }] },
+  'PC-1102': { similar: [
+      { code: 'PC-0960', name: 'Watercolor Pencil Set – 12', year: 2024, sim: 87, outcome: 'AP', note: 'Talc certified asbestos-free. Coating lead result on file.' },
+      { code: 'PC-0815', name: 'Colored Pencil Set – 12 Classic', year: 2022, sim: 85, outcome: 'AP', note: 'Same lead formula.' }] },
+};
+
+/* Watchlist. TODO(team): generate from watcher jobs that diff the source lists and re-run screen(). */
+const ALERTS = [
+  { id: 'talc', kind: 'Science update', source: 'IARC', date: 'Jul 2024 · Monographs vol. 136', sev: 'high',
+    title: 'Talc is now classified as probably carcinogenic to humans (Group 2A)',
+    body: 'Formulas with talc need an asbestos-free certificate on file before review. PreSeal re-ran every formula that uses talc.',
+    impacted: ['CL-0907', 'PC-1102'], approvedCount: 3, approved: ['CL-0611 Modeling Dough – Brights', 'PC-0960 Watercolor Pencil Set – 12', 'CR-0412 Classic Crayon base'] },
+  { id: 'eu', kind: 'Regulation', source: 'EU', date: 'Transition period running', sev: 'med',
+    title: 'EU toy rules tighten fragrance allergens and restrict PFAS',
+    body: 'Scented products sold in the EU need full fragrance disclosure. One formula in the pipeline and one approved formula are affected.',
+    impacted: ['FX-2288'], approvedCount: 1, approved: ['FX-1650 Scented Marker – Mixed Berry'] },
+  { id: 'rereview', kind: 'Re-review due', source: 'ACMI', date: 'Next 90 days', sev: 'med',
+    title: '12 approved formulas reach their 5-year toxicologist review',
+    body: 'Pre-screen them against current rules before the review, so nothing comes back as a surprise.',
+    impacted: [], approvedCount: 12, approved: ['PT-2410 Washable Paint – Classic 10', 'CR-0412 Classic Crayon base', 'FX-1201 Broad-Line Marker – Classic', '+ 9 more'] },
+  { id: 'pfas', kind: 'Regulation', source: 'US states', date: 'Rolling effective dates', sev: 'low',
+    title: 'More US states restrict intentionally added PFAS in children’s products',
+    body: 'No impact. No formula in the pipeline or the approved library lists PFAS.',
+    impacted: [], approvedCount: 0, approved: [] },
+];
+
+const SOURCES = [
+  { layer: '1 · Rules', name: 'ECHA C&L Inventory (EU CLP classifications)', use: 'Sensitizer and CMR classes', status: 'mock', url: 'https://echa.europa.eu/information-on-chemicals/cl-inventory-database' },
+  { layer: '1 · Rules', name: 'IARC Monographs classifications', use: 'Carcinogen groups', status: 'mock', url: 'https://monographs.iarc.who.int/list-of-classifications' },
+  { layer: '1 · Rules', name: 'California Prop 65 list', use: 'Listed chemicals', status: 'mock', url: 'https://oehha.ca.gov/proposition-65/proposition-65-list' },
+  { layer: '1 · Rules', name: 'CPSC art-material and CPSIA requirements', use: 'Lead limits, LHAMA labeling rules', status: 'mock', url: 'https://www.cpsc.gov/Business--Manufacturing/Business-Education/Business-Guidance/Art-Materials' },
+  { layer: '1 · Rules', name: 'ASTM D4236, D5517, F963', use: 'Chronic hazard practice, metal extraction, toy heavy elements', status: 'license', url: '' },
+  { layer: '2 · Exposure', name: 'EPA CompTox Dashboard and ToxValDB', use: 'Safe-dose values for exposure margins', status: 'mock', url: 'https://comptox.epa.gov/dashboard' },
+  { layer: '2 · Exposure', name: 'PubChem', use: 'CAS lookup and identity checks', status: 'mock', url: 'https://pubchem.ncbi.nlm.nih.gov' },
+  { layer: '3 · History', name: 'Past ACMI submissions and toxicologist letters', use: 'Accepted levels, similar formulas, likelihood model', status: 'client', url: '' },
+  { layer: '3 · History', name: 'Raw-material library with SDS and CoA', use: 'Approved substitutes, supplier documents', status: 'client', url: '' },
+  { layer: '4 · Explain', name: 'Language model with retrieval over rules and letters', use: 'Plain-English reasons, questions and answers', status: 'canned', url: '' },
+];
+const SOURCE_STATUS = { mock: ['Sample data', 'tone-accent'], license: ['Needs license', 'tone-risk'], client: ['Needs client data', 'tone-risk'], canned: ['Templated answers', 'tone-accent'] };
+
+/* =====================================================================
+   SAMPLE SCREENING ENGINE
+   TODO(team): replace screen() with POST /screenings. Keep this result shape:
+   { code, score, band, issues[{key, ingId, penalty, short, layer, reason, fix{label, detail, effort, apply}}],
+     checks[{id, name, src, status, detail}], exposure[{id, name, pct, mos}], history, confidence, similarCount, gaps, total }
+   ===================================================================== */
+const BASE_SCORE = 95;
+const BAND = s => s >= 80 ? 'ap' : s >= 50 ? 'risk' : 'cl';
+const BAND_LABEL = { ap: 'Likely AP', risk: 'At risk', cl: 'Likely CL' };
+const RANK = { na: 0, pass: 1, data: 2, fail: 3 };
+const STATUS_WORD = { pass: 'Pass', data: 'Needs data', fail: 'Fails', na: 'Not relevant' };
+const DRY = ['Chalk', 'Clay', 'Pencil', 'Crayon'];
+
+function totalPct(f) { return f.ing.reduce((a, i) => a + (+i.pct || 0), 0); }
+
+function rebalance(d) {
+  const w = d.ing.find(z => z.id === 'water');
+  if (!w) return;
+  const others = d.ing.filter(z => z !== w).reduce((a, z) => a + (+z.pct || 0), 0);
+  w.pct = +(100 - others).toFixed(3);
+}
+
+function screen(f) {
+  const dry = DRY.includes(f.category);
+  const checks = {
+    composition: { name: 'Full composition disclosed', src: 'ACMI template', status: 'pass', detail: '' },
+    lead:   { name: 'Lead content', src: 'CPSIA', status: 'pass', detail: 'Supplier CoAs show total lead under 100 ppm.' },
+    metals: { name: 'Soluble heavy metals', src: 'ASTM F963', status: 'pass', detail: 'No pigment with a soluble-metal concern.' },
+    cmr:    { name: 'Carcinogens and reproductive toxicants', src: 'IARC · Prop 65 · EU CLP', status: 'pass', detail: 'No listed ingredient in the formula.' },
+    sens:   { name: 'Skin sensitizers', src: 'EU CLP · past reviews', status: 'na', detail: 'No preservative or known sensitizer.' },
+    frag:   { name: 'Fragrance allergens', src: 'EU toy rules · past reviews', status: 'na', detail: 'No fragrance in the formula.' },
+    dust:   { name: 'Inhalable dust', src: 'ASTM D4236', status: dry ? 'pass' : 'na', detail: dry ? 'No respirable crystalline silica listed.' : 'Liquid or paste product.' },
+    limits: { name: 'Levels accepted in past reviews', src: 'Review history', status: 'pass', detail: 'Every ingredient sits within levels accepted before.' },
+    pfas:   { name: 'Intentionally added PFAS', src: 'US state laws', status: 'pass', detail: 'None in the composition or supplier declarations.' },
+    docs:   { name: 'Supplier documents', src: 'SDS · CoA', status: 'pass', detail: 'SDS and CoA on file for every raw material.' },
+  };
+  const touched = new Set();
+  const set = (id, status, detail) => {
+    const c = checks[id];
+    if (RANK[status] > RANK[c.status] || (RANK[status] === RANK[c.status] && !touched.has(id))) { c.status = status; c.detail = detail; touched.add(id); }
+    else if (RANK[status] === RANK[c.status]) { c.detail += ' ' + detail; }
+  };
+  const issues = [];
+  const total = totalPct(f);
+
+  if (Math.abs(total - 100) > 0.0005) {
+    set('composition', 'fail', `Adds up to ${total.toFixed(3)}%. It must total 100%.`);
+    issues.push({ key: 'composition', penalty: 10, short: 'Composition does not total 100%', layer: 'Rules',
+      reason: `The composition adds up to ${total.toFixed(3)}%. The submission template needs exactly 100%.`, fix: null });
+  } else {
+    set('composition', 'pass', `${f.ing.length} ingredients, 100% disclosed, every CAS number resolved.`);
+  }
+
+  f.ing.forEach(i => {
+    const L = LIB[i.id];
+    if (!L) return;
+    const id = i.id, fl = L.flags || {}, pct = +i.pct || 0, sup = i.supplier || 'the supplier';
+    const find = d => d.ing.find(z => z.id === id);
+
+    if (fl.sensitizer) {
+      const lim = fl.sensitizer.limit;
+      if (pct > lim + 1e-9) {
+        set('sens', 'fail', `${L.name} at ${fmtPct(pct)} is above the ${fmtPct(lim)} accepted before.`);
+        const repId = fl.sensitizer.replaceWith, rep = repId && LIB[repId], repPct = fl.sensitizer.replacePct;
+        issues.push({ key: 'sens-' + id, ingId: id, penalty: 26, short: `${shortName(L)} above accepted level`, layer: 'Rules + history',
+          reason: `${L.name} is a known skin sensitizer. At ${fmtPct(pct)} it is above the ${fmtPct(lim)} level accepted in past products for young children.`,
+          fix: rep
+            ? { label: `Replace ${shortName(L)} with ${shortName(rep)} at ${fmtPct(repPct)}`, detail: `${shortName(rep)} is accepted in ${rep.usedIn} past formulas. Rerun the preservative challenge test.`, effort: 'Reformulate',
+                apply: d => { const x = find(d); x.id = repId; x.pct = repPct; rebalance(d); } }
+            : { label: `Reduce ${shortName(L)} to ${fmtPct(lim)}`, detail: 'Rerun the preservative challenge test.', effort: 'Reformulate',
+                apply: d => { find(d).pct = lim; rebalance(d); } } });
+      } else {
+        set('sens', 'pass', `${L.name} at ${fmtPct(pct)} is within the accepted level.`);
+      }
+    }
+
+    if (fl.solubleMetal) {
+      const m = fl.solubleMetal;
+      if (!i.labData) {
+        set('metals', 'data', `No soluble ${m} result for ${L.name}.`);
+        issues.push({ key: 'metal-' + id, ingId: id, penalty: 6, short: `Soluble ${m} data missing`, layer: 'Rules',
+          reason: `${L.name} is a ${m}-based pigment. With no soluble ${m} result on file, the reviewer is likely to ask for one, which adds a review round.`,
+          fix: { label: `Run a soluble ${m} test on the ${L.name} lot`, detail: 'ASTM F963 heavy-element method at a CPSC-accepted lab. Typical turnaround is about a week.', effort: 'Lab test',
+                 apply: d => { find(d).labData = true; } } });
+      } else {
+        set('metals', 'pass', `Soluble ${m} result on file for ${L.name}.`);
+      }
+    }
+
+    if (fl.needsCoA) {
+      const n = fl.needsCoA;
+      if (!i.coa) {
+        set(n.check, 'data', n.detail);
+        issues.push({ key: 'coa-' + id, ingId: id, penalty: 5, short: n.short, layer: 'Rules', reason: n.reason,
+          fix: { label: n.fix.replace('{supplier}', sup), detail: 'Ask for a certificate of analysis that lists impurities and heavy metals.', effort: 'Supplier request',
+                 apply: d => { find(d).coa = true; } } });
+      } else if (n.check === 'lead') {
+        set('lead', 'pass', 'Coating lead result on file, under 90 ppm.');
+      }
+    }
+
+    if (fl.talc) {
+      if (!i.cert) {
+        set('cmr', 'data', 'Talc listed with no asbestos-free certificate.');
+        issues.push({ key: 'talc-' + id, ingId: id, penalty: 25, short: 'Talc certificate missing', layer: 'Rules',
+          reason: 'Talc needs proof that it is asbestos-free. IARC now lists talc as probably carcinogenic (Group 2A), so reviewers check this closely.',
+          fix: { label: 'Get an asbestos-free certificate (XRD and TEM) for the talc lot', detail: 'Most talc suppliers provide this per lot.', effort: 'Supplier request',
+                 apply: d => { find(d).cert = true; } } });
+      } else {
+        set('cmr', 'pass', 'Talc has an asbestos-free certificate on file.');
+      }
+    }
+
+    if (fl.boron) {
+      const mx = fl.boron.max;
+      if (pct > mx + 1e-9) {
+        set('limits', 'fail', `Borax at ${fmtPct(pct)} is above the ${fmtPct(mx)} accepted before.`);
+        issues.push({ key: 'boron-' + id, ingId: id, penalty: 40, short: 'Borax above accepted level', layer: 'Rules + history',
+          reason: `Borax at ${fmtPct(pct)} is above the ${fmtPct(mx)} accepted in past slime kits. Boron is a reproductive toxicant at high exposure, and children handle slime for long periods.`,
+          fix: { label: `Reduce borax to ${fmtPct(mx)} and retest stretch`, detail: 'SL-0118 made the same change and was approved.', effort: 'Reformulate',
+                 apply: d => { find(d).pct = mx; rebalance(d); } } });
+      } else {
+        set('limits', 'pass', `Borax at ${fmtPct(pct)} is within the level accepted before.`);
+      }
+    }
+
+    if (fl.undisclosed) {
+      if (!i.disclosed) {
+        set('frag', 'fail', `${L.name} composition is not disclosed.`);
+        issues.push({ key: 'frag-' + id, ingId: id, penalty: 40, short: 'Fragrance not disclosed', layer: 'Rules + history',
+          reason: `${L.name} is not fully disclosed. The reviewer cannot assess allergens without the full composition, and past scented markers got CL for this reason.`,
+          fix: { label: 'Get full fragrance disclosure from the supplier under NDA', detail: 'FX-1650 cleared review after doing this.', effort: 'Supplier request',
+                 apply: d => { find(d).disclosed = true; } } });
+      } else {
+        set('frag', 'pass', `${L.name} fully disclosed. Allergens below labeling thresholds.`);
+      }
+    }
+
+    if (fl.respirable) {
+      if (!i.dustData) {
+        set('dust', 'data', 'Crystalline silica present. No dust test on file.');
+        issues.push({ key: 'dust-' + id, ingId: id, penalty: 18, short: 'Silica dust test missing', layer: 'Rules',
+          reason: 'The chalk can shed respirable crystalline silica. With no dust test on file, the reviewer will likely ask for one.',
+          fix: { label: 'Test chalk dust for respirable crystalline silica', detail: 'CH-0655 passed review with this result.', effort: 'Lab test',
+                 apply: d => { find(d).dustData = true; } } });
+      } else {
+        set('dust', 'pass', 'Dust test shows no respirable crystalline silica.');
+      }
+    }
+
+    if (!i.sds) {
+      set('docs', 'data', `No SDS for ${L.name}.`);
+      issues.push({ key: 'sds-' + id, ingId: id, penalty: 3, short: `SDS missing: ${shortName(L)}`, layer: 'Rules',
+        reason: `There is no safety data sheet for ${L.name}.`,
+        fix: { label: `Request the SDS for ${shortName(L)} from ${sup}`, detail: 'Required for every raw material in the submission.', effort: 'Supplier request',
+               apply: d => { find(d).sds = true; } } });
+    }
+  });
+
+  const exposure = f.ing.filter(i => i.id !== 'water' && LIB[i.id]).map(i => {
+    const L = LIB[i.id], pct = +i.pct || 0;
+    let ref = L.mos;
+    if (L.flags && L.flags.undisclosed) ref = i.disclosed ? L.mosIfDisclosed : null;
+    const mos = ref != null && pct > 0 ? ref * ((L.refPct || 1) / pct) : null;
+    return { id: i.id, name: L.name, pct, mos };
+  }).sort((a, b) => (a.mos ?? -1) - (b.mos ?? -1));
+
+  const penalty = issues.reduce((a, x) => a + x.penalty, 0);
+  const score = Math.max(5, Math.min(97, Math.round(BASE_SCORE - penalty + (f.histAdj || 0))));
+  issues.sort((a, b) => b.penalty - a.penalty);
+  const sc = f.similarCount || 0;
+  const checkList = Object.entries(checks).map(([id, c]) => ({ id, ...c }));
+  return {
+    code: f.code, score, band: BAND(score), issues, checks: checkList, exposure,
+    history: HISTORY[f.code] || { similar: [] },
+    confidence: sc >= 10 ? 'High' : sc >= 5 ? 'Medium' : 'Low',
+    similarCount: sc, gaps: checkList.filter(c => c.status === 'data').length, total,
+  };
+}
+
+/* =====================================================================
+   ASSISTANT (templated)
+   TODO(team): replace answer() with an LLM call. Send the result JSON, the matching rule
+   texts and past toxicologist letters, and require a cited check or past decision for every claim.
+   ===================================================================== */
+function verdictSentence(r) {
+  const n = r.issues.length;
+  if (r.band === 'ap') return n
+    ? `Likely to get the AP seal. Clearing the remaining ${n === 1 ? 'item' : n + ' items'} avoids a follow-up request.`
+    : 'Likely to get the AP seal as submitted. It matches formulas accepted before.';
+  if (r.band === 'risk') return `Likely to come back with a request for more data, or a CL outcome. ${n === 1 ? 'One issue drives' : 'The top ' + Math.min(n, 2) + ' issues drive'} most of the risk.`;
+  return 'Likely to get a CL outcome, which means warning labels. Fix the top issue before you submit.';
+}
+
+function suggestions(r) {
+  return [
+    { k: 'why', q: r.band === 'ap' ? 'What could still go wrong in review?' : `Why is this formula ${BAND_LABEL[r.band].toLowerCase()}?` },
+    { k: 'askfor', q: 'What will the reviewer likely ask for?' },
+    { k: 'alts', q: 'Which approved ingredients could replace the problem ones?' },
+  ];
+}
+
+function answer(k, r, f) {
+  if (k === 'why') {
+    if (!r.issues.length) return { html: '<p>Nothing in the formula conflicts with the rule checks or with past decisions. The main remaining risk is a request for documents, so attach every SDS and CoA.</p>', src: 'Rule checks · past decisions' };
+    return { html: `<p>${esc(verdictSentence(r))}</p><ul>${r.issues.map(x => `<li>${esc(x.reason)}</li>`).join('')}</ul>`, src: `Rule checks · ${r.history.similar.length} past decisions` };
+  }
+  if (k === 'askfor') {
+    const asks = r.issues.filter(x => x.fix && x.fix.effort !== 'Reformulate').map(x => x.fix.label);
+    const reform = r.issues.filter(x => x.fix && x.fix.effort === 'Reformulate').map(x => x.short);
+    if (!asks.length && !reform.length) return { html: '<p>Nothing beyond the standard template, SDS and CoA for each raw material.</p>', src: 'Rule checks' };
+    let html = '';
+    if (asks.length) html += `<p>Expect requests for:</p><ul>${asks.map(a => `<li>${esc(a)}</li>`).join('')}</ul>`;
+    if (reform.length) html += `<p>Data alone will not clear ${reform.length === 1 ? 'this' : 'these'}. Reformulate first:</p><ul>${reform.map(a => `<li>${esc(a)}</li>`).join('')}</ul>`;
+    return { html, src: 'Rule checks · past toxicologist requests' };
+  }
+  if (k === 'alts') {
+    const inFormula = new Set(f.ing.map(i => i.id));
+    const problem = [...new Set(r.issues.map(x => x.ingId).filter(Boolean))];
+    if (!problem.length) return { html: '<p>No substitutions needed. No ingredient is driving the risk.</p>', src: 'Ingredient library' };
+    const blocks = problem.map(id => {
+      const L = LIB[id];
+      const alts = LIB_SORTED.filter(([aid, A]) => A.fn === L.fn && A.tone === 'ap' && !inFormula.has(aid)).sort((a, b) => b[1].usedIn - a[1].usedIn).slice(0, 3);
+      return `<li><b>${esc(shortName(L))}</b> (${esc(L.fn.toLowerCase())}): ${alts.length ? alts.map(([, A]) => `${esc(A.name)}, used in ${A.usedIn} formulas`).join('; ') : 'no accepted alternative with the same function. Close the data gap instead.'}</li>`;
+    });
+    return { html: `<p>Alternatives from the accepted library:</p><ul>${blocks.join('')}</ul>`, src: 'Ingredient library · past decisions' };
+  }
+  return { html: '<p>In this prototype I answer the suggested questions only. Your build team will connect a language model here. It will answer from this result, the rule set and past toxicologist letters, and cite each source.</p>', src: 'Prototype' };
+}
+
+/* =====================================================================
+   STATE
+   ===================================================================== */
+const state = {
+  code: 'FX-2291',
+  filter: 'all',
+  fixes: new Set(),
+  draft: null,
+  files: [
+    { name: 'FX-2291_ACMI_submission_template.xlsx', note: 'Sample · would fill the composition table' },
+    { name: 'SDS_PigmentRed57-1_SupplierD.pdf', note: 'Sample' },
+  ],
+  libQuery: '',
+  chat: [],
+  chatCode: null,
+};
+const byCode = code => FORMULAS.find(f => f.code === code);
+
+/* =====================================================================
+   VIEW PARTS
+   ===================================================================== */
+const sw = (c, cls = '') => `<span class="sw ${cls}" style="--sw:${esc(c)}"></span>`;
+const pageHead = (eyebrow, title, lede, actions = '') => `
+  <header class="page-head">
+    <div class="min0"><p class="eyebrow">${eyebrow}</p><h1>${title}</h1>${lede ? `<p class="lede">${lede}</p>` : ''}</div>
+    ${actions ? `<div class="head-actions">${actions}</div>` : ''}
+  </header>`;
+const STAGE_TONE = { 'Draft': 'tone-na', 'Screened': 'tone-outline', 'Submitted': 'tone-accent', 'AP granted': 'tone-ap' };
+const stageChip = s => `<span class="chip ${STAGE_TONE[s] || 'tone-na'}">${esc(s === 'Submitted' ? 'Submitted to ACMI' : s)}</span>`;
+const outcomeTone = o => o === 'CL' ? 'tone-cl' : o === 'AP' ? 'tone-ap' : 'tone-risk';
+const ICON = {
+  pass: '<svg viewBox="0 0 12 12"><path d="M2.8 6.4l2.2 2.2 4.2-4.6"/></svg>',
+  fail: '<svg viewBox="0 0 12 12"><path d="M3.5 3.5l5 5M8.5 3.5l-5 5"/></svg>',
+  data: '<svg viewBox="0 0 12 12"><path d="M6 2.8v3.8M6 9.1v.1"/></svg>',
+  na: '<svg viewBox="0 0 12 12"><path d="M3.5 6h5"/></svg>',
+};
+
+function axis(ticks) {
+  return `<div class="axis">${ticks.map(([pos, label], idx) => `<span class="${idx === 0 ? 'first' : idx === ticks.length - 1 ? 'last' : ''}" style="left:${pos}%">${label}</span>`).join('')}</div>`;
+}
+
+function strip(rows) {
+  const sorted = [...rows].sort((a, b) => a.r.score - b.r.score);
+  const lanes = [];
+  const placed = sorted.map(x => {
+    let lane = lanes.findIndex(last => x.r.score - last >= 5);
+    if (lane === -1) { lane = lanes.length; lanes.push(x.r.score); } else { lanes[lane] = x.r.score; }
+    return { ...x, lane };
+  });
+  return `
+  <div class="strip" style="--lanes:${Math.max(1, lanes.length)}">
+    <div class="strip-bands" aria-hidden="true"><span class="sb sb-cl" style="width:50%"><em>Likely CL</em></span><span class="sb sb-risk" style="width:30%"><em>At risk</em></span><span class="sb sb-ap" style="width:20%"><em>Likely AP</em></span></div>
+    <div class="strip-dots">${placed.map(x => `<button class="dot ${x.r.score > 85 ? 'tip-r' : x.r.score < 15 ? 'tip-l' : ''}" style="--x:${x.r.score}%;--lane:${x.lane};--sw:${esc(x.f.swatch)}" data-action="open" data-code="${esc(x.f.code)}" aria-label="${esc(x.f.name)}, ${x.r.score} percent"><span class="dot-tip">${esc(x.f.code)} · ${x.r.score}%</span></button>`).join('')}</div>
+    ${axis([[0, '0'], [50, '50'], [80, '80'], [100, '100%']])}
+  </div>`;
+}
+
+function scale(s, p) {
+  const edge = v => v > 88 ? 'edge-r' : v < 10 ? 'edge-l' : '';
+  return `
+  <div class="scale" aria-label="AP likelihood ${s} percent${p != null ? ', ' + p + ' percent with selected fixes' : ''}">
+    <div class="scale-track"><span class="sb sb-cl" style="width:50%"><em>Likely CL</em></span><span class="sb sb-risk" style="width:30%"><em>At risk</em></span><span class="sb sb-ap" style="width:20%"><em>AP</em></span></div>
+    ${axis([[0, '0'], [50, '50'], [80, '80'], [100, '100']])}
+    <div class="mark now ${edge(s)}" style="left:${s}%"><span>Now ${s}%</span></div>
+    ${p != null && p !== s ? `<div class="mark proj ${edge(p)}" style="left:${p}%"><span>With fixes ${p}%</span></div>` : ''}
+  </div>`;
+}
+
+/* ---------- Portfolio ---------- */
+function viewPortfolio() {
+  const rows = FORMULAS.map(f => ({ f, r: screen(f) }));
+  const counts = { ap: 0, risk: 0, cl: 0 };
+  rows.forEach(x => counts[x.r.band]++);
+  const shown = rows.filter(x => state.filter === 'all' || x.r.band === state.filter);
+  const kpi = (label, n, cap, dot) => `<div class="kpi"><div class="kpi-label"><span class="kpi-dot ${dot}"></span>${label}</div><div class="kpi-num">${n}</div><div class="kpi-cap">${cap}</div></div>`;
+  return `
+  ${pageHead('Portfolio', 'Formulas in the pipeline', 'Every formula gets a pre-check here before it goes to the ACMI toxicologist at Duke.', '<button class="btn btn-primary" data-action="new">New screening</button>')}
+  <section class="kpis" aria-label="Summary">
+    ${kpi('In pipeline', rows.length, 'formulas in development or review', 'bg-neutral')}
+    ${kpi('Likely AP', counts.ap, 'ready, or one small fix away', 'bg-ap')}
+    ${kpi('At risk', counts.risk, 'likely to need another review round', 'bg-risk')}
+    ${kpi('Likely CL', counts.cl, 'would need warning labels as is', 'bg-cl')}
+  </section>
+  <section class="split">
+    <div class="panel">
+      <div class="panel-head"><h2>AP likelihood across the pipeline</h2><p class="small muted">Each dot is a formula in its product color. Select one to open its result.</p></div>
+      ${strip(rows)}
+    </div>
+    <div class="panel">
+      <div class="panel-head row"><h2>Needs attention</h2><a class="text-link small" href="#watch">Open watchlist</a></div>
+      <div>${ALERTS.filter(a => a.sev !== 'low').slice(0, 2).map(a => `
+        <div class="alert-mini">
+          <div class="xsmall muted">${esc(a.kind)} · ${esc(a.source)}</div>
+          <p>${esc(a.title)}</p>
+          <div class="small muted">${a.impacted.length} in pipeline · ${a.approvedCount} approved</div>
+        </div>`).join('')}</div>
+    </div>
+  </section>
+  <section class="panel">
+    <div class="panel-head row wrap"><h2>All formulas</h2>
+      <div class="filters" role="group" aria-label="Filter by likelihood">${['all', 'ap', 'risk', 'cl'].map(k => `<button class="fchip ${state.filter === k ? 'on' : ''}" data-action="filter" data-k="${k}" aria-pressed="${state.filter === k}">${k === 'all' ? 'All' : BAND_LABEL[k]} <span class="n">${k === 'all' ? rows.length : counts[k]}</span></button>`).join('')}</div>
+    </div>
+    <div class="tbl-wrap"><table class="tbl">
+      <thead><tr><th>Formula</th><th>Category</th><th>Ages</th><th>Stage</th><th class="num">AP likelihood</th><th>Top issue</th><th>Updated</th></tr></thead>
+      <tbody>${shown.map(({ f, r }) => `
+        <tr class="rowlink" data-action="open" data-code="${esc(f.code)}">
+          <td><div class="fcell">${sw(f.swatch)}<div class="min0"><button class="link-btn" data-action="open" data-code="${esc(f.code)}">${esc(f.name)}</button><div class="mono xsmall muted">${esc(f.code)}</div></div></div></td>
+          <td>${esc(f.category)}</td>
+          <td>${esc(f.age)}</td>
+          <td>${stageChip(f.stage)}</td>
+          <td class="num"><div class="lk"><div class="lk-bar"><i class="bg-${r.band}" style="width:${r.score}%"></i></div><span class="num-strong">${r.score}%</span></div><div class="xsmall tx-${r.band}">${BAND_LABEL[r.band]}</div></td>
+          <td class="issue-cell">${r.issues.length ? `${esc(r.issues[0].short)}${r.issues.length > 1 ? ` <span class="xsmall muted">+${r.issues.length - 1} more</span>` : ''}` : '<span class="muted">No open issues</span>'}</td>
+          <td class="muted">${esc(f.updated)}</td>
+        </tr>`).join('') || '<tr><td colspan="7" class="muted">No formulas in this group.</td></tr>'}
+      </tbody>
+    </table></div>
+  </section>`;
+}
+
+/* ---------- New screening ---------- */
+function totalMeter(t) {
+  const ok = Math.abs(t - 100) <= 0.0005;
+  const msg = ok ? 'Totals 100%. Ready to screen.' : `The template needs exactly 100%. ${t < 100 ? 'Missing' : 'Over by'} ${Math.abs(100 - t).toFixed(3)}%.`;
+  return `<div class="total ${ok ? 'ok' : 'off'}" id="total-meter"><div class="total-bar"><i style="width:${Math.min(100, Math.max(0, t))}%"></i></div><span class="mono">${t.toFixed(3)}%</span><span class="small">${msg}</span></div>`;
+}
+
+function viewNew() {
+  const d = state.draft;
+  const CATS = ['Marker', 'Crayon', 'Paint', 'Clay', 'Glue', 'Slime', 'Chalk', 'Pencil'];
+  const AGES = ['2+', '3+', '4+', '5+', '6+', '8+', '12+'];
+  const MKTS = [['US', 'United States'], ['CA', 'Canada'], ['EU', 'European Union'], ['UK', 'United Kingdom']];
+  const opt = (v, cur, label) => `<option value="${esc(v)}" ${v === cur ? 'selected' : ''}>${esc(label || v)}</option>`;
+  return `
+  ${pageHead('New screening', `<span class="with-sw" style="display:inline-flex;align-items:center;gap:12px">${sw(d.swatch, 'lg').replace('class="sw lg"', 'class="sw lg" id="draft-sw"')}<span id="draft-title">${esc(d.name || 'Untitled formula')}</span></span>`,
+    'Enter the same details as the ACMI submission template. PreSeal checks them before anything goes to the toxicologist.',
+    `<div class="startfrom"><label class="flabel" for="start-from">Start from</label><select id="start-from" class="in"><option value="" disabled ${byCode(d.code) ? '' : 'selected'}>Current draft</option>${FORMULAS.map(f => opt(f.code, d.code, f.code + ' · ' + f.name)).join('')}${opt('__blank', '', 'Blank formula')}</select></div>`)}
+
+  <section class="panel">
+    <div class="panel-head"><h2><span class="sn">1</span>Product</h2></div>
+    <div class="form-grid">
+      <div class="field"><label for="f-name">Product name</label><input id="f-name" class="in" data-f="name" value="${esc(d.name)}"></div>
+      <div class="field"><label for="f-code">Formula code</label><input id="f-code" class="in mono" data-f="code" value="${esc(d.code)}"></div>
+      <div class="field"><label for="f-cat">Category</label><select id="f-cat" class="in" data-f="category">${CATS.map(c => opt(c, d.category)).join('')}</select></div>
+      <div class="field"><label for="f-form">Physical form</label><input id="f-form" class="in" data-f="form" value="${esc(d.form)}"></div>
+      <div class="field"><label for="f-age">Age grade</label><select id="f-age" class="in" data-f="age">${AGES.map(a => opt(a, d.age, 'Ages ' + a)).join('')}</select></div>
+      <div class="field"><label for="f-swatch">Product color</label><div class="color-in"><input type="color" id="f-swatch" data-f="swatch" value="${esc(d.swatch)}"><span class="mono small muted" id="f-swatch-hex">${esc(d.swatch.toUpperCase())}</span></div></div>
+      <div class="field wide"><label for="f-use">Intended use</label><textarea id="f-use" class="in" rows="2" data-f="use">${esc(d.use)}</textarea></div>
+      <div class="field wide"><span class="flabel">Markets</span><div class="mkts">${MKTS.map(([v, l]) => `<label class="mkt"><input type="checkbox" id="mkt-${v}" data-mkt="${v}" ${d.markets.includes(v) ? 'checked' : ''}>${l}</label>`).join('')}</div></div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head row wrap"><div class="panel-head"><h2><span class="sn">2</span>Composition</h2><p class="small muted">Every ingredient, with CAS number, % by weight and supplier documents.</p></div></div>
+    <div class="tbl-wrap"><table class="tbl comp">
+      <thead><tr><th>Ingredient</th><th>CAS no.</th><th>Function</th><th class="num">% w/w</th><th>Supplier</th><th>SDS</th><th>CoA</th><th><span class="sr">Remove</span></th></tr></thead>
+      <tbody>${d.ing.map((i, k) => { const L = LIB[i.id] || { cas: '', fn: '' }; return `
+        <tr>
+          <td><label class="sr" for="ing-${k}-id">Ingredient ${k + 1}</label><select id="ing-${k}-id" class="in" data-row="${k}" data-field="id">${LIB_SORTED.map(([id, A]) => opt(id, i.id, A.name)).join('')}</select></td>
+          <td class="cas">${esc(L.cas)}</td>
+          <td class="fn">${esc(L.fn)}</td>
+          <td class="num"><label class="sr" for="ing-${k}-pct">Percent by weight</label><input id="ing-${k}-pct" class="in num" type="number" step="0.001" min="0" max="100" value="${i.pct}" data-row="${k}" data-field="pct"></td>
+          <td><label class="sr" for="ing-${k}-sup">Supplier</label><input id="ing-${k}-sup" class="in" type="text" value="${esc(i.supplier)}" placeholder="Supplier" data-row="${k}" data-field="supplier"></td>
+          <td><input type="checkbox" id="ing-${k}-sds" data-row="${k}" data-field="sds" ${i.sds ? 'checked' : ''} aria-label="SDS on file for ${esc(L.name || '')}"></td>
+          <td><input type="checkbox" id="ing-${k}-coa" data-row="${k}" data-field="coa" ${i.coa ? 'checked' : ''} aria-label="CoA on file for ${esc(L.name || '')}"></td>
+          <td><button class="icon-btn" data-action="rm-row" data-row="${k}" aria-label="Remove ${esc(L.name || 'ingredient')}">×</button></td>
+        </tr>`; }).join('')}
+      </tbody>
+    </table></div>
+    <div class="comp-foot"><button class="btn btn-ghost" data-action="add-row">+ Add ingredient</button>${totalMeter(totalPct(d))}</div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head"><h2><span class="sn">3</span>Supporting files</h2><p class="small muted">The ACMI template, safety data sheets, certificates of analysis and lab reports.</p></div>
+    <label class="drop" for="f-files" id="dropzone">
+      <input id="f-files" type="file" multiple class="sr">
+      <b>Drop files here or browse</b>
+      <span class="small">.xlsx template, SDS and CoA PDFs, lab reports</span>
+    </label>
+    <ul class="files">${state.files.map(x => `<li><span class="mono">${esc(x.name)}</span><span class="tag">${esc(x.note)}</span></li>`).join('')}</ul>
+  </section>
+
+  <div class="actionbar">
+    <span class="small muted">Takes a few seconds. Nothing is sent to ACMI.</span>
+    <div class="head-actions"><button class="btn" data-action="save-draft">Save draft</button><button class="btn btn-primary" data-action="run">Run pre-check</button></div>
+  </div>`;
+}
+
+/* ---------- Result ---------- */
+const SCENARIO_EXTRA = { Marker: 'Mouths the marker tip', Crayon: 'Bites off and swallows pieces', Paint: 'Paint on hands and face', Clay: 'Handles and mouths the clay',
+  Glue: 'Glue on fingers', Slime: 'Handles slime about an hour a day', Chalk: 'Breathes chalk dust outdoors', Pencil: 'Chews the pencil end' };
+function childFor(age) {
+  const n = parseInt(age, 10) || 3;
+  if (n <= 2) return 'Child 2–4 years · 14 kg';
+  if (n <= 5) return 'Child 3–6 years · 18 kg';
+  if (n <= 8) return 'Child 6–10 years · 25 kg';
+  return 'Teen · 45 kg';
+}
+
+function expoChart(list) {
+  const pos = m => Math.max(1.5, Math.min(100, (Math.log10(m) + 1) / 5 * 100));
+  return `
+  <div class="expo">
+    <div class="expo-row"><span></span>${axis([[0, '0.1×'], [20, '1×'], [40, '10×'], [60, '100×'], [80, '1,000×'], [100, '10,000×']])}<span></span></div>
+    ${list.map(e => {
+      if (e.mos == null) return `<div class="expo-row"><span class="expo-name" title="${esc(e.name)}">${esc(e.name)}</span><div class="expo-track"><span class="expo-nodata">No safety data until disclosed</span></div><span class="expo-val muted">n/a</span></div>`;
+      const b = e.mos < 1 ? 'cl' : e.mos < 10 ? 'risk' : 'ap';
+      return `<div class="expo-row"><span class="expo-name" title="${esc(e.name)} at ${fmtPct(e.pct)}">${esc(e.name)} <span class="mono xsmall muted">${fmtPct(e.pct)}</span></span><div class="expo-track"><i class="expo-bar bg-${b}" style="width:${pos(e.mos)}%"></i></div><span class="expo-val tx-${b}">${fmtMos(e.mos)}</span></div>`;
+    }).join('')}
+  </div>`;
+}
+
+function viewResult() {
+  const f = byCode(state.code) || FORMULAS[0];
+  state.code = f.code;
+  const r = screen(f);
+  const fixable = r.issues.filter(x => x.fix);
+  [...state.fixes].forEach(k => { if (!fixable.some(x => x.key === k)) state.fixes.delete(k); });
+  const gain = fixable.filter(x => state.fixes.has(x.key)).reduce((a, x) => a + x.penalty, 0);
+  const proj = gain ? Math.max(5, Math.min(97, r.score + gain)) : null;
+  const watch = ALERTS.filter(a => a.impacted.includes(f.code));
+  const counts = { pass: 0, data: 0, fail: 0 };
+  r.checks.forEach(c => { if (counts[c.status] != null) counts[c.status]++; });
+  const hist = r.history;
+  const noFix = r.issues.filter(x => !x.fix);
+
+  return `
+  <header class="page-head">
+    <div class="min0">
+      <p class="eyebrow">Pre-check result</p>
+      <h1 class="with-sw">${sw(f.swatch, 'lg')}<span>${esc(f.name)}</span></h1>
+      <p class="meta mono">${esc(f.code)} · ${esc(f.category)} · Ages ${esc(f.age)} · ${esc(f.stage === 'Submitted' ? 'Submitted to ACMI' : f.stage)} · Updated ${esc(f.updated)}</p>
+    </div>
+    <div class="head-actions">
+      <button class="btn" data-action="edit">Edit formula</button>
+      <button class="btn" data-action="ask">Ask PreSeal</button>
+      <button class="btn btn-primary" data-action="export">Export submission pack</button>
+    </div>
+  </header>
+
+  <section class="verdict band-${r.band}">
+    <div class="min0">
+      <div class="v-score"><span class="v-num">${r.score}<small>%</small></span><span class="chip lg tone-${r.band}">${BAND_LABEL[r.band]}</span></div>
+      <p class="v-label">Chance of the AP seal on first submission</p>
+      <p class="v-sentence">${esc(verdictSentence(r))}</p>
+      <dl class="v-meta">
+        <div><dt>Confidence</dt><dd>${r.confidence}</dd></div>
+        <div><dt>Similar past decisions</dt><dd>${r.similarCount}</dd></div>
+        <div><dt>Open issues</dt><dd>${r.issues.length}</dd></div>
+        <div><dt>Data gaps</dt><dd>${r.gaps}</dd></div>
+      </dl>
+      ${watch.length ? `<div class="v-watch"><span class="chip tone-risk">On watchlist</span>${watch.map(a => esc(a.title)).join(' · ')}</div>` : ''}
+    </div>
+    <div class="min0">${scale(r.score, proj)}</div>
+  </section>
+
+  <div class="result-grid">
+    <section class="panel r-why" aria-labelledby="why-h">
+      <div class="panel-head row"><h2 id="why-h">Why</h2><span class="small muted">Ranked by effect on the score</span></div>
+      ${r.issues.length ? `<ol class="reasons">${r.issues.map(x => `
+        <li class="reason"><div class="min0"><p>${esc(x.reason)}</p>
+          <div class="tags"><span class="tag">${esc(x.layer)}</span><span class="tag mono">−${x.penalty} pts</span>
+          ${x.fix ? `<button class="text-link small" data-action="toggle-fix" data-k="${esc(x.key)}">${state.fixes.has(x.key) ? 'Remove from fix plan' : 'Add fix to plan'}</button>` : '<button class="text-link small" data-action="edit">Edit the composition</button>'}</div>
+        </div></li>`).join('')}</ol>`
+      : '<p class="muted">No open issues. This formula matches what has been accepted before.</p>'}
+    </section>
+
+    <aside class="r-side">
+      <section class="panel" aria-labelledby="fix-h">
+        <div class="panel-head"><h2 id="fix-h">Fix plan</h2><p class="small muted">Pick the changes you would make. PreSeal estimates the new score.</p></div>
+        ${fixable.length ? `
+          <ul class="fixes">${fixable.map(x => `
+            <li><label class="fix" for="fix-${esc(x.key)}">
+              <input type="checkbox" id="fix-${esc(x.key)}" data-action="fix" data-k="${esc(x.key)}" ${state.fixes.has(x.key) ? 'checked' : ''}>
+              <span class="fix-body"><span class="fix-label">${esc(x.fix.label)}</span><span class="small muted">${esc(x.fix.detail)}</span><span class="tags"><span class="tag">${esc(x.fix.effort)}</span></span></span>
+              <span class="fix-gain">+${x.penalty}</span>
+            </label></li>`).join('')}</ul>
+          <div class="proj">
+            <div class="proj-row"><span>Now</span><b>${r.score}%</b><span class="chip tone-${r.band}">${BAND_LABEL[r.band]}</span></div>
+            <div class="proj-row"><span>With selected fixes</span><b>${proj ?? r.score}%</b><span class="chip tone-${BAND(proj ?? r.score)}">${BAND_LABEL[BAND(proj ?? r.score)]}</span></div>
+          </div>
+          <div class="fix-actions">
+            <button class="btn btn-primary" data-action="apply-fixes" ${state.fixes.size ? '' : 'disabled'}>Apply and rescreen</button>
+            <button class="btn btn-ghost" data-action="select-all">${state.fixes.size === fixable.length ? 'Clear all' : 'Select all'}</button>
+          </div>`
+        : `<div class="empty"><p><b>Nothing to fix.</b> ${noFix.length ? 'Correct the composition, then rescreen.' : 'This formula is ready for submission.'}</p>
+            ${noFix.length ? '<button class="btn" data-action="edit">Edit formula</button>' : f.stage === 'Submitted' || f.stage === 'AP granted' ? `<span class="chip ${STAGE_TONE[f.stage]}">${esc(f.stage === 'Submitted' ? 'Submitted to ACMI' : f.stage)}</span>` : '<button class="btn btn-primary" data-action="mark-submitted">Mark as submitted to ACMI</button>'}
+          </div>`}
+        ${noFix.length && fixable.length ? `<p class="xsmall muted">${noFix.length} issue needs a manual edit: ${esc(noFix.map(x => x.short).join(', '))}.</p>` : ''}
+      </section>
+    </aside>
+
+    <div class="r-evid">
+      <section class="panel" aria-labelledby="checks-h">
+        <div class="panel-head row wrap"><h2 id="checks-h">Rule checks</h2><span class="small muted">${counts.pass} pass · ${counts.data} need data · ${counts.fail} fail</span></div>
+        <ul class="checks">${r.checks.map(c => `
+          <li class="check st-${c.status}">
+            <span class="st-icon" aria-hidden="true">${ICON[c.status]}</span>
+            <div class="min0"><div class="check-name">${esc(c.name)}</div><div class="check-detail">${esc(c.detail)}</div></div>
+            <div class="check-side"><span class="st-word">${STATUS_WORD[c.status]}</span><span class="mono xsmall muted">${esc(c.src)}</span></div>
+          </li>`).join('')}</ul>
+      </section>
+
+      <section class="panel" aria-labelledby="expo-h">
+        <div class="panel-head"><h2 id="expo-h">Exposure for a young child</h2><p class="small muted">Safety margin = safe daily dose ÷ estimated daily dose. Below 1× the estimated dose is higher than the safe dose.</p></div>
+        <div class="pills"><span class="pill">${childFor(f.age)}</span><span class="pill">Swallows up to 100 mg a day</span><span class="pill">${esc(SCENARIO_EXTRA[f.category] || 'Daily skin contact')}</span><span class="pill">Daily use</span></div>
+        ${expoChart(r.exposure)}
+        <div class="legend"><span><i class="bg-cl"></i>Below 1×</span><span><i class="bg-risk"></i>1× to 10×, thin margin</span><span><i class="bg-ap"></i>Above 10×, comfortable</span></div>
+        <p class="note">Sample values. Safe doses will come from EPA ToxValDB and ECHA once connected; the scenario follows the age grade and product type.</p>
+      </section>
+
+      <section class="panel" aria-labelledby="hist-h">
+        <div class="panel-head row wrap"><h2 id="hist-h">Past decisions like this one</h2><span class="small muted">${r.similarCount} similar formulas reviewed${hist.similar.length ? ` · closest ${hist.similar.length} shown` : ''}</span></div>
+        ${hist.similar.length ? `<ul class="hist">${hist.similar.map(h => `
+          <li><div class="hist-sim"><b>${h.sim}%</b><span class="xsmall muted">similar</span></div>
+            <div class="min0"><div><span class="mono small">${esc(h.code)}</span> ${esc(h.name)} <span class="small muted">· ${h.year}</span></div><div class="small muted">${esc(h.note)}</div></div>
+            <span class="chip ${outcomeTone(h.outcome)}">${esc(h.outcome)}</span></li>`).join('')}</ul>`
+        : '<p class="muted">No similar formulas in the review history yet. Confidence stays low until this product type has past decisions.</p>'}
+        ${hist.comment ? `<blockquote class="rev"><p>“${esc(hist.comment.text)}”</p><footer class="xsmall muted">Toxicologist comment on ${esc(hist.comment.on)} · sample text</footer></blockquote>` : ''}
+      </section>
+    </div>
+  </div>`;
+}
+
+/* ---------- Watchlist ---------- */
+function viewWatch() {
+  const SEV = { high: ['High impact', 'tone-cl'], med: ['Medium impact', 'tone-risk'], low: ['No impact', 'tone-na'] };
+  return `
+  ${pageHead('Watchlist', 'What changed since your formulas were approved', 'PreSeal watches safety lists, regulations and review dates, then re-runs every affected formula.')}
+  <div class="alerts">${ALERTS.map(a => `
+    <article class="panel alert">
+      <div class="alert-top"><span class="chip ${SEV[a.sev][1]}">${SEV[a.sev][0]}</span><span class="small muted">${esc(a.kind)} · ${esc(a.source)} · ${esc(a.date)}</span></div>
+      <h3>${esc(a.title)}</h3>
+      <p>${esc(a.body)}</p>
+      ${a.impacted.length || a.approved.length ? `
+      <div class="alert-impact">
+        <div><div class="label">In the pipeline</div><div class="pills">${a.impacted.length ? a.impacted.map(c => { const f = byCode(c); if (!f) return ''; const r = screen(f); return `<button class="pill" data-action="open" data-code="${esc(c)}">${sw(f.swatch)}<span class="mono">${esc(c)}</span> ${r.score}%</button>`; }).join('') : '<span class="small muted">None</span>'}</div></div>
+        <div><div class="label">Approved formulas</div><div class="pills">${a.approved.length ? a.approved.map(x => `<span class="pill">${esc(x)}</span>`).join('') : '<span class="small muted">None</span>'}</div></div>
+      </div>
+      <div><button class="btn" data-action="rescreen-alert" data-id="${esc(a.id)}">Rescreen affected formulas</button></div>` : ''}
+    </article>`).join('')}
+  </div>`;
+}
+
+/* ---------- Ingredient library ---------- */
+function libFiltered() {
+  const q = state.libQuery.trim().toLowerCase();
+  return LIB_SORTED.filter(([, L]) => !q || `${L.name} ${L.cas} ${L.fn}`.toLowerCase().includes(q));
+}
+function libRows() {
+  const list = libFiltered();
+  if (!list.length) return '<tr><td colspan="7" class="muted">No ingredient matches that search.</td></tr>';
+  return list.map(([, L]) => `
+    <tr>
+      <td><b style="font-weight:500">${esc(L.name)}</b></td>
+      <td class="mono small">${esc(L.cas)}</td>
+      <td class="small">${esc(L.fn)}</td>
+      <td class="num">${L.usedIn}</td>
+      <td><span class="chip tone-${L.tone}">${esc(L.outcome)}</span></td>
+      <td class="small muted">${esc(L.note || '')}</td>
+      <td><div class="tags">${L.src.length ? L.src.map(s => `<span class="tag">${s}</span>`).join('') : '<span class="small muted">None</span>'}</div></td>
+    </tr>`).join('');
+}
+function viewLibrary() {
+  return `
+  ${pageHead('Ingredient library', 'Raw materials and how past reviews treated them', 'PreSeal suggests substitutes only from this list, so a fix never brings in an ingredient the reviewer has not seen before.')}
+  <section class="panel">
+    <div class="panel-head row wrap">
+      <div class="search"><label class="sr" for="lib-q">Search ingredients</label><input id="lib-q" class="in" type="search" placeholder="Search by name, CAS number or function" value="${esc(state.libQuery)}"></div>
+      <span class="small muted" id="lib-count">${libFiltered().length} of ${LIB_SORTED.length} ingredients</span>
+    </div>
+    <div class="tbl-wrap"><table class="tbl">
+      <thead><tr><th>Ingredient</th><th>CAS no.</th><th>Function</th><th class="num">Used in</th><th>Past outcome</th><th>Notes</th><th>Safety data</th></tr></thead>
+      <tbody id="lib-body">${libRows()}</tbody>
+    </table></div>
+  </section>`;
+}
+
+/* ---------- Data sources ---------- */
+function viewSources() {
+  const steps = [
+    ['Input', 'Formula', 'Same fields as the ACMI submission template: composition, CAS numbers, suppliers, age grade, intended use.'],
+    ['Step 1', 'Rule checks', 'Fixed checks against public lists and limits. Every flag names its source.'],
+    ['Step 2', 'Exposure', 'Worst-case daily dose for a young child, compared with published safe doses.'],
+    ['Step 3', 'Past decisions', 'Similar formulas and what the reviewer decided. Calibrates the likelihood score.'],
+    ['Step 4', 'Reasons and fixes', 'Plain-English explanation. Fixes use only ingredients accepted before.'],
+  ];
+  const handoff = [
+    ['screen(formula)', 'Replace with POST /screenings that runs the rules engine, exposure model and history model. Keep the result shape so every view keeps working.'],
+    ['answer(question, result)', 'Replace with a language-model call grounded on the result JSON, the rule texts and past toxicologist letters. Require a cited check or past decision for each claim.'],
+    ['LIB', 'Ingredient service: the client’s raw-material library, enriched from PubChem, EPA CompTox and ECHA.'],
+    ['FORMULAS · HISTORY', 'Formulation system and archived ACMI submissions. Letters become structured outcome and reason labels.'],
+    ['ALERTS', 'Watcher jobs on IARC, ECHA, Prop 65 and state-law feeds that re-run screen() on affected formulas.'],
+  ];
+  return `
+  ${pageHead('Data sources', 'What powers each step', 'This prototype runs on sample data. Each step below shows the real source your build team will connect.')}
+  <section class="flow" aria-label="Screening steps">${steps.map(([n, b, p], k) => `<div class="step ${k === 0 ? 'input' : ''}"><span class="step-n">${n}</span><b>${b}</b><p>${p}</p></div>`).join('')}</section>
+  <section class="panel">
+    <div class="panel-head"><h2>Sources</h2></div>
+    <div class="tbl-wrap"><table class="tbl">
+      <thead><tr><th>Step</th><th>Source</th><th>Used for</th><th>Status</th></tr></thead>
+      <tbody>${SOURCES.map(s => `<tr><td class="small muted" style="white-space:nowrap">${esc(s.layer)}</td><td>${s.url ? `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>` : esc(s.name)}</td><td class="small">${esc(s.use)}</td><td><span class="chip ${SOURCE_STATUS[s.status][1]}">${SOURCE_STATUS[s.status][0]}</span></td></tr>`).join('')}</tbody>
+    </table></div>
+  </section>
+  <section class="panel">
+    <div class="panel-head"><h2>For the build team</h2><p class="small muted">The page source keeps sample data and logic in a few named places. Replace these and the screens keep working.</p></div>
+    <ul class="handoff">${handoff.map(([c, t]) => `<li><code>${esc(c)}</code><span class="small">${esc(t)}</span></li>`).join('')}</ul>
+  </section>`;
+}
+
+/* =====================================================================
+   ROUTER + RENDER
+   ===================================================================== */
+const VIEWS = { portfolio: viewPortfolio, new: viewNew, result: viewResult, watch: viewWatch, library: viewLibrary, sources: viewSources };
+const currentView = () => { const h = location.hash.replace('#', ''); return VIEWS[h] ? h : 'portfolio'; };
+
+function render() {
+  const v = currentView();
+  const act = document.activeElement && document.activeElement.id;
+  if (v === 'new' && !state.draft) state.draft = clone(byCode('FX-2291') || FORMULAS[0]);
+  $('#main').innerHTML = `<div class="work-inner">${VIEWS[v]()}</div>`;
+  document.querySelectorAll('.nav a').forEach(a => {
+    if (a.dataset.view === v) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+  });
+  $('#watch-badge').textContent = ALERTS.filter(a => a.sev !== 'low').length;
+  if (act) { const el = document.getElementById(act); if (el && el !== document.body) { try { el.focus({ preventScroll: true }); } catch (e) { el.focus(); } } }
+}
+function go(view) { if (currentView() === view && location.hash === '#' + view) render(); else location.hash = view; }
+window.addEventListener('hashchange', () => { render(); window.scrollTo(0, 0); });
+
+let toastTimer;
+function toast(msg) {
+  const t = $('#toast');
+  t.textContent = msg; t.hidden = false;
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => { t.hidden = true; }, 3600);
+}
+
+/* ---------- actions ---------- */
+function openFormula(code) {
+  if (!byCode(code)) return;
+  state.code = code; state.fixes.clear();
+  go('result');
+}
+
+function loadDraft(code) {
+  if (code === '__blank') {
+    state.draft = { code: 'NEW-0001', name: 'Untitled formula', category: 'Marker', form: '', age: '3+', use: '', swatch: '#7A8BFF', markets: ['US'],
+      stage: 'Draft', updated: 'Today', histAdj: 0, similarCount: 0, ing: [ing('water', 100, { supplier: 'In-house' })] };
+  } else {
+    const f = byCode(code); if (f) state.draft = clone(f);
+  }
+}
+
+async function runScreen() {
+  const d = clone(state.draft);
+  d.code = (d.code || '').trim();
+  if (!d.code) { toast('Add a formula code first.'); const c = $('#f-code'); if (c) c.focus(); return; }
+  if (!d.ing.length) { toast('Add at least one ingredient.'); return; }
+  const runner = $('#runner'), steps = [...runner.querySelectorAll('li')];
+  steps.forEach(li => { li.className = ''; });
+  $('#runner-sub').textContent = `${d.code} · ${d.ing.length} ingredients`;
+  runner.hidden = false;
+  const ms = reduceMotion() ? 0 : 480;
+  for (const li of steps) { li.className = 'active'; await wait(ms); li.className = 'done'; }
+  await wait(reduceMotion() ? 0 : 180);
+  runner.hidden = true;
+  let f = byCode(d.code);
+  if (f) {
+    const keep = { histAdj: f.histAdj, similarCount: f.similarCount, stage: f.stage === 'Submitted' ? 'Submitted' : 'Screened' };
+    Object.assign(f, d, keep, { updated: 'Today' });
+  } else {
+    f = { ...d, stage: 'Screened', updated: 'Today', histAdj: 0, similarCount: 0 };
+    FORMULAS.unshift(f);
+  }
+  state.code = f.code; state.fixes.clear();
+  go('result');
+}
+
+function applyFixes() {
+  const f = byCode(state.code); if (!f) return;
+  const r = screen(f);
+  const chosen = r.issues.filter(x => x.fix && state.fixes.has(x.key));
+  if (!chosen.length) return;
+  chosen.forEach(x => x.fix.apply(f));
+  f.updated = 'Today';
+  if (f.stage === 'Draft') f.stage = 'Screened';
+  state.fixes.clear();
+  const after = screen(f).score;
+  if (state.draft && state.draft.code === f.code) state.draft = clone(f);
+  render();
+  toast(`Rescreened ${f.code}: ${r.score}% → ${after}%. ${chosen.length} change${chosen.length > 1 ? 's' : ''} applied to the formula.`);
+}
+
+/* ---------- assistant drawer ---------- */
+function renderThread() {
+  const th = $('#ask-thread');
+  th.innerHTML = state.chat.length
+    ? state.chat.map(m => m.role === 'q' ? `<div class="msg q">${m.html}</div>` : `<div class="msg a">${m.html}<div class="src">Grounded in: ${esc(m.src)}</div></div>`).join('')
+    : '<p class="small muted">Ask about this result. Answers name the checks and past decisions they rely on.</p>';
+  th.scrollTop = th.scrollHeight;
+}
+function openAsk() {
+  const f = byCode(state.code); if (!f) return;
+  const r = screen(f);
+  if (state.chatCode !== f.code) { state.chat = []; state.chatCode = f.code; }
+  $('#ask-ctx').textContent = `${f.code} · ${r.score}% · ${BAND_LABEL[r.band]}`;
+  $('#ask-suggest').innerHTML = suggestions(r).map(s => `<button class="sugg" data-action="ask-q" data-k="${s.k}">${esc(s.q)}</button>`).join('');
+  renderThread();
+  $('#scrim').hidden = false; $('#ask').hidden = false;
+  setTimeout(() => { const q = $('#ask-q'); if (q) q.focus(); }, 0);
+}
+function closeAsk() { $('#scrim').hidden = true; $('#ask').hidden = true; }
+function ask(k, q) {
+  const f = byCode(state.code); if (!f) return;
+  const r = screen(f);
+  state.chat.push({ role: 'q', html: esc(q) });
+  state.chat.push({ role: 'a', ...answer(k, r, f) });
+  renderThread();
+}
+
+/* ---------- events ---------- */
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-action]');
+  if (!t) return;
+  const a = t.dataset.action;
+  switch (a) {
+    case 'open': e.stopPropagation(); openFormula(t.dataset.code); break;
+    case 'filter': state.filter = t.dataset.k; render(); break;
+    case 'new': loadDraft('FX-2291'); go('new'); break;
+    case 'edit': { const f = byCode(state.code); if (f) state.draft = clone(f); go('new'); break; }
+    case 'run': runScreen(); break;
+    case 'save-draft': toast('Draft saved for this session.'); break;
+    case 'add-row': state.draft.ing.push(ing('glycerin', 0, { supplier: '' })); render(); { const k = state.draft.ing.length - 1; const el = document.getElementById(`ing-${k}-id`); if (el) el.focus(); } break;
+    case 'rm-row': state.draft.ing.splice(+t.dataset.row, 1); render(); break;
+    case 'toggle-fix': { const k = t.dataset.k; if (state.fixes.has(k)) state.fixes.delete(k); else state.fixes.add(k); render(); break; }
+    case 'select-all': {
+      const r = screen(byCode(state.code)); const all = r.issues.filter(x => x.fix).map(x => x.key);
+      if (state.fixes.size === all.length) state.fixes.clear(); else all.forEach(k => state.fixes.add(k));
+      render(); break;
+    }
+    case 'apply-fixes': applyFixes(); break;
+    case 'mark-submitted': { const f = byCode(state.code); f.stage = 'Submitted'; f.updated = 'Today'; render(); toast(`${f.code} marked as submitted to ACMI.`); break; }
+    case 'export': toast('Export is not connected in this prototype. It will bundle the template, SDS and CoAs for ACMI.'); break;
+    case 'ask': openAsk(); break;
+    case 'close-ask': closeAsk(); break;
+    case 'ask-q': ask(t.dataset.k, t.textContent); break;
+    case 'rescreen-alert': {
+      const al = ALERTS.find(x => x.id === t.dataset.id);
+      const n = al.impacted.length + al.approvedCount;
+      toast(`Queued ${n} formula${n === 1 ? '' : 's'} for rescreening. Results update the portfolio.`); break;
+    }
+    default: break;
+  }
+});
+
+document.addEventListener('change', e => {
+  const t = e.target;
+  if (t.dataset.action === 'fix') { const k = t.dataset.k; if (t.checked) state.fixes.add(k); else state.fixes.delete(k); render(); return; }
+  if (t.id === 'start-from') { loadDraft(t.value); render(); return; }
+  if (t.id === 'f-files') { [...t.files].forEach(file => state.files.push({ name: file.name, note: 'Added · parsing not connected yet' })); render(); return; }
+  if (!state.draft) return;
+  if (t.dataset.row != null) {
+    const i = state.draft.ing[+t.dataset.row]; if (!i) return;
+    const fld = t.dataset.field;
+    if (fld === 'id') { i.id = t.value; i.labData = i.cert = i.disclosed = i.dustData = false; render(); }
+    else if (fld === 'sds' || fld === 'coa') { i[fld] = t.checked; }
+    return;
+  }
+  if (t.dataset.mkt) {
+    const m = t.dataset.mkt, list = state.draft.markets;
+    if (t.checked && !list.includes(m)) list.push(m);
+    if (!t.checked) state.draft.markets = list.filter(x => x !== m);
+    return;
+  }
+  if (t.dataset.f) state.draft[t.dataset.f] = t.value;
+});
+
+document.addEventListener('input', e => {
+  const t = e.target;
+  if (t.id === 'lib-q') {
+    state.libQuery = t.value;
+    $('#lib-body').innerHTML = libRows();
+    $('#lib-count').textContent = `${libFiltered().length} of ${LIB_SORTED.length} ingredients`;
+    return;
+  }
+  if (!state.draft) return;
+  if (t.dataset.row != null) {
+    const i = state.draft.ing[+t.dataset.row]; if (!i) return;
+    if (t.dataset.field === 'pct') { i.pct = parseFloat(t.value) || 0; const m = $('#total-meter'); if (m) m.outerHTML = totalMeter(totalPct(state.draft)); }
+    if (t.dataset.field === 'supplier') i.supplier = t.value;
+    return;
+  }
+  if (t.dataset.f) {
+    state.draft[t.dataset.f] = t.value;
+    if (t.dataset.f === 'name') { const h = $('#draft-title'); if (h) h.textContent = t.value || 'Untitled formula'; }
+    if (t.dataset.f === 'swatch') { const s = $('#draft-sw'); if (s) s.style.setProperty('--sw', t.value); const hx = $('#f-swatch-hex'); if (hx) hx.textContent = t.value.toUpperCase(); }
+  }
+});
+
+document.addEventListener('dragover', e => { const z = e.target.closest && e.target.closest('.drop'); if (z) { e.preventDefault(); z.classList.add('over'); } });
+document.addEventListener('dragleave', e => { const z = e.target.closest && e.target.closest('.drop'); if (z) z.classList.remove('over'); });
+document.addEventListener('drop', e => {
+  const z = e.target.closest && e.target.closest('.drop');
+  if (!z) return;
+  e.preventDefault();
+  [...(e.dataTransfer && e.dataTransfer.files || [])].forEach(file => state.files.push({ name: file.name, note: 'Added · parsing not connected yet' }));
+  render();
+});
+
+$('#ask-form').addEventListener('submit', e => {
+  e.preventDefault();
+  const q = $('#ask-q'); const v = q.value.trim(); if (!v) return;
+  q.value = '';
+  ask('free', v);
+});
+$('#ask-q').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); $('#ask-form').requestSubmit(); } });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#ask').hidden) closeAsk(); });
+
+render();
+</script>
+</body>
+</html>

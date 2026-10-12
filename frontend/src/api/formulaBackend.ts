@@ -733,6 +733,8 @@ export interface FormulaListQuery {
   pageSize?: number;
   sortKey?: string;
   sortDirection?: 'asc' | 'desc';
+  screeningBand?: string;
+  includeLatestRun?: boolean;
 }
 
 function formulaListUrl(query: FormulaListQuery): string {
@@ -746,6 +748,8 @@ function formulaListUrl(query: FormulaListQuery): string {
   params.set('pageSize', String(query.pageSize ?? 1000));
   if (query.sortKey) params.set('sortKey', query.sortKey);
   if (query.sortDirection) params.set('sortDirection', query.sortDirection);
+  if (query.screeningBand) params.set('screeningBand', query.screeningBand);
+  if (query.includeLatestRun) params.set('include', 'latest_run');
   return `/api/formulas?${params.toString()}`;
 }
 
@@ -764,6 +768,39 @@ export async function fetchFormulaPage(query: FormulaListQuery = {}): Promise<Pa
     pageSize: payload.pageSize ?? items.length,
     pageCount: payload.pageCount ?? 1,
     missingEvidence,
+  };
+}
+
+function mapLibraryItem(raw: unknown, ownerName: string): import('../types/services').FormulaRow {
+  const formula = normalizeStoredFormula(raw);
+  const summary = (raw as { latestRunSummary?: import('../utils/libraryScreeningDisplay').LatestRunSummary })
+    .latestRunSummary;
+  return {
+    formula,
+    ownerName,
+    reviewerName: formula.reviewerId ? ownerName : 'Unassigned',
+    ingredientCount: formula.ingredients.length,
+    missingEvidenceCount: missingEvidenceCountFromFormula(raw),
+    evidenceCompleteness: 0,
+    mainConcern: summary?.topIssue ?? '',
+    latestRunSummary: summary ?? undefined,
+  };
+}
+
+export async function fetchFormulaLibrary(
+  query: FormulaListQuery = {},
+): Promise<import('../types/services').PaginatedFormulaLibrary> {
+  const payload = (await requestJson(
+    formulaListUrl({ ...query, includeLatestRun: true, screeningBand: query.screeningBand ?? 'all' }),
+  )) as import('../types/services').PaginatedFormulaLibrary & { items?: unknown[] };
+  const items = (payload.items ?? []).map((item) => mapLibraryItem(item, 'Unassigned'));
+  return {
+    items,
+    total: payload.total ?? items.length,
+    page: payload.page ?? 1,
+    pageSize: payload.pageSize ?? items.length,
+    pageCount: payload.pageCount ?? 1,
+    summary: payload.summary,
   };
 }
 
@@ -813,6 +850,26 @@ export async function archiveStoredFormula(id: string): Promise<Formula> {
   return normalizeStoredFormula(
     await requestJson(`/api/formulas/${encodeURIComponent(id)}/archive`, { method: 'POST' }),
   );
+}
+
+export async function duplicateStoredFormulaVersion(id: string): Promise<Formula> {
+  return normalizeStoredFormula(
+    await requestJson(`/api/formulas/${encodeURIComponent(id)}/duplicate-version`, { method: 'POST' }),
+  );
+}
+
+export async function restoreStoredFormula(id: string): Promise<Formula> {
+  return normalizeStoredFormula(
+    await requestJson(`/api/formulas/${encodeURIComponent(id)}/restore`, { method: 'POST' }),
+  );
+}
+
+export async function deleteStoredFormula(id: string): Promise<void> {
+  const response = await fetch(`/api/formulas/${encodeURIComponent(id)}`, { method: 'DELETE' });
+  if (!response.ok) {
+    const payload = (await response.json()) as { detail?: string };
+    throw new Error(payload.detail || 'Delete failed.');
+  }
 }
 
 export async function fetchDashboardSummary(): Promise<DashboardSummary> {

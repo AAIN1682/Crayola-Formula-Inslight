@@ -408,6 +408,41 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
       return formula;
     },
 
+    async duplicateFormulaVersion(id: string) {
+      await delay(160);
+      const base = requireFormula(id);
+      const [major, minor = '0'] = base.version.replace(/^v/i, '').split('.');
+      const formula: Formula = {
+        ...base,
+        version: `v${major}.${Number(minor) + 1}`,
+        screeningStatus: 'not-screened',
+        screeningCurrent: false,
+        latestRunId: undefined,
+        lastScreenedAt: undefined,
+        reviewStatus: 'not-started',
+        updatedAt: new Date().toISOString(),
+      };
+      store.dispatch({ type: 'formula/upsert', formula });
+      return formula;
+    },
+
+    async restoreFormula(id: string) {
+      await delay(120);
+      const base = requireFormula(id);
+      const formula: Formula = { ...base, lifecycle: 'active', updatedAt: new Date().toISOString() };
+      store.dispatch({ type: 'formula/upsert', formula });
+      return formula;
+    },
+
+    async deleteFormula(id: string) {
+      await delay(120);
+      const state = store.getState();
+      store.dispatch({
+        type: 'dataset/replace',
+        dataset: { ...state, formulas: state.formulas.filter((formula) => formula.id !== id) },
+      });
+    },
+
     /* ----------------------------------------------------------- screening */
 
     async runScreening(formulaId: string, options?: RunScreeningOptions) {
@@ -468,8 +503,14 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
       const live = isLiveAzureAssessment(payload);
 
       const runAt = new Date().toISOString();
+      const assessmentId =
+        payload.assessment_id ??
+        (typeof payload.formulaAssessment?.assessment_id === 'string'
+          ? payload.formulaAssessment.assessment_id
+          : undefined) ??
+        uid('RUN');
       const run: ScreeningRun = {
-        id: uid('RUN'),
+        id: assessmentId,
         formulaId: formula.id,
         formulaName: formula.name,
         formulaVersion: formula.version,

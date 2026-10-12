@@ -108,13 +108,34 @@ beforeEach(() => {
       const visible = lifecycle.length > 0
         ? dataset.formulas.filter((formula) => lifecycle.includes(formula.lifecycle))
         : active;
-      return new Response(JSON.stringify({
-        items: visible.map((formula) => ({ ...formula, missingEvidenceCount: 0 })),
+      const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '10', 10) || 10;
+      const page = Number.parseInt(url.searchParams.get('page') ?? '1', 10) || 1;
+      const pageCount = Math.max(1, Math.ceil(visible.length / pageSize));
+      const safePage = Math.min(page, pageCount);
+      const start = (safePage - 1) * pageSize;
+      const slice = visible.slice(start, start + pageSize);
+      const withLatest = url.searchParams.get('include') === 'latest_run';
+      const body: Record<string, unknown> = {
+        items: slice.map((formula) => ({
+          ...formula,
+          missingEvidenceCount: 0,
+          ...(withLatest ? { latestRunSummary: null } : {}),
+        })),
         total: visible.length,
-        page: 1,
-        pageSize: 1000,
-        pageCount: 1,
-      }), { status: 200 });
+        page: safePage,
+        pageSize,
+        pageCount,
+      };
+      if (withLatest) {
+        body.summary = {
+          total: visible.length,
+          likelyAp: 0,
+          atRisk: 0,
+          likelyCl: 0,
+          notScreened: visible.length,
+        };
+      }
+      return new Response(JSON.stringify(body), { status: 200 });
     }
     const match = url.pathname.match(/^\/api\/formulas\/([^/]+)$/);
     if (match && method === 'GET') {
@@ -186,7 +207,7 @@ describe('routes', () => {
     expect(text()).toContain('Formula Library');
     expect(text()).toContain('ColorFlow Washable Marker');
     expect(text()).toContain('FML-1001');
-    expect(container.querySelectorAll('tbody tr').length).toBe(10);
+    expect(container.querySelectorAll('.ps-tbl tbody tr').length).toBe(10);
     expect(text()).toContain('of 18 formulas');
   });
 

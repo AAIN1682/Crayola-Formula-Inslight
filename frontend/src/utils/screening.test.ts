@@ -145,9 +145,38 @@ describe('evidence summary', () => {
   it('cannot resolve requirements for an ingredient with no raw-material reference', () => {
     const draft = formula('FML-1012');
     const summary = summarizeEvidence(draft, dataset.rawMaterials, dataset.documents);
-
     expect(summary.requirements.some((requirement) => requirement.id.endsWith('-unlinked'))).toBe(true);
     expect(summary.missingCount).toBeGreaterThan(0);
+  });
+
+  it('treats ingredient-linked uploads as satisfying catalog SDS requirements', () => {
+    const seed = createSeedDataset();
+    const subject = seed.formulas.find((item) => item.id === 'FML-1006');
+    expect(subject).toBeTruthy();
+    const linked = {
+      ...subject!,
+      ingredients: subject!.ingredients.map((ingredient, index) =>
+        index === 0 ? { ...ingredient, evidenceIds: ['DOC-UPLOAD-SDS-1'] } : ingredient,
+      ),
+    };
+    const documents = [
+      ...seed.documents,
+      {
+        id: 'DOC-UPLOAD-SDS-1',
+        title: 'Uploaded SDS',
+        type: 'SDS' as const,
+        status: 'available' as const,
+        rawMaterialId: linked.ingredients[0].rawMaterialId,
+        formulaId: linked.id,
+        uploadedAt: new Date().toISOString(),
+        supplier: 'Test',
+      },
+    ];
+    const summary = summarizeEvidence(linked, seed.rawMaterials, documents);
+    const sds = summary.requirements.find(
+      (req) => req.documentType === 'SDS' && req.ingredientId === linked.ingredients[0].id,
+    );
+    expect(sds?.satisfied).toBe(true);
   });
 });
 

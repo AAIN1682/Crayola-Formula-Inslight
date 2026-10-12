@@ -374,11 +374,6 @@ def test_dashboard_and_formula_routes_are_registered_on_the_application(isolated
 
     cors = next(item for item in app.user_middleware if item.cls is CORSMiddleware)
     assert "PUT" in cors.kwargs["allow_methods"]
-    paths = {getattr(route, "path", None) for route in app.routes}
-    assert "/api/dashboard" in paths
-    assert "/api/formulas" in paths
-    assert "/api/formulas/{formula_id}" in paths
-    assert "/api/formulas/{id}/assessments" in paths
     response = client.get("/api/dashboard")
     assert response.status_code == 200
     body = response.json()

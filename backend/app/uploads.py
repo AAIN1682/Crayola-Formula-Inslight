@@ -278,6 +278,24 @@ def get_upload(document_id: str) -> dict | None:
     return None
 
 
+def link_upload_ingredient(document_id: str, ingredient_key: str, document_type: str) -> dict:
+    if document_type not in {"sds", "coa"}:
+        raise UploadError("Document type must be sds or coa.")
+    rows = _read_index()
+    for index, row in enumerate(rows):
+        if row.get("document_id") != document_id:
+            continue
+        updated = {
+            **row,
+            "ingredient_key": str(ingredient_key or "").strip() or None,
+            "linked_document_type": document_type,
+        }
+        rows[index] = updated
+        _write_index(rows)
+        return _public(updated)
+    raise UploadError("That document is not on file.")
+
+
 def review_upload(document_id: str, corrections: list[dict]) -> dict:
     rows = _read_index()
     match = next((row for row in rows if row.get("document_id") == document_id), None)
