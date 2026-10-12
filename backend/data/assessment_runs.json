@@ -5240,6 +5240,914 @@
           "prompt_version": "assessment_v1"
         }
       }
+    },
+    {
+      "assessment_id": "4ad67e1e-5798-418b-82ff-d0e5698006c5",
+      "created_at": "2026-10-12T07:18:18.879413+00:00",
+      "data_version": "us-eu-thresholds-2026-10-08-2026-10-08-aeb517a4f840",
+      "dataset_kind": "threshold_reference",
+      "screening_status_label": "More information required",
+      "data_hash": "aeb517a4f840eb11675fb5ba32fd0acb68f4c645c3d53f0f2e7a6c0a954b2ca9",
+      "input_hash": "aa494c6b4b1ab8d43e77bd85c607547614ac4cfea7d0de3eb38757ae20bcb047",
+      "input_snapshot": {
+        "formula_id": "FML-1011",
+        "version_id": "v2.2",
+        "name": "ColorFlow Fine Line Marker",
+        "product_category": "Markers",
+        "age_group": "under_12",
+        "regions": [
+          "US"
+        ],
+        "physical_form": "liquid",
+        "intended_use": "Fine-tip marker for detailed drawing and lettering on paper.",
+        "ingredients": [],
+        "legacy_materials": [
+          {
+            "name": "Aqua Base Concentrate",
+            "legacy_id": "RM-101",
+            "concentration_percent": 68.888
+          },
+          {
+            "name": "Polyol Humectant HX-2",
+            "legacy_id": "RM-102",
+            "concentration_percent": 17.0
+          },
+          {
+            "name": "Cyan Dispersion Pigment C-14",
+            "legacy_id": "RM-103",
+            "concentration_percent": 9.4
+          },
+          {
+            "name": "Cellulose Thickener T-12",
+            "legacy_id": "RM-115",
+            "concentration_percent": 3.6
+          },
+          {
+            "name": "Preservative Blend PB-3",
+            "legacy_id": "RM-110",
+            "concentration_percent": 0.75
+          },
+          {
+            "name": "Citric Acid pH Adjuster PA-8",
+            "legacy_id": "RM-120",
+            "concentration_percent": 0.35
+          },
+          {
+            "name": "Bittering Agent BA-5",
+            "legacy_id": "RM-121",
+            "concentration_percent": 0.012
+          }
+        ],
+        "generate_explanation": true,
+        "assessment_mode": "evidence",
+        "composition_completeness": "partial",
+        "us_states": [],
+        "intended_age_detail": null,
+        "toy_childcare_scope": null,
+        "component_type": null,
+        "test_material_category": null,
+        "document_ids": [
+          "DOC-FRM-1011-01"
+        ],
+        "category_supported": true
+      },
+      "screening_status": "more_information_required",
+      "regulatory_status": "not_assessed",
+      "ap_cl_decision": null,
+      "acceptance_probability": null,
+      "ap_acceptance_probability": null,
+      "model_confidence": null,
+      "analysis_confidence": {
+        "level": "low",
+        "basis": "No applicable checks can be evaluated, or essential identity, evidence, or applicability gaps prevent a complete assessment.",
+        "limiting_factors": [
+          "All seven ingredient rows are unmatched identity coverage gaps rather than evaluated rule matches.",
+          "No applicable verified rules were supplied for the selected US / Markers / under_12 branch.",
+          "The composition is partial and does not describe a full recipe.",
+          "No evidence-based pass/fail result exists to support AP or CL leaning."
+        ],
+        "source_ids": [],
+        "assessment_support": "insufficient"
+      },
+      "assessment_support": {
+        "level": "insufficient",
+        "basis": "No applicable checks can be evaluated, or essential identity, evidence, or applicability gaps prevent a complete assessment.",
+        "limiting_factors": []
+      },
+      "assessment_mode": "evidence",
+      "metrics": {
+        "assessment_mode": "evidence",
+        "passed_checks": 0,
+        "failed_checks": 0,
+        "concentration_passed_checks": 0,
+        "concentration_failed_checks": 0,
+        "not_assessed_checks": 0,
+        "needs_test_data_checks": 0,
+        "applicability_unknown_checks": 0,
+        "source_review_required_checks": 0,
+        "no_matching_rule_checks": 7,
+        "not_applicable_checks": 0,
+        "evaluated_checks": 0,
+        "identified_applicable_checks": 7,
+        "check_pass_rate_percent": null,
+        "check_pass_rate_label": "Check pass rate",
+        "evidence_coverage_label": "Verified evidence coverage",
+        "check_pass_rate_copy": null,
+        "rule_evaluation_coverage_percent": 0.0,
+        "rule_evaluation_coverage_copy": "0 of 7 identified applicable checks were evaluated. This is coverage of the configured rule set, not every possible regulation.",
+        "evidence_coverage_percent": null,
+        "evidence_coverage_partial": false,
+        "evidence_satisfied": 0,
+        "evidence_missing": 0,
+        "evidence_needs_review": 0,
+        "evidence_mismatched": 0,
+        "evidence_applicability_unknown": 0,
+        "evidence_not_applicable": 0,
+        "evidence_applicable_count": 0,
+        "metrics_note": "Check pass rate uses evaluated applicable checks only. Rule evaluation coverage uses the configured rule set. Verified evidence coverage uses satisfied applicable requirements. Neither value is an acceptance probability.",
+        "ap_acceptance_note": "AP acceptance estimate unavailable: validated outcome data/model required.",
+        "assessment_support": {
+          "level": "insufficient",
+          "basis": "No applicable checks can be evaluated, or essential identity, evidence, or applicability gaps prevent a complete assessment.",
+          "limiting_factors": []
+        }
+      },
+      "regions": {
+        "US": {
+          "screening_status": "more_information_required",
+          "regulatory_status": "not_assessed",
+          "ap_cl_decision": null
+        }
+      },
+      "llm_context": {
+        "formula": {
+          "formula_id": "FML-1011",
+          "version_id": "v2.2",
+          "name": "ColorFlow Fine Line Marker",
+          "product_category": "Markers",
+          "age_group": "under_12",
+          "regions": [
+            "US"
+          ],
+          "physical_form": "liquid",
+          "intended_use": "Fine-tip marker for detailed drawing and lettering on paper.",
+          "assessment_mode": "evidence",
+          "composition_completeness": "partial",
+          "partial_composition": true,
+          "catalog_coverage_incomplete": true,
+          "composition_total_percent": 0,
+          "us_states": [],
+          "intended_age_detail": null,
+          "toy_childcare_scope": null,
+          "component_type": null,
+          "test_material_category": null,
+          "ingredients": [
+            {
+              "material_id": "RM-101",
+              "name": "Aqua Base Concentrate",
+              "concentration_percent": 68.888,
+              "role": "unmatched",
+              "role_label": "Not in the selected catalog branch",
+              "counts_toward_ingredient_total": false
+            },
+            {
+              "material_id": "RM-102",
+              "name": "Polyol Humectant HX-2",
+              "concentration_percent": 17.0,
+              "role": "unmatched",
+              "role_label": "Not in the selected catalog branch",
+              "counts_toward_ingredient_total": false
+            },
+            {
+              "material_id": "RM-103",
+              "name": "Cyan Dispersion Pigment C-14",
+              "concentration_percent": 9.4,
+              "role": "unmatched",
+              "role_label": "Not in the selected catalog branch",
+              "counts_toward_ingredient_total": false
+            },
+            {
+              "material_id": "RM-115",
+              "name": "Cellulose Thickener T-12",
+              "concentration_percent": 3.6,
+              "role": "unmatched",
+              "role_label": "Not in the selected catalog branch",
+              "counts_toward_ingredient_total": false
+            },
+            {
+              "material_id": "RM-110",
+              "name": "Preservative Blend PB-3",
+              "concentration_percent": 0.75,
+              "role": "unmatched",
+              "role_label": "Not in the selected catalog branch",
+              "counts_toward_ingredient_total": false
+            },
+            {
+              "material_id": "RM-120",
+              "name": "Citric Acid pH Adjuster PA-8",
+              "concentration_percent": 0.35,
+              "role": "unmatched",
+              "role_label": "Not in the selected catalog branch",
+              "counts_toward_ingredient_total": false
+            },
+            {
+              "material_id": "RM-121",
+              "name": "Bittering Agent BA-5",
+              "concentration_percent": 0.012,
+              "role": "unmatched",
+              "role_label": "Not in the selected catalog branch",
+              "counts_toward_ingredient_total": false
+            }
+          ]
+        },
+        "materials": [
+          {
+            "material_id": "RM-101",
+            "name": "Aqua Base Concentrate",
+            "kind": "unmatched"
+          },
+          {
+            "material_id": "RM-102",
+            "name": "Polyol Humectant HX-2",
+            "kind": "unmatched"
+          },
+          {
+            "material_id": "RM-103",
+            "name": "Cyan Dispersion Pigment C-14",
+            "kind": "unmatched"
+          },
+          {
+            "material_id": "RM-115",
+            "name": "Cellulose Thickener T-12",
+            "kind": "unmatched"
+          },
+          {
+            "material_id": "RM-110",
+            "name": "Preservative Blend PB-3",
+            "kind": "unmatched"
+          },
+          {
+            "material_id": "RM-120",
+            "name": "Citric Acid pH Adjuster PA-8",
+            "kind": "unmatched"
+          },
+          {
+            "material_id": "RM-121",
+            "name": "Bittering Agent BA-5",
+            "kind": "unmatched"
+          }
+        ],
+        "calculated_checks": [
+          {
+            "check_id": "US:legacy:RM-101:0",
+            "material_id": "RM-101",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 68.888,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "Aqua Base Concentrate is not in the selected category, age group, and region branch. The name was not matched to a catalog substance.",
+            "action": "Select a substance from that catalog branch. This row is kept as a coverage gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "US:legacy:RM-102:1",
+            "material_id": "RM-102",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 17.0,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "Polyol Humectant HX-2 is not in the selected category, age group, and region branch. The name was not matched to a catalog substance.",
+            "action": "Select a substance from that catalog branch. This row is kept as a coverage gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "US:legacy:RM-103:2",
+            "material_id": "RM-103",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 9.4,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "Cyan Dispersion Pigment C-14 is not in the selected category, age group, and region branch. The name was not matched to a catalog substance.",
+            "action": "Select a substance from that catalog branch. This row is kept as a coverage gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "US:legacy:RM-115:3",
+            "material_id": "RM-115",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 3.6,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "Cellulose Thickener T-12 is not in the selected category, age group, and region branch. The name was not matched to a catalog substance.",
+            "action": "Select a substance from that catalog branch. This row is kept as a coverage gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "US:legacy:RM-110:4",
+            "material_id": "RM-110",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 0.75,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "Preservative Blend PB-3 is not in the selected category, age group, and region branch. The name was not matched to a catalog substance.",
+            "action": "Select a substance from that catalog branch. This row is kept as a coverage gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "US:legacy:RM-120:5",
+            "material_id": "RM-120",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 0.35,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "Citric Acid pH Adjuster PA-8 is not in the selected category, age group, and region branch. The name was not matched to a catalog substance.",
+            "action": "Select a substance from that catalog branch. This row is kept as a coverage gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "US:legacy:RM-121:6",
+            "material_id": "RM-121",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 0.012,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "Bittering Agent BA-5 is not in the selected category, age group, and region branch. The name was not matched to a catalog substance.",
+            "action": "Select a substance from that catalog branch. This row is kept as a coverage gap.",
+            "check_kind": "identity"
+          }
+        ],
+        "applicable_verified_rules": [],
+        "reference_claims_pending_verification": [],
+        "evidence_requirements": [],
+        "evidence_matches": [],
+        "missing_evidence": [],
+        "source_conflicts": [],
+        "source_excerpts": [],
+        "version_changes": [],
+        "documented_history": [],
+        "assessment_limitations": [
+          "Catalog coverage incomplete. These files list restricted substances, impurities, and test analytes. They do not contain enough ordinary ingredients to describe a full recipe. A submission is a partial substance screening unless the user explicitly declares a complete ingredient list totaling 100%.",
+          "Source verification status is the status stated in the supplied file. This application does not independently verify it.",
+          "State-specific requirements remain in the source dataset and are excluded from this assessment. They are not applied to a generic United States result.",
+          "Partial composition.",
+          "Unmatched ingredient names were kept as coverage gaps and were not replaced with catalog substances."
+        ],
+        "checks": [
+          {
+            "check_id": "US:legacy:RM-101:0",
+            "material_id": "RM-101",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 68.888,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "Aqua Base Concentrate is not in the selected category, age group, and region branch. The name was not matched to a catalog substance.",
+            "action": "Select a substance from that catalog branch. This row is kept as a coverage gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "US:legacy:RM-102:1",
+            "material_id": "RM-102",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 17.0,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "Polyol Humectant HX-2 is not in the selected category, age group, and region branch. The name was not matched to a catalog substance.",
+            "action": "Select a substance from that catalog branch. This row is kept as a coverage gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "US:legacy:RM-103:2",
+            "material_id": "RM-103",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 9.4,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "Cyan Dispersion Pigment C-14 is not in the selected category, age group, and region branch. The name was not matched to a catalog substance.",
+            "action": "Select a substance from that catalog branch. This row is kept as a coverage gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "US:legacy:RM-115:3",
+            "material_id": "RM-115",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 3.6,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "Cellulose Thickener T-12 is not in the selected category, age group, and region branch. The name was not matched to a catalog substance.",
+            "action": "Select a substance from that catalog branch. This row is kept as a coverage gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "US:legacy:RM-110:4",
+            "material_id": "RM-110",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 0.75,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "Preservative Blend PB-3 is not in the selected category, age group, and region branch. The name was not matched to a catalog substance.",
+            "action": "Select a substance from that catalog branch. This row is kept as a coverage gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "US:legacy:RM-120:5",
+            "material_id": "RM-120",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 0.35,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "Citric Acid pH Adjuster PA-8 is not in the selected category, age group, and region branch. The name was not matched to a catalog substance.",
+            "action": "Select a substance from that catalog branch. This row is kept as a coverage gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "US:legacy:RM-121:6",
+            "material_id": "RM-121",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 0.012,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "Bittering Agent BA-5 is not in the selected category, age group, and region branch. The name was not matched to a catalog substance.",
+            "action": "Select a substance from that catalog branch. This row is kept as a coverage gap.",
+            "check_kind": "identity"
+          }
+        ],
+        "evidence_checks": [],
+        "documents": [],
+        "extracted_facts": [],
+        "source_issues": [],
+        "applicable_rules": [],
+        "applicable_scenario_rules": [],
+        "regulatory_reference_status": "Threshold records are limited to the selected region, category, and age branch.",
+        "regulatory_rows_disabled": 445,
+        "historical_cases": [],
+        "composition_total_percent": 0,
+        "assessment_mode": "evidence",
+        "dataset_kind": "threshold_reference",
+        "dataset_version": "us-eu-thresholds-2026-10-08-2026-10-08-aeb517a4f840",
+        "scenario_provenance": {
+          "dataset_kind": "threshold_reference",
+          "dataset_version": "us-eu-thresholds-2026-10-08-2026-10-08-aeb517a4f840",
+          "provenance": "supplied_us_eu_json",
+          "is_regulatory_requirement": false,
+          "note": "Dummy concentration rules are not used in this workflow."
+        }
+      },
+      "explanation": {
+        "status": "generated",
+        "source": "azure",
+        "content": {
+          "summary": "The supplied evidence is insufficient for a formula-level AP/CL direction. All seven calculated checks are identity coverage gaps with no matched rule, so no evaluated pass/fail result exists. The formulation is partial and the ingredient set is unmatched to the selected catalog branch, which prevents a supported preliminary prediction. This is an additional-information-required screening, not a determination.",
+          "key_reasons": [
+            "No applicable verified rules were evaluated, and all supplied ingredient rows were marked no_matching_rule due to unmatched identity. The composition is partial, so the evidence does not support an AP-leaning or CL-leaning prediction."
+          ],
+          "finding_explanations": [
+            {
+              "check_id": "F1",
+              "explanation": "Aqua Base Concentrate was not matched to a catalog substance in the selected category, age group, and region branch, so no verified rule could be applied.",
+              "source_ids": [],
+              "limitations": []
+            },
+            {
+              "check_id": "F2",
+              "explanation": "Polyol Humectant HX-2 was not matched to a catalog substance in the selected branch, so applicability cannot be assessed.",
+              "source_ids": [],
+              "limitations": []
+            },
+            {
+              "check_id": "F3",
+              "explanation": "Cyan Dispersion Pigment C-14 was not matched to a catalog substance in the selected branch, so no verified rule could be applied.",
+              "source_ids": [],
+              "limitations": []
+            },
+            {
+              "check_id": "F4",
+              "explanation": "Cellulose Thickener T-12 was not matched to a catalog substance in the selected branch, so applicability cannot be assessed.",
+              "source_ids": [],
+              "limitations": []
+            },
+            {
+              "check_id": "F5",
+              "explanation": "Preservative Blend PB-3 was not matched to a catalog substance in the selected branch, so no verified rule could be applied.",
+              "source_ids": [],
+              "limitations": []
+            },
+            {
+              "check_id": "F6",
+              "explanation": "Citric Acid pH Adjuster PA-8 was not matched to a catalog substance in the selected branch, so applicability cannot be assessed.",
+              "source_ids": [],
+              "limitations": []
+            },
+            {
+              "check_id": "F7",
+              "explanation": "Bittering Agent BA-5 was not matched to a catalog substance in the selected branch, so no verified rule could be applied.",
+              "source_ids": [],
+              "limitations": []
+            }
+          ],
+          "evidence_gaps": [],
+          "evidence_gap_explanations": [],
+          "recommendations": [
+            {
+              "priority": "high",
+              "action": "Clarify the exact ingredient identities for RM-101 through RM-121 against the relevant catalog branch.",
+              "rationale": "Identity mismatch is the primary blocker for rule applicability.",
+              "related_check_ids": [],
+              "source_ids": [],
+              "requires_testing_or_review": true,
+              "can_create_scenario": false
+            },
+            {
+              "priority": "high",
+              "action": "Provide the full composition if the product is intended to be assessed as a complete formula.",
+              "rationale": "The current partial disclosure prevents a full screening.",
+              "related_check_ids": [],
+              "source_ids": [],
+              "requires_testing_or_review": true,
+              "can_create_scenario": false
+            }
+          ],
+          "prioritized_actions": [
+            {
+              "priority": "high",
+              "action": "Clarify the exact ingredient identities for RM-101 through RM-121 against the relevant catalog branch.",
+              "rationale": "Identity mismatch is the primary blocker for rule applicability.",
+              "related_check_ids": [],
+              "source_ids": [],
+              "requires_testing_or_review": true,
+              "can_create_scenario": false
+            },
+            {
+              "priority": "high",
+              "action": "Provide the full composition if the product is intended to be assessed as a complete formula.",
+              "rationale": "The current partial disclosure prevents a full screening.",
+              "related_check_ids": [],
+              "source_ids": [],
+              "requires_testing_or_review": true,
+              "can_create_scenario": false
+            }
+          ],
+          "alerts": [
+            {
+              "severity": "medium",
+              "title": "No evaluated applicable checks",
+              "message": "The dataset reports 0 of 7 identified applicable checks evaluated, with all rows marked no_matching_rule. This is a coverage gap, not a pass or fail result.",
+              "source_ids": []
+            },
+            {
+              "severity": "medium",
+              "title": "Partial composition limits assessment",
+              "message": "The submission is partial and does not establish a complete recipe, so missing information is uncertainty rather than a measured failure.",
+              "source_ids": []
+            }
+          ],
+          "assessment_support_explanation": "Required identity matching and applicable rule evidence are missing for every ingredient, and the composition is partial. With zero evaluated applicable checks, directionality is unsupported.",
+          "source_conflicts": [],
+          "analysis_confidence": {
+            "level": "low",
+            "basis": "No applicable checks can be evaluated, or essential identity, evidence, or applicability gaps prevent a complete assessment.",
+            "limiting_factors": [
+              "All seven ingredient rows are unmatched identity coverage gaps rather than evaluated rule matches.",
+              "No applicable verified rules were supplied for the selected US / Markers / under_12 branch.",
+              "The composition is partial and does not describe a full recipe.",
+              "No evidence-based pass/fail result exists to support AP or CL leaning."
+            ],
+            "source_ids": [],
+            "assessment_support": "insufficient"
+          },
+          "version_comparison_summary": null,
+          "version_change_summary": null,
+          "limitations": [
+            "State-specific rules were not applied.",
+            "This is a preliminary screening only and not an official certification decision.",
+            "No supplied rule pass/fail results were available for any ingredient.",
+            "Unmatched identities were treated as coverage gaps and not replaced with inferred catalog substances."
+          ],
+          "version_change": null
+        }
+      },
+      "execution": {
+        "assessment_id": "4ad67e1e-5798-418b-82ff-d0e5698006c5",
+        "execution_mode": "live",
+        "llm_provider": "azure_openai",
+        "llm_status": "succeeded",
+        "deployment": "gpt-5.4-mini",
+        "response_id": "chatcmpl-EY4an11yVifjRp7KF7ilah2RbowuV",
+        "request_id": "753e6362-59f1-4bc0-8a06-990b0855f866",
+        "generated_at": "2026-10-12T07:18:18.879413+00:00",
+        "latency_ms": 20784,
+        "usage": {
+          "completion_tokens": 1928,
+          "prompt_tokens": 3782,
+          "total_tokens": 5710,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": 0,
+            "audio_tokens": 0,
+            "reasoning_tokens": 0,
+            "rejected_prediction_tokens": 0,
+            "text_tokens": null
+          },
+          "prompt_tokens_details": {
+            "audio_tokens": 0,
+            "cache_write_tokens": null,
+            "cached_tokens": 3328,
+            "image_tokens": null,
+            "text_tokens": null
+          },
+          "latency_checkpoint": {
+            "engine_tbt_ms": 4,
+            "engine_ttft_ms": 56,
+            "engine_ttlt_ms": 7594,
+            "pre_inference_ms": 221,
+            "service_tbt_ms": 4,
+            "service_ttft_ms": 462,
+            "service_ttlt_ms": 7996,
+            "user_visible_ttft_ms": 241
+          }
+        },
+        "retrieved_source_count": 0,
+        "input_hash": "aa494c6b4b1ab8d43e77bd85c607547614ac4cfea7d0de3eb38757ae20bcb047",
+        "data_hash": "aeb517a4f840eb11675fb5ba32fd0acb68f4c645c3d53f0f2e7a6c0a954b2ca9",
+        "error_code": null,
+        "error_message": null,
+        "prompt_version": "assessment_v1"
+      },
+      "preliminary_assessment": {
+        "assessment_summary": "The supplied evidence is insufficient for a formula-level AP/CL direction. All seven calculated checks are identity coverage gaps with no matched rule, so no evaluated pass/fail result exists. The formulation is partial and the ingredient set is unmatched to the selected catalog branch, which prevents a supported preliminary prediction. This is an additional-information-required screening, not a determination.",
+        "screening_outcome": "additional_information_required",
+        "preliminary_prediction": {
+          "outcome": "indeterminate",
+          "basis": "No applicable verified rules were evaluated, and all supplied ingredient rows were marked no_matching_rule due to unmatched identity. The composition is partial, so the evidence does not support an AP-leaning or CL-leaning prediction.",
+          "analysis_confidence": "low",
+          "confidence_reason": "Required identity matching and applicable rule evidence are missing for every ingredient, and the composition is partial. With zero evaluated applicable checks, directionality is unsupported.",
+          "numeric_estimate": null,
+          "estimate_kind": "not_available",
+          "blocking_uncertainties": [
+            "All seven ingredient rows are unmatched identity coverage gaps rather than evaluated rule matches.",
+            "No applicable verified rules were supplied for the selected US / Markers / under_12 branch.",
+            "The composition is partial and does not describe a full recipe.",
+            "No evidence-based pass/fail result exists to support AP or CL leaning."
+          ],
+          "source_ids": []
+        },
+        "findings": [
+          {
+            "finding_id": "F1",
+            "ingredient_id": "RM-101",
+            "status": "unresolved_identity",
+            "severity": "medium",
+            "title": "Unmatched ingredient identity prevents rule assignment",
+            "observed_value": 68.888,
+            "unit": "%",
+            "rule_id": null,
+            "reason": "Aqua Base Concentrate was not matched to a catalog substance in the selected category, age group, and region branch, so no verified rule could be applied.",
+            "source_ids": [],
+            "required_action": "Provide the catalog-matched identity or supporting identity documentation for review."
+          },
+          {
+            "finding_id": "F2",
+            "ingredient_id": "RM-102",
+            "status": "unresolved_identity",
+            "severity": "medium",
+            "title": "Unmatched ingredient identity prevents rule assignment",
+            "observed_value": 17.0,
+            "unit": "%",
+            "rule_id": null,
+            "reason": "Polyol Humectant HX-2 was not matched to a catalog substance in the selected branch, so applicability cannot be assessed.",
+            "source_ids": [],
+            "required_action": "Provide the catalog-matched identity or supporting identity documentation for review."
+          },
+          {
+            "finding_id": "F3",
+            "ingredient_id": "RM-103",
+            "status": "unresolved_identity",
+            "severity": "medium",
+            "title": "Unmatched ingredient identity prevents rule assignment",
+            "observed_value": 9.4,
+            "unit": "%",
+            "rule_id": null,
+            "reason": "Cyan Dispersion Pigment C-14 was not matched to a catalog substance in the selected branch, so no verified rule could be applied.",
+            "source_ids": [],
+            "required_action": "Provide the catalog-matched identity or supporting identity documentation for review."
+          },
+          {
+            "finding_id": "F4",
+            "ingredient_id": "RM-115",
+            "status": "unresolved_identity",
+            "severity": "medium",
+            "title": "Unmatched ingredient identity prevents rule assignment",
+            "observed_value": 3.6,
+            "unit": "%",
+            "rule_id": null,
+            "reason": "Cellulose Thickener T-12 was not matched to a catalog substance in the selected branch, so applicability cannot be assessed.",
+            "source_ids": [],
+            "required_action": "Provide the catalog-matched identity or supporting identity documentation for review."
+          },
+          {
+            "finding_id": "F5",
+            "ingredient_id": "RM-110",
+            "status": "unresolved_identity",
+            "severity": "medium",
+            "title": "Unmatched ingredient identity prevents rule assignment",
+            "observed_value": 0.75,
+            "unit": "%",
+            "rule_id": null,
+            "reason": "Preservative Blend PB-3 was not matched to a catalog substance in the selected branch, so no verified rule could be applied.",
+            "source_ids": [],
+            "required_action": "Provide the catalog-matched identity or supporting identity documentation for review."
+          },
+          {
+            "finding_id": "F6",
+            "ingredient_id": "RM-120",
+            "status": "unresolved_identity",
+            "severity": "medium",
+            "title": "Unmatched ingredient identity prevents rule assignment",
+            "observed_value": 0.35,
+            "unit": "%",
+            "rule_id": null,
+            "reason": "Citric Acid pH Adjuster PA-8 was not matched to a catalog substance in the selected branch, so applicability cannot be assessed.",
+            "source_ids": [],
+            "required_action": "Provide the catalog-matched identity or supporting identity documentation for review."
+          },
+          {
+            "finding_id": "F7",
+            "ingredient_id": "RM-121",
+            "status": "unresolved_identity",
+            "severity": "medium",
+            "title": "Unmatched ingredient identity prevents rule assignment",
+            "observed_value": 0.012,
+            "unit": "%",
+            "rule_id": null,
+            "reason": "Bittering Agent BA-5 was not matched to a catalog substance in the selected branch, so no verified rule could be applied.",
+            "source_ids": [],
+            "required_action": "Provide the catalog-matched identity or supporting identity documentation for review."
+          }
+        ],
+        "missing_documents": [
+          {
+            "title": "Catalog-matched ingredient identity support",
+            "document_type": "identity documentation",
+            "reason": "Every ingredient is marked unmatched, so the substance identities must be reviewed before rule applicability can be assessed.",
+            "ingredient_id": null,
+            "source_ids": []
+          },
+          {
+            "title": "Complete formula composition",
+            "document_type": "composition disclosure",
+            "reason": "The composition is partial and does not describe a full recipe, which blocks a complete evidence-based screening.",
+            "ingredient_id": null,
+            "source_ids": []
+          }
+        ],
+        "source_conflicts": [],
+        "recommendations": [
+          {
+            "priority": "high",
+            "action": "Submit catalog-matched identity information for each ingredient or a revised ingredient list with recognized substance identities.",
+            "reason": "All ingredient rows are unresolved identity gaps, so no applicable rule assessment can be completed.",
+            "related_finding_id": "F1",
+            "source_ids": []
+          },
+          {
+            "priority": "high",
+            "action": "Provide the complete formulation, including any omitted ingredients and their concentrations, if this is intended to be a full recipe disclosure.",
+            "reason": "The current submission is explicitly partial, which limits assessment scope and prevents a formula-level prediction.",
+            "related_finding_id": null,
+            "source_ids": []
+          },
+          {
+            "priority": "medium",
+            "action": "Request an existing-document review of any available identity, composition, or specification records before uploading additional documents.",
+            "reason": "If supporting documentation already exists, it should be reviewed first so only genuinely missing records are requested.",
+            "related_finding_id": null,
+            "source_ids": []
+          }
+        ],
+        "alerts": [
+          {
+            "severity": "medium",
+            "title": "No evaluated applicable checks",
+            "message": "The dataset reports 0 of 7 identified applicable checks evaluated, with all rows marked no_matching_rule. This is a coverage gap, not a pass or fail result.",
+            "source_ids": []
+          },
+          {
+            "severity": "medium",
+            "title": "Partial composition limits assessment",
+            "message": "The submission is partial and does not establish a complete recipe, so missing information is uncertainty rather than a measured failure.",
+            "source_ids": []
+          }
+        ],
+        "next_actions": [
+          {
+            "priority": "high",
+            "action": "Clarify the exact ingredient identities for RM-101 through RM-121 against the relevant catalog branch.",
+            "reason": "Identity mismatch is the primary blocker for rule applicability."
+          },
+          {
+            "priority": "high",
+            "action": "Provide the full composition if the product is intended to be assessed as a complete formula.",
+            "reason": "The current partial disclosure prevents a full screening."
+          }
+        ],
+        "version_comparison": null,
+        "limitations": [
+          "State-specific rules were not applied.",
+          "This is a preliminary screening only and not an official certification decision.",
+          "No supplied rule pass/fail results were available for any ingredient.",
+          "Unmatched identities were treated as coverage gaps and not replaced with inferred catalog substances."
+        ],
+        "assessment_id": "4ad67e1e-5798-418b-82ff-d0e5698006c5",
+        "formula_id": "FML-1011",
+        "formula_version": "v2.2",
+        "execution": {
+          "llm_status": "succeeded",
+          "deployment": "gpt-5.4-mini",
+          "prompt_version": "assessment_v1"
+        }
+      }
     }
   ],
   "latest": {
@@ -5250,6 +6158,14 @@
       "assessment_mode": "evidence",
       "created_at": "2026-10-11T14:57:40.074518+00:00",
       "version_id": "v1.0"
+    },
+    "FML-1011": {
+      "assessment_id": "4ad67e1e-5798-418b-82ff-d0e5698006c5",
+      "screening_status": "more_information_required",
+      "screening_status_label": "More information required",
+      "assessment_mode": "evidence",
+      "created_at": "2026-10-12T07:18:18.879413+00:00",
+      "version_id": "v2.2"
     }
   }
 }
