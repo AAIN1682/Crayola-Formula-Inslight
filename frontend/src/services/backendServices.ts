@@ -192,22 +192,7 @@ export function createBackendServices(store: DemoStore): FormulaInsightServices 
 
     async getDashboardSummary(): Promise<DashboardSummary> {
       try {
-        const summary = await fetchDashboardSummary();
-        try {
-          const { formulas } = await fetchAllFormulas({});
-          const submittedByFormulaId = new Map(
-            formulas.map((formula) => [formula.id, formula.lastScreenedAt ?? formula.createdAt]),
-          );
-          return {
-            ...summary,
-            priorityQueue: summary.priorityQueue.map((row) => ({
-              ...row,
-              submittedAt: submittedByFormulaId.get(row.formulaId) ?? row.updatedAt,
-            })),
-          };
-        } catch {
-          return summary;
-        }
+        return await fetchDashboardSummary();
       } catch (error) {
         throw asServiceError(error, 'The overview could not be loaded.');
       }

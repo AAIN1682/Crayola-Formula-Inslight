@@ -226,8 +226,6 @@ export interface PriorityQueueRow {
   screeningCurrent: boolean;
   mainConcern: string;
   reviewerName: string;
-  /** When the formula was last screened, or created if not yet screened. */
-  submittedAt?: string;
   updatedAt: string;
   priority: number;
 }

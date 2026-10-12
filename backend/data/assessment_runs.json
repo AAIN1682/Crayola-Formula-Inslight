@@ -5837,12 +5837,12 @@
       }
     },
     {
-      "assessment_id": "4ad67e1e-5798-418b-82ff-d0e5698006c5",
-      "created_at": "2026-10-12T07:18:18.879413+00:00",
-      "data_version": "us-eu-thresholds-2026-10-08-2026-10-08-aeb517a4f840",
+      "assessment_id": "8c4072f4-19b9-416e-9899-0b2c15a4e657",
+      "created_at": "2026-10-12T06:35:18.462483+00:00",
+      "data_version": "us-eu-thresholds-2026-10-08-2026-10-08-5c566df8f4e5",
       "dataset_kind": "threshold_reference",
       "screening_status_label": "More information required",
-      "data_hash": "aeb517a4f840eb11675fb5ba32fd0acb68f4c645c3d53f0f2e7a6c0a954b2ca9",
+      "data_hash": "5c566df8f4e5fc9545b5ecd9efa1e72dc98a4932bf56bfc086accc17727439fa",
       "input_hash": "aa494c6b4b1ab8d43e77bd85c607547614ac4cfea7d0de3eb38757ae20bcb047",
       "input_snapshot": {
         "formula_id": "FML-1011",
@@ -5912,18 +5912,7 @@
       "acceptance_probability": null,
       "ap_acceptance_probability": null,
       "model_confidence": null,
-      "analysis_confidence": {
-        "level": "low",
-        "basis": "No applicable checks can be evaluated, or essential identity, evidence, or applicability gaps prevent a complete assessment.",
-        "limiting_factors": [
-          "All seven ingredient rows are unmatched identity coverage gaps rather than evaluated rule matches.",
-          "No applicable verified rules were supplied for the selected US / Markers / under_12 branch.",
-          "The composition is partial and does not describe a full recipe.",
-          "No evidence-based pass/fail result exists to support AP or CL leaning."
-        ],
-        "source_ids": [],
-        "assessment_support": "insufficient"
-      },
+      "analysis_confidence": null,
       "assessment_support": {
         "level": "insufficient",
         "basis": "No applicable checks can be evaluated, or essential identity, evidence, or applicability gaps prevent a complete assessment.",
@@ -6362,383 +6351,114 @@
         "composition_total_percent": 0,
         "assessment_mode": "evidence",
         "dataset_kind": "threshold_reference",
-        "dataset_version": "us-eu-thresholds-2026-10-08-2026-10-08-aeb517a4f840",
+        "dataset_version": "us-eu-thresholds-2026-10-08-2026-10-08-5c566df8f4e5",
         "scenario_provenance": {
           "dataset_kind": "threshold_reference",
-          "dataset_version": "us-eu-thresholds-2026-10-08-2026-10-08-aeb517a4f840",
+          "dataset_version": "us-eu-thresholds-2026-10-08-2026-10-08-5c566df8f4e5",
           "provenance": "supplied_us_eu_json",
           "is_regulatory_requirement": false,
           "note": "Dummy concentration rules are not used in this workflow."
         }
       },
       "explanation": {
-        "status": "generated",
-        "source": "azure",
+        "status": "failed",
+        "source": "none",
         "content": {
-          "summary": "The supplied evidence is insufficient for a formula-level AP/CL direction. All seven calculated checks are identity coverage gaps with no matched rule, so no evaluated pass/fail result exists. The formulation is partial and the ingredient set is unmatched to the selected catalog branch, which prevents a supported preliminary prediction. This is an additional-information-required screening, not a determination.",
-          "key_reasons": [
-            "No applicable verified rules were evaluated, and all supplied ingredient rows were marked no_matching_rule due to unmatched identity. The composition is partial, so the evidence does not support an AP-leaning or CL-leaning prediction."
-          ],
-          "finding_explanations": [
-            {
-              "check_id": "F1",
-              "explanation": "Aqua Base Concentrate was not matched to a catalog substance in the selected category, age group, and region branch, so no verified rule could be applied.",
-              "source_ids": [],
-              "limitations": []
-            },
-            {
-              "check_id": "F2",
-              "explanation": "Polyol Humectant HX-2 was not matched to a catalog substance in the selected branch, so applicability cannot be assessed.",
-              "source_ids": [],
-              "limitations": []
-            },
-            {
-              "check_id": "F3",
-              "explanation": "Cyan Dispersion Pigment C-14 was not matched to a catalog substance in the selected branch, so no verified rule could be applied.",
-              "source_ids": [],
-              "limitations": []
-            },
-            {
-              "check_id": "F4",
-              "explanation": "Cellulose Thickener T-12 was not matched to a catalog substance in the selected branch, so applicability cannot be assessed.",
-              "source_ids": [],
-              "limitations": []
-            },
-            {
-              "check_id": "F5",
-              "explanation": "Preservative Blend PB-3 was not matched to a catalog substance in the selected branch, so no verified rule could be applied.",
-              "source_ids": [],
-              "limitations": []
-            },
-            {
-              "check_id": "F6",
-              "explanation": "Citric Acid pH Adjuster PA-8 was not matched to a catalog substance in the selected branch, so applicability cannot be assessed.",
-              "source_ids": [],
-              "limitations": []
-            },
-            {
-              "check_id": "F7",
-              "explanation": "Bittering Agent BA-5 was not matched to a catalog substance in the selected branch, so no verified rule could be applied.",
-              "source_ids": [],
-              "limitations": []
-            }
-          ],
+          "summary": "",
+          "key_reasons": [],
+          "finding_explanations": [],
           "evidence_gaps": [],
           "evidence_gap_explanations": [],
-          "recommendations": [
-            {
-              "priority": "high",
-              "action": "Clarify the exact ingredient identities for RM-101 through RM-121 against the relevant catalog branch.",
-              "rationale": "Identity mismatch is the primary blocker for rule applicability.",
-              "related_check_ids": [],
-              "source_ids": [],
-              "requires_testing_or_review": true,
-              "can_create_scenario": false
-            },
-            {
-              "priority": "high",
-              "action": "Provide the full composition if the product is intended to be assessed as a complete formula.",
-              "rationale": "The current partial disclosure prevents a full screening.",
-              "related_check_ids": [],
-              "source_ids": [],
-              "requires_testing_or_review": true,
-              "can_create_scenario": false
-            }
-          ],
-          "prioritized_actions": [
-            {
-              "priority": "high",
-              "action": "Clarify the exact ingredient identities for RM-101 through RM-121 against the relevant catalog branch.",
-              "rationale": "Identity mismatch is the primary blocker for rule applicability.",
-              "related_check_ids": [],
-              "source_ids": [],
-              "requires_testing_or_review": true,
-              "can_create_scenario": false
-            },
-            {
-              "priority": "high",
-              "action": "Provide the full composition if the product is intended to be assessed as a complete formula.",
-              "rationale": "The current partial disclosure prevents a full screening.",
-              "related_check_ids": [],
-              "source_ids": [],
-              "requires_testing_or_review": true,
-              "can_create_scenario": false
-            }
-          ],
-          "alerts": [
-            {
-              "severity": "medium",
-              "title": "No evaluated applicable checks",
-              "message": "The dataset reports 0 of 7 identified applicable checks evaluated, with all rows marked no_matching_rule. This is a coverage gap, not a pass or fail result.",
-              "source_ids": []
-            },
-            {
-              "severity": "medium",
-              "title": "Partial composition limits assessment",
-              "message": "The submission is partial and does not establish a complete recipe, so missing information is uncertainty rather than a measured failure.",
-              "source_ids": []
-            }
-          ],
-          "assessment_support_explanation": "Required identity matching and applicable rule evidence are missing for every ingredient, and the composition is partial. With zero evaluated applicable checks, directionality is unsupported.",
+          "recommendations": [],
+          "prioritized_actions": [],
+          "alerts": [],
+          "assessment_support_explanation": "",
           "source_conflicts": [],
-          "analysis_confidence": {
-            "level": "low",
-            "basis": "No applicable checks can be evaluated, or essential identity, evidence, or applicability gaps prevent a complete assessment.",
-            "limiting_factors": [
-              "All seven ingredient rows are unmatched identity coverage gaps rather than evaluated rule matches.",
-              "No applicable verified rules were supplied for the selected US / Markers / under_12 branch.",
-              "The composition is partial and does not describe a full recipe.",
-              "No evidence-based pass/fail result exists to support AP or CL leaning."
-            ],
-            "source_ids": [],
-            "assessment_support": "insufficient"
-          },
+          "analysis_confidence": null,
           "version_comparison_summary": null,
           "version_change_summary": null,
           "limitations": [
-            "State-specific rules were not applied.",
-            "This is a preliminary screening only and not an official certification decision.",
-            "No supplied rule pass/fail results were available for any ingredient.",
-            "Unmatched identities were treated as coverage gaps and not replaced with inferred catalog substances."
+            "Catalog coverage incomplete. These files list restricted substances, impurities, and test analytes. They do not contain enough ordinary ingredients to describe a full recipe. A submission is a partial substance screening unless the user explicitly declares a complete ingredient list totaling 100%.",
+            "Source verification status is the status stated in the supplied file. This application does not independently verify it.",
+            "State-specific requirements remain in the source dataset and are excluded from this assessment. They are not applied to a generic United States result.",
+            "Partial composition.",
+            "Unmatched ingredient names were kept as coverage gaps and were not replaced with catalog substances.",
+            "AI analysis failed: Azure OpenAI returned output that could not be validated against the assessment schema."
           ],
           "version_change": null
         }
       },
       "execution": {
-        "assessment_id": "4ad67e1e-5798-418b-82ff-d0e5698006c5",
+        "assessment_id": "8c4072f4-19b9-416e-9899-0b2c15a4e657",
         "execution_mode": "live",
         "llm_provider": "azure_openai",
-        "llm_status": "succeeded",
+        "llm_status": "failed",
         "deployment": "gpt-5.4-mini",
-        "response_id": "chatcmpl-EY4an11yVifjRp7KF7ilah2RbowuV",
-        "request_id": "753e6362-59f1-4bc0-8a06-990b0855f866",
-        "generated_at": "2026-10-12T07:18:18.879413+00:00",
-        "latency_ms": 20784,
+        "response_id": "chatcmpl-EY3wfLAEyZpvGkbX8MDkOe5r7P8tk",
+        "request_id": "f9937b34-2437-41d6-b975-6d59b72bc242",
+        "generated_at": "2026-10-12T06:35:18.462483+00:00",
+        "latency_ms": 115245,
         "usage": {
-          "completion_tokens": 1928,
-          "prompt_tokens": 3782,
-          "total_tokens": 5710,
+          "completion_tokens": 2220,
+          "prompt_tokens": 3795,
+          "total_tokens": 6015,
           "completion_tokens_details": {
             "accepted_prediction_tokens": 0,
             "audio_tokens": 0,
             "reasoning_tokens": 0,
-            "rejected_prediction_tokens": 0,
-            "text_tokens": null
+            "rejected_prediction_tokens": 0
           },
           "prompt_tokens_details": {
             "audio_tokens": 0,
-            "cache_write_tokens": null,
-            "cached_tokens": 3328,
-            "image_tokens": null,
-            "text_tokens": null
+            "cached_tokens": 3328
           },
           "latency_checkpoint": {
-            "engine_tbt_ms": 4,
-            "engine_ttft_ms": 56,
-            "engine_ttlt_ms": 7594,
-            "pre_inference_ms": 221,
-            "service_tbt_ms": 4,
-            "service_ttft_ms": 462,
-            "service_ttlt_ms": 7996,
-            "user_visible_ttft_ms": 241
+            "engine_tbt_ms": 3,
+            "engine_ttft_ms": 44,
+            "engine_ttlt_ms": 7311,
+            "pre_inference_ms": 99,
+            "service_tbt_ms": 3,
+            "service_ttft_ms": 331,
+            "service_ttlt_ms": 7593,
+            "user_visible_ttft_ms": 232
           }
         },
         "retrieved_source_count": 0,
         "input_hash": "aa494c6b4b1ab8d43e77bd85c607547614ac4cfea7d0de3eb38757ae20bcb047",
-        "data_hash": "aeb517a4f840eb11675fb5ba32fd0acb68f4c645c3d53f0f2e7a6c0a954b2ca9",
-        "error_code": null,
-        "error_message": null,
-        "prompt_version": "assessment_v1"
+        "data_hash": "5c566df8f4e5fc9545b5ecd9efa1e72dc98a4932bf56bfc086accc17727439fa",
+        "error_code": "invalid_output",
+        "error_message": "Azure OpenAI returned output that could not be validated against the assessment schema."
       },
       "preliminary_assessment": {
-        "assessment_summary": "The supplied evidence is insufficient for a formula-level AP/CL direction. All seven calculated checks are identity coverage gaps with no matched rule, so no evaluated pass/fail result exists. The formulation is partial and the ingredient set is unmatched to the selected catalog branch, which prevents a supported preliminary prediction. This is an additional-information-required screening, not a determination.",
-        "screening_outcome": "additional_information_required",
+        "assessment_id": "8c4072f4-19b9-416e-9899-0b2c15a4e657",
+        "formula_id": "FML-1011",
+        "formula_version": "v2.2",
+        "assessment_summary": "",
+        "screening_outcome": "not_assessed",
         "preliminary_prediction": {
           "outcome": "indeterminate",
-          "basis": "No applicable verified rules were evaluated, and all supplied ingredient rows were marked no_matching_rule due to unmatched identity. The composition is partial, so the evidence does not support an AP-leaning or CL-leaning prediction.",
+          "basis": "The AI assessment did not complete. Calculated checks remain available and were not replaced with a success result.",
           "analysis_confidence": "low",
-          "confidence_reason": "Required identity matching and applicable rule evidence are missing for every ingredient, and the composition is partial. With zero evaluated applicable checks, directionality is unsupported.",
+          "confidence_reason": "Azure OpenAI returned output that could not be validated against the assessment schema.",
           "numeric_estimate": null,
           "estimate_kind": "not_available",
           "blocking_uncertainties": [
-            "All seven ingredient rows are unmatched identity coverage gaps rather than evaluated rule matches.",
-            "No applicable verified rules were supplied for the selected US / Markers / under_12 branch.",
-            "The composition is partial and does not describe a full recipe.",
-            "No evidence-based pass/fail result exists to support AP or CL leaning."
+            "AI assessment failed"
           ],
           "source_ids": []
         },
-        "findings": [
-          {
-            "finding_id": "F1",
-            "ingredient_id": "RM-101",
-            "status": "unresolved_identity",
-            "severity": "medium",
-            "title": "Unmatched ingredient identity prevents rule assignment",
-            "observed_value": 68.888,
-            "unit": "%",
-            "rule_id": null,
-            "reason": "Aqua Base Concentrate was not matched to a catalog substance in the selected category, age group, and region branch, so no verified rule could be applied.",
-            "source_ids": [],
-            "required_action": "Provide the catalog-matched identity or supporting identity documentation for review."
-          },
-          {
-            "finding_id": "F2",
-            "ingredient_id": "RM-102",
-            "status": "unresolved_identity",
-            "severity": "medium",
-            "title": "Unmatched ingredient identity prevents rule assignment",
-            "observed_value": 17.0,
-            "unit": "%",
-            "rule_id": null,
-            "reason": "Polyol Humectant HX-2 was not matched to a catalog substance in the selected branch, so applicability cannot be assessed.",
-            "source_ids": [],
-            "required_action": "Provide the catalog-matched identity or supporting identity documentation for review."
-          },
-          {
-            "finding_id": "F3",
-            "ingredient_id": "RM-103",
-            "status": "unresolved_identity",
-            "severity": "medium",
-            "title": "Unmatched ingredient identity prevents rule assignment",
-            "observed_value": 9.4,
-            "unit": "%",
-            "rule_id": null,
-            "reason": "Cyan Dispersion Pigment C-14 was not matched to a catalog substance in the selected branch, so no verified rule could be applied.",
-            "source_ids": [],
-            "required_action": "Provide the catalog-matched identity or supporting identity documentation for review."
-          },
-          {
-            "finding_id": "F4",
-            "ingredient_id": "RM-115",
-            "status": "unresolved_identity",
-            "severity": "medium",
-            "title": "Unmatched ingredient identity prevents rule assignment",
-            "observed_value": 3.6,
-            "unit": "%",
-            "rule_id": null,
-            "reason": "Cellulose Thickener T-12 was not matched to a catalog substance in the selected branch, so applicability cannot be assessed.",
-            "source_ids": [],
-            "required_action": "Provide the catalog-matched identity or supporting identity documentation for review."
-          },
-          {
-            "finding_id": "F5",
-            "ingredient_id": "RM-110",
-            "status": "unresolved_identity",
-            "severity": "medium",
-            "title": "Unmatched ingredient identity prevents rule assignment",
-            "observed_value": 0.75,
-            "unit": "%",
-            "rule_id": null,
-            "reason": "Preservative Blend PB-3 was not matched to a catalog substance in the selected branch, so no verified rule could be applied.",
-            "source_ids": [],
-            "required_action": "Provide the catalog-matched identity or supporting identity documentation for review."
-          },
-          {
-            "finding_id": "F6",
-            "ingredient_id": "RM-120",
-            "status": "unresolved_identity",
-            "severity": "medium",
-            "title": "Unmatched ingredient identity prevents rule assignment",
-            "observed_value": 0.35,
-            "unit": "%",
-            "rule_id": null,
-            "reason": "Citric Acid pH Adjuster PA-8 was not matched to a catalog substance in the selected branch, so applicability cannot be assessed.",
-            "source_ids": [],
-            "required_action": "Provide the catalog-matched identity or supporting identity documentation for review."
-          },
-          {
-            "finding_id": "F7",
-            "ingredient_id": "RM-121",
-            "status": "unresolved_identity",
-            "severity": "medium",
-            "title": "Unmatched ingredient identity prevents rule assignment",
-            "observed_value": 0.012,
-            "unit": "%",
-            "rule_id": null,
-            "reason": "Bittering Agent BA-5 was not matched to a catalog substance in the selected branch, so no verified rule could be applied.",
-            "source_ids": [],
-            "required_action": "Provide the catalog-matched identity or supporting identity documentation for review."
-          }
-        ],
-        "missing_documents": [
-          {
-            "title": "Catalog-matched ingredient identity support",
-            "document_type": "identity documentation",
-            "reason": "Every ingredient is marked unmatched, so the substance identities must be reviewed before rule applicability can be assessed.",
-            "ingredient_id": null,
-            "source_ids": []
-          },
-          {
-            "title": "Complete formula composition",
-            "document_type": "composition disclosure",
-            "reason": "The composition is partial and does not describe a full recipe, which blocks a complete evidence-based screening.",
-            "ingredient_id": null,
-            "source_ids": []
-          }
-        ],
+        "findings": [],
+        "missing_documents": [],
         "source_conflicts": [],
-        "recommendations": [
-          {
-            "priority": "high",
-            "action": "Submit catalog-matched identity information for each ingredient or a revised ingredient list with recognized substance identities.",
-            "reason": "All ingredient rows are unresolved identity gaps, so no applicable rule assessment can be completed.",
-            "related_finding_id": "F1",
-            "source_ids": []
-          },
-          {
-            "priority": "high",
-            "action": "Provide the complete formulation, including any omitted ingredients and their concentrations, if this is intended to be a full recipe disclosure.",
-            "reason": "The current submission is explicitly partial, which limits assessment scope and prevents a formula-level prediction.",
-            "related_finding_id": null,
-            "source_ids": []
-          },
-          {
-            "priority": "medium",
-            "action": "Request an existing-document review of any available identity, composition, or specification records before uploading additional documents.",
-            "reason": "If supporting documentation already exists, it should be reviewed first so only genuinely missing records are requested.",
-            "related_finding_id": null,
-            "source_ids": []
-          }
-        ],
-        "alerts": [
-          {
-            "severity": "medium",
-            "title": "No evaluated applicable checks",
-            "message": "The dataset reports 0 of 7 identified applicable checks evaluated, with all rows marked no_matching_rule. This is a coverage gap, not a pass or fail result.",
-            "source_ids": []
-          },
-          {
-            "severity": "medium",
-            "title": "Partial composition limits assessment",
-            "message": "The submission is partial and does not establish a complete recipe, so missing information is uncertainty rather than a measured failure.",
-            "source_ids": []
-          }
-        ],
-        "next_actions": [
-          {
-            "priority": "high",
-            "action": "Clarify the exact ingredient identities for RM-101 through RM-121 against the relevant catalog branch.",
-            "reason": "Identity mismatch is the primary blocker for rule applicability."
-          },
-          {
-            "priority": "high",
-            "action": "Provide the full composition if the product is intended to be assessed as a complete formula.",
-            "reason": "The current partial disclosure prevents a full screening."
-          }
-        ],
+        "recommendations": [],
+        "alerts": [],
+        "next_actions": [],
         "version_comparison": null,
         "limitations": [
-          "State-specific rules were not applied.",
-          "This is a preliminary screening only and not an official certification decision.",
-          "No supplied rule pass/fail results were available for any ingredient.",
-          "Unmatched identities were treated as coverage gaps and not replaced with inferred catalog substances."
+          "AI assessment failed: Azure OpenAI returned output that could not be validated against the assessment schema."
         ],
-        "assessment_id": "4ad67e1e-5798-418b-82ff-d0e5698006c5",
-        "formula_id": "FML-1011",
-        "formula_version": "v2.2",
         "execution": {
-          "llm_status": "succeeded",
+          "llm_status": "failed",
           "deployment": "gpt-5.4-mini",
           "prompt_version": "assessment_v1"
         }
@@ -8654,11 +8374,11 @@
       "version_id": "v1.0"
     },
     "FML-1011": {
-      "assessment_id": "4ad67e1e-5798-418b-82ff-d0e5698006c5",
+      "assessment_id": "8c4072f4-19b9-416e-9899-0b2c15a4e657",
       "screening_status": "more_information_required",
       "screening_status_label": "More information required",
       "assessment_mode": "evidence",
-      "created_at": "2026-10-12T07:18:18.879413+00:00",
+      "created_at": "2026-10-12T06:35:18.462483+00:00",
       "version_id": "v2.2"
     }
   }

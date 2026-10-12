@@ -3,8 +3,6 @@ import { cn } from '../../utils/cn';
 export interface Segment {
   key: string;
   label: string;
-  /** Optional secondary line (e.g. outcome shorthand shown under the status label). */
-  detailLabel?: string;
   value: number;
   color: string;
   textClass: string;
@@ -60,9 +58,6 @@ export function SegmentedBar({
               />
               <span className="min-w-0">
                 <span className="block text-[11px] font-medium text-muted">{segment.label}</span>
-                {segment.detailLabel ? (
-                  <span className="block text-[11px] leading-4 text-subtle">{segment.detailLabel}</span>
-                ) : null}
                 <span className={cn('block text-base leading-6 font-semibold tabular', segment.textClass)}>
                   {segment.value}
                 </span>

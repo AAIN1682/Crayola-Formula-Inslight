@@ -75,13 +75,10 @@ const SCREENING_TONE: Record<ScreeningStatus, BadgeTone> = {
 export function ScreeningBadge({
   status,
   current = true,
-  showReassessmentBadge = true,
   className,
 }: {
   status: ScreeningStatus;
   current?: boolean;
-  /** When false, hides the reassessment tag while keeping currency logic elsewhere unchanged. */
-  showReassessmentBadge?: boolean;
   className?: string;
 }) {
   const icon =
@@ -104,7 +101,7 @@ export function ScreeningBadge({
       >
         {SCREENING_STATUS_LABEL[status]}
       </Badge>
-      {showReassessmentBadge && !current && status !== 'not-screened' ? (
+      {!current && status !== 'not-screened' ? (
         <Badge
           tone="neutral"
           icon={<RotateCcw aria-hidden className="size-3.5" />}

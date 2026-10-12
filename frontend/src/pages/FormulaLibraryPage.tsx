@@ -334,7 +334,6 @@ export function FormulaLibraryPage() {
                         <ScreeningBadge
                           status={row.formula.screeningStatus}
                           current={row.formula.screeningCurrent}
-                          showReassessmentBadge={false}
                         />
                       </Td>
                       <Td>
