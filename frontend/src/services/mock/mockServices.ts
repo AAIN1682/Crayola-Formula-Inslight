@@ -1028,6 +1028,7 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
             screeningCurrent: formula.screeningCurrent,
             mainConcern: row.mainConcern,
             reviewerName: row.reviewerName,
+            submittedAt: formula.lastScreenedAt ?? formula.createdAt,
             updatedAt: formula.updatedAt,
             priority,
           } satisfies PriorityQueueRow;
