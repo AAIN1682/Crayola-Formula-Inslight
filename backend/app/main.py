@@ -215,13 +215,15 @@ def _assessment(formula: Formula, version_changes: list | None = None) -> dict:
                 clamped = content.get("analysis_confidence") or {}
                 if clamped.get("level"):
                     prediction["analysis_confidence"] = clamped["level"]
+                    if isinstance(preliminary.get("risk_score"), dict):
+                        preliminary["risk_score"]["confidence"] = clamped["level"]
                 preliminary["assessment_id"] = assessment_id
                 preliminary["formula_id"] = payload.get("formula_id")
                 preliminary["formula_version"] = payload.get("version_id")
                 preliminary["execution"] = {
                     "llm_status": "succeeded",
                     "deployment": execution.get("deployment"),
-                    "prompt_version": generated["execution"].get("prompt_version") or "assessment_v1",
+                    "prompt_version": generated["execution"].get("prompt_version") or "assessment_v2",
                 }
                 context["preliminary_assessment"] = preliminary
             execution["generated_at"] = generated_at
@@ -287,7 +289,7 @@ def _assessment(formula: Formula, version_changes: list | None = None) -> dict:
             "execution": {
                 "llm_status": "failed",
                 "deployment": execution.get("deployment"),
-                "prompt_version": "assessment_v1",
+                "prompt_version": "assessment_v2",
             },
         }
     logger.info(
@@ -500,6 +502,26 @@ def saved_assessments():
 
     try:
         return load_runs()
+    except ScreeningServiceError as error:
+        raise HTTPException(status_code=error.status_code, detail=error.detail) from error
+
+
+@app.get("/api/assessments/recent")
+def recent_saved_assessments(formula_id: str | None = None, limit: int = 20):
+    from app.screening_service import ScreeningServiceError, recent_analyses
+
+    try:
+        return {"analyses": recent_analyses(formula_id, limit)}
+    except ScreeningServiceError as error:
+        raise HTTPException(status_code=error.status_code, detail=error.detail) from error
+
+
+@app.get("/api/assessments/{assessment_id}")
+def saved_assessment(assessment_id: str):
+    from app.screening_service import ScreeningServiceError, get_saved_run
+
+    try:
+        return get_saved_run(assessment_id)
     except ScreeningServiceError as error:
         raise HTTPException(status_code=error.status_code, detail=error.detail) from error
 

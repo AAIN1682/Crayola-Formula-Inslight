@@ -31,7 +31,7 @@ const STATIC_LABELS: Record<string, string> = {
   evidence: 'Evidence',
   screening: 'Screening',
   activity: 'Activity',
-  results: 'Screening result',
+  results: 'Results',
 };
 
 function useBreadcrumbs(): Crumb[] {

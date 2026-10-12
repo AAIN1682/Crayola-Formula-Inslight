@@ -70,6 +70,44 @@ def test_saved_example_is_assessed_and_persisted(isolated_history):
     assert latest_screening_status("F-PURPLE-PAINT-GAP")["assessment_id"] == body["assessment_id"]
 
 
+def test_saved_result_can_be_listed_and_opened(isolated_history):
+    isolated_history.write_text(
+        json.dumps(
+            {
+                "runs": [
+                    {
+                        "assessment_id": "A-9",
+                        "created_at": "2026-10-12T00:00:00+00:00",
+                        "screening_status": "changes_required",
+                        "screening_status_label": "Changes required",
+                        "execution": {"llm_status": "succeeded"},
+                        "input_snapshot": {"formula_id": "FML-1", "version_id": "v1", "name": "Marker"},
+                        "preliminary_assessment": {
+                            "score_headline": "One issue drives the score.",
+                            "preliminary_prediction": {"analysis_confidence": "low"},
+                            "risk_score": {"score": 74, "band": "at_risk", "band_label": "At risk"},
+                        },
+                    }
+                ],
+                "latest": {},
+            }
+        ),
+        encoding="utf-8",
+    )
+    recent = client.get("/api/assessments/recent")
+    assert recent.status_code == 200
+    row = recent.json()["analyses"][0]
+    assert row["assessmentId"] == "A-9"
+    assert row["score"] == 74
+    assert row["confidence"] == "low"
+    assert row["bandLabel"] == "At risk"
+    opened = client.get("/api/assessments/A-9")
+    assert opened.status_code == 200
+    assert opened.json()["preliminary_assessment"]["risk_score"]["score"] == 74
+    missing = client.get("/api/assessments/missing")
+    assert missing.status_code == 404
+
+
 def test_missing_formula_is_not_found(isolated_history):
     response = client.post("/api/formulas/FML-DOES-NOT-EXIST/assessments")
     assert response.status_code == 404

@@ -8,6 +8,7 @@ import { FormulaDetailsPage } from '../pages/FormulaDetailsPage';
 import { IngredientsTab } from '../pages/formula-tabs/IngredientsTab';
 import { EvidenceTab } from '../pages/formula-tabs/EvidenceTab';
 import { ScreeningTab } from '../pages/formula-tabs/ScreeningTab';
+import { ResultsTab } from '../pages/formula-tabs/ResultsTab';
 import { ActivityTab } from '../pages/formula-tabs/ActivityTab';
 import { ScreeningResultsPage } from '../pages/ScreeningResultsPage';
 import { SubmissionHistoryPage } from '../pages/SubmissionHistoryPage';
@@ -48,6 +49,7 @@ export const routes: RouteObject[] = [
           { path: 'ingredients', element: <IngredientsTab /> },
           { path: 'evidence', element: <EvidenceTab /> },
           { path: 'screening', element: <ScreeningTab /> },
+          { path: 'results', element: <ResultsTab /> },
           { path: 'activity', element: <ActivityTab /> },
         ],
       },

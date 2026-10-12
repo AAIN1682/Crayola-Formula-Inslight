@@ -239,12 +239,29 @@ export interface OutcomeTrendPoint {
   total: number;
 }
 
+export interface RecentAnalysis {
+  assessmentId: string;
+  formulaId: string;
+  formulaName: string;
+  version: string;
+  createdAt?: string;
+  screeningStatus?: string;
+  screeningStatusLabel?: string;
+  confidence?: string | null;
+  score?: number | null;
+  band?: string | null;
+  bandLabel?: string | null;
+  headline?: string;
+  llmStatus?: string | null;
+}
+
 export interface DashboardSummary {
   metrics: DashboardMetric[];
   statusDistribution: { status: ScreeningStatus; count: number; share: number }[];
   outcomeTrend: OutcomeTrendPoint[];
   priorityQueue: PriorityQueueRow[];
   recentActivity: ActivityEvent[];
+  recentAnalyses?: RecentAnalysis[];
   outdatedCount: number;
   dueForReviewCount: number;
 }

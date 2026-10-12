@@ -504,6 +504,20 @@ def _total_trend(formulas: list[dict[str, Any]], months: list[datetime]) -> list
     return trend
 
 
+def _recent_analyses(runs: list[dict[str, Any]], limit: int = 8) -> list[dict[str, Any]]:
+    from app.screening_service import assessment_summary_row
+
+    rows = []
+    for run in reversed(runs):
+        row = assessment_summary_row(run)
+        if not row:
+            continue
+        rows.append(row)
+        if len(rows) >= limit:
+            break
+    return rows
+
+
 def build_dashboard_summary() -> dict[str, Any]:
     all_formulas = load_formulas()
     runs, latest_by_formula = load_assessment_store()
@@ -623,6 +637,7 @@ def build_dashboard_summary() -> dict[str, Any]:
         "outcomeTrend": [],
         "priorityQueue": priority_queue,
         "recentActivity": [],
+        "recentAnalyses": _recent_analyses(runs),
         "outdatedCount": len(outdated),
         "dueForReviewCount": 0,
     }

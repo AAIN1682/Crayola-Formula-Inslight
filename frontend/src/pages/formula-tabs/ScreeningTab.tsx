@@ -90,10 +90,10 @@ export function ScreeningTab() {
             description={`Run on ${formatDateTime(latestRun.runAt)} against ${latestRun.formulaVersion}`}
             actions={
               <Link
-                to={`/formulas/${formula.id}/results/${latestRun.id}`}
+                to={`/formulas/${formula.id}/results`}
                 className="fi-link inline-flex items-center gap-1 text-[13px] font-medium"
               >
-                Open full result
+                Saved results
                 <ArrowRight aria-hidden className="size-3.5" />
               </Link>
             }
