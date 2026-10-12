@@ -7,10 +7,11 @@ import type {
   NextActionRecord,
   PhysicalForm,
   ProductCategory,
+  ScreeningRun,
   ScreeningStatus,
   TargetMarket,
 } from '../types/domain';
-import type { DashboardSummary, FormulaInput, Paginated } from '../types/services';
+import type { DashboardSummary, FormulaInput, Paginated, RecentAnalysis } from '../types/services';
 
 export const UI_CATEGORY_TO_API: Record<ProductCategory, string> = {
   Markers: 'Markers',
@@ -148,6 +149,8 @@ export interface PreliminaryFinding {
   ingredient_id?: string | null;
   status: string;
   severity?: string;
+  risk_level?: 'critical' | 'high' | 'low' | string | null;
+  score_points?: number;
   title: string;
   observed_value?: number | null;
   unit?: string | null;
@@ -155,6 +158,18 @@ export interface PreliminaryFinding {
   reason?: string;
   source_ids?: string[];
   required_action?: string;
+}
+
+export interface RiskScore {
+  score: number;
+  band: 'likely_cl' | 'at_risk' | 'ap' | string;
+  band_label: string;
+  open_issues: number;
+  data_gaps: number;
+  similar_cases: number;
+  confidence: string;
+  driver: string;
+  disclaimer: string;
 }
 
 export interface PreliminaryAssessment {
@@ -176,11 +191,13 @@ export interface PreliminaryAssessment {
   findings?: PreliminaryFinding[];
   missing_documents?: { title?: string; document_type?: string; reason?: string; ingredient_id?: string | null }[];
   source_conflicts?: { explanation?: string; source_ids?: string[] }[];
-  recommendations?: { priority?: string; action?: string; reason?: string; related_finding_id?: string | null }[];
+  recommendations?: { priority?: string; action?: string; reason?: string; related_finding_id?: string | null; fix_kind?: string; score_points?: number }[];
   alerts?: { severity?: string; title?: string; message?: string }[];
-  next_actions?: { priority?: string; action?: string; reason?: string; related_finding_id?: string | null }[];
+  next_actions?: { priority?: string; action?: string; reason?: string; related_finding_id?: string | null; fix_kind?: string; score_points?: number }[];
   version_comparison?: string | null;
   limitations?: string[];
+  score_headline?: string | null;
+  risk_score?: RiskScore;
   execution?: { llm_status?: string; deployment?: string | null; prompt_version?: string };
 }
 
@@ -312,6 +329,8 @@ export interface PackageAssessment {
     missing_evidence?: PackageCheck[];
     assessment_limitations?: string[];
     composition_total_percent?: number;
+    documented_history?: Record<string, unknown>[];
+    historical_cases?: Record<string, unknown>[];
   };
 }
 
@@ -453,6 +472,87 @@ export interface PersistedScreeningStatus {
   assessment_mode?: string;
   created_at?: string;
   version_id?: string;
+}
+
+export async function fetchRecentAnalyses(formulaId?: string, limit = 20): Promise<RecentAnalysis[]> {
+  const params = new URLSearchParams();
+  if (formulaId) params.set('formula_id', formulaId);
+  params.set('limit', String(limit));
+  const response = await fetch(`/api/assessments/recent?${params}`);
+  const payload = (await readBody(response, 'Saved assessment history could not be read.')) as { analyses?: RecentAnalysis[] };
+  return payload.analyses ?? [];
+}
+
+export async function fetchStoredAssessment(assessmentId: string): Promise<PackageAssessment> {
+  const response = await fetch(`/api/assessments/${encodeURIComponent(assessmentId)}`);
+  return readBody(response, 'That assessment result was not found.') as Promise<PackageAssessment>;
+}
+
+export function screeningRunFromStored(result: PackageAssessment, formula: Formula): ScreeningRun {
+  const context = result.llm_context ?? {
+    checks: [],
+    calculated_checks: [],
+    evidence_checks: [],
+    documents: [],
+    materials: [],
+    source_issues: [],
+  };
+  const normalized: PackageAssessment = {
+    ...result,
+    regions: result.regions ?? {},
+    metrics: result.metrics ?? {
+      passed_checks: 0,
+      failed_checks: 0,
+      not_assessed_checks: 0,
+      check_pass_rate_percent: null,
+      evidence_coverage_percent: null,
+      metrics_note: '',
+    },
+    explanation: result.explanation ?? { status: 'generated', source: 'azure', content: {} },
+    llm_context: context,
+  };
+  const mapped = mapPackageAssessment(normalized);
+  const live = isLiveAzureAssessment(normalized);
+  return {
+    id: result.assessment_id,
+    formulaId: formula.id,
+    formulaName: formula.name,
+    formulaVersion: result.input_snapshot?.version_id || formula.version,
+    ageGroup: formula.ageGroup,
+    targetMarkets: [...(formula.targetMarkets ?? [])],
+    marketResults: mapped.marketResults,
+    assessmentRequest: {
+      target_markets: [...(formula.targetMarkets ?? [])],
+      age_group: formula.ageGroup,
+    },
+    status: mapped.status,
+    evidenceCompleteness: mapped.evidenceCompleteness,
+    requiredEvidenceCount: mapped.requiredEvidenceCount,
+    presentEvidenceCount: mapped.presentEvidenceCount,
+    runAt: result.created_at,
+    runBy: '',
+    summary: mapped.summary,
+    findings: mapped.findings,
+    exposureInputs: [],
+    comparisons: [],
+    nextActions: mapped.nextActions,
+    outdated: Boolean(result.input_snapshot?.version_id && result.input_snapshot.version_id !== formula.version),
+    ingredientSnapshot: formula.ingredients.map((ingredient) => ({
+      name: ingredient.name,
+      rawMaterialId: ingredient.rawMaterialId,
+      concentration: ingredient.concentration,
+      batchId: ingredient.batchId,
+    })),
+    formulaAssessment: normalized,
+    legacySample: false,
+    physicalForm: formula.physicalForm,
+    intendedUse: formula.intendedUse,
+    category: formula.category,
+    inputHash: result.input_hash,
+    dataHash: result.data_hash,
+    aiStatus: live ? 'succeeded' : result.execution?.llm_status === 'failed' ? 'failed' : 'not_requested',
+    assessmentMode: result.assessment_mode ?? 'evidence',
+  };
 }
 
 export async function fetchPersistedScreeningStatuses(): Promise<Record<string, PersistedScreeningStatus>> {

@@ -9,6 +9,7 @@ import { Notice } from '../ui/DemoNotice';
 import { useToast } from '../ui/Toast';
 import { isLiveAzureAssessment } from '../../api/formulaBackend';
 import { isUnresolvedIdentityError } from '../../utils/catalog';
+import { PrecheckResult } from './PrecheckResult';
 
 function predictionLabel(outcome?: string) {
   if (outcome === 'ap_leaning') return 'AP-leaning';
@@ -91,18 +92,12 @@ export function RunScreeningDialog({
   const live = isLiveAzureAssessment(run?.formulaAssessment);
   const aiFailed = Boolean(run && !live);
   const identityError = isUnresolvedIdentityError(error);
-  const preliminary = run?.formulaAssessment?.preliminary_assessment;
-  const prediction = preliminary?.preliminary_prediction;
-  const aiFindings = (preliminary?.findings ?? []).slice(0, 3);
-  const fallbackFindings = aiFindings.length > 0 ? [] : (run?.findings ?? []).slice(0, 3);
-  const missing = preliminary?.missing_documents ?? [];
-  const actions = preliminary?.next_actions ?? [];
 
   return (
     <Modal
       open={open}
       onClose={onClose}
-      size="xl"
+      size={finished && live ? 'wide' : 'xl'}
       dismissible={!started || finished || Boolean(error)}
       title={
         error
@@ -110,14 +105,21 @@ export function RunScreeningDialog({
           : aiFailed
             ? 'AI assessment failed'
             : live
-              ? 'Preliminary assessment'
+              ? 'Pre-check result'
               : started
                 ? 'Running assessment'
                 : 'Run assessment'
       }
       description={`${formula.name} ${formula.version} · ${(formula.targetMarkets ?? []).join(', ') || 'No region selected'}`}
       footer={
-        finished && run ? (
+        finished && run && live ? (
+          <>
+            <Button onClick={onClose}>Close</Button>
+            <Button variant="primary" onClick={() => onComplete?.(run)}>
+              View full result
+            </Button>
+          </>
+        ) : finished && run ? (
           <>
             <Button onClick={onClose}>Close</Button>
             <Button onClick={() => navigate(`/formulas/${formula.id}/evidence`)}>Upload documents</Button>
@@ -192,62 +194,28 @@ export function RunScreeningDialog({
           </Notice>
         ) : null}
 
-        {finished && run ? (
+        {finished && run && live ? (
+          <PrecheckResult
+            formula={formula}
+            run={run}
+            onEditFormula={() => {
+              onClose();
+              onEditFormula?.();
+            }}
+          />
+        ) : null}
+
+        {finished && run && !live ? (
           <div className="space-y-4">
-            <div>
-              <p className="text-xs font-semibold tracking-wide text-subtle uppercase">Preliminary AP/CL assessment</p>
-              <p className="mt-1 text-lg font-semibold text-navy-800">{predictionLabel(prediction?.outcome)}</p>
-              <p className="text-muted">{prediction?.basis || run.summary}</p>
-            </div>
-            <div>
-              <p className="text-xs font-semibold tracking-wide text-subtle uppercase">AI assessment confidence</p>
-              <p className="mt-1 capitalize">{prediction?.analysis_confidence || 'low'}</p>
-              <p className="text-muted">{prediction?.confidence_reason || 'Confidence describes support for this assessment, not a measured chance of certification.'}</p>
-            </div>
-            <p>{preliminary?.assessment_summary || run.summary}</p>
-            {aiFindings.length > 0 || fallbackFindings.length > 0 ? (
-              <ul className="space-y-2">
-                {aiFindings.map((item) => (
-                  <li key={item.finding_id} className="rounded-lg border border-line px-3 py-2">
-                    <p className="font-medium">{item.title}</p>
-                    <p className="text-sm text-muted">{item.reason}</p>
-                  </li>
-                ))}
-                {fallbackFindings.map((item) => (
-                  <li key={item.id} className="rounded-lg border border-line px-3 py-2">
-                    <p className="font-medium">{item.concern}</p>
-                    <p className="text-sm text-muted">{item.explanation}</p>
-                  </li>
-                ))}
-              </ul>
-            ) : null}
-            {missing.length > 0 ? (
-              <div>
-                <p className="font-medium">Missing documents or information</p>
-                <ul className="mt-1 list-disc pl-5 text-muted">
-                  {missing.slice(0, 3).map((item) => (
-                    <li key={`${item.title}-${item.document_type}`}>{item.title || item.document_type}: {item.reason}</li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
-            {actions[0] ? (
-              <p>
-                <span className="font-medium">Next: </span>
-                {actions[0].action}. {actions[0].reason}
-              </p>
-            ) : null}
-            {prediction?.numeric_estimate != null ? (
-              <p className="text-sm text-muted">
-                Uncalibrated AI estimate {prediction.numeric_estimate}. This is not a measured acceptance probability.
-              </p>
-            ) : null}
+            <p>{run.summary}</p>
           </div>
         ) : null}
 
-        <Notice tone="neutral" icon={<ShieldCheck aria-hidden className="size-4" />}>
-          Preliminary internal assessment; not certification.
-        </Notice>
+        {!(finished && live) ? (
+          <Notice tone="neutral" icon={<ShieldCheck aria-hidden className="size-4" />}>
+            Preliminary internal assessment; not certification.
+          </Notice>
+        ) : null}
       </div>
     </Modal>
   );

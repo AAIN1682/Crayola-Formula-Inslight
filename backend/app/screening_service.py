@@ -122,6 +122,60 @@ def _latest_index(runs: list[dict]) -> dict:
     return latest
 
 
+def assessment_summary_row(run: dict) -> dict | None:
+    """Compact row for recent analyses. The full result stays in the history file."""
+    if not isinstance(run, dict) or not run.get("assessment_id"):
+        return None
+    snapshot = run.get("input_snapshot") if isinstance(run.get("input_snapshot"), dict) else {}
+    preliminary = run.get("preliminary_assessment") if isinstance(run.get("preliminary_assessment"), dict) else {}
+    prediction = preliminary.get("preliminary_prediction") if isinstance(preliminary.get("preliminary_prediction"), dict) else {}
+    score = preliminary.get("risk_score") if isinstance(preliminary.get("risk_score"), dict) else {}
+    execution = run.get("execution") if isinstance(run.get("execution"), dict) else {}
+    headline = preliminary.get("score_headline") or preliminary.get("assessment_summary") or ""
+    return {
+        "assessmentId": run.get("assessment_id"),
+        "formulaId": snapshot.get("formula_id") or "",
+        "formulaName": snapshot.get("name") or snapshot.get("formula_id") or "Formula",
+        "version": snapshot.get("version_id") or "",
+        "createdAt": run.get("created_at"),
+        "screeningStatus": run.get("screening_status"),
+        "screeningStatusLabel": run.get("screening_status_label"),
+        "confidence": prediction.get("analysis_confidence"),
+        "score": score.get("score"),
+        "band": score.get("band"),
+        "bandLabel": score.get("band_label"),
+        "headline": headline if isinstance(headline, str) else "",
+        "llmStatus": execution.get("llm_status"),
+    }
+
+
+def recent_analyses(formula_id: str | None = None, limit: int = 20) -> list[dict]:
+    wanted = str(formula_id or "").strip()
+    size = max(1, min(int(limit or 20), 50))
+    rows = []
+    for run in reversed(load_runs()["runs"]):
+        snapshot = run.get("input_snapshot") if isinstance(run, dict) else None
+        if wanted and (not isinstance(snapshot, dict) or snapshot.get("formula_id") != wanted):
+            continue
+        row = assessment_summary_row(run)
+        if not row:
+            continue
+        rows.append(row)
+        if len(rows) >= size:
+            break
+    return rows
+
+
+def get_saved_run(assessment_id: str) -> dict:
+    wanted = str(assessment_id or "").strip()
+    if not wanted:
+        raise ScreeningServiceError(404, "That assessment result was not found.")
+    for run in reversed(load_runs()["runs"]):
+        if isinstance(run, dict) and run.get("assessment_id") == wanted:
+            return run
+    raise ScreeningServiceError(404, "That assessment result was not found.")
+
+
 def latest_screening_status(formula_id: str) -> dict | None:
     """Latest saved status for one formula, using the assessment's own fields."""
     wanted = str(formula_id or "").strip()

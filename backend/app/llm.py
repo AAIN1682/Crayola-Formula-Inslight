@@ -12,7 +12,7 @@ from app.config import ROOT, azure_settings
 logger = logging.getLogger("affine.llm")
 PROMPT = (ROOT / "prompts" / "explanation.txt").read_text(encoding="utf-8")
 ASSESSMENT_PROMPT = (ROOT / "prompts" / "assessment.txt").read_text(encoding="utf-8")
-PROMPT_VERSION = "assessment_v1"
+PROMPT_VERSION = "assessment_v2"
 FINDING_STATUSES = {
     "meets_rule",
     "does_not_meet_rule",
@@ -458,6 +458,82 @@ def _ids_ok(values, known: set[str]) -> bool:
     return all(item in known for item in parsed)
 
 
+RISK_POINTS = {"critical": 26, "high": 12, "low": 5}
+GAP_FINDING_STATUSES = {
+    "needs_information",
+    "testing_required",
+    "unresolved_identity",
+    "uncertain_applicability",
+    "source_review_required",
+}
+FIX_KINDS = {"reformulate", "lab_test", "supplier_request", "review"}
+
+
+def _risk_bucket(raw: str) -> str:
+    value = str(raw or "").strip().lower()
+    if value in {"informational", "low"}:
+        return "low"
+    if value in {"medium", "high"}:
+        return "high"
+    if value == "critical":
+        return "critical"
+    return "low"
+
+
+def _scoreboard(findings: list[dict], context: dict, confidence: str) -> dict:
+    open_items = [item for item in findings if item.get("score_points")]
+    deduction = sum(int(item["score_points"]) for item in open_items)
+    score = max(0, min(100, 100 - deduction))
+    if score >= 80:
+        band, label = "ap", "AP"
+    elif score >= 50:
+        band, label = "at_risk", "At risk"
+    else:
+        band, label = "likely_cl", "Likely CL"
+    history = context.get("documented_history") or context.get("historical_cases") or []
+    similar = len(history) if isinstance(history, list) else 0
+    gaps = sum(1 for item in findings if item.get("status") in GAP_FINDING_STATUSES)
+    if not open_items:
+        driver = "No open issue was rated, so this preliminary score stays at 100."
+    elif len(open_items) == 1:
+        driver = "The top issue drives the score."
+    else:
+        driver = f"The top {min(2, len(open_items))} issues drive most of the risk."
+    return {
+        "score": score,
+        "band": band,
+        "band_label": label,
+        "open_issues": len(open_items),
+        "data_gaps": gaps,
+        "similar_cases": similar,
+        "confidence": confidence if confidence in CONFIDENCE_LEVELS else "low",
+        "driver": driver,
+        "disclaimer": "Preliminary score from issue risk ratings. Not a measured chance of certification.",
+    }
+
+
+def _clean_plan(items: list, points_by_id: dict[str, int]) -> list[dict]:
+    cleaned = []
+    for item in items:
+        if not isinstance(item, dict) or not str(item.get("action") or "").strip():
+            continue
+        kind = str(item.get("fix_kind") or "review").strip().lower()
+        if kind not in FIX_KINDS:
+            kind = "review"
+        related = item.get("related_finding_id")
+        related_id = str(related).strip() if related not in (None, "") else None
+        cleaned.append({
+            "priority": str(item.get("priority") or "medium"),
+            "action": str(item.get("action") or "").strip(),
+            "reason": str(item.get("reason") or item.get("rationale") or "").strip(),
+            "related_finding_id": related_id,
+            "source_ids": _string_list(item.get("source_ids")) or [],
+            "fix_kind": kind,
+            "score_points": int(points_by_id.get(related_id or "") or 0),
+        })
+    return cleaned
+
+
 def validate_assessment(payload: dict, context: dict) -> tuple[dict | None, list[str]]:
     errors: list[str] = []
     if not isinstance(payload, dict):
@@ -467,6 +543,16 @@ def validate_assessment(payload: dict, context: dict) -> tuple[dict | None, list
         errors.append("assessment_summary must describe this formula.")
     if CERTIFICATION_CLAIM.search(summary):
         errors.append("Do not claim certification or guaranteed safety.")
+    headline = payload.get("score_headline")
+    if headline in (None, ""):
+        headline = None
+    elif not isinstance(headline, str):
+        errors.append("score_headline must be a string or null.")
+        headline = None
+    else:
+        if CERTIFICATION_CLAIM.search(headline):
+            errors.append("score_headline claims certification.")
+        headline = _trim_words(headline, 60)
     screening = str(payload.get("screening_outcome") or "").strip()
     if screening not in SCREENING_OUTCOMES:
         errors.append("screening_outcome is not an allowed value.")
@@ -549,17 +635,19 @@ def validate_assessment(payload: dict, context: dict) -> tuple[dict | None, list
             errors.append("meets_rule is not backed by a passing calculation.")
         if item.get("observed_value") is not None and check and check.get("actual") is not None and not _close(item.get("observed_value"), check.get("actual")):
             errors.append("A finding's observed value does not match the backend calculation.")
-        severity = str(item.get("severity") or "medium").lower()
-        if severity == "low":
-            severity = "informational"
+        severity = str(item.get("severity") or item.get("risk_level") or "medium").lower()
         if severity not in SEVERITIES:
             errors.append("Finding severity is not allowed.")
             continue
+        scored = status not in {"meets_rule", "not_applicable"}
+        risk = _risk_bucket(str(item.get("risk_level") or severity)) if scored else None
         findings.append({
             "finding_id": str(item.get("finding_id") or f"F-{len(findings) + 1}"),
             "ingredient_id": ingredient_id or None,
             "status": status,
-            "severity": severity,
+            "severity": risk or severity,
+            "risk_level": risk,
+            "score_points": RISK_POINTS[risk] if risk else 0,
             "title": str(item.get("title") or "Finding").strip(),
             "observed_value": item.get("observed_value"),
             "unit": item.get("unit"),
@@ -572,9 +660,11 @@ def validate_assessment(payload: dict, context: dict) -> tuple[dict | None, list
         errors.append("screening_outcome conflicts with a finding that does not meet a rule.")
     if screening == "changes_indicated" and not saw_failure:
         errors.append("changes_indicated requires a finding backed by a failed calculation.")
+    findings.sort(key=lambda item: -int(item.get("score_points") or 0))
+    points_by_id = {item["finding_id"]: int(item.get("score_points") or 0) for item in findings}
     missing_documents = payload.get("missing_documents") if isinstance(payload.get("missing_documents"), list) else []
-    recommendations = payload.get("recommendations") if isinstance(payload.get("recommendations"), list) else []
-    next_actions = payload.get("next_actions") if isinstance(payload.get("next_actions"), list) else []
+    recommendations = _clean_plan(payload.get("recommendations") if isinstance(payload.get("recommendations"), list) else [], points_by_id)
+    next_actions = _clean_plan(payload.get("next_actions") if isinstance(payload.get("next_actions"), list) else [], points_by_id)
     alerts = payload.get("alerts") if isinstance(payload.get("alerts"), list) else []
     conflicts = payload.get("source_conflicts") if isinstance(payload.get("source_conflicts"), list) else []
     limitations = _string_list(payload.get("limitations"))
@@ -603,11 +693,13 @@ def validate_assessment(payload: dict, context: dict) -> tuple[dict | None, list
         "findings": findings,
         "missing_documents": [item for item in missing_documents if isinstance(item, dict)],
         "source_conflicts": [item for item in conflicts if isinstance(item, dict)],
-        "recommendations": [item for item in recommendations if isinstance(item, dict) and str(item.get("action") or "").strip()],
+        "recommendations": recommendations,
         "alerts": [item for item in alerts if isinstance(item, dict)],
-        "next_actions": [item for item in next_actions if isinstance(item, dict) and str(item.get("action") or "").strip()],
+        "next_actions": next_actions,
         "version_comparison": None if not version else str(version).strip(),
         "limitations": limitations,
+        "score_headline": headline,
+        "risk_score": _scoreboard(findings, context, level if level in CONFIDENCE_LEVELS else "low"),
     }, []
 
 

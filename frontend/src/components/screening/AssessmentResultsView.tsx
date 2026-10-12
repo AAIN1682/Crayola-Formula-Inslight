@@ -17,6 +17,7 @@ import { formatDateTime } from '../../utils/formatting';
 import { ReviewDecisionPanel } from './ReviewDecisionPanel';
 import { ExposureReadiness } from './ExposureReadiness';
 import { HistoricalComparisons } from './HistoricalComparisons';
+import { PrecheckResult } from './PrecheckResult';
 
 function supportLabel(level?: string) {
   if (level === 'substantial') return 'Substantial';
@@ -67,7 +68,10 @@ export function AssessmentResultsView({
   const [sourceId, setSourceId] = useState<string | null>(null);
 
   const live = isLiveAzureAssessment(assessment);
-  const preliminary = live ? assessment?.preliminary_assessment : undefined;
+  const storedPreliminary = assessment?.preliminary_assessment;
+  const preliminary = live || storedPreliminary?.risk_score || storedPreliminary?.findings?.length
+    ? storedPreliminary
+    : undefined;
   const prediction = preliminary?.preliminary_prediction;
   const metrics = assessment?.metrics;
   const support = assessment?.assessment_support ?? metrics?.assessment_support;
@@ -125,6 +129,9 @@ export function AssessmentResultsView({
         </div>
       </div>
 
+      {preliminary ? (
+        <PrecheckResult formula={formula} run={run} onEditFormula={() => navigate(`/formulas/${formula.id}`)} />
+      ) : (
       <Card>
         <CardBody className="space-y-3">
           <div className="flex flex-wrap items-center gap-2">
@@ -137,7 +144,7 @@ export function AssessmentResultsView({
           <p className="text-sm text-muted">
             AI assessment confidence: {prediction?.analysis_confidence || content?.analysis_confidence?.level || 'low'}. {prediction?.confidence_reason || content?.analysis_confidence?.basis}
           </p>
-          <p className="max-w-4xl text-[15px] leading-7 text-ink">{preliminary?.assessment_summary || summary}</p>
+          <p className="max-w-4xl text-[15px] leading-7 text-ink">{summary}</p>
           {priorities[0] ? (
             <p className="text-[13px] leading-6 text-muted">
               Next: {priorities[0].action}. {priorities[0].rationale}
@@ -146,7 +153,9 @@ export function AssessmentResultsView({
           <p className="text-sm text-muted">Preliminary internal assessment; not certification.</p>
         </CardBody>
       </Card>
+      )}
 
+      {!preliminary ? (
       <div className="grid gap-3 lg:grid-cols-3">
         {priorities.map((item, index) => (
           <Card key={`${item.action}-${index}`}>
@@ -171,6 +180,7 @@ export function AssessmentResultsView({
           </Card>
         ))}
       </div>
+      ) : null}
 
       <div className="flex gap-1 border-b border-line">
         {(['findings', 'recommendations', 'sources'] as const).map((item) => (

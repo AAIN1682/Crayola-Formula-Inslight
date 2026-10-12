@@ -20,6 +20,8 @@ import {
   fetchDashboardSummary,
   fetchFormula,
   fetchPersistedScreeningStatuses,
+  fetchStoredAssessment,
+  screeningRunFromStored,
   updateStoredFormula,
 } from '../api/formulaBackend';
 import { includesAny } from '../utils/filtering';
@@ -200,7 +202,22 @@ export function createBackendServices(store: DemoStore): FormulaInsightServices 
 
     async getDashboardSummary(): Promise<DashboardSummary> {
       try {
-        return await fetchDashboardSummary();
+        const summary = await fetchDashboardSummary();
+        try {
+          const { formulas } = await fetchAllFormulas({});
+          const submittedByFormulaId = new Map(
+            formulas.map((formula) => [formula.id, formula.lastScreenedAt ?? formula.createdAt]),
+          );
+          return {
+            ...summary,
+            priorityQueue: summary.priorityQueue.map((row) => ({
+              ...row,
+              submittedAt: submittedByFormulaId.get(row.formulaId) ?? row.updatedAt,
+            })),
+          };
+        } catch {
+          return summary;
+        }
       } catch (error) {
         throw asServiceError(error, 'The overview could not be loaded.');
       }
@@ -223,15 +240,32 @@ export function createBackendServices(store: DemoStore): FormulaInsightServices 
       try {
         view = await local.getScreeningResult(stored?.id ?? runId);
       } catch (error) {
-        if (!stored) throw error;
-        const formula = await fetchFormula(stored.formulaId);
-        view = {
-          run: stored,
-          formula,
-          isCurrent: !stored.outdated,
-          decisions: store.getState().decisions.filter((decision) => decision.runId === stored.id),
-          ownerName: personName(formula.ownerId),
-        };
+        if (stored) {
+          const formula = await fetchFormula(stored.formulaId);
+          view = {
+            run: stored,
+            formula,
+            isCurrent: !stored.outdated,
+            decisions: store.getState().decisions.filter((decision) => decision.runId === stored.id),
+            ownerName: personName(formula.ownerId),
+          };
+        } else {
+          try {
+            const assessment = await fetchStoredAssessment(runId);
+            const formulaId = assessment.input_snapshot?.formula_id;
+            if (!formulaId) throw error;
+            const formula = await fetchFormula(formulaId);
+            view = {
+              run: screeningRunFromStored(assessment, formula),
+              formula,
+              isCurrent: !assessment.input_snapshot?.version_id || assessment.input_snapshot.version_id === formula.version,
+              decisions: [],
+              ownerName: personName(formula.ownerId),
+            };
+          } catch {
+            throw error;
+          }
+        }
       }
       try {
         const formula = await withStatus(await fetchFormula(view.run.formulaId));

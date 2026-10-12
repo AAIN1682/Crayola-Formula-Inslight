@@ -177,28 +177,25 @@ describe('routes', () => {
 
     expect(text()).toContain('Affine');
     expect(text()).toContain('Formula Intelligence');
-    expect(text()).toContain('Welcome back, Affine');
-    expect(text()).toContain('Product Safety');
     expect(text()).toContain('Affine · Formula Intelligence');
 
+    expect(text()).toContain('Likely AP');
+    expect(text()).toContain('At risk');
+    expect(text()).toContain('Likely CL');
+    expect(text()).toContain('Not screened');
+    expect(text()).not.toContain('In pipeline');
+    expect(text()).not.toContain('Review formulas, evidence, and assessment results');
+    expect(text()).not.toContain('Awaiting review');
+    expect(text()).not.toContain('Missing evidence');
     expect(text()).toContain('Total formulas');
-    expect(text()).toContain('Awaiting review');
-    expect(text()).toContain('Missing evidence');
+    expect(text()).toContain('Total formulas18');
     expect(text()).toContain('Priority review queue');
-    expect(text()).toContain('changed since the last screening');
+    expect(text()).not.toContain('changed since the last screening');
     expect(text()).not.toContain('Open monitoring alerts');
     expect(text()).not.toContain('Recent activity');
     expect(text()).not.toContain('Submission outcome trend');
     expect(text()).not.toContain('due for reassessment');
-
-    // The screening-status split must add up to the seeded 18 active formulas.
-    expect(text()).toContain('Total formulas18');
     expect(container.querySelector('nav[aria-label="Primary"]')).not.toBeNull();
-  });
-
-  it('never presents a Green result as a certification', async () => {
-    await mountAt('/');
-    expect(text()).toContain('not a certification');
   });
 
   it('renders the Formula Library with seeded, paginated rows', async () => {

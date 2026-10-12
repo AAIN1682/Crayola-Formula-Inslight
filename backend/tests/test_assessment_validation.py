@@ -76,6 +76,12 @@ def test_indeterminate_assessment_is_accepted_when_evidence_is_missing():
     assert errors == []
     assert validated["preliminary_prediction"]["outcome"] == "indeterminate"
     assert validated["preliminary_prediction"]["numeric_estimate"] is None
+    assert validated["findings"][0]["risk_level"] == "high"
+    assert validated["findings"][0]["score_points"] == 12
+    assert validated["risk_score"]["score"] == 88
+    assert validated["risk_score"]["band"] == "ap"
+    assert validated["recommendations"][0]["score_points"] == 12
+    assert validated["recommendations"][0]["fix_kind"] == "review"
 
 
 def test_missing_evidence_cannot_be_described_as_a_failure():
@@ -94,6 +100,52 @@ def test_unknown_citation_is_rejected():
     validated, errors = validate_assessment(payload, _context())
     assert validated is None
     assert any("unknown source" in item for item in errors)
+
+
+def test_overall_score_is_the_sum_of_critical_high_and_low_ratings():
+    context = _context()
+    context["calculated_checks"].append({
+        "check_id": "US:s_toluene_108883:R2",
+        "material_id": "s_toluene_108883",
+        "rule_id": "R2",
+        "status": "fail",
+        "actual": 8,
+        "message": "Above the supplied limit.",
+    })
+    payload = _payload()
+    payload["findings"][0]["risk_level"] = "low"
+    payload["findings"].append({
+        "finding_id": "F-2",
+        "ingredient_id": "s_toluene_108883",
+        "status": "does_not_meet_rule",
+        "severity": "critical",
+        "risk_level": "critical",
+        "title": "Toluene above the supplied limit",
+        "observed_value": 8,
+        "unit": "%",
+        "rule_id": "R2",
+        "reason": "The supplied calculation failed.",
+        "source_ids": ["R2"],
+        "required_action": "Review the concentration against the supplied limit.",
+    })
+    payload["screening_outcome"] = "changes_indicated"
+    payload["preliminary_prediction"]["outcome"] = "cl_leaning"
+    payload["recommendations"].append({
+        "priority": "high",
+        "action": "Review the concentration",
+        "reason": "The calculation failed.",
+        "related_finding_id": "F-2",
+        "fix_kind": "review",
+    })
+    validated, errors = validate_assessment(payload, context)
+    assert errors == []
+    assert validated["findings"][0]["risk_level"] == "critical"
+    assert validated["findings"][0]["score_points"] == 26
+    assert validated["risk_score"]["score"] == 69
+    assert validated["risk_score"]["band"] == "at_risk"
+    assert validated["risk_score"]["open_issues"] == 2
+    matched = next(item for item in validated["recommendations"] if item["related_finding_id"] == "F-2")
+    assert matched["score_points"] == 26
 
 
 def test_default_half_estimate_is_rejected_when_evidence_is_missing():
