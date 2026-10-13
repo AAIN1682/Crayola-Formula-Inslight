@@ -503,12 +503,7 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
       const live = isLiveAzureAssessment(payload);
 
       const runAt = new Date().toISOString();
-      const assessmentId =
-        payload.assessment_id ??
-        (typeof payload.formulaAssessment?.assessment_id === 'string'
-          ? payload.formulaAssessment.assessment_id
-          : undefined) ??
-        uid('RUN');
+      const assessmentId = payload.assessment_id ?? uid('RUN');
       const run: ScreeningRun = {
         id: assessmentId,
         formulaId: formula.id,

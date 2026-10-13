@@ -1,0 +1,68 @@
+{
+  "runEnabledBeforeRun": true,
+  "redBannerBeforeRun": null,
+  "redBannerOnResultPage": 0,
+  "assessmentRequestBody": {
+    "formula_id": "FML-1037",
+    "version_id": "v1.0",
+    "name": "Crayola Washable Liquid Watercolor (Sunburst Yellow Base)",
+    "product_category": "Paints",
+    "age_group": "under_12",
+    "regions": [
+      "US"
+    ],
+    "physical_form": "liquid",
+    "intended_use": "Washable liquid watercolor for creative play; applied to paper with brush.",
+    "composition_completeness": "complete",
+    "us_states": [],
+    "document_ids": [],
+    "intended_age_detail": "Ages 3+",
+    "toy_childcare_scope": null,
+    "component_type": null,
+    "test_material_category": null,
+    "ingredients": [
+      {
+        "material_id": "s_sodium_benzoate_532321",
+        "concentration_percent": 0.5,
+        "batch_id": null,
+        "supplier": null,
+        "grade": null,
+        "measured_value": null,
+        "measured_unit": null,
+        "measured_bound": null,
+        "measurement_kind": null,
+        "test_method": null
+      }
+    ],
+    "legacy_materials": [
+      {
+        "name": "Water",
+        "legacy_id": null,
+        "concentration_percent": 78.5,
+        "cas_number": "7732-18-5",
+        "in_rule_catalog": false,
+        "screening_role": "formulation_ingredient"
+      },
+      {
+        "name": "Glycerin",
+        "legacy_id": null,
+        "concentration_percent": 12.5,
+        "cas_number": "56-81-5",
+        "in_rule_catalog": false,
+        "screening_role": "formulation_ingredient"
+      },
+      {
+        "name": "Acid Yellow 23 / Tartrazine",
+        "legacy_id": null,
+        "concentration_percent": 8.5,
+        "cas_number": "1934-21-0",
+        "in_rule_catalog": false,
+        "screening_role": "formulation_ingredient"
+      }
+    ],
+    "generate_explanation": true,
+    "assessment_mode": "evidence"
+  },
+  "resultPageExcerpt": "Assessment Results\n\nAssessment results for Crayola Washable Liquid Watercolor (Sunburst Yellow Base) v1.0.\n\nFindings CSV\nResult JSON\nPrint summary\nBack to the formula’s screening history\n\nAI analysis unavailable\n\nAzure OpenAI returned output that could not be validated against the assessment schema.\nCrayola Washable Liquid Watercolor (Sunburst Yellow Base) v1.0\nPreliminary assessment\n12 Oct 2026, 19:16\nUS\nRe-run Assessment\nCompare Versions\nAmber\n\nPreliminary AP/CL assessment: Indeterminate\n\nThe AI assessment did not complete. Calculated checks remain available and were not replaced with a success result.\n\nCalculated checks: 0 passed, 0 failed, 0 need test data, 1 need applicability or source review. Verified evidence coverage 0%. AP/CL are not issued from this assessment.\n\nPreliminary internal assessment; not certification.\n\nFindings\nRecommendations And Actions\nDocuments And Sources\nFindings\n\nNot-applicable checks are hidden until you show them.\n\nShow not applicable\nINGREDIENT / CHECK\tENTERED\tLIMIT OR GAP\tSTATUS\tPRIORITY\t\n\nSodium Benzoate\nCAS 532-32-1\nUS\n\t0.5%\t0.5 %\tSource review required\tmedium\tView details\n\nWater\nCAS 7732-18-5\nUS\n\t78.5%\tNo rule in catalog for this ingredient: Water. The declared row was kept for coverage review.\tNo matching rule\tmedium\tView details\n\nGlycerin\nCAS 56-81-5\nUS\n\t12.5%\tNo rule in catalog for this ingredient: Glycerin. The declared row was kept for coverage review.\tNo matching rule\tmedium\tView details\n\nAcid Yellow 23 / Tartrazine\nCAS 1934-21-0\nUS\n\t8.5%\tNo rule in catalog for this ingredient: Acid Yellow 23 / Tartrazine. The declared row was kept for coverage review.\tNo matching rule\tmedium\tView details\n\nSodium Benzoate\nCAS 532-32-1\nUS\n\t0.5%\tNo matching document is on file for this material and batch.\tMissing evidence\tmedium\tView details\n\nSodium Benzoate\nCAS 532-32-1\nUS\n\t0.5%\tNo matching SDS is on file for this material. Batch is not required for an SDS.\tMissing evidence\tmedium\tView details\nTechnical details, calculations, and scope\nReviewer actions, exposure readiness, and historical comparisons\n\nWhat this result is\n\nThis is an internal assessment against the configured checks for the selected markets. Illustrative evidence is not validated. It is not a certification and does not guarantee acceptance.",
+  "screenshotPath": "D:\\Crayola\\Crayola-Formula-Inslight\\docs\\screenshots\\example1-result-page.png"
+}

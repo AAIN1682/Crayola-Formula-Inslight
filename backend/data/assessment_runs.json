@@ -8642,6 +8642,2697 @@
           "prompt_version": "assessment_v2"
         }
       }
+    },
+    {
+      "assessment_id": "b31a163f-369a-4dfb-8094-93824891a4e7",
+      "created_at": "2026-10-12T13:32:07.956924+00:00",
+      "data_version": "us-eu-thresholds-2026-10-08-2026-10-08-aeb517a4f840",
+      "dataset_kind": "threshold_reference",
+      "screening_status_label": "More information required",
+      "data_hash": "aeb517a4f840eb11675fb5ba32fd0acb68f4c645c3d53f0f2e7a6c0a954b2ca9",
+      "input_hash": "a43b2ebd6557b968b462af6e3cb2f3a0ac6934f3304a36b56923b5c5d3155536",
+      "input_snapshot": {
+        "formula_id": "FML-1035",
+        "version_id": "v1.0",
+        "name": "Washable Neon Marker – Electric Pink",
+        "product_category": "Paints",
+        "age_group": "under_12",
+        "regions": [
+          "US",
+          "EU"
+        ],
+        "physical_form": "liquid",
+        "intended_use": "Drawing and coloring on paper. Washes off skin and most fabrics.",
+        "ingredients": [
+          {
+            "material_id": "s_sodium_benzoate_532321",
+            "concentration_percent": 0.5,
+            "batch_id": null,
+            "supplier": "LANXESS",
+            "grade": null,
+            "notes": null,
+            "measured_value": null,
+            "measured_unit": null,
+            "measured_bound": null,
+            "measurement_kind": null,
+            "test_method": null,
+            "analyte": null,
+            "below_detection": false,
+            "role": "formulation_ingredient"
+          }
+        ],
+        "legacy_materials": [
+          {
+            "name": "Water",
+            "legacy_id": null,
+            "concentration_percent": 78.5,
+            "cas_number": "7732-18-5",
+            "in_rule_catalog": false,
+            "screening_role": "formulation_ingredient"
+          },
+          {
+            "name": "Glycerin",
+            "legacy_id": null,
+            "concentration_percent": 12.5,
+            "cas_number": "56-81-5",
+            "in_rule_catalog": false,
+            "screening_role": "formulation_ingredient"
+          },
+          {
+            "name": "Acid Yellow 23 / Tartrazine",
+            "legacy_id": null,
+            "concentration_percent": 8.5,
+            "cas_number": "1934-21-0",
+            "in_rule_catalog": false,
+            "screening_role": "formulation_ingredient"
+          }
+        ],
+        "generate_explanation": true,
+        "assessment_mode": "evidence",
+        "composition_completeness": "complete",
+        "us_states": [],
+        "intended_age_detail": "Ages 3+",
+        "toy_childcare_scope": null,
+        "component_type": null,
+        "test_material_category": null,
+        "document_ids": [],
+        "category_supported": true
+      },
+      "screening_status": "more_information_required",
+      "regulatory_status": "not_assessed",
+      "ap_cl_decision": null,
+      "acceptance_probability": null,
+      "ap_acceptance_probability": null,
+      "model_confidence": null,
+      "analysis_confidence": null,
+      "assessment_support": {
+        "level": "insufficient",
+        "basis": "No applicable checks can be evaluated, or essential identity, evidence, or applicability gaps prevent a complete assessment.",
+        "limiting_factors": [
+          "No matching document is on file for this material and batch.",
+          "No matching SDS is on file for this material. Batch is not required for an SDS.",
+          "No matching document is on file for this material and batch.",
+          "No matching SDS is on file for this material. Batch is not required for an SDS."
+        ]
+      },
+      "assessment_mode": "evidence",
+      "metrics": {
+        "assessment_mode": "evidence",
+        "passed_checks": 0,
+        "failed_checks": 0,
+        "concentration_passed_checks": 0,
+        "concentration_failed_checks": 0,
+        "not_assessed_checks": 0,
+        "needs_test_data_checks": 0,
+        "applicability_unknown_checks": 0,
+        "source_review_required_checks": 1,
+        "no_matching_rule_checks": 7,
+        "not_applicable_checks": 0,
+        "evaluated_checks": 0,
+        "identified_applicable_checks": 8,
+        "check_pass_rate_percent": null,
+        "check_pass_rate_label": "Check pass rate",
+        "evidence_coverage_label": "Verified evidence coverage",
+        "check_pass_rate_copy": null,
+        "rule_evaluation_coverage_percent": 0.0,
+        "rule_evaluation_coverage_copy": "0 of 8 identified applicable checks were evaluated. This is coverage of the configured rule set, not every possible regulation.",
+        "evidence_coverage_percent": 0.0,
+        "evidence_coverage_partial": false,
+        "evidence_satisfied": 0,
+        "evidence_missing": 4,
+        "evidence_needs_review": 0,
+        "evidence_mismatched": 0,
+        "evidence_applicability_unknown": 0,
+        "evidence_not_applicable": 0,
+        "evidence_applicable_count": 4,
+        "metrics_note": "Check pass rate uses evaluated applicable checks only. Rule evaluation coverage uses the configured rule set. Verified evidence coverage uses satisfied applicable requirements. Neither value is an acceptance probability.",
+        "ap_acceptance_note": "AP acceptance estimate unavailable: validated outcome data/model required.",
+        "assessment_support": {
+          "level": "insufficient",
+          "basis": "No applicable checks can be evaluated, or essential identity, evidence, or applicability gaps prevent a complete assessment.",
+          "limiting_factors": [
+            "No matching document is on file for this material and batch.",
+            "No matching SDS is on file for this material. Batch is not required for an SDS.",
+            "No matching document is on file for this material and batch.",
+            "No matching SDS is on file for this material. Batch is not required for an SDS."
+          ]
+        }
+      },
+      "regions": {
+        "US": {
+          "screening_status": "more_information_required",
+          "regulatory_status": "not_assessed",
+          "ap_cl_decision": null
+        },
+        "EU": {
+          "screening_status": "more_information_required",
+          "regulatory_status": "not_assessed",
+          "ap_cl_decision": null
+        }
+      },
+      "llm_context": {
+        "formula": {
+          "formula_id": "FML-1035",
+          "version_id": "v1.0",
+          "name": "Washable Neon Marker – Electric Pink",
+          "product_category": "Paints",
+          "age_group": "under_12",
+          "regions": [
+            "US",
+            "EU"
+          ],
+          "physical_form": "liquid",
+          "intended_use": "Drawing and coloring on paper. Washes off skin and most fabrics.",
+          "assessment_mode": "evidence",
+          "composition_completeness": "complete",
+          "partial_composition": false,
+          "catalog_coverage_incomplete": true,
+          "composition_total_percent": 100.0,
+          "us_states": [],
+          "intended_age_detail": "Ages 3+",
+          "toy_childcare_scope": null,
+          "component_type": null,
+          "test_material_category": null,
+          "ingredients": [
+            {
+              "material_id": "s_sodium_benzoate_532321",
+              "name": "Sodium Benzoate",
+              "concentration_percent": 0.5,
+              "batch_id": null,
+              "supplier": "LANXESS",
+              "grade": null,
+              "role": "formulation_ingredient",
+              "role_label": "Formulation ingredient",
+              "cas": "532-32-1",
+              "counts_toward_ingredient_total": true
+            },
+            {
+              "material_id": "Water",
+              "name": "Water",
+              "concentration_percent": 78.5,
+              "cas": "7732-18-5",
+              "role": "unmatched",
+              "role_label": "Not in the selected catalog branch",
+              "in_rule_catalog": false,
+              "counts_toward_ingredient_total": true
+            },
+            {
+              "material_id": "Glycerin",
+              "name": "Glycerin",
+              "concentration_percent": 12.5,
+              "cas": "56-81-5",
+              "role": "unmatched",
+              "role_label": "Not in the selected catalog branch",
+              "in_rule_catalog": false,
+              "counts_toward_ingredient_total": true
+            },
+            {
+              "material_id": "Acid Yellow 23 / Tartrazine",
+              "name": "Acid Yellow 23 / Tartrazine",
+              "concentration_percent": 8.5,
+              "cas": "1934-21-0",
+              "role": "unmatched",
+              "role_label": "Not in the selected catalog branch",
+              "in_rule_catalog": false,
+              "counts_toward_ingredient_total": true
+            }
+          ]
+        },
+        "materials": [
+          {
+            "material_id": "s_sodium_benzoate_532321",
+            "name": "Sodium Benzoate",
+            "kind": "formulation_ingredient",
+            "cas": "532-32-1"
+          },
+          {
+            "material_id": "Water",
+            "name": "Water",
+            "kind": "unmatched"
+          },
+          {
+            "material_id": "Glycerin",
+            "name": "Glycerin",
+            "kind": "unmatched"
+          },
+          {
+            "material_id": "Acid Yellow 23 / Tartrazine",
+            "name": "Acid Yellow 23 / Tartrazine",
+            "kind": "unmatched"
+          }
+        ],
+        "calculated_checks": [
+          {
+            "check_id": "US:s_sodium_benzoate_532321:us:1:0:35:0",
+            "material_id": "s_sodium_benzoate_532321",
+            "region": "US",
+            "rule_id": "us:1:0:35:0",
+            "status": "source_review_required",
+            "actual": null,
+            "threshold": 0.5,
+            "unit": "%",
+            "basis": "stated_weight",
+            "operator": null,
+            "route": "concentration",
+            "verification_status": "Pending Verification",
+            "verified_limit_available": false,
+            "json_pointer": "/productCategories/1/ageGroups/0/composition/35/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "priority": "medium",
+            "reason_code": "source_review_required",
+            "message": "Source verification status is Pending Verification. This is the file's stated status, not an independent verification, and it is not used as a verdict.",
+            "action": "Use the record as reference context until the source status is Verified and unambiguous.",
+            "check_kind": "concentration"
+          },
+          {
+            "check_id": "EU:s_sodium_benzoate_532321:NO-RULE",
+            "material_id": "s_sodium_benzoate_532321",
+            "region": "EU",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 0.5,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "no_matching_rule",
+            "message": "No EU entry in this category and age band. That is a coverage gap, not a prohibition or an approval.",
+            "action": "Do not infer a regulatory outcome from a missing catalog row.",
+            "check_kind": "coverage"
+          },
+          {
+            "check_id": "US:legacy:row-1:0",
+            "material_id": "row-1",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 78.5,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "No rule in catalog for this ingredient: Water. The declared row was kept for coverage review.",
+            "action": "Map the ingredient to a catalog substance in this branch or keep it as a documented gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "EU:legacy:row-1:0",
+            "material_id": "row-1",
+            "region": "EU",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 78.5,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "No rule in catalog for this ingredient: Water. The declared row was kept for coverage review.",
+            "action": "Map the ingredient to a catalog substance in this branch or keep it as a documented gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "US:legacy:row-2:1",
+            "material_id": "row-2",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 12.5,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "No rule in catalog for this ingredient: Glycerin. The declared row was kept for coverage review.",
+            "action": "Map the ingredient to a catalog substance in this branch or keep it as a documented gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "EU:legacy:row-2:1",
+            "material_id": "row-2",
+            "region": "EU",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 12.5,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "No rule in catalog for this ingredient: Glycerin. The declared row was kept for coverage review.",
+            "action": "Map the ingredient to a catalog substance in this branch or keep it as a documented gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "US:legacy:row-3:2",
+            "material_id": "row-3",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 8.5,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "No rule in catalog for this ingredient: Acid Yellow 23 / Tartrazine. The declared row was kept for coverage review.",
+            "action": "Map the ingredient to a catalog substance in this branch or keep it as a documented gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "EU:legacy:row-3:2",
+            "material_id": "row-3",
+            "region": "EU",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 8.5,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "No rule in catalog for this ingredient: Acid Yellow 23 / Tartrazine. The declared row was kept for coverage review.",
+            "action": "Map the ingredient to a catalog substance in this branch or keep it as a documented gap.",
+            "check_kind": "identity"
+          }
+        ],
+        "applicable_verified_rules": [],
+        "reference_claims_pending_verification": [
+          {
+            "rule_id": "us:1:0:35:0",
+            "substance_id": "s_sodium_benzoate_532321",
+            "region": "US",
+            "threshold_type": "maximum concentration / warning level",
+            "threshold_value": 0.5,
+            "threshold_unit": "%",
+            "normalized_unit": "percent",
+            "basis": "stated_weight",
+            "operator": null,
+            "route": "concentration",
+            "regulation": "FDA 21 CFR § 184.1733",
+            "applies_to": "Water-based products",
+            "limit_text": "SAFE up to 0.5% (FDA approved for food/art).",
+            "verification_status": "Pending Verification",
+            "source_url": null,
+            "section": null,
+            "json_pointer": "/productCategories/1/ageGroups/0/composition/35/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "state_code": null
+          }
+        ],
+        "evidence_requirements": [
+          {
+            "requirement_id": "REQ:US:s_sodium_benzoate_532321:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "criticality": "high"
+          },
+          {
+            "requirement_id": "REQ:US:s_sodium_benzoate_532321:sds",
+            "document_type": "sds",
+            "scope": "material",
+            "criticality": "high"
+          },
+          {
+            "requirement_id": "REQ:EU:s_sodium_benzoate_532321:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "criticality": "high"
+          },
+          {
+            "requirement_id": "REQ:EU:s_sodium_benzoate_532321:sds",
+            "document_type": "sds",
+            "scope": "material",
+            "criticality": "high"
+          }
+        ],
+        "evidence_matches": [],
+        "missing_evidence": [
+          {
+            "check_id": "E:US:REQ:US:s_sodium_benzoate_532321:coa",
+            "requirement_id": "REQ:US:s_sodium_benzoate_532321:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "material_id": "s_sodium_benzoate_532321",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching document is on file for this material and batch.",
+            "reason_code": "missing",
+            "action": "Upload the document for this ingredient. A product-level file does not satisfy this requirement.",
+            "criticality": "high",
+            "gap_status": "missing"
+          },
+          {
+            "check_id": "E:US:REQ:US:s_sodium_benzoate_532321:sds",
+            "requirement_id": "REQ:US:s_sodium_benzoate_532321:sds",
+            "document_type": "sds",
+            "scope": "material",
+            "material_id": "s_sodium_benzoate_532321",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching SDS is on file for this material. Batch is not required for an SDS.",
+            "reason_code": "missing",
+            "action": "Upload the document for this ingredient. A product-level file does not satisfy this requirement.",
+            "criticality": "high",
+            "gap_status": "missing"
+          },
+          {
+            "check_id": "E:EU:REQ:EU:s_sodium_benzoate_532321:coa",
+            "requirement_id": "REQ:EU:s_sodium_benzoate_532321:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "material_id": "s_sodium_benzoate_532321",
+            "region": "EU",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching document is on file for this material and batch.",
+            "reason_code": "missing",
+            "action": "Upload the document for this ingredient. A product-level file does not satisfy this requirement.",
+            "criticality": "high",
+            "gap_status": "missing"
+          },
+          {
+            "check_id": "E:EU:REQ:EU:s_sodium_benzoate_532321:sds",
+            "requirement_id": "REQ:EU:s_sodium_benzoate_532321:sds",
+            "document_type": "sds",
+            "scope": "material",
+            "material_id": "s_sodium_benzoate_532321",
+            "region": "EU",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching SDS is on file for this material. Batch is not required for an SDS.",
+            "reason_code": "missing",
+            "action": "Upload the document for this ingredient. A product-level file does not satisfy this requirement.",
+            "criticality": "high",
+            "gap_status": "missing"
+          }
+        ],
+        "source_conflicts": [],
+        "source_excerpts": [],
+        "version_changes": [],
+        "documented_history": [],
+        "assessment_limitations": [
+          "Catalog coverage incomplete. These files list restricted substances, impurities, and test analytes. They do not contain enough ordinary ingredients to describe a full recipe. A submission is a partial substance screening unless the user explicitly declares a complete ingredient list totaling 100%.",
+          "Source verification status is the status stated in the supplied file. This application does not independently verify it.",
+          "State-specific requirements remain in the source dataset and are excluded from this assessment. They are not applied to a generic United States result.",
+          "The declared formulation ingredients total 100% within ±0.01 percentage points. This is still not an approved-recipe or full regulatory certification.",
+          "Unmatched ingredient names were kept as coverage gaps and were not replaced with catalog substances."
+        ],
+        "checks": [
+          {
+            "check_id": "US:s_sodium_benzoate_532321:us:1:0:35:0",
+            "material_id": "s_sodium_benzoate_532321",
+            "region": "US",
+            "rule_id": "us:1:0:35:0",
+            "status": "source_review_required",
+            "actual": null,
+            "threshold": 0.5,
+            "unit": "%",
+            "basis": "stated_weight",
+            "operator": null,
+            "route": "concentration",
+            "verification_status": "Pending Verification",
+            "verified_limit_available": false,
+            "json_pointer": "/productCategories/1/ageGroups/0/composition/35/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "priority": "medium",
+            "reason_code": "source_review_required",
+            "message": "Source verification status is Pending Verification. This is the file's stated status, not an independent verification, and it is not used as a verdict.",
+            "action": "Use the record as reference context until the source status is Verified and unambiguous.",
+            "check_kind": "concentration"
+          },
+          {
+            "check_id": "EU:s_sodium_benzoate_532321:NO-RULE",
+            "material_id": "s_sodium_benzoate_532321",
+            "region": "EU",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 0.5,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "no_matching_rule",
+            "message": "No EU entry in this category and age band. That is a coverage gap, not a prohibition or an approval.",
+            "action": "Do not infer a regulatory outcome from a missing catalog row.",
+            "check_kind": "coverage"
+          },
+          {
+            "check_id": "US:legacy:row-1:0",
+            "material_id": "row-1",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 78.5,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "No rule in catalog for this ingredient: Water. The declared row was kept for coverage review.",
+            "action": "Map the ingredient to a catalog substance in this branch or keep it as a documented gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "EU:legacy:row-1:0",
+            "material_id": "row-1",
+            "region": "EU",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 78.5,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "No rule in catalog for this ingredient: Water. The declared row was kept for coverage review.",
+            "action": "Map the ingredient to a catalog substance in this branch or keep it as a documented gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "US:legacy:row-2:1",
+            "material_id": "row-2",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 12.5,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "No rule in catalog for this ingredient: Glycerin. The declared row was kept for coverage review.",
+            "action": "Map the ingredient to a catalog substance in this branch or keep it as a documented gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "EU:legacy:row-2:1",
+            "material_id": "row-2",
+            "region": "EU",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 12.5,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "No rule in catalog for this ingredient: Glycerin. The declared row was kept for coverage review.",
+            "action": "Map the ingredient to a catalog substance in this branch or keep it as a documented gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "US:legacy:row-3:2",
+            "material_id": "row-3",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 8.5,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "No rule in catalog for this ingredient: Acid Yellow 23 / Tartrazine. The declared row was kept for coverage review.",
+            "action": "Map the ingredient to a catalog substance in this branch or keep it as a documented gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "EU:legacy:row-3:2",
+            "material_id": "row-3",
+            "region": "EU",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 8.5,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "No rule in catalog for this ingredient: Acid Yellow 23 / Tartrazine. The declared row was kept for coverage review.",
+            "action": "Map the ingredient to a catalog substance in this branch or keep it as a documented gap.",
+            "check_kind": "identity"
+          }
+        ],
+        "evidence_checks": [
+          {
+            "check_id": "E:US:REQ:US:s_sodium_benzoate_532321:coa",
+            "requirement_id": "REQ:US:s_sodium_benzoate_532321:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "material_id": "s_sodium_benzoate_532321",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching document is on file for this material and batch.",
+            "reason_code": "missing",
+            "action": "Upload the document for this ingredient. A product-level file does not satisfy this requirement.",
+            "criticality": "high"
+          },
+          {
+            "check_id": "E:US:REQ:US:s_sodium_benzoate_532321:sds",
+            "requirement_id": "REQ:US:s_sodium_benzoate_532321:sds",
+            "document_type": "sds",
+            "scope": "material",
+            "material_id": "s_sodium_benzoate_532321",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching SDS is on file for this material. Batch is not required for an SDS.",
+            "reason_code": "missing",
+            "action": "Upload the document for this ingredient. A product-level file does not satisfy this requirement.",
+            "criticality": "high"
+          },
+          {
+            "check_id": "E:EU:REQ:EU:s_sodium_benzoate_532321:coa",
+            "requirement_id": "REQ:EU:s_sodium_benzoate_532321:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "material_id": "s_sodium_benzoate_532321",
+            "region": "EU",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching document is on file for this material and batch.",
+            "reason_code": "missing",
+            "action": "Upload the document for this ingredient. A product-level file does not satisfy this requirement.",
+            "criticality": "high"
+          },
+          {
+            "check_id": "E:EU:REQ:EU:s_sodium_benzoate_532321:sds",
+            "requirement_id": "REQ:EU:s_sodium_benzoate_532321:sds",
+            "document_type": "sds",
+            "scope": "material",
+            "material_id": "s_sodium_benzoate_532321",
+            "region": "EU",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching SDS is on file for this material. Batch is not required for an SDS.",
+            "reason_code": "missing",
+            "action": "Upload the document for this ingredient. A product-level file does not satisfy this requirement.",
+            "criticality": "high"
+          }
+        ],
+        "documents": [],
+        "extracted_facts": [],
+        "source_issues": [],
+        "applicable_rules": [],
+        "applicable_scenario_rules": [],
+        "regulatory_reference_status": "Threshold records are limited to the selected region, category, and age branch.",
+        "regulatory_rows_disabled": 445,
+        "historical_cases": [],
+        "composition_total_percent": 100.0,
+        "assessment_mode": "evidence",
+        "dataset_kind": "threshold_reference",
+        "dataset_version": "us-eu-thresholds-2026-10-08-2026-10-08-aeb517a4f840",
+        "scenario_provenance": {
+          "dataset_kind": "threshold_reference",
+          "dataset_version": "us-eu-thresholds-2026-10-08-2026-10-08-aeb517a4f840",
+          "provenance": "supplied_us_eu_json",
+          "is_regulatory_requirement": false,
+          "note": "Dummy concentration rules are not used in this workflow."
+        }
+      },
+      "explanation": {
+        "status": "failed",
+        "source": "none",
+        "content": {
+          "summary": "",
+          "key_reasons": [],
+          "finding_explanations": [],
+          "evidence_gaps": [],
+          "evidence_gap_explanations": [],
+          "recommendations": [],
+          "prioritized_actions": [],
+          "alerts": [],
+          "assessment_support_explanation": "",
+          "source_conflicts": [],
+          "analysis_confidence": null,
+          "version_comparison_summary": null,
+          "version_change_summary": null,
+          "limitations": [
+            "Catalog coverage incomplete. These files list restricted substances, impurities, and test analytes. They do not contain enough ordinary ingredients to describe a full recipe. A submission is a partial substance screening unless the user explicitly declares a complete ingredient list totaling 100%.",
+            "Source verification status is the status stated in the supplied file. This application does not independently verify it.",
+            "State-specific requirements remain in the source dataset and are excluded from this assessment. They are not applied to a generic United States result.",
+            "The declared formulation ingredients total 100% within ±0.01 percentage points. This is still not an approved-recipe or full regulatory certification.",
+            "Unmatched ingredient names were kept as coverage gaps and were not replaced with catalog substances.",
+            "AI analysis failed: Azure OpenAI returned output that could not be validated against the assessment schema."
+          ],
+          "version_change": null
+        }
+      },
+      "execution": {
+        "assessment_id": "b31a163f-369a-4dfb-8094-93824891a4e7",
+        "execution_mode": "live",
+        "llm_provider": "azure_openai",
+        "llm_status": "failed",
+        "deployment": "gpt-5.4-mini",
+        "response_id": "chatcmpl-EYARZochRSwpTtvlAog7Bip1r6wJW",
+        "request_id": "0b8c3c3d-6f97-41d4-9c6e-13fc99a86206",
+        "generated_at": "2026-10-12T13:32:07.956924+00:00",
+        "latency_ms": 49709,
+        "usage": {
+          "completion_tokens": 3446,
+          "prompt_tokens": 5177,
+          "total_tokens": 8623,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": 0,
+            "audio_tokens": 0,
+            "reasoning_tokens": 0,
+            "rejected_prediction_tokens": 0,
+            "text_tokens": null
+          },
+          "prompt_tokens_details": {
+            "audio_tokens": 0,
+            "cache_write_tokens": null,
+            "cached_tokens": 4864,
+            "image_tokens": null,
+            "text_tokens": null
+          },
+          "latency_checkpoint": {
+            "engine_tbt_ms": 3,
+            "engine_ttft_ms": 88,
+            "engine_ttlt_ms": 11032,
+            "pre_inference_ms": 110,
+            "service_tbt_ms": 3,
+            "service_ttft_ms": 388,
+            "service_ttlt_ms": 11327,
+            "user_visible_ttft_ms": 278
+          }
+        },
+        "retrieved_source_count": 0,
+        "input_hash": "a43b2ebd6557b968b462af6e3cb2f3a0ac6934f3304a36b56923b5c5d3155536",
+        "data_hash": "aeb517a4f840eb11675fb5ba32fd0acb68f4c645c3d53f0f2e7a6c0a954b2ca9",
+        "error_code": "invalid_output",
+        "error_message": "Azure OpenAI returned output that could not be validated against the assessment schema."
+      },
+      "preliminary_assessment": {
+        "assessment_id": "b31a163f-369a-4dfb-8094-93824891a4e7",
+        "formula_id": "FML-1035",
+        "formula_version": "v1.0",
+        "assessment_summary": "",
+        "screening_outcome": "not_assessed",
+        "preliminary_prediction": {
+          "outcome": "indeterminate",
+          "basis": "The AI assessment did not complete. Calculated checks remain available and were not replaced with a success result.",
+          "analysis_confidence": "low",
+          "confidence_reason": "Azure OpenAI returned output that could not be validated against the assessment schema.",
+          "numeric_estimate": null,
+          "estimate_kind": "not_available",
+          "blocking_uncertainties": [
+            "AI assessment failed"
+          ],
+          "source_ids": []
+        },
+        "findings": [],
+        "missing_documents": [],
+        "source_conflicts": [],
+        "recommendations": [],
+        "alerts": [],
+        "next_actions": [],
+        "version_comparison": null,
+        "limitations": [
+          "AI assessment failed: Azure OpenAI returned output that could not be validated against the assessment schema."
+        ],
+        "execution": {
+          "llm_status": "failed",
+          "deployment": "gpt-5.4-mini",
+          "prompt_version": "assessment_v2"
+        }
+      }
+    },
+    {
+      "assessment_id": "1da0c852-ab94-4bc4-9412-0d0207fbcda2",
+      "created_at": "2026-10-12T13:35:31.301652+00:00",
+      "data_version": "us-eu-thresholds-2026-10-08-2026-10-08-aeb517a4f840",
+      "dataset_kind": "threshold_reference",
+      "screening_status_label": "More information required",
+      "data_hash": "aeb517a4f840eb11675fb5ba32fd0acb68f4c645c3d53f0f2e7a6c0a954b2ca9",
+      "input_hash": "7dfa4a5657d0d711438be7eca8a0ac87abba93fe312304ea7ff7e456f9fde0fd",
+      "input_snapshot": {
+        "formula_id": "FML-1036",
+        "version_id": "v1.0",
+        "name": "Crayola Washable Liquid Watercolor (Sunburst Yellow Base)",
+        "product_category": "Paints",
+        "age_group": "under_12",
+        "regions": [
+          "US"
+        ],
+        "physical_form": "liquid",
+        "intended_use": "Washable liquid watercolor for creative play; applied to paper with brush.",
+        "ingredients": [
+          {
+            "material_id": "s_sodium_benzoate_532321",
+            "concentration_percent": 0.5,
+            "batch_id": null,
+            "supplier": null,
+            "grade": null,
+            "notes": null,
+            "measured_value": null,
+            "measured_unit": null,
+            "measured_bound": null,
+            "measurement_kind": null,
+            "test_method": null,
+            "analyte": null,
+            "below_detection": false,
+            "role": "formulation_ingredient"
+          }
+        ],
+        "legacy_materials": [
+          {
+            "name": "Water",
+            "legacy_id": null,
+            "concentration_percent": 78.5,
+            "cas_number": "7732-18-5",
+            "in_rule_catalog": false,
+            "screening_role": "formulation_ingredient"
+          },
+          {
+            "name": "Glycerin",
+            "legacy_id": null,
+            "concentration_percent": 12.5,
+            "cas_number": "56-81-5",
+            "in_rule_catalog": false,
+            "screening_role": "formulation_ingredient"
+          },
+          {
+            "name": "Acid Yellow 23 / Tartrazine",
+            "legacy_id": null,
+            "concentration_percent": 8.5,
+            "cas_number": "1934-21-0",
+            "in_rule_catalog": false,
+            "screening_role": "formulation_ingredient"
+          }
+        ],
+        "generate_explanation": true,
+        "assessment_mode": "evidence",
+        "composition_completeness": "complete",
+        "us_states": [],
+        "intended_age_detail": "Ages 3+",
+        "toy_childcare_scope": null,
+        "component_type": null,
+        "test_material_category": null,
+        "document_ids": [],
+        "category_supported": true
+      },
+      "screening_status": "more_information_required",
+      "regulatory_status": "not_assessed",
+      "ap_cl_decision": null,
+      "acceptance_probability": null,
+      "ap_acceptance_probability": null,
+      "model_confidence": null,
+      "analysis_confidence": null,
+      "assessment_support": {
+        "level": "insufficient",
+        "basis": "No applicable checks can be evaluated, or essential identity, evidence, or applicability gaps prevent a complete assessment.",
+        "limiting_factors": [
+          "No matching document is on file for this material and batch.",
+          "No matching SDS is on file for this material. Batch is not required for an SDS."
+        ]
+      },
+      "assessment_mode": "evidence",
+      "metrics": {
+        "assessment_mode": "evidence",
+        "passed_checks": 0,
+        "failed_checks": 0,
+        "concentration_passed_checks": 0,
+        "concentration_failed_checks": 0,
+        "not_assessed_checks": 0,
+        "needs_test_data_checks": 0,
+        "applicability_unknown_checks": 0,
+        "source_review_required_checks": 1,
+        "no_matching_rule_checks": 3,
+        "not_applicable_checks": 0,
+        "evaluated_checks": 0,
+        "identified_applicable_checks": 4,
+        "check_pass_rate_percent": null,
+        "check_pass_rate_label": "Check pass rate",
+        "evidence_coverage_label": "Verified evidence coverage",
+        "check_pass_rate_copy": null,
+        "rule_evaluation_coverage_percent": 0.0,
+        "rule_evaluation_coverage_copy": "0 of 4 identified applicable checks were evaluated. This is coverage of the configured rule set, not every possible regulation.",
+        "evidence_coverage_percent": 0.0,
+        "evidence_coverage_partial": false,
+        "evidence_satisfied": 0,
+        "evidence_missing": 2,
+        "evidence_needs_review": 0,
+        "evidence_mismatched": 0,
+        "evidence_applicability_unknown": 0,
+        "evidence_not_applicable": 0,
+        "evidence_applicable_count": 2,
+        "metrics_note": "Check pass rate uses evaluated applicable checks only. Rule evaluation coverage uses the configured rule set. Verified evidence coverage uses satisfied applicable requirements. Neither value is an acceptance probability.",
+        "ap_acceptance_note": "AP acceptance estimate unavailable: validated outcome data/model required.",
+        "assessment_support": {
+          "level": "insufficient",
+          "basis": "No applicable checks can be evaluated, or essential identity, evidence, or applicability gaps prevent a complete assessment.",
+          "limiting_factors": [
+            "No matching document is on file for this material and batch.",
+            "No matching SDS is on file for this material. Batch is not required for an SDS."
+          ]
+        }
+      },
+      "regions": {
+        "US": {
+          "screening_status": "more_information_required",
+          "regulatory_status": "not_assessed",
+          "ap_cl_decision": null
+        }
+      },
+      "llm_context": {
+        "formula": {
+          "formula_id": "FML-1036",
+          "version_id": "v1.0",
+          "name": "Crayola Washable Liquid Watercolor (Sunburst Yellow Base)",
+          "product_category": "Paints",
+          "age_group": "under_12",
+          "regions": [
+            "US"
+          ],
+          "physical_form": "liquid",
+          "intended_use": "Washable liquid watercolor for creative play; applied to paper with brush.",
+          "assessment_mode": "evidence",
+          "composition_completeness": "complete",
+          "partial_composition": false,
+          "catalog_coverage_incomplete": true,
+          "composition_total_percent": 100.0,
+          "us_states": [],
+          "intended_age_detail": "Ages 3+",
+          "toy_childcare_scope": null,
+          "component_type": null,
+          "test_material_category": null,
+          "ingredients": [
+            {
+              "material_id": "s_sodium_benzoate_532321",
+              "name": "Sodium Benzoate",
+              "concentration_percent": 0.5,
+              "batch_id": null,
+              "supplier": null,
+              "grade": null,
+              "role": "formulation_ingredient",
+              "role_label": "Formulation ingredient",
+              "cas": "532-32-1",
+              "counts_toward_ingredient_total": true
+            },
+            {
+              "material_id": "Water",
+              "name": "Water",
+              "concentration_percent": 78.5,
+              "cas": "7732-18-5",
+              "role": "unmatched",
+              "role_label": "Not in the selected catalog branch",
+              "in_rule_catalog": false,
+              "counts_toward_ingredient_total": true
+            },
+            {
+              "material_id": "Glycerin",
+              "name": "Glycerin",
+              "concentration_percent": 12.5,
+              "cas": "56-81-5",
+              "role": "unmatched",
+              "role_label": "Not in the selected catalog branch",
+              "in_rule_catalog": false,
+              "counts_toward_ingredient_total": true
+            },
+            {
+              "material_id": "Acid Yellow 23 / Tartrazine",
+              "name": "Acid Yellow 23 / Tartrazine",
+              "concentration_percent": 8.5,
+              "cas": "1934-21-0",
+              "role": "unmatched",
+              "role_label": "Not in the selected catalog branch",
+              "in_rule_catalog": false,
+              "counts_toward_ingredient_total": true
+            }
+          ]
+        },
+        "materials": [
+          {
+            "material_id": "s_sodium_benzoate_532321",
+            "name": "Sodium Benzoate",
+            "kind": "formulation_ingredient",
+            "cas": "532-32-1"
+          },
+          {
+            "material_id": "Water",
+            "name": "Water",
+            "kind": "unmatched"
+          },
+          {
+            "material_id": "Glycerin",
+            "name": "Glycerin",
+            "kind": "unmatched"
+          },
+          {
+            "material_id": "Acid Yellow 23 / Tartrazine",
+            "name": "Acid Yellow 23 / Tartrazine",
+            "kind": "unmatched"
+          }
+        ],
+        "calculated_checks": [
+          {
+            "check_id": "US:s_sodium_benzoate_532321:us:1:0:35:0",
+            "material_id": "s_sodium_benzoate_532321",
+            "region": "US",
+            "rule_id": "us:1:0:35:0",
+            "status": "source_review_required",
+            "actual": null,
+            "threshold": 0.5,
+            "unit": "%",
+            "basis": "stated_weight",
+            "operator": null,
+            "route": "concentration",
+            "verification_status": "Pending Verification",
+            "verified_limit_available": false,
+            "json_pointer": "/productCategories/1/ageGroups/0/composition/35/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "priority": "medium",
+            "reason_code": "source_review_required",
+            "message": "Source verification status is Pending Verification. This is the file's stated status, not an independent verification, and it is not used as a verdict.",
+            "action": "Use the record as reference context until the source status is Verified and unambiguous.",
+            "check_kind": "concentration"
+          },
+          {
+            "check_id": "US:legacy:row-1:0",
+            "material_id": "row-1",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 78.5,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "No rule in catalog for this ingredient: Water. The declared row was kept for coverage review.",
+            "action": "Map the ingredient to a catalog substance in this branch or keep it as a documented gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "US:legacy:row-2:1",
+            "material_id": "row-2",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 12.5,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "No rule in catalog for this ingredient: Glycerin. The declared row was kept for coverage review.",
+            "action": "Map the ingredient to a catalog substance in this branch or keep it as a documented gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "US:legacy:row-3:2",
+            "material_id": "row-3",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 8.5,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "No rule in catalog for this ingredient: Acid Yellow 23 / Tartrazine. The declared row was kept for coverage review.",
+            "action": "Map the ingredient to a catalog substance in this branch or keep it as a documented gap.",
+            "check_kind": "identity"
+          }
+        ],
+        "applicable_verified_rules": [],
+        "reference_claims_pending_verification": [
+          {
+            "rule_id": "us:1:0:35:0",
+            "substance_id": "s_sodium_benzoate_532321",
+            "region": "US",
+            "threshold_type": "maximum concentration / warning level",
+            "threshold_value": 0.5,
+            "threshold_unit": "%",
+            "normalized_unit": "percent",
+            "basis": "stated_weight",
+            "operator": null,
+            "route": "concentration",
+            "regulation": "FDA 21 CFR § 184.1733",
+            "applies_to": "Water-based products",
+            "limit_text": "SAFE up to 0.5% (FDA approved for food/art).",
+            "verification_status": "Pending Verification",
+            "source_url": null,
+            "section": null,
+            "json_pointer": "/productCategories/1/ageGroups/0/composition/35/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "state_code": null
+          }
+        ],
+        "evidence_requirements": [
+          {
+            "requirement_id": "REQ:US:s_sodium_benzoate_532321:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "criticality": "high"
+          },
+          {
+            "requirement_id": "REQ:US:s_sodium_benzoate_532321:sds",
+            "document_type": "sds",
+            "scope": "material",
+            "criticality": "high"
+          }
+        ],
+        "evidence_matches": [],
+        "missing_evidence": [
+          {
+            "check_id": "E:US:REQ:US:s_sodium_benzoate_532321:coa",
+            "requirement_id": "REQ:US:s_sodium_benzoate_532321:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "material_id": "s_sodium_benzoate_532321",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching document is on file for this material and batch.",
+            "reason_code": "missing",
+            "action": "Upload the document for this ingredient. A product-level file does not satisfy this requirement.",
+            "criticality": "high",
+            "gap_status": "missing"
+          },
+          {
+            "check_id": "E:US:REQ:US:s_sodium_benzoate_532321:sds",
+            "requirement_id": "REQ:US:s_sodium_benzoate_532321:sds",
+            "document_type": "sds",
+            "scope": "material",
+            "material_id": "s_sodium_benzoate_532321",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching SDS is on file for this material. Batch is not required for an SDS.",
+            "reason_code": "missing",
+            "action": "Upload the document for this ingredient. A product-level file does not satisfy this requirement.",
+            "criticality": "high",
+            "gap_status": "missing"
+          }
+        ],
+        "source_conflicts": [],
+        "source_excerpts": [],
+        "version_changes": [],
+        "documented_history": [],
+        "assessment_limitations": [
+          "Catalog coverage incomplete. These files list restricted substances, impurities, and test analytes. They do not contain enough ordinary ingredients to describe a full recipe. A submission is a partial substance screening unless the user explicitly declares a complete ingredient list totaling 100%.",
+          "Source verification status is the status stated in the supplied file. This application does not independently verify it.",
+          "State-specific requirements remain in the source dataset and are excluded from this assessment. They are not applied to a generic United States result.",
+          "The declared formulation ingredients total 100% within ±0.01 percentage points. This is still not an approved-recipe or full regulatory certification.",
+          "Unmatched ingredient names were kept as coverage gaps and were not replaced with catalog substances."
+        ],
+        "checks": [
+          {
+            "check_id": "US:s_sodium_benzoate_532321:us:1:0:35:0",
+            "material_id": "s_sodium_benzoate_532321",
+            "region": "US",
+            "rule_id": "us:1:0:35:0",
+            "status": "source_review_required",
+            "actual": null,
+            "threshold": 0.5,
+            "unit": "%",
+            "basis": "stated_weight",
+            "operator": null,
+            "route": "concentration",
+            "verification_status": "Pending Verification",
+            "verified_limit_available": false,
+            "json_pointer": "/productCategories/1/ageGroups/0/composition/35/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "priority": "medium",
+            "reason_code": "source_review_required",
+            "message": "Source verification status is Pending Verification. This is the file's stated status, not an independent verification, and it is not used as a verdict.",
+            "action": "Use the record as reference context until the source status is Verified and unambiguous.",
+            "check_kind": "concentration"
+          },
+          {
+            "check_id": "US:legacy:row-1:0",
+            "material_id": "row-1",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 78.5,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "No rule in catalog for this ingredient: Water. The declared row was kept for coverage review.",
+            "action": "Map the ingredient to a catalog substance in this branch or keep it as a documented gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "US:legacy:row-2:1",
+            "material_id": "row-2",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 12.5,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "No rule in catalog for this ingredient: Glycerin. The declared row was kept for coverage review.",
+            "action": "Map the ingredient to a catalog substance in this branch or keep it as a documented gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "US:legacy:row-3:2",
+            "material_id": "row-3",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 8.5,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "No rule in catalog for this ingredient: Acid Yellow 23 / Tartrazine. The declared row was kept for coverage review.",
+            "action": "Map the ingredient to a catalog substance in this branch or keep it as a documented gap.",
+            "check_kind": "identity"
+          }
+        ],
+        "evidence_checks": [
+          {
+            "check_id": "E:US:REQ:US:s_sodium_benzoate_532321:coa",
+            "requirement_id": "REQ:US:s_sodium_benzoate_532321:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "material_id": "s_sodium_benzoate_532321",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching document is on file for this material and batch.",
+            "reason_code": "missing",
+            "action": "Upload the document for this ingredient. A product-level file does not satisfy this requirement.",
+            "criticality": "high"
+          },
+          {
+            "check_id": "E:US:REQ:US:s_sodium_benzoate_532321:sds",
+            "requirement_id": "REQ:US:s_sodium_benzoate_532321:sds",
+            "document_type": "sds",
+            "scope": "material",
+            "material_id": "s_sodium_benzoate_532321",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching SDS is on file for this material. Batch is not required for an SDS.",
+            "reason_code": "missing",
+            "action": "Upload the document for this ingredient. A product-level file does not satisfy this requirement.",
+            "criticality": "high"
+          }
+        ],
+        "documents": [],
+        "extracted_facts": [],
+        "source_issues": [],
+        "applicable_rules": [],
+        "applicable_scenario_rules": [],
+        "regulatory_reference_status": "Threshold records are limited to the selected region, category, and age branch.",
+        "regulatory_rows_disabled": 445,
+        "historical_cases": [],
+        "composition_total_percent": 100.0,
+        "assessment_mode": "evidence",
+        "dataset_kind": "threshold_reference",
+        "dataset_version": "us-eu-thresholds-2026-10-08-2026-10-08-aeb517a4f840",
+        "scenario_provenance": {
+          "dataset_kind": "threshold_reference",
+          "dataset_version": "us-eu-thresholds-2026-10-08-2026-10-08-aeb517a4f840",
+          "provenance": "supplied_us_eu_json",
+          "is_regulatory_requirement": false,
+          "note": "Dummy concentration rules are not used in this workflow."
+        }
+      },
+      "explanation": {
+        "status": "failed",
+        "source": "none",
+        "content": {
+          "summary": "",
+          "key_reasons": [],
+          "finding_explanations": [],
+          "evidence_gaps": [],
+          "evidence_gap_explanations": [],
+          "recommendations": [],
+          "prioritized_actions": [],
+          "alerts": [],
+          "assessment_support_explanation": "",
+          "source_conflicts": [],
+          "analysis_confidence": null,
+          "version_comparison_summary": null,
+          "version_change_summary": null,
+          "limitations": [
+            "Catalog coverage incomplete. These files list restricted substances, impurities, and test analytes. They do not contain enough ordinary ingredients to describe a full recipe. A submission is a partial substance screening unless the user explicitly declares a complete ingredient list totaling 100%.",
+            "Source verification status is the status stated in the supplied file. This application does not independently verify it.",
+            "State-specific requirements remain in the source dataset and are excluded from this assessment. They are not applied to a generic United States result.",
+            "The declared formulation ingredients total 100% within ±0.01 percentage points. This is still not an approved-recipe or full regulatory certification.",
+            "Unmatched ingredient names were kept as coverage gaps and were not replaced with catalog substances.",
+            "AI analysis failed: Azure OpenAI returned output that could not be validated against the assessment schema."
+          ],
+          "version_change": null
+        }
+      },
+      "execution": {
+        "assessment_id": "1da0c852-ab94-4bc4-9412-0d0207fbcda2",
+        "execution_mode": "live",
+        "llm_provider": "azure_openai",
+        "llm_status": "failed",
+        "deployment": "gpt-5.4-mini",
+        "response_id": "chatcmpl-EYAToFVhj0R4MHjKUJQhkeOJYJEkF",
+        "request_id": "812374ce-d1cc-4fd9-99ef-13b0e1925f19",
+        "generated_at": "2026-10-12T13:35:31.301652+00:00",
+        "latency_ms": 24356,
+        "usage": {
+          "completion_tokens": 2740,
+          "prompt_tokens": 4148,
+          "total_tokens": 6888,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": 0,
+            "audio_tokens": 0,
+            "reasoning_tokens": 0,
+            "rejected_prediction_tokens": 0,
+            "text_tokens": null
+          },
+          "prompt_tokens_details": {
+            "audio_tokens": 0,
+            "cache_write_tokens": null,
+            "cached_tokens": 3840,
+            "image_tokens": null,
+            "text_tokens": null
+          },
+          "latency_checkpoint": {
+            "engine_tbt_ms": 3,
+            "engine_ttft_ms": 47,
+            "engine_ttlt_ms": 9510,
+            "pre_inference_ms": 121,
+            "service_tbt_ms": 3,
+            "service_ttft_ms": 394,
+            "service_ttlt_ms": 9852,
+            "user_visible_ttft_ms": 272
+          }
+        },
+        "retrieved_source_count": 0,
+        "input_hash": "7dfa4a5657d0d711438be7eca8a0ac87abba93fe312304ea7ff7e456f9fde0fd",
+        "data_hash": "aeb517a4f840eb11675fb5ba32fd0acb68f4c645c3d53f0f2e7a6c0a954b2ca9",
+        "error_code": "invalid_output",
+        "error_message": "Azure OpenAI returned output that could not be validated against the assessment schema."
+      },
+      "preliminary_assessment": {
+        "assessment_id": "1da0c852-ab94-4bc4-9412-0d0207fbcda2",
+        "formula_id": "FML-1036",
+        "formula_version": "v1.0",
+        "assessment_summary": "",
+        "screening_outcome": "not_assessed",
+        "preliminary_prediction": {
+          "outcome": "indeterminate",
+          "basis": "The AI assessment did not complete. Calculated checks remain available and were not replaced with a success result.",
+          "analysis_confidence": "low",
+          "confidence_reason": "Azure OpenAI returned output that could not be validated against the assessment schema.",
+          "numeric_estimate": null,
+          "estimate_kind": "not_available",
+          "blocking_uncertainties": [
+            "AI assessment failed"
+          ],
+          "source_ids": []
+        },
+        "findings": [],
+        "missing_documents": [],
+        "source_conflicts": [],
+        "recommendations": [],
+        "alerts": [],
+        "next_actions": [],
+        "version_comparison": null,
+        "limitations": [
+          "AI assessment failed: Azure OpenAI returned output that could not be validated against the assessment schema."
+        ],
+        "execution": {
+          "llm_status": "failed",
+          "deployment": "gpt-5.4-mini",
+          "prompt_version": "assessment_v2"
+        }
+      }
+    },
+    {
+      "assessment_id": "a7ec03fa-a7f0-490f-a262-9f5dc8c9e31f",
+      "created_at": "2026-10-12T13:45:35.526831+00:00",
+      "data_version": "us-eu-thresholds-2026-10-08-2026-10-08-aeb517a4f840",
+      "dataset_kind": "threshold_reference",
+      "screening_status_label": "More information required",
+      "data_hash": "aeb517a4f840eb11675fb5ba32fd0acb68f4c645c3d53f0f2e7a6c0a954b2ca9",
+      "input_hash": "6cfa31143c0d5f4ff2a9083c75d798ba2e147f90c9960df71cbc7465b9da6801",
+      "input_snapshot": {
+        "formula_id": "FML-1037",
+        "version_id": "v1.0",
+        "name": "Crayola Washable Liquid Watercolor (Sunburst Yellow Base)",
+        "product_category": "Paints",
+        "age_group": "under_12",
+        "regions": [
+          "US"
+        ],
+        "physical_form": "liquid",
+        "intended_use": "Washable liquid watercolor for creative play; applied to paper with brush.",
+        "ingredients": [
+          {
+            "material_id": "s_sodium_benzoate_532321",
+            "concentration_percent": 0.5,
+            "batch_id": null,
+            "supplier": null,
+            "grade": null,
+            "notes": null,
+            "measured_value": null,
+            "measured_unit": null,
+            "measured_bound": null,
+            "measurement_kind": null,
+            "test_method": null,
+            "analyte": null,
+            "below_detection": false,
+            "role": "formulation_ingredient"
+          }
+        ],
+        "legacy_materials": [
+          {
+            "name": "Water",
+            "legacy_id": null,
+            "concentration_percent": 78.5,
+            "cas_number": "7732-18-5",
+            "in_rule_catalog": false,
+            "screening_role": "formulation_ingredient"
+          },
+          {
+            "name": "Glycerin",
+            "legacy_id": null,
+            "concentration_percent": 12.5,
+            "cas_number": "56-81-5",
+            "in_rule_catalog": false,
+            "screening_role": "formulation_ingredient"
+          },
+          {
+            "name": "Acid Yellow 23 / Tartrazine",
+            "legacy_id": null,
+            "concentration_percent": 8.5,
+            "cas_number": "1934-21-0",
+            "in_rule_catalog": false,
+            "screening_role": "formulation_ingredient"
+          }
+        ],
+        "generate_explanation": true,
+        "assessment_mode": "evidence",
+        "composition_completeness": "complete",
+        "us_states": [],
+        "intended_age_detail": "Ages 3+",
+        "toy_childcare_scope": null,
+        "component_type": null,
+        "test_material_category": null,
+        "document_ids": [],
+        "category_supported": true
+      },
+      "screening_status": "more_information_required",
+      "regulatory_status": "not_assessed",
+      "ap_cl_decision": null,
+      "acceptance_probability": null,
+      "ap_acceptance_probability": null,
+      "model_confidence": null,
+      "analysis_confidence": null,
+      "assessment_support": {
+        "level": "insufficient",
+        "basis": "No applicable checks can be evaluated, or essential identity, evidence, or applicability gaps prevent a complete assessment.",
+        "limiting_factors": [
+          "No matching document is on file for this material and batch.",
+          "No matching SDS is on file for this material. Batch is not required for an SDS."
+        ]
+      },
+      "assessment_mode": "evidence",
+      "metrics": {
+        "assessment_mode": "evidence",
+        "passed_checks": 0,
+        "failed_checks": 0,
+        "concentration_passed_checks": 0,
+        "concentration_failed_checks": 0,
+        "not_assessed_checks": 0,
+        "needs_test_data_checks": 0,
+        "applicability_unknown_checks": 0,
+        "source_review_required_checks": 1,
+        "no_matching_rule_checks": 3,
+        "not_applicable_checks": 0,
+        "evaluated_checks": 0,
+        "identified_applicable_checks": 4,
+        "check_pass_rate_percent": null,
+        "check_pass_rate_label": "Check pass rate",
+        "evidence_coverage_label": "Verified evidence coverage",
+        "check_pass_rate_copy": null,
+        "rule_evaluation_coverage_percent": 0.0,
+        "rule_evaluation_coverage_copy": "0 of 4 identified applicable checks were evaluated. This is coverage of the configured rule set, not every possible regulation.",
+        "evidence_coverage_percent": 0.0,
+        "evidence_coverage_partial": false,
+        "evidence_satisfied": 0,
+        "evidence_missing": 2,
+        "evidence_needs_review": 0,
+        "evidence_mismatched": 0,
+        "evidence_applicability_unknown": 0,
+        "evidence_not_applicable": 0,
+        "evidence_applicable_count": 2,
+        "metrics_note": "Check pass rate uses evaluated applicable checks only. Rule evaluation coverage uses the configured rule set. Verified evidence coverage uses satisfied applicable requirements. Neither value is an acceptance probability.",
+        "ap_acceptance_note": "AP acceptance estimate unavailable: validated outcome data/model required.",
+        "assessment_support": {
+          "level": "insufficient",
+          "basis": "No applicable checks can be evaluated, or essential identity, evidence, or applicability gaps prevent a complete assessment.",
+          "limiting_factors": [
+            "No matching document is on file for this material and batch.",
+            "No matching SDS is on file for this material. Batch is not required for an SDS."
+          ]
+        }
+      },
+      "regions": {
+        "US": {
+          "screening_status": "more_information_required",
+          "regulatory_status": "not_assessed",
+          "ap_cl_decision": null
+        }
+      },
+      "llm_context": {
+        "formula": {
+          "formula_id": "FML-1037",
+          "version_id": "v1.0",
+          "name": "Crayola Washable Liquid Watercolor (Sunburst Yellow Base)",
+          "product_category": "Paints",
+          "age_group": "under_12",
+          "regions": [
+            "US"
+          ],
+          "physical_form": "liquid",
+          "intended_use": "Washable liquid watercolor for creative play; applied to paper with brush.",
+          "assessment_mode": "evidence",
+          "composition_completeness": "complete",
+          "partial_composition": false,
+          "catalog_coverage_incomplete": true,
+          "composition_total_percent": 100.0,
+          "us_states": [],
+          "intended_age_detail": "Ages 3+",
+          "toy_childcare_scope": null,
+          "component_type": null,
+          "test_material_category": null,
+          "ingredients": [
+            {
+              "material_id": "s_sodium_benzoate_532321",
+              "name": "Sodium Benzoate",
+              "concentration_percent": 0.5,
+              "batch_id": null,
+              "supplier": null,
+              "grade": null,
+              "role": "formulation_ingredient",
+              "role_label": "Formulation ingredient",
+              "cas": "532-32-1",
+              "counts_toward_ingredient_total": true
+            },
+            {
+              "material_id": "Water",
+              "name": "Water",
+              "concentration_percent": 78.5,
+              "cas": "7732-18-5",
+              "role": "unmatched",
+              "role_label": "Not in the selected catalog branch",
+              "in_rule_catalog": false,
+              "counts_toward_ingredient_total": true
+            },
+            {
+              "material_id": "Glycerin",
+              "name": "Glycerin",
+              "concentration_percent": 12.5,
+              "cas": "56-81-5",
+              "role": "unmatched",
+              "role_label": "Not in the selected catalog branch",
+              "in_rule_catalog": false,
+              "counts_toward_ingredient_total": true
+            },
+            {
+              "material_id": "Acid Yellow 23 / Tartrazine",
+              "name": "Acid Yellow 23 / Tartrazine",
+              "concentration_percent": 8.5,
+              "cas": "1934-21-0",
+              "role": "unmatched",
+              "role_label": "Not in the selected catalog branch",
+              "in_rule_catalog": false,
+              "counts_toward_ingredient_total": true
+            }
+          ]
+        },
+        "materials": [
+          {
+            "material_id": "s_sodium_benzoate_532321",
+            "name": "Sodium Benzoate",
+            "kind": "formulation_ingredient",
+            "cas": "532-32-1"
+          },
+          {
+            "material_id": "Water",
+            "name": "Water",
+            "kind": "unmatched",
+            "cas": "7732-18-5"
+          },
+          {
+            "material_id": "Glycerin",
+            "name": "Glycerin",
+            "kind": "unmatched",
+            "cas": "56-81-5"
+          },
+          {
+            "material_id": "Acid Yellow 23 / Tartrazine",
+            "name": "Acid Yellow 23 / Tartrazine",
+            "kind": "unmatched",
+            "cas": "1934-21-0"
+          }
+        ],
+        "calculated_checks": [
+          {
+            "check_id": "US:s_sodium_benzoate_532321:us:1:0:35:0",
+            "material_id": "s_sodium_benzoate_532321",
+            "region": "US",
+            "rule_id": "us:1:0:35:0",
+            "status": "source_review_required",
+            "actual": null,
+            "threshold": 0.5,
+            "unit": "%",
+            "basis": "stated_weight",
+            "operator": null,
+            "route": "concentration",
+            "verification_status": "Pending Verification",
+            "verified_limit_available": false,
+            "json_pointer": "/productCategories/1/ageGroups/0/composition/35/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "priority": "medium",
+            "reason_code": "source_review_required",
+            "message": "Source verification status is Pending Verification. This is the file's stated status, not an independent verification, and it is not used as a verdict.",
+            "action": "Use the record as reference context until the source status is Verified and unambiguous.",
+            "check_kind": "concentration"
+          },
+          {
+            "check_id": "US:legacy:Water:0",
+            "material_id": "Water",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 78.5,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "No rule in catalog for this ingredient: Water. The declared row was kept for coverage review.",
+            "action": "Map the ingredient to a catalog substance in this branch or keep it as a documented gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "US:legacy:Glycerin:1",
+            "material_id": "Glycerin",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 12.5,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "No rule in catalog for this ingredient: Glycerin. The declared row was kept for coverage review.",
+            "action": "Map the ingredient to a catalog substance in this branch or keep it as a documented gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "US:legacy:Acid Yellow 23 / Tartrazine:2",
+            "material_id": "Acid Yellow 23 / Tartrazine",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 8.5,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "No rule in catalog for this ingredient: Acid Yellow 23 / Tartrazine. The declared row was kept for coverage review.",
+            "action": "Map the ingredient to a catalog substance in this branch or keep it as a documented gap.",
+            "check_kind": "identity"
+          }
+        ],
+        "applicable_verified_rules": [],
+        "reference_claims_pending_verification": [
+          {
+            "rule_id": "us:1:0:35:0",
+            "substance_id": "s_sodium_benzoate_532321",
+            "region": "US",
+            "threshold_type": "maximum concentration / warning level",
+            "threshold_value": 0.5,
+            "threshold_unit": "%",
+            "normalized_unit": "percent",
+            "basis": "stated_weight",
+            "operator": null,
+            "route": "concentration",
+            "regulation": "FDA 21 CFR § 184.1733",
+            "applies_to": "Water-based products",
+            "limit_text": "SAFE up to 0.5% (FDA approved for food/art).",
+            "verification_status": "Pending Verification",
+            "source_url": null,
+            "section": null,
+            "json_pointer": "/productCategories/1/ageGroups/0/composition/35/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "state_code": null
+          }
+        ],
+        "evidence_requirements": [
+          {
+            "requirement_id": "REQ:US:s_sodium_benzoate_532321:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "criticality": "high"
+          },
+          {
+            "requirement_id": "REQ:US:s_sodium_benzoate_532321:sds",
+            "document_type": "sds",
+            "scope": "material",
+            "criticality": "high"
+          }
+        ],
+        "evidence_matches": [],
+        "missing_evidence": [
+          {
+            "check_id": "E:US:REQ:US:s_sodium_benzoate_532321:coa",
+            "requirement_id": "REQ:US:s_sodium_benzoate_532321:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "material_id": "s_sodium_benzoate_532321",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching document is on file for this material and batch.",
+            "reason_code": "missing",
+            "action": "Upload the document for this ingredient. A product-level file does not satisfy this requirement.",
+            "criticality": "high",
+            "gap_status": "missing"
+          },
+          {
+            "check_id": "E:US:REQ:US:s_sodium_benzoate_532321:sds",
+            "requirement_id": "REQ:US:s_sodium_benzoate_532321:sds",
+            "document_type": "sds",
+            "scope": "material",
+            "material_id": "s_sodium_benzoate_532321",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching SDS is on file for this material. Batch is not required for an SDS.",
+            "reason_code": "missing",
+            "action": "Upload the document for this ingredient. A product-level file does not satisfy this requirement.",
+            "criticality": "high",
+            "gap_status": "missing"
+          }
+        ],
+        "source_conflicts": [],
+        "source_excerpts": [],
+        "version_changes": [],
+        "documented_history": [],
+        "assessment_limitations": [
+          "Catalog coverage incomplete. These files list restricted substances, impurities, and test analytes. They do not contain enough ordinary ingredients to describe a full recipe. A submission is a partial substance screening unless the user explicitly declares a complete ingredient list totaling 100%.",
+          "Source verification status is the status stated in the supplied file. This application does not independently verify it.",
+          "State-specific requirements remain in the source dataset and are excluded from this assessment. They are not applied to a generic United States result.",
+          "The declared formulation ingredients total 100% within ±0.01 percentage points. This is still not an approved-recipe or full regulatory certification.",
+          "Unmatched ingredient names were kept as coverage gaps and were not replaced with catalog substances."
+        ],
+        "checks": [
+          {
+            "check_id": "US:s_sodium_benzoate_532321:us:1:0:35:0",
+            "material_id": "s_sodium_benzoate_532321",
+            "region": "US",
+            "rule_id": "us:1:0:35:0",
+            "status": "source_review_required",
+            "actual": null,
+            "threshold": 0.5,
+            "unit": "%",
+            "basis": "stated_weight",
+            "operator": null,
+            "route": "concentration",
+            "verification_status": "Pending Verification",
+            "verified_limit_available": false,
+            "json_pointer": "/productCategories/1/ageGroups/0/composition/35/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "priority": "medium",
+            "reason_code": "source_review_required",
+            "message": "Source verification status is Pending Verification. This is the file's stated status, not an independent verification, and it is not used as a verdict.",
+            "action": "Use the record as reference context until the source status is Verified and unambiguous.",
+            "check_kind": "concentration"
+          },
+          {
+            "check_id": "US:legacy:Water:0",
+            "material_id": "Water",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 78.5,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "No rule in catalog for this ingredient: Water. The declared row was kept for coverage review.",
+            "action": "Map the ingredient to a catalog substance in this branch or keep it as a documented gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "US:legacy:Glycerin:1",
+            "material_id": "Glycerin",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 12.5,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "No rule in catalog for this ingredient: Glycerin. The declared row was kept for coverage review.",
+            "action": "Map the ingredient to a catalog substance in this branch or keep it as a documented gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "US:legacy:Acid Yellow 23 / Tartrazine:2",
+            "material_id": "Acid Yellow 23 / Tartrazine",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 8.5,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "No rule in catalog for this ingredient: Acid Yellow 23 / Tartrazine. The declared row was kept for coverage review.",
+            "action": "Map the ingredient to a catalog substance in this branch or keep it as a documented gap.",
+            "check_kind": "identity"
+          }
+        ],
+        "evidence_checks": [
+          {
+            "check_id": "E:US:REQ:US:s_sodium_benzoate_532321:coa",
+            "requirement_id": "REQ:US:s_sodium_benzoate_532321:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "material_id": "s_sodium_benzoate_532321",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching document is on file for this material and batch.",
+            "reason_code": "missing",
+            "action": "Upload the document for this ingredient. A product-level file does not satisfy this requirement.",
+            "criticality": "high"
+          },
+          {
+            "check_id": "E:US:REQ:US:s_sodium_benzoate_532321:sds",
+            "requirement_id": "REQ:US:s_sodium_benzoate_532321:sds",
+            "document_type": "sds",
+            "scope": "material",
+            "material_id": "s_sodium_benzoate_532321",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching SDS is on file for this material. Batch is not required for an SDS.",
+            "reason_code": "missing",
+            "action": "Upload the document for this ingredient. A product-level file does not satisfy this requirement.",
+            "criticality": "high"
+          }
+        ],
+        "documents": [],
+        "extracted_facts": [],
+        "source_issues": [],
+        "applicable_rules": [],
+        "applicable_scenario_rules": [],
+        "regulatory_reference_status": "Threshold records are limited to the selected region, category, and age branch.",
+        "regulatory_rows_disabled": 445,
+        "historical_cases": [],
+        "composition_total_percent": 100.0,
+        "assessment_mode": "evidence",
+        "dataset_kind": "threshold_reference",
+        "dataset_version": "us-eu-thresholds-2026-10-08-2026-10-08-aeb517a4f840",
+        "scenario_provenance": {
+          "dataset_kind": "threshold_reference",
+          "dataset_version": "us-eu-thresholds-2026-10-08-2026-10-08-aeb517a4f840",
+          "provenance": "supplied_us_eu_json",
+          "is_regulatory_requirement": false,
+          "note": "Dummy concentration rules are not used in this workflow."
+        }
+      },
+      "explanation": {
+        "status": "failed",
+        "source": "none",
+        "content": {
+          "summary": "",
+          "key_reasons": [],
+          "finding_explanations": [],
+          "evidence_gaps": [],
+          "evidence_gap_explanations": [],
+          "recommendations": [],
+          "prioritized_actions": [],
+          "alerts": [],
+          "assessment_support_explanation": "",
+          "source_conflicts": [],
+          "analysis_confidence": null,
+          "version_comparison_summary": null,
+          "version_change_summary": null,
+          "limitations": [
+            "Catalog coverage incomplete. These files list restricted substances, impurities, and test analytes. They do not contain enough ordinary ingredients to describe a full recipe. A submission is a partial substance screening unless the user explicitly declares a complete ingredient list totaling 100%.",
+            "Source verification status is the status stated in the supplied file. This application does not independently verify it.",
+            "State-specific requirements remain in the source dataset and are excluded from this assessment. They are not applied to a generic United States result.",
+            "The declared formulation ingredients total 100% within ±0.01 percentage points. This is still not an approved-recipe or full regulatory certification.",
+            "Unmatched ingredient names were kept as coverage gaps and were not replaced with catalog substances.",
+            "AI analysis failed: Azure OpenAI returned output that could not be validated against the assessment schema."
+          ],
+          "version_change": null
+        }
+      },
+      "execution": {
+        "assessment_id": "a7ec03fa-a7f0-490f-a262-9f5dc8c9e31f",
+        "execution_mode": "live",
+        "llm_provider": "azure_openai",
+        "llm_status": "failed",
+        "deployment": "gpt-5.4-mini",
+        "response_id": "chatcmpl-EYAdgsdEHHv5HLtabclJbp0reWfyN",
+        "request_id": "3980d109-8167-441c-9366-b15970e2e668",
+        "generated_at": "2026-10-12T13:45:35.526831+00:00",
+        "latency_ms": 23760,
+        "usage": {
+          "completion_tokens": 2693,
+          "prompt_tokens": 4258,
+          "total_tokens": 6951,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": 0,
+            "audio_tokens": 0,
+            "reasoning_tokens": 0,
+            "rejected_prediction_tokens": 0,
+            "text_tokens": null
+          },
+          "prompt_tokens_details": {
+            "audio_tokens": 0,
+            "cache_write_tokens": null,
+            "cached_tokens": 3840,
+            "image_tokens": null,
+            "text_tokens": null
+          },
+          "latency_checkpoint": {
+            "engine_tbt_ms": 3,
+            "engine_ttft_ms": 88,
+            "engine_ttlt_ms": 8797,
+            "pre_inference_ms": 238,
+            "service_tbt_ms": 3,
+            "service_ttft_ms": 654,
+            "service_ttlt_ms": 9334,
+            "user_visible_ttft_ms": 416
+          }
+        },
+        "retrieved_source_count": 0,
+        "input_hash": "6cfa31143c0d5f4ff2a9083c75d798ba2e147f90c9960df71cbc7465b9da6801",
+        "data_hash": "aeb517a4f840eb11675fb5ba32fd0acb68f4c645c3d53f0f2e7a6c0a954b2ca9",
+        "error_code": "invalid_output",
+        "error_message": "Azure OpenAI returned output that could not be validated against the assessment schema."
+      },
+      "preliminary_assessment": {
+        "assessment_id": "a7ec03fa-a7f0-490f-a262-9f5dc8c9e31f",
+        "formula_id": "FML-1037",
+        "formula_version": "v1.0",
+        "assessment_summary": "",
+        "screening_outcome": "not_assessed",
+        "preliminary_prediction": {
+          "outcome": "indeterminate",
+          "basis": "The AI assessment did not complete. Calculated checks remain available and were not replaced with a success result.",
+          "analysis_confidence": "low",
+          "confidence_reason": "Azure OpenAI returned output that could not be validated against the assessment schema.",
+          "numeric_estimate": null,
+          "estimate_kind": "not_available",
+          "blocking_uncertainties": [
+            "AI assessment failed"
+          ],
+          "source_ids": []
+        },
+        "findings": [],
+        "missing_documents": [],
+        "source_conflicts": [],
+        "recommendations": [],
+        "alerts": [],
+        "next_actions": [],
+        "version_comparison": null,
+        "limitations": [
+          "AI assessment failed: Azure OpenAI returned output that could not be validated against the assessment schema."
+        ],
+        "execution": {
+          "llm_status": "failed",
+          "deployment": "gpt-5.4-mini",
+          "prompt_version": "assessment_v2"
+        }
+      }
+    },
+    {
+      "assessment_id": "48ec0b7c-942a-46f6-8b69-c3e5d0f97bc1",
+      "created_at": "2026-10-12T13:58:31.932875+00:00",
+      "data_version": "us-eu-thresholds-2026-10-08-2026-10-08-aeb517a4f840",
+      "dataset_kind": "threshold_reference",
+      "screening_status_label": "More information required",
+      "data_hash": "aeb517a4f840eb11675fb5ba32fd0acb68f4c645c3d53f0f2e7a6c0a954b2ca9",
+      "input_hash": "a23c1471afdf099d129602b580f7de768365e5ef91cd03057b3f69ad3b815565",
+      "input_snapshot": {
+        "formula_id": "FML-1038",
+        "version_id": "v1.0",
+        "name": "Crayola Washable Liquid Watercolor (Sunburst Yellow Base)",
+        "product_category": "Paints",
+        "age_group": "under_12",
+        "regions": [
+          "US"
+        ],
+        "physical_form": "liquid",
+        "intended_use": "Draft formula — intended use to be confirmed.",
+        "ingredients": [
+          {
+            "material_id": "s_sodium_benzoate_532321",
+            "concentration_percent": 0.5,
+            "batch_id": null,
+            "supplier": "LANXESS",
+            "grade": null,
+            "notes": null,
+            "measured_value": null,
+            "measured_unit": null,
+            "measured_bound": null,
+            "measurement_kind": null,
+            "test_method": null,
+            "analyte": null,
+            "below_detection": false,
+            "role": "formulation_ingredient"
+          }
+        ],
+        "legacy_materials": [
+          {
+            "name": "Water",
+            "legacy_id": null,
+            "concentration_percent": 79.0,
+            "cas_number": "7732-18-5",
+            "in_rule_catalog": false,
+            "screening_role": "formulation_ingredient"
+          },
+          {
+            "name": "Glycerin",
+            "legacy_id": null,
+            "concentration_percent": 12.0,
+            "cas_number": "56-81-5",
+            "in_rule_catalog": false,
+            "screening_role": "formulation_ingredient"
+          },
+          {
+            "name": "Acid Yellow 23 / Tartrazine",
+            "legacy_id": null,
+            "concentration_percent": 8.5,
+            "cas_number": "1934-21-0",
+            "in_rule_catalog": false,
+            "screening_role": "formulation_ingredient"
+          }
+        ],
+        "generate_explanation": true,
+        "assessment_mode": "evidence",
+        "composition_completeness": "complete",
+        "us_states": [],
+        "intended_age_detail": "Ages 3+",
+        "toy_childcare_scope": null,
+        "component_type": null,
+        "test_material_category": null,
+        "document_ids": [],
+        "category_supported": true
+      },
+      "screening_status": "more_information_required",
+      "regulatory_status": "not_assessed",
+      "ap_cl_decision": null,
+      "acceptance_probability": null,
+      "ap_acceptance_probability": null,
+      "model_confidence": null,
+      "analysis_confidence": null,
+      "assessment_support": {
+        "level": "insufficient",
+        "basis": "No applicable checks can be evaluated, or essential identity, evidence, or applicability gaps prevent a complete assessment.",
+        "limiting_factors": [
+          "No matching document is on file for this material and batch.",
+          "No matching SDS is on file for this material. Batch is not required for an SDS."
+        ]
+      },
+      "assessment_mode": "evidence",
+      "metrics": {
+        "assessment_mode": "evidence",
+        "passed_checks": 0,
+        "failed_checks": 0,
+        "concentration_passed_checks": 0,
+        "concentration_failed_checks": 0,
+        "not_assessed_checks": 0,
+        "needs_test_data_checks": 0,
+        "applicability_unknown_checks": 0,
+        "source_review_required_checks": 1,
+        "no_matching_rule_checks": 3,
+        "not_applicable_checks": 0,
+        "evaluated_checks": 0,
+        "identified_applicable_checks": 4,
+        "check_pass_rate_percent": null,
+        "check_pass_rate_label": "Check pass rate",
+        "evidence_coverage_label": "Verified evidence coverage",
+        "check_pass_rate_copy": null,
+        "rule_evaluation_coverage_percent": 0.0,
+        "rule_evaluation_coverage_copy": "0 of 4 identified applicable checks were evaluated. This is coverage of the configured rule set, not every possible regulation.",
+        "evidence_coverage_percent": 0.0,
+        "evidence_coverage_partial": false,
+        "evidence_satisfied": 0,
+        "evidence_missing": 2,
+        "evidence_needs_review": 0,
+        "evidence_mismatched": 0,
+        "evidence_applicability_unknown": 0,
+        "evidence_not_applicable": 0,
+        "evidence_applicable_count": 2,
+        "metrics_note": "Check pass rate uses evaluated applicable checks only. Rule evaluation coverage uses the configured rule set. Verified evidence coverage uses satisfied applicable requirements. Neither value is an acceptance probability.",
+        "ap_acceptance_note": "AP acceptance estimate unavailable: validated outcome data/model required.",
+        "assessment_support": {
+          "level": "insufficient",
+          "basis": "No applicable checks can be evaluated, or essential identity, evidence, or applicability gaps prevent a complete assessment.",
+          "limiting_factors": [
+            "No matching document is on file for this material and batch.",
+            "No matching SDS is on file for this material. Batch is not required for an SDS."
+          ]
+        }
+      },
+      "regions": {
+        "US": {
+          "screening_status": "more_information_required",
+          "regulatory_status": "not_assessed",
+          "ap_cl_decision": null
+        }
+      },
+      "llm_context": {
+        "formula": {
+          "formula_id": "FML-1038",
+          "version_id": "v1.0",
+          "name": "Crayola Washable Liquid Watercolor (Sunburst Yellow Base)",
+          "product_category": "Paints",
+          "age_group": "under_12",
+          "regions": [
+            "US"
+          ],
+          "physical_form": "liquid",
+          "intended_use": "Draft formula — intended use to be confirmed.",
+          "assessment_mode": "evidence",
+          "composition_completeness": "complete",
+          "partial_composition": false,
+          "catalog_coverage_incomplete": true,
+          "composition_total_percent": 100.0,
+          "us_states": [],
+          "intended_age_detail": "Ages 3+",
+          "toy_childcare_scope": null,
+          "component_type": null,
+          "test_material_category": null,
+          "ingredients": [
+            {
+              "material_id": "s_sodium_benzoate_532321",
+              "name": "Sodium Benzoate",
+              "concentration_percent": 0.5,
+              "batch_id": null,
+              "supplier": "LANXESS",
+              "grade": null,
+              "role": "formulation_ingredient",
+              "role_label": "Formulation ingredient",
+              "cas": "532-32-1",
+              "counts_toward_ingredient_total": true
+            },
+            {
+              "material_id": "Water",
+              "name": "Water",
+              "concentration_percent": 79.0,
+              "cas": "7732-18-5",
+              "role": "unmatched",
+              "role_label": "Not in the selected catalog branch",
+              "in_rule_catalog": false,
+              "counts_toward_ingredient_total": true
+            },
+            {
+              "material_id": "Glycerin",
+              "name": "Glycerin",
+              "concentration_percent": 12.0,
+              "cas": "56-81-5",
+              "role": "unmatched",
+              "role_label": "Not in the selected catalog branch",
+              "in_rule_catalog": false,
+              "counts_toward_ingredient_total": true
+            },
+            {
+              "material_id": "Acid Yellow 23 / Tartrazine",
+              "name": "Acid Yellow 23 / Tartrazine",
+              "concentration_percent": 8.5,
+              "cas": "1934-21-0",
+              "role": "unmatched",
+              "role_label": "Not in the selected catalog branch",
+              "in_rule_catalog": false,
+              "counts_toward_ingredient_total": true
+            }
+          ]
+        },
+        "materials": [
+          {
+            "material_id": "s_sodium_benzoate_532321",
+            "name": "Sodium Benzoate",
+            "kind": "formulation_ingredient",
+            "cas": "532-32-1"
+          },
+          {
+            "material_id": "Water",
+            "name": "Water",
+            "kind": "unmatched",
+            "cas": "7732-18-5"
+          },
+          {
+            "material_id": "Glycerin",
+            "name": "Glycerin",
+            "kind": "unmatched",
+            "cas": "56-81-5"
+          },
+          {
+            "material_id": "Acid Yellow 23 / Tartrazine",
+            "name": "Acid Yellow 23 / Tartrazine",
+            "kind": "unmatched",
+            "cas": "1934-21-0"
+          }
+        ],
+        "calculated_checks": [
+          {
+            "check_id": "US:s_sodium_benzoate_532321:us:1:0:35:0",
+            "material_id": "s_sodium_benzoate_532321",
+            "region": "US",
+            "rule_id": "us:1:0:35:0",
+            "status": "source_review_required",
+            "actual": null,
+            "threshold": 0.5,
+            "unit": "%",
+            "basis": "stated_weight",
+            "operator": null,
+            "route": "concentration",
+            "verification_status": "Pending Verification",
+            "verified_limit_available": false,
+            "json_pointer": "/productCategories/1/ageGroups/0/composition/35/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "priority": "medium",
+            "reason_code": "source_review_required",
+            "message": "Source verification status is Pending Verification. This is the file's stated status, not an independent verification, and it is not used as a verdict.",
+            "action": "Use the record as reference context until the source status is Verified and unambiguous.",
+            "check_kind": "concentration"
+          },
+          {
+            "check_id": "US:legacy:Water:0",
+            "material_id": "Water",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 79.0,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "No rule in catalog for this ingredient: Water. The declared row was kept for coverage review.",
+            "action": "Map the ingredient to a catalog substance in this branch or keep it as a documented gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "US:legacy:Glycerin:1",
+            "material_id": "Glycerin",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 12.0,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "No rule in catalog for this ingredient: Glycerin. The declared row was kept for coverage review.",
+            "action": "Map the ingredient to a catalog substance in this branch or keep it as a documented gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "US:legacy:Acid Yellow 23 / Tartrazine:2",
+            "material_id": "Acid Yellow 23 / Tartrazine",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 8.5,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "No rule in catalog for this ingredient: Acid Yellow 23 / Tartrazine. The declared row was kept for coverage review.",
+            "action": "Map the ingredient to a catalog substance in this branch or keep it as a documented gap.",
+            "check_kind": "identity"
+          }
+        ],
+        "applicable_verified_rules": [],
+        "reference_claims_pending_verification": [
+          {
+            "rule_id": "us:1:0:35:0",
+            "substance_id": "s_sodium_benzoate_532321",
+            "region": "US",
+            "threshold_type": "maximum concentration / warning level",
+            "threshold_value": 0.5,
+            "threshold_unit": "%",
+            "normalized_unit": "percent",
+            "basis": "stated_weight",
+            "operator": null,
+            "route": "concentration",
+            "regulation": "FDA 21 CFR § 184.1733",
+            "applies_to": "Water-based products",
+            "limit_text": "SAFE up to 0.5% (FDA approved for food/art).",
+            "verification_status": "Pending Verification",
+            "source_url": null,
+            "section": null,
+            "json_pointer": "/productCategories/1/ageGroups/0/composition/35/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "state_code": null
+          }
+        ],
+        "evidence_requirements": [
+          {
+            "requirement_id": "REQ:US:s_sodium_benzoate_532321:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "criticality": "high"
+          },
+          {
+            "requirement_id": "REQ:US:s_sodium_benzoate_532321:sds",
+            "document_type": "sds",
+            "scope": "material",
+            "criticality": "high"
+          }
+        ],
+        "evidence_matches": [],
+        "missing_evidence": [
+          {
+            "check_id": "E:US:REQ:US:s_sodium_benzoate_532321:coa",
+            "requirement_id": "REQ:US:s_sodium_benzoate_532321:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "material_id": "s_sodium_benzoate_532321",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching document is on file for this material and batch.",
+            "reason_code": "missing",
+            "action": "Upload the document for this ingredient. A product-level file does not satisfy this requirement.",
+            "criticality": "high",
+            "gap_status": "missing"
+          },
+          {
+            "check_id": "E:US:REQ:US:s_sodium_benzoate_532321:sds",
+            "requirement_id": "REQ:US:s_sodium_benzoate_532321:sds",
+            "document_type": "sds",
+            "scope": "material",
+            "material_id": "s_sodium_benzoate_532321",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching SDS is on file for this material. Batch is not required for an SDS.",
+            "reason_code": "missing",
+            "action": "Upload the document for this ingredient. A product-level file does not satisfy this requirement.",
+            "criticality": "high",
+            "gap_status": "missing"
+          }
+        ],
+        "source_conflicts": [],
+        "source_excerpts": [],
+        "version_changes": [],
+        "documented_history": [],
+        "assessment_limitations": [
+          "Catalog coverage incomplete. These files list restricted substances, impurities, and test analytes. They do not contain enough ordinary ingredients to describe a full recipe. A submission is a partial substance screening unless the user explicitly declares a complete ingredient list totaling 100%.",
+          "Source verification status is the status stated in the supplied file. This application does not independently verify it.",
+          "State-specific requirements remain in the source dataset and are excluded from this assessment. They are not applied to a generic United States result.",
+          "The declared formulation ingredients total 100% within ±0.01 percentage points. This is still not an approved-recipe or full regulatory certification.",
+          "Unmatched ingredient names were kept as coverage gaps and were not replaced with catalog substances."
+        ],
+        "checks": [
+          {
+            "check_id": "US:s_sodium_benzoate_532321:us:1:0:35:0",
+            "material_id": "s_sodium_benzoate_532321",
+            "region": "US",
+            "rule_id": "us:1:0:35:0",
+            "status": "source_review_required",
+            "actual": null,
+            "threshold": 0.5,
+            "unit": "%",
+            "basis": "stated_weight",
+            "operator": null,
+            "route": "concentration",
+            "verification_status": "Pending Verification",
+            "verified_limit_available": false,
+            "json_pointer": "/productCategories/1/ageGroups/0/composition/35/regulatoryLimits/0",
+            "source_filename": "us_ 2.json",
+            "priority": "medium",
+            "reason_code": "source_review_required",
+            "message": "Source verification status is Pending Verification. This is the file's stated status, not an independent verification, and it is not used as a verdict.",
+            "action": "Use the record as reference context until the source status is Verified and unambiguous.",
+            "check_kind": "concentration"
+          },
+          {
+            "check_id": "US:legacy:Water:0",
+            "material_id": "Water",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 79.0,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "No rule in catalog for this ingredient: Water. The declared row was kept for coverage review.",
+            "action": "Map the ingredient to a catalog substance in this branch or keep it as a documented gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "US:legacy:Glycerin:1",
+            "material_id": "Glycerin",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 12.0,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "No rule in catalog for this ingredient: Glycerin. The declared row was kept for coverage review.",
+            "action": "Map the ingredient to a catalog substance in this branch or keep it as a documented gap.",
+            "check_kind": "identity"
+          },
+          {
+            "check_id": "US:legacy:Acid Yellow 23 / Tartrazine:2",
+            "material_id": "Acid Yellow 23 / Tartrazine",
+            "region": "US",
+            "rule_id": null,
+            "status": "no_matching_rule",
+            "actual": 8.5,
+            "threshold": null,
+            "unit": null,
+            "basis": null,
+            "verified_limit_available": false,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": "No rule in catalog for this ingredient: Acid Yellow 23 / Tartrazine. The declared row was kept for coverage review.",
+            "action": "Map the ingredient to a catalog substance in this branch or keep it as a documented gap.",
+            "check_kind": "identity"
+          }
+        ],
+        "evidence_checks": [
+          {
+            "check_id": "E:US:REQ:US:s_sodium_benzoate_532321:coa",
+            "requirement_id": "REQ:US:s_sodium_benzoate_532321:coa",
+            "document_type": "coa",
+            "scope": "material",
+            "material_id": "s_sodium_benzoate_532321",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching document is on file for this material and batch.",
+            "reason_code": "missing",
+            "action": "Upload the document for this ingredient. A product-level file does not satisfy this requirement.",
+            "criticality": "high"
+          },
+          {
+            "check_id": "E:US:REQ:US:s_sodium_benzoate_532321:sds",
+            "requirement_id": "REQ:US:s_sodium_benzoate_532321:sds",
+            "document_type": "sds",
+            "scope": "material",
+            "material_id": "s_sodium_benzoate_532321",
+            "region": "US",
+            "status": "missing",
+            "document_ids": [],
+            "message": "No matching SDS is on file for this material. Batch is not required for an SDS.",
+            "reason_code": "missing",
+            "action": "Upload the document for this ingredient. A product-level file does not satisfy this requirement.",
+            "criticality": "high"
+          }
+        ],
+        "documents": [],
+        "extracted_facts": [],
+        "source_issues": [],
+        "applicable_rules": [],
+        "applicable_scenario_rules": [],
+        "regulatory_reference_status": "Threshold records are limited to the selected region, category, and age branch.",
+        "regulatory_rows_disabled": 445,
+        "historical_cases": [],
+        "composition_total_percent": 100.0,
+        "assessment_mode": "evidence",
+        "dataset_kind": "threshold_reference",
+        "dataset_version": "us-eu-thresholds-2026-10-08-2026-10-08-aeb517a4f840",
+        "scenario_provenance": {
+          "dataset_kind": "threshold_reference",
+          "dataset_version": "us-eu-thresholds-2026-10-08-2026-10-08-aeb517a4f840",
+          "provenance": "supplied_us_eu_json",
+          "is_regulatory_requirement": false,
+          "note": "Dummy concentration rules are not used in this workflow."
+        }
+      },
+      "explanation": {
+        "status": "failed",
+        "source": "none",
+        "content": {
+          "summary": "",
+          "key_reasons": [],
+          "finding_explanations": [],
+          "evidence_gaps": [],
+          "evidence_gap_explanations": [],
+          "recommendations": [],
+          "prioritized_actions": [],
+          "alerts": [],
+          "assessment_support_explanation": "",
+          "source_conflicts": [],
+          "analysis_confidence": null,
+          "version_comparison_summary": null,
+          "version_change_summary": null,
+          "limitations": [
+            "Catalog coverage incomplete. These files list restricted substances, impurities, and test analytes. They do not contain enough ordinary ingredients to describe a full recipe. A submission is a partial substance screening unless the user explicitly declares a complete ingredient list totaling 100%.",
+            "Source verification status is the status stated in the supplied file. This application does not independently verify it.",
+            "State-specific requirements remain in the source dataset and are excluded from this assessment. They are not applied to a generic United States result.",
+            "The declared formulation ingredients total 100% within ±0.01 percentage points. This is still not an approved-recipe or full regulatory certification.",
+            "Unmatched ingredient names were kept as coverage gaps and were not replaced with catalog substances.",
+            "AI analysis failed: Azure OpenAI returned output that could not be validated against the assessment schema."
+          ],
+          "version_change": null
+        }
+      },
+      "execution": {
+        "assessment_id": "48ec0b7c-942a-46f6-8b69-c3e5d0f97bc1",
+        "execution_mode": "live",
+        "llm_provider": "azure_openai",
+        "llm_status": "failed",
+        "deployment": "gpt-5.4-mini",
+        "response_id": "chatcmpl-EYAqBPwwAELoBPdrcPdjFzlvBYN3x",
+        "request_id": "a7be32ff-e981-469d-8b59-2647e586584d",
+        "generated_at": "2026-10-12T13:58:31.932875+00:00",
+        "latency_ms": 20863,
+        "usage": {
+          "completion_tokens": 2613,
+          "prompt_tokens": 4304,
+          "total_tokens": 6917,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": 0,
+            "audio_tokens": 0,
+            "reasoning_tokens": 0,
+            "rejected_prediction_tokens": 0,
+            "text_tokens": null
+          },
+          "prompt_tokens_details": {
+            "audio_tokens": 0,
+            "cache_write_tokens": null,
+            "cached_tokens": 3840,
+            "image_tokens": null,
+            "text_tokens": null
+          },
+          "latency_checkpoint": {
+            "engine_tbt_ms": 3,
+            "engine_ttft_ms": 51,
+            "engine_ttlt_ms": 8345,
+            "pre_inference_ms": 121,
+            "service_tbt_ms": 3,
+            "service_ttft_ms": 366,
+            "service_ttlt_ms": 8654,
+            "user_visible_ttft_ms": 245
+          }
+        },
+        "retrieved_source_count": 0,
+        "input_hash": "a23c1471afdf099d129602b580f7de768365e5ef91cd03057b3f69ad3b815565",
+        "data_hash": "aeb517a4f840eb11675fb5ba32fd0acb68f4c645c3d53f0f2e7a6c0a954b2ca9",
+        "error_code": "invalid_output",
+        "error_message": "Azure OpenAI returned output that could not be validated against the assessment schema."
+      },
+      "preliminary_assessment": {
+        "assessment_id": "48ec0b7c-942a-46f6-8b69-c3e5d0f97bc1",
+        "formula_id": "FML-1038",
+        "formula_version": "v1.0",
+        "assessment_summary": "",
+        "screening_outcome": "not_assessed",
+        "preliminary_prediction": {
+          "outcome": "indeterminate",
+          "basis": "The AI assessment did not complete. Calculated checks remain available and were not replaced with a success result.",
+          "analysis_confidence": "low",
+          "confidence_reason": "Azure OpenAI returned output that could not be validated against the assessment schema.",
+          "numeric_estimate": null,
+          "estimate_kind": "not_available",
+          "blocking_uncertainties": [
+            "AI assessment failed"
+          ],
+          "source_ids": []
+        },
+        "findings": [],
+        "missing_documents": [],
+        "source_conflicts": [],
+        "recommendations": [],
+        "alerts": [],
+        "next_actions": [],
+        "version_comparison": null,
+        "limitations": [
+          "AI assessment failed: Azure OpenAI returned output that could not be validated against the assessment schema."
+        ],
+        "execution": {
+          "llm_status": "failed",
+          "deployment": "gpt-5.4-mini",
+          "prompt_version": "assessment_v2"
+        }
+      }
     }
   ],
   "latest": {
@@ -8660,6 +11351,38 @@
       "assessment_mode": "evidence",
       "created_at": "2026-10-12T07:18:18.879413+00:00",
       "version_id": "v2.2"
+    },
+    "FML-1035": {
+      "assessment_id": "b31a163f-369a-4dfb-8094-93824891a4e7",
+      "screening_status": "more_information_required",
+      "screening_status_label": "More information required",
+      "assessment_mode": "evidence",
+      "created_at": "2026-10-12T13:32:07.956924+00:00",
+      "version_id": "v1.0"
+    },
+    "FML-1036": {
+      "assessment_id": "1da0c852-ab94-4bc4-9412-0d0207fbcda2",
+      "screening_status": "more_information_required",
+      "screening_status_label": "More information required",
+      "assessment_mode": "evidence",
+      "created_at": "2026-10-12T13:35:31.301652+00:00",
+      "version_id": "v1.0"
+    },
+    "FML-1037": {
+      "assessment_id": "a7ec03fa-a7f0-490f-a262-9f5dc8c9e31f",
+      "screening_status": "more_information_required",
+      "screening_status_label": "More information required",
+      "assessment_mode": "evidence",
+      "created_at": "2026-10-12T13:45:35.526831+00:00",
+      "version_id": "v1.0"
+    },
+    "FML-1038": {
+      "assessment_id": "48ec0b7c-942a-46f6-8b69-c3e5d0f97bc1",
+      "screening_status": "more_information_required",
+      "screening_status_label": "More information required",
+      "assessment_mode": "evidence",
+      "created_at": "2026-10-12T13:58:31.932875+00:00",
+      "version_id": "v1.0"
     }
   }
 }

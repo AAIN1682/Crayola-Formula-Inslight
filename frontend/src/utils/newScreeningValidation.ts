@@ -1,30 +1,30 @@
 import type { CompositionRow, NewScreeningDraft } from '../types/newScreening';
-import { compositionMeterMessage, parsePercent } from './compositionMath';
+import { compositionIsComplete, parsePercent } from './compositionMath';
 import { formulationCompositionTotal } from './formulationComposition';
 
+/** Reasons for disabling Run pre-check (tooltips / screen readers only — not shown inline). */
 export function runPrecheckBlockers(draft: NewScreeningDraft): string[] {
   const reasons: string[] = [];
   if (!draft.name.trim()) reasons.push('Enter a product name.');
   if (!draft.targetMarkets.length) reasons.push('Choose at least one market.');
   const total = formulationCompositionTotal(draft.ingredients);
-  const meter = compositionMeterMessage(total);
-  if (!meter.ok) {
-    reasons.push(meter.message.replace('The template needs exactly 100%. ', 'Total is not 100%. '));
+  if (!compositionIsComplete(total)) {
+    reasons.push(`Total is ${total.toFixed(1)}%, needs 100%.`);
   }
   draft.ingredients.forEach((row, index) => {
     const label = `Ingredient ${index + 1}`;
     if (row.custom && !row.name.trim()) {
-      reasons.push(`${label} is not in the catalog — enter a name or pick from the catalog.`);
+      reasons.push(`${label}: enter a custom ingredient name.`);
       return;
     }
     const named = row.catalogId || row.name.trim();
     if (!named) return;
     if (!row.custom && !row.catalogId) {
-      reasons.push(`${label} — select an ingredient from the catalog.`);
+      reasons.push(`${label}: select an ingredient from the list.`);
     }
     const pct = parsePercent(row.pct);
     if (!Number.isFinite(pct) || pct <= 0) {
-      reasons.push(`${label} needs a % greater than 0.`);
+      reasons.push(`${label}: enter a percentage above 0.`);
     }
   });
   return reasons;

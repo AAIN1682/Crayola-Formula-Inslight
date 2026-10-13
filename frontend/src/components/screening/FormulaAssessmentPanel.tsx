@@ -112,8 +112,9 @@ export function FormulaAssessmentPanel({
         />
         <CardBody className="space-y-3">
           {aiFailed ? (
-            <Notice tone="warning" title="AI analysis failed">
-              {execution?.error_message || 'The calculated checks are still shown. This is not a successful Azure assessment.'}
+            <Notice tone="neutral" title="AI narrative unavailable">
+              {execution?.error_message ||
+                'Calculated checks are unchanged. Azure did not return a validated narrative for this run.'}
             </Notice>
           ) : null}
           {live && content.summary ? <p className="text-sm leading-6 text-ink">{content.summary}</p> : null}

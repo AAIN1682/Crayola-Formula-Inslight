@@ -214,6 +214,9 @@ export interface Ingredient {
   batchId?: string;
   compositionType?: string;
   screeningRole?: 'formulation_ingredient' | 'contaminant_analyte' | 'role_requires_review';
+  /** False when the row is user-declared but not in the threshold rule catalog. */
+  inRuleCatalog?: boolean;
+  casNumber?: string;
   needsCorrection?: boolean;
   measuredValue?: number;
   measuredUnit?: string;

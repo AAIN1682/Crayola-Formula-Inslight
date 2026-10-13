@@ -12,26 +12,19 @@ import { Pagination } from '../components/ui/Pagination';
 import { EmptyState, ErrorState, LoadingState } from '../components/ui/States';
 import {
   formatLibraryScore,
+  LIBRARY_STATUS_LABEL,
+  libraryStatusIcon,
+  libraryStatusTone,
   SCREENING_BAND_LABEL,
-  topIssueLabel,
-  type LatestRunSummary,
   type ScreeningBand,
 } from '../utils/libraryScreeningDisplay';
+import { RunScreeningDialog } from '../components/screening/RunScreeningDialog';
 import '../styles/preseal-portfolio.css';
 
 const BANDS: ScreeningBand[] = ['all', 'likely-ap', 'at-risk', 'likely-cl', 'not-screened'];
 
-function formatStage(formula: Formula): string {
-  if (formula.lifecycle === 'draft') return 'Draft';
-  if (formula.reviewStatus === 'complete') return 'Review complete';
-  if (formula.reviewStatus === 'in-review') return 'In review';
-  if (formula.screeningStatus !== 'not-screened') return 'Screened';
-  return 'Draft';
-}
-
-function formatAge(formula: Formula): string {
-  const match = formula.intendedAgeDetail?.match(/(\d+\+)/);
-  return match ? match[1] : formula.ageGroup === '12_and_above' ? '12+' : 'Under 12';
+function formatStage(_formula: Formula): string {
+  return '—';
 }
 
 function formatUpdated(iso: string): string {
@@ -42,23 +35,12 @@ function formatUpdated(iso: string): string {
   }
 }
 
-function scoreTone(summary?: LatestRunSummary | null): 'ap' | 'risk' | 'cl' | 'neutral' {
-  switch (summary?.displayStatus) {
-    case 'pass-leaning':
-      return 'ap';
-    case 'at-risk':
-      return 'risk';
-    case 'likely-cl':
-      return 'cl';
-    default:
-      return 'neutral';
-  }
-}
-
 function RowActions({
   row,
   onOpen,
   onOpenResult,
+  onRunScreening,
+  onEdit,
   onDuplicate,
   onDuplicateVersion,
   onArchive,
@@ -68,6 +50,8 @@ function RowActions({
   row: FormulaRow;
   onOpen: () => void;
   onOpenResult: () => void;
+  onRunScreening: () => void;
+  onEdit: () => void;
   onDuplicate: () => void;
   onDuplicateVersion: () => void;
   onArchive: () => void;
@@ -109,6 +93,12 @@ function RowActions({
               View latest result
             </button>
           ) : null}
+          <button type="button" role="menuitem" onClick={onRunScreening} className="flex w-full items-center gap-2 px-3 py-2 text-left text-[13px] hover:bg-slate-50">
+            Run screening
+          </button>
+          <button type="button" role="menuitem" onClick={onEdit} className="flex w-full items-center gap-2 px-3 py-2 text-left text-[13px] hover:bg-slate-50">
+            Edit
+          </button>
           <button type="button" role="menuitem" onClick={onDuplicate} className="flex w-full items-center gap-2 px-3 py-2 text-left text-[13px] hover:bg-slate-50">
             <Copy className="size-3.5" aria-hidden />
             Duplicate as new formula
@@ -151,9 +141,11 @@ export function FormulaLibraryPage() {
   const [includeArchived, setIncludeArchived] = useState(() => searchParams.get('archived') === '1');
   const [onlyMissingEvidence, setOnlyMissingEvidence] = useState(false);
   const [onlyPendingReview, setOnlyPendingReview] = useState(false);
-  const [sortKey] = useState<FormulaSortKey>('updatedAt');
-  const [sortDirection] = useState<SortDirection>('desc');
+  const [sortKey, setSortKey] = useState<FormulaSortKey>(() => (searchParams.get('sortKey') as FormulaSortKey) || 'updatedAt');
+  const [sortDirection, setSortDirection] = useState<SortDirection>(() => (searchParams.get('sortDir') as SortDirection) || 'desc');
   const [page, setPage] = useState(() => Number.parseInt(searchParams.get('page') ?? '1', 10) || 1);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [screenTarget, setScreenTarget] = useState<Formula | undefined>();
 
   const [archiveTarget, setArchiveTarget] = useState<Formula | undefined>();
   const [deleteTarget, setDeleteTarget] = useState<Formula | undefined>();
@@ -230,6 +222,25 @@ export function FormulaLibraryPage() {
     toast.success('Formula deleted', `${formula.name} was removed.`);
     reload();
   });
+
+  const bulkArchive = useAsyncAction(async () => {
+    for (const id of selectedIds) {
+      await services.archiveFormula(id);
+    }
+    setSelectedIds([]);
+    toast.success('Archived', `${selectedIds.length} formula(s) archived.`);
+    reload();
+  });
+
+  const toggleSort = (key: FormulaSortKey) => {
+    if (sortKey === key) {
+      setSortDirection((dir) => (dir === 'asc' ? 'desc' : 'asc'));
+    } else {
+      setSortKey(key);
+      setSortDirection(key === 'updatedAt' || key === 'lastScreenedAt' || key === 'score' ? 'desc' : 'asc');
+    }
+    setPage(1);
+  };
 
   const summary = data?.summary;
   const bandCount = (key: keyof NonNullable<typeof summary>) => summary?.[key] ?? 0;
@@ -336,6 +347,20 @@ export function FormulaLibraryPage() {
           </button>
         </div>
 
+        {selectedIds.length ? (
+          <div className="flex flex-wrap items-center gap-2 border-b border-[var(--ps-line)] px-1 py-2 text-sm">
+            <span className="text-[var(--ps-ink-2)]">{selectedIds.length} selected</span>
+            <button type="button" className="h-8 rounded-md border px-3" onClick={() => setScreenTarget(data?.items.find((r) => r.formula.id === selectedIds[0])?.formula)}>
+              Run screening
+            </button>
+            <button type="button" className="h-8 rounded-md border px-3" onClick={() => void bulkArchive.run()} disabled={bulkArchive.pending}>
+              Archive
+            </button>
+            <button type="button" className="h-8 text-[var(--ps-ink-3)]" onClick={() => setSelectedIds([])}>
+              Clear
+            </button>
+          </div>
+        ) : null}
         <div className="ps-panel-head">
           <h2>All formulas</h2>
           <div className="ps-filters" role="group" aria-label="Filter by likelihood">
@@ -389,13 +414,35 @@ export function FormulaLibraryPage() {
                 <caption className="sr-only">Formula library</caption>
                 <thead>
                   <tr>
-                    <th>Formula</th>
-                    <th>Category</th>
-                    <th>Ages</th>
+                    <th>
+                      <span className="sr-only">Select</span>
+                    </th>
+                    <th>
+                      <button type="button" className="font-semibold" onClick={() => toggleSort('name')}>
+                        Formula
+                      </button>
+                    </th>
+                    <th>
+                      <button type="button" className="font-semibold" onClick={() => toggleSort('version')}>
+                        Version
+                      </button>
+                    </th>
+                    <th>
+                      <button type="button" className="font-semibold" onClick={() => toggleSort('screeningStatus')}>
+                        Screening
+                      </button>
+                    </th>
+                    <th className="num">
+                      <button type="button" className="font-semibold" onClick={() => toggleSort('score')}>
+                        Score
+                      </button>
+                    </th>
+                    <th>
+                      <button type="button" className="font-semibold" onClick={() => toggleSort('lastScreenedAt')}>
+                        Last screened
+                      </button>
+                    </th>
                     <th>Stage</th>
-                    <th className="num">AP likelihood</th>
-                    <th>Top issue</th>
-                    <th>Updated</th>
                     <th>
                       <span className="sr-only">Actions</span>
                     </th>
@@ -404,10 +451,24 @@ export function FormulaLibraryPage() {
                 <tbody>
                   {data.items.map((row) => {
                     const score = formatLibraryScore(row.latestRunSummary);
-                    const tone = scoreTone(row.latestRunSummary);
-                    const hasRun = Boolean(row.latestRunSummary?.runId);
+                    const displayStatus = row.latestRunSummary?.displayStatus ?? 'not-screened';
+                    const StatusIcon = libraryStatusIcon(displayStatus);
+                    const statusTone = libraryStatusTone(displayStatus);
+                    const checked = selectedIds.includes(row.formula.id);
                     return (
                       <tr key={row.formula.id} onClick={() => openRow(row)}>
+                        <td onClick={(event) => event.stopPropagation()}>
+                          <input
+                            type="checkbox"
+                            aria-label={`Select ${row.formula.name}`}
+                            checked={checked}
+                            onChange={() =>
+                              setSelectedIds((ids) =>
+                                checked ? ids.filter((id) => id !== row.formula.id) : [...ids, row.formula.id],
+                              )
+                            }
+                          />
+                        </td>
                         <td>
                           <div className="ps-fcell">
                             <span
@@ -424,28 +485,26 @@ export function FormulaLibraryPage() {
                             </div>
                           </div>
                         </td>
-                        <td>{row.formula.category}</td>
-                        <td>{formatAge(row.formula)}</td>
-                        <td>{formatStage(row.formula)}</td>
+                        <td className="ps-mono ps-muted">{row.formula.version}</td>
+                        <td>
+                          <span className={`inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-[11px] chip-${statusTone}`}>
+                            <StatusIcon aria-hidden className="size-3.5" />
+                            {LIBRARY_STATUS_LABEL[displayStatus]}
+                          </span>
+                        </td>
                         <td className="num">
                           {score.barWidth != null ? (
-                            <>
-                              <div className="ps-lk">
-                                <div className="ps-lk-bar">
-                                  <i className={`bg-${tone}`} style={{ width: `${score.barWidth}%` }} />
-                                </div>
-                                <span className="font-semibold tabular-nums">{score.text}</span>
-                              </div>
-                              <div className={`text-[11px] tx-${tone}`}>
-                                {row.latestRunSummary?.scoreLabel ?? (tone === 'ap' ? 'Likely AP' : tone === 'risk' ? 'At risk' : tone === 'cl' ? 'Likely CL' : 'Not screened')}
-                              </div>
-                            </>
+                            <span className="font-semibold tabular-nums">{score.text}</span>
                           ) : (
                             <span className="ps-muted">—</span>
                           )}
                         </td>
-                        <td className="ps-issue ps-muted">{topIssueLabel(row.latestRunSummary, hasRun)}</td>
-                        <td className="ps-muted whitespace-nowrap">{formatUpdated(row.formula.updatedAt)}</td>
+                        <td className="ps-muted whitespace-nowrap">
+                          {row.latestRunSummary?.lastScreenedAt
+                            ? formatUpdated(row.latestRunSummary.lastScreenedAt)
+                            : '—'}
+                        </td>
+                        <td>{formatStage(row.formula)}</td>
                         <td>
                           <RowActions
                             row={row}
@@ -454,6 +513,8 @@ export function FormulaLibraryPage() {
                               row.latestRunSummary?.runId &&
                               navigate(`/formulas/${row.formula.id}/results/${row.latestRunSummary.runId}`)
                             }
+                            onRunScreening={() => setScreenTarget(row.formula)}
+                            onEdit={() => navigate(`/formulas/${row.formula.id}/edit`)}
                             onDuplicate={() => void duplicate.run(row.formula)}
                             onDuplicateVersion={() => void duplicateVersion.run(row.formula)}
                             onArchive={() => setArchiveTarget(row.formula)}
@@ -478,6 +539,19 @@ export function FormulaLibraryPage() {
           </>
         )}
       </section>
+
+      {screenTarget ? (
+        <RunScreeningDialog
+          open={Boolean(screenTarget)}
+          formula={screenTarget}
+          onClose={() => setScreenTarget(undefined)}
+          onComplete={(run) => {
+            setScreenTarget(undefined);
+            navigate(`/formulas/${screenTarget.id}/results/${run.id}`);
+            reload();
+          }}
+        />
+      ) : null}
 
       <ConfirmDialog
         open={Boolean(archiveTarget)}

@@ -56,6 +56,9 @@ class LegacyMaterial(BaseModel):
     name: str = Field(min_length=1, max_length=200)
     legacy_id: str | None = Field(default=None, max_length=120)
     concentration_percent: float | None = None
+    cas_number: str | None = Field(default=None, max_length=80)
+    in_rule_catalog: bool = False
+    screening_role: str = "formulation_ingredient"
 
 
 class Ingredient(BaseModel):
@@ -223,7 +226,7 @@ def _assessment(formula: Formula, version_changes: list | None = None) -> dict:
                 preliminary["execution"] = {
                     "llm_status": "succeeded",
                     "deployment": execution.get("deployment"),
-                    "prompt_version": generated["execution"].get("prompt_version") or "assessment_v2",
+                    "prompt_version": generated["execution"].get("prompt_version") or "assessment_v3",
                 }
                 context["preliminary_assessment"] = preliminary
             execution["generated_at"] = generated_at
@@ -231,7 +234,12 @@ def _assessment(formula: Formula, version_changes: list | None = None) -> dict:
             execution["input_hash"] = input_hash(payload)
             execution["data_hash"] = context.get("data_hash") or data_hash(STORE)
         except AzureExplanationError as error:
-            logger.info("assessment_stage correlation_id=%s stage=azure_failed code=%s", assessment_id, error.code)
+            logger.info(
+                "assessment_stage correlation_id=%s stage=azure_failed code=%s validation=%s",
+                assessment_id,
+                error.code,
+                "; ".join((error.validation_errors or [])[:6]),
+            )
             explanation = {
                 "status": "failed",
                 "source": "none",
@@ -289,7 +297,7 @@ def _assessment(formula: Formula, version_changes: list | None = None) -> dict:
             "execution": {
                 "llm_status": "failed",
                 "deployment": execution.get("deployment"),
-                "prompt_version": "assessment_v2",
+                "prompt_version": "assessment_v3",
             },
         }
     logger.info(

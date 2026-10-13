@@ -216,7 +216,7 @@ describe('routes', () => {
     const tabs = Array.from(
       container.querySelectorAll('nav[aria-label="Formula sections"] a'),
     ).map((node) => node.textContent);
-    expect(tabs).toEqual(['Ingredients', 'Evidence', 'Screening', 'Activity']);
+    expect(tabs).toEqual(['Ingredients', 'Evidence', 'Screening', 'Results', 'Activity']);
   });
 
   it('opens a seeded screening result directly with all result sections', async () => {

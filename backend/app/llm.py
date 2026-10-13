@@ -6,13 +6,18 @@ import json
 import logging
 import re
 import time
+from collections import Counter
 
 from app.config import ROOT, azure_settings
 
 logger = logging.getLogger("affine.llm")
 PROMPT = (ROOT / "prompts" / "explanation.txt").read_text(encoding="utf-8")
 ASSESSMENT_PROMPT = (ROOT / "prompts" / "assessment.txt").read_text(encoding="utf-8")
-PROMPT_VERSION = "assessment_v2"
+PROMPT_VERSION = "assessment_v3"
+ASSESSMENT_ATTEMPTS = 3
+LLM_TEMPERATURE = 0
+_RESPONSE_FORMAT_USAGE: Counter[str] = Counter()
+_LAST_STRUCTURED_SCHEMA_ERROR: str | None = None
 FINDING_STATUSES = {
     "meets_rule",
     "does_not_meet_rule",
@@ -399,9 +404,17 @@ def _material_ids(context: dict) -> set[str]:
     for item in context.get("materials") or []:
         if item.get("material_id"):
             ids.add(item["material_id"])
+        if item.get("name"):
+            ids.add(str(item["name"]))
     for row in (context.get("formula") or {}).get("ingredients") or []:
         if row.get("material_id"):
             ids.add(row["material_id"])
+        if row.get("name"):
+            ids.add(str(row["name"]))
+    for check in _checks(context):
+        material_id = check.get("material_id")
+        if material_id:
+            ids.add(str(material_id))
     return ids
 
 
@@ -429,6 +442,13 @@ def _gap_present(context: dict) -> bool:
 
 def _failed_calculations(context: dict) -> bool:
     return any(item.get("status") == "fail" for item in _checks(context))
+
+
+def _finding_requires_reason_text(status: str, context: dict, finding: dict) -> bool:
+    if status == "source_review_required":
+        return True
+    check = _match_check(context, finding)
+    return bool(check and check.get("status") == "source_review_required")
 
 
 def _match_check(context: dict, finding: dict) -> dict | None:
@@ -532,6 +552,72 @@ def _clean_plan(items: list, points_by_id: dict[str, int]) -> list[dict]:
             "score_points": int(points_by_id.get(related_id or "") or 0),
         })
     return cleaned
+
+
+def _safe_pending_reason_text(text: str) -> str | None:
+    cleaned = str(text or "").strip()
+    if len(cleaned) < 12:
+        return None
+    if CERTIFICATION_CLAIM.search(cleaned) or re.search(
+        r"\bindependently verified\b|\bapplication verified\b", cleaned, re.I
+    ):
+        return None
+    return cleaned
+
+
+def reset_response_format_usage() -> None:
+    _RESPONSE_FORMAT_USAGE.clear()
+
+
+def response_format_usage() -> dict[str, int]:
+    return dict(_RESPONSE_FORMAT_USAGE)
+
+
+def last_structured_schema_error() -> str | None:
+    return _LAST_STRUCTURED_SCHEMA_ERROR
+
+
+def pending_reason_text_errors(payload: dict, context: dict) -> list[str]:
+    errors: list[str] = []
+    if not isinstance(payload, dict):
+        return errors
+    for item in payload.get("findings") or []:
+        if not isinstance(item, dict):
+            continue
+        status = str(item.get("status") or "").strip()
+        if not _finding_requires_reason_text(status, context, item):
+            continue
+        required_reason_text = str(item.get("required_reason_text") or "").strip()
+        if len(required_reason_text) < 12:
+            errors.append(
+                "Findings tied to a pending or unreviewed source must include required_reason_text "
+                "explaining that the source is pending or unreviewed."
+            )
+            continue
+        if CERTIFICATION_CLAIM.search(required_reason_text) or re.search(
+            r"\bindependently verified\b|\bapplication verified\b", required_reason_text, re.I
+        ):
+            errors.append("required_reason_text must not claim independent verification for a pending source.")
+    return errors
+
+
+def _normalize_required_reason_text(payload: dict, context: dict) -> None:
+    if not isinstance(payload, dict):
+        return
+    for item in payload.get("findings") or []:
+        if not isinstance(item, dict):
+            continue
+        if str(item.get("required_reason_text") or "").strip():
+            continue
+        status = str(item.get("status") or "").strip()
+        if not _finding_requires_reason_text(status, context, item):
+            continue
+        check = _match_check(context, item)
+        if not check:
+            continue
+        message = _safe_pending_reason_text(check.get("message") or "")
+        if message:
+            item["required_reason_text"] = message
 
 
 def validate_assessment(payload: dict, context: dict) -> tuple[dict | None, list[str]]:
@@ -778,16 +864,24 @@ def explain(context: dict) -> dict:
     last_error: Exception | None = None
     last_response = None
     validation_errors: list[str] = []
-    for _attempt in range(2):
+    from app.assessment_schema import assessment_structured_response_format
+
+    global _LAST_STRUCTURED_SCHEMA_ERROR
+    structured_format = assessment_structured_response_format()
+    for attempt in range(ASSESSMENT_ATTEMPTS):
         parsed = None
-        for json_mode in (True, False):
+        winning_format: str | None = None
+        for format_mode in ("structured", "json_object"):
             try:
                 request = {
                     "model": config["deployment"],
                     "messages": messages,
                     "max_completion_tokens": 4000,
+                    "temperature": LLM_TEMPERATURE,
                 }
-                if json_mode:
+                if format_mode == "structured":
+                    request["response_format"] = structured_format
+                else:
                     request["response_format"] = {"type": "json_object"}
                 response = client.chat.completions.create(**request)
                 last_response = response
@@ -796,13 +890,32 @@ def explain(context: dict) -> dict:
                     raise RuntimeError("Azure OpenAI returned an empty assessment.")
                 cleaned = text.removeprefix("```json").removesuffix("```").strip()
                 parsed = json.loads(cleaned)
+                winning_format = format_mode
                 break
             except Exception as error:
                 last_error = error
-                logger.info("azure_explanation_failed code=%s", classify_error(error))
+                if format_mode == "structured":
+                    _LAST_STRUCTURED_SCHEMA_ERROR = sanitize(error)
+                logger.info(
+                    "azure_explanation_failed attempt=%s format=%s code=%s",
+                    attempt + 1,
+                    format_mode,
+                    classify_error(error),
+                )
+                if format_mode == "structured" and classify_error(error) in {"deployment", "invalid_output", "request_failed"}:
+                    continue
+                if format_mode == "json_object":
+                    break
         if parsed is None:
             break
+        if winning_format:
+            _RESPONSE_FORMAT_USAGE[winning_format] += 1
+        _normalize_required_reason_text(parsed, context)
         validated, validation_errors = validate_assessment(parsed, context)
+        pending_errors = pending_reason_text_errors(parsed, context)
+        if pending_errors:
+            validation_errors = pending_errors + validation_errors
+            validated = None
         if validated:
             response_id, request_id = _response_ids(last_response)
             return {
@@ -822,9 +935,20 @@ def explain(context: dict) -> dict:
                 },
             }
         last_error = RuntimeError("Assessment did not match the expected structure.")
+        logger.info(
+            "azure_assessment_validation_failed attempt=%s errors=%s",
+            attempt + 1,
+            "; ".join(validation_errors[:8]),
+        )
         messages.append({
             "role": "user",
-            "content": "The previous JSON failed validation: " + "; ".join(validation_errors[:12]) + ". Return corrected JSON only. Do not invent sources, measurements, or rules.",
+            "content": (
+                "The previous JSON failed validation: "
+                + "; ".join(validation_errors[:12])
+                + ". Return corrected JSON only. Do not invent sources, measurements, or rules. "
+                "For unmatched (legacy) ingredients, set ingredient_id to the declared name or material_id from materials, not row-1 style placeholders. "
+                "For source_review_required findings or checks with pending verification, set required_reason_text to a plain sentence that the source is pending or unreviewed."
+            ),
         })
     code = classify_error(last_error or RuntimeError("request_failed"))
     response_id = request_id = None
@@ -835,6 +959,7 @@ def explain(context: dict) -> dict:
     raise AzureExplanationError(
         safe_error_message(code),
         code=code,
+        validation_errors=validation_errors,
         execution={
             "llm_status": "failed",
             "llm_provider": "azure_openai",
@@ -850,7 +975,8 @@ def explain(context: dict) -> dict:
 
 
 class AzureExplanationError(RuntimeError):
-    def __init__(self, message: str, code: str, execution: dict):
+    def __init__(self, message: str, code: str, execution: dict, validation_errors: list[str] | None = None):
         super().__init__(message)
         self.code = code
         self.execution = execution
+        self.validation_errors = validation_errors or []

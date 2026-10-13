@@ -9,8 +9,8 @@ import {
   type CompositionRow,
   type NewScreeningDraft,
 } from '../types/newScreening';
-import { CompositionTotalMeter, compositionReady } from '../components/new-screening/CompositionTotalMeter';
-import { IngredientPicker } from '../components/new-screening/IngredientPicker';
+import { CompositionTotalMeter } from '../components/new-screening/CompositionTotalMeter';
+import { IngredientSelect } from '../components/new-screening/IngredientSelect';
 import { useCatalogMaterials } from '../hooks/useCatalogMaterials';
 import { rebalancePercentages } from '../utils/compositionMath';
 import { casValidationMessage } from '../utils/casValidation';
@@ -18,6 +18,7 @@ import { SupportingFilesSection } from '../components/new-screening/SupportingFi
 import { ScreeningProgressOverlay } from '../components/new-screening/ScreeningProgressOverlay';
 import { StartFromSelect } from '../components/new-screening/StartFromSelect';
 import { draftToFormulaInput, formulaToDraft, mergeIngredientDocumentIds } from '../utils/newScreeningSave';
+import { productColorHex } from '../utils/productColor';
 import { runPrecheckBlockers } from '../utils/newScreeningValidation';
 import { createStoredFormula, fetchFormula, updateStoredFormula } from '../api/formulaBackend';
 import { useToast } from '../components/ui/Toast';
@@ -69,6 +70,8 @@ export function NewScreeningPage() {
   const [overlayOpen, setOverlayOpen] = useState(false);
 
   const catalog = useCatalogMaterials(draft.category, draft.ageGroup, draft.targetMarkets);
+  const ingredientOptions = catalog.formulationOptions;
+  const contaminantOptions = catalog.contaminantOptions;
 
   useEffect(() => {
     if (!editId) return;
@@ -99,16 +102,18 @@ export function NewScreeningPage() {
   const blocker = useBlocker(dirty && !running);
 
   const title = draft.name.trim() || 'Untitled formula';
-  const totalOk = compositionReady(draft.ingredients);
   const runBlockers = useMemo(() => runPrecheckBlockers(draft), [draft]);
+  const runPrecheckHint = runBlockers.length ? runBlockers.join(' ') : undefined;
   const canRun = runBlockers.length === 0 && !saving && !running;
 
   const patch = useCallback((update: Partial<NewScreeningDraft>) => {
+    setRunError(undefined);
     setDraft((current) => ({ ...current, ...update }));
     setDirty(true);
   }, []);
 
   const patchRow = (key: string, update: Partial<CompositionRow>) => {
+    setRunError(undefined);
     setDraft((current) => ({
       ...current,
       ingredients: current.ingredients.map((row) => {
@@ -125,7 +130,15 @@ export function NewScreeningPage() {
 
   const selectIngredient = (key: string, value: string) => {
     if (value === '__custom__') {
-      patchRow(key, { custom: true, catalogId: undefined, name: '', cas: '', functionLabel: '-' });
+      patchRow(key, {
+        custom: true,
+        catalogId: undefined,
+        name: '',
+        cas: '',
+        functionLabel: '-',
+        inRuleCatalog: undefined,
+        screeningRole: undefined,
+      });
       return;
     }
     const option = catalog.options.find((item) => item.id === value);
@@ -136,9 +149,15 @@ export function NewScreeningPage() {
       name: option.name,
       cas: option.cas || '-',
       functionLabel: option.functionLabel || '-',
-      screeningRole: option.screeningRole ?? 'formulation_ingredient',
+      inRuleCatalog: option.inRuleCatalog,
+      screeningRole:
+        option.screeningRole === 'contaminant_analyte'
+          ? 'contaminant_analyte'
+          : 'formulation_ingredient',
     });
   };
+
+  const swatchColor = productColorHex(draft.productColor);
 
   const toggleMarket = (code: (typeof TARGET_MARKETS)[number]['code'], checked: boolean) => {
     const set = new Set(draft.targetMarkets);
@@ -155,9 +174,12 @@ export function NewScreeningPage() {
       const saved = draft.formulaId
         ? await updateStoredFormula(draft.formulaId, input)
         : await createStoredFormula(input);
-      setDraft((current) => ({ ...current, formulaId: saved.id }));
+      setDraft((current) => {
+        const next = { ...current, formulaId: saved.id, productColor: productColorHex(current.productColor) };
+        localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(next));
+        return next;
+      });
       setDirty(false);
-      localStorage.removeItem(DRAFT_STORAGE_KEY);
       toast.success('Draft saved', `${saved.name} was saved without screening.`);
       return saved.id;
     } catch (error) {
@@ -204,7 +226,7 @@ export function NewScreeningPage() {
         <div className="min-w-0">
           <p className="ps-eyebrow">New screening</p>
           <h1 className="ps-title">
-            <span className="ps-sw" style={{ backgroundColor: draft.productColor }} aria-hidden />
+            <span className="ps-sw" style={{ backgroundColor: swatchColor }} aria-hidden />
             <span>{title}</span>
           </h1>
           <p className="ps-lede">
@@ -330,16 +352,19 @@ export function NewScreeningPage() {
             </select>
           </div>
           <div className="ps-field">
-            <label htmlFor="ps-product-color">Product color</label>
+            <label htmlFor="f-swatch">Product color</label>
             <div className="ps-color-in">
               <input
-                id="ps-product-color"
+                id="f-swatch"
                 type="color"
-                value={draft.productColor}
+                value={swatchColor}
+                onInput={(event) => patch({ productColor: event.currentTarget.value })}
                 onChange={(event) => patch({ productColor: event.target.value })}
                 aria-label="Product color"
               />
-              <span className="ps-mono text-[12.5px] text-[var(--ps-ink-3)]">{draft.productColor.toUpperCase()}</span>
+              <span id="f-swatch-hex" className="ps-mono ps-small ps-muted">
+                {swatchColor.toUpperCase()}
+              </span>
             </div>
           </div>
           <div className="ps-field wide">
@@ -400,20 +425,35 @@ export function NewScreeningPage() {
               </tr>
             </thead>
             <tbody>
-              {draft.ingredients.map((row) => {
+              {draft.ingredients.map((row, rowIndex) => {
                 const errors = submitAttempted ? rowErrors(row, draft.ingredients) : {};
                 const labelName = row.name || 'ingredient';
+                const selectId = `ing-${rowIndex}-id`;
                 return (
                   <tr key={row.key}>
                     <td>
-                      <IngredientPicker
-                        options={catalog.options}
+                      <IngredientSelect
+                        selectId={selectId}
+                        rowIndex={rowIndex}
+                        options={ingredientOptions}
+                        contaminantOptions={contaminantOptions}
                         loading={catalog.loading}
                         catalogId={row.catalogId}
                         custom={row.custom}
                         customName={row.name}
                         onSelectCatalog={(value) => selectIngredient(row.key, value)}
                         onCustomName={(name) => patchRow(row.key, { custom: true, name })}
+                        onBackToList={() =>
+                          patchRow(row.key, {
+                            custom: false,
+                            catalogId: undefined,
+                            name: '',
+                            cas: '',
+                            functionLabel: '',
+                            inRuleCatalog: undefined,
+                            screeningRole: undefined,
+                          })
+                        }
                       />
                       {errors.duplicate ? (
                         <span className="sr-only">{errors.duplicate}</span>
@@ -436,24 +476,36 @@ export function NewScreeningPage() {
                     </td>
                     <td className="ps-fn">{row.functionLabel || '-'}</td>
                     <td className="num">
+                      <label className="sr-only" htmlFor={`ing-${rowIndex}-pct`}>
+                        Percent by weight
+                      </label>
                       <input
+                        id={`ing-${rowIndex}-pct`}
                         className="ps-in num"
                         type="number"
                         step={0.001}
                         min={0}
                         max={100}
                         value={row.pct}
+                        data-row={rowIndex}
+                        data-field="pct"
                         aria-label={`Percent by weight for ${labelName}`}
                         title={errors.pct}
                         onChange={(event) => patchRow(row.key, { pct: event.target.value })}
                       />
                     </td>
                     <td>
+                      <label className="sr-only" htmlFor={`ing-${rowIndex}-sup`}>
+                        Supplier
+                      </label>
                       <input
+                        id={`ing-${rowIndex}-sup`}
                         className="ps-in"
                         type="text"
                         value={row.supplier}
                         placeholder="Supplier"
+                        data-row={rowIndex}
+                        data-field="supplier"
                         aria-label={`Supplier for ${labelName}`}
                         onChange={(event) => patchRow(row.key, { supplier: event.target.value })}
                       />
@@ -523,23 +575,22 @@ export function NewScreeningPage() {
       />
 
       <div className="ps-actionbar">
-        <div className="min-w-0">
-          <span className="ps-muted">Takes a few seconds. Nothing is sent to ACMI.</span>
-          {!canRun && runBlockers.length > 0 ? (
-            <p className="mt-1 text-[12.5px] text-[var(--ps-risk)]" role="status">
-              {runBlockers.join(' ')}
-            </p>
-          ) : null}
-        </div>
+        <span className="ps-muted">Takes a few seconds. Nothing is sent to ACMI.</span>
         <div className="ps-head-actions">
           <button type="button" className="ps-btn" disabled={saving || running} onClick={() => void saveDraft()}>
             Save draft
           </button>
+          {runPrecheckHint ? (
+            <span id="ps-run-hint" className="sr-only">
+              {runPrecheckHint}
+            </span>
+          ) : null}
           <button
             type="button"
             className="ps-btn ps-btn-primary"
-            disabled={!canRun}
-            aria-describedby={runBlockers.length ? 'ps-run-blockers' : undefined}
+            disabled={!canRun || saving || running}
+            title={!canRun ? runPrecheckHint : undefined}
+            aria-describedby={runPrecheckHint ? 'ps-run-hint' : undefined}
             onClick={() => void runPrecheck()}
           >
             Run pre-check

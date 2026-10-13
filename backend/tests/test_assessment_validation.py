@@ -1,6 +1,6 @@
 """LLM assessment schema checks. These do not call Azure."""
 
-from app.llm import validate_assessment
+from app.llm import pending_reason_text_errors, validate_assessment
 
 
 def _context() -> dict:
@@ -55,6 +55,7 @@ def _payload(**overrides) -> dict:
                 "unit": None,
                 "rule_id": "R1",
                 "reason": "The supplied calculation needs test data. That is not a measured failure.",
+                "required_reason_text": None,
                 "source_ids": ["R1"],
                 "required_action": "Upload a CoA or laboratory result for this material.",
             }
@@ -146,6 +147,136 @@ def test_overall_score_is_the_sum_of_critical_high_and_low_ratings():
     assert validated["risk_score"]["open_issues"] == 2
     matched = next(item for item in validated["recommendations"] if item["related_finding_id"] == "F-2")
     assert matched["score_points"] == 26
+
+
+def test_legacy_ingredient_name_is_accepted_as_ingredient_id():
+    context = {
+        "formula": {
+            "ingredients": [
+                {"material_id": "Water", "name": "Water", "concentration_percent": 78.5},
+                {"material_id": "s_sodium_benzoate_532321", "name": "Sodium Benzoate", "concentration_percent": 0.5},
+            ]
+        },
+        "materials": [
+            {"material_id": "Water", "name": "Water"},
+            {"material_id": "s_sodium_benzoate_532321", "name": "Sodium Benzoate"},
+        ],
+        "calculated_checks": [
+            {
+                "check_id": "US:legacy:Water:0",
+                "material_id": "Water",
+                "rule_id": None,
+                "status": "no_matching_rule",
+                "actual": 78.5,
+                "message": "No rule in catalog for this ingredient: Water.",
+            },
+            {
+                "check_id": "US:s_sodium_benzoate_532321:R1",
+                "material_id": "s_sodium_benzoate_532321",
+                "rule_id": "R1",
+                "status": "source_review_required",
+                "actual": None,
+                "message": "Pending verification.",
+            },
+        ],
+        "evidence_checks": [],
+        "applicable_verified_rules": [{"rule_id": "R1"}],
+    }
+    payload = _payload()
+    payload["assessment_summary"] = "Water has no catalog rule and sodium benzoate remains pending source verification, so the direction stays indeterminate."
+    payload["findings"] = [
+        {
+            "finding_id": "F-water",
+            "ingredient_id": "Water",
+            "status": "unresolved_identity",
+            "severity": "low",
+            "risk_level": "low",
+            "title": "Water is not in the rule catalog",
+            "observed_value": 78.5,
+            "unit": "%",
+            "rule_id": None,
+            "reason": "No rule in catalog for this ingredient.",
+            "source_ids": ["US:legacy:Water:0"],
+            "required_action": "Map to a catalog substance or keep as a documented gap.",
+        },
+        {
+            "finding_id": "F-benzoate",
+            "ingredient_id": "s_sodium_benzoate_532321",
+            "status": "source_review_required",
+            "severity": "medium",
+            "risk_level": "high",
+            "title": "Sodium benzoate limit pending verification",
+            "observed_value": None,
+            "unit": None,
+            "rule_id": "R1",
+            "reason": "The source is pending verification.",
+            "required_reason_text": "The cited limit remains pending verification in the supplied US reference file and is unreviewed in this assessment.",
+            "source_ids": ["R1"],
+            "required_action": "Review the source status.",
+        },
+    ]
+    validated, errors = validate_assessment(payload, context)
+    assert errors == [], errors
+    assert validated is not None
+
+
+def test_pending_source_finding_requires_required_reason_text():
+    context = {
+        "formula": {"ingredients": [{"material_id": "s_sodium_benzoate_532321", "name": "Sodium Benzoate", "concentration_percent": 0.5}]},
+        "materials": [{"material_id": "s_sodium_benzoate_532321", "name": "Sodium Benzoate"}],
+        "calculated_checks": [
+            {
+                "check_id": "US:s_sodium_benzoate_532321:R1",
+                "material_id": "s_sodium_benzoate_532321",
+                "rule_id": "R1",
+                "status": "source_review_required",
+                "actual": None,
+            }
+        ],
+        "evidence_checks": [],
+        "applicable_verified_rules": [{"rule_id": "R1"}],
+    }
+    payload = _payload()
+    payload["findings"] = [
+        {
+            "finding_id": "F-1",
+            "ingredient_id": "s_sodium_benzoate_532321",
+            "status": "source_review_required",
+            "severity": "medium",
+            "risk_level": "high",
+            "title": "Pending limit",
+            "observed_value": None,
+            "unit": None,
+            "rule_id": "R1",
+            "reason": "The source is pending verification.",
+            "required_reason_text": None,
+            "source_ids": ["R1"],
+            "required_action": "Review the source.",
+        }
+    ]
+    errors = pending_reason_text_errors(payload, context)
+    assert any("required_reason_text" in item for item in errors)
+
+
+def test_row_placeholder_ingredient_id_is_rejected():
+    context = {
+        "formula": {"ingredients": [{"material_id": "Water", "name": "Water", "concentration_percent": 78.5}]},
+        "materials": [{"material_id": "Water", "name": "Water"}],
+        "calculated_checks": [
+            {
+                "check_id": "US:legacy:Water:0",
+                "material_id": "Water",
+                "status": "no_matching_rule",
+                "actual": 78.5,
+            }
+        ],
+        "evidence_checks": [],
+    }
+    payload = _payload()
+    payload["findings"][0]["ingredient_id"] = "row-1"
+    validated, errors = validate_assessment(payload, context)
+    assert validated is None
+    assert any("ingredient" in item.lower() for item in errors)
 
 
 def test_default_half_estimate_is_rejected_when_evidence_is_missing():

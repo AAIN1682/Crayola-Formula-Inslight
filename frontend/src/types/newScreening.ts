@@ -13,6 +13,8 @@ export interface CompositionRow {
   coaAvailable: boolean;
   documentIds: string[];
   screeningRole?: 'formulation_ingredient' | 'contaminant_analyte' | 'role_requires_review';
+  /** False for demo-list ingredients that are not in the threshold rule catalog. */
+  inRuleCatalog?: boolean;
 }
 
 export interface UploadedFileRow {

@@ -883,7 +883,39 @@ def validate_threshold_formula(formula: dict) -> list[dict]:
                 "type": "value_error",
             })
             saw_amount = False
-        elif role == "formulation_ingredient":
+        else:
+            ingredient_total += amount
+    for index, item in enumerate(legacy):
+        role = str(item.get("screening_role") or "formulation_ingredient")
+        if role == "contaminant_analyte":
+            continue
+        amount = item.get("concentration_percent")
+        if amount is None:
+            errors.append({
+                "loc": ["legacy_materials", index, "concentration_percent"],
+                "msg": f"Unmatched row {index + 1} needs a numeric concentration.",
+                "type": "value_error",
+            })
+            saw_amount = False
+            continue
+        try:
+            amount = float(amount)
+        except (TypeError, ValueError):
+            errors.append({
+                "loc": ["legacy_materials", index, "concentration_percent"],
+                "msg": f"Unmatched row {index + 1} needs a numeric concentration.",
+                "type": "value_error",
+            })
+            saw_amount = False
+            continue
+        if amount <= 0 or amount > 100:
+            errors.append({
+                "loc": ["legacy_materials", index, "concentration_percent"],
+                "msg": f"Unmatched row {index + 1} needs a percentage greater than 0 and at most 100.",
+                "type": "value_error",
+            })
+            saw_amount = False
+        else:
             ingredient_total += amount
     completeness = str(formula.get("composition_completeness") or "partial")
     if completeness not in {"partial", "complete"}:
@@ -1114,12 +1146,12 @@ def _legacy_checks(formula: dict, regions: list[str], category: str, calculated:
     supported = formula.get("category_supported", True)
     for index, item in enumerate(formula.get("legacy_materials") or []):
         label = str(item.get("name") or "Unnamed ingredient")
-        legacy_id = str(item.get("legacy_id") or f"row-{index + 1}")
+        legacy_key = str(item.get("legacy_id") or label or f"legacy-{index + 1}")
         category_note = "" if supported else f" {category} is not a category in the US/EU reference files."
         for region in regions:
             calculated.append({
-                "check_id": f"{region}:legacy:{legacy_id}:{index}",
-                "material_id": legacy_id,
+                "check_id": f"{region}:legacy:{legacy_key}:{index}",
+                "material_id": legacy_key,
                 "region": region,
                 "rule_id": None,
                 "status": "no_matching_rule",
@@ -1131,10 +1163,10 @@ def _legacy_checks(formula: dict, regions: list[str], category: str, calculated:
                 "priority": "medium",
                 "reason_code": "unmatched_identity",
                 "message": (
-                    f"{label} is not in the selected category, age group, and region branch.{category_note} "
-                    "The name was not matched to a catalog substance."
+                    f"No rule in catalog for this ingredient: {label}.{category_note} "
+                    "The declared row was kept for coverage review."
                 ),
-                "action": "Select a substance from that catalog branch. This row is kept as a coverage gap.",
+                "action": "Map the ingredient to a catalog substance in this branch or keep it as a documented gap.",
                 "check_kind": "identity",
             })
 
@@ -1220,11 +1252,25 @@ def build_threshold_context(formula: dict, version_changes: list | None = None) 
     if not any("boron" in (catalog["substances"][item]["name"].lower()) for item in substance_ids):
         issues = [issue for issue in issues if "boron" not in str(issue.get("message") or "").lower()]
     excerpts = _excerpts(documents, formula, catalog)
-    ingredient_total = round(sum(
-        float(row["concentration_percent"])
-        for row in formula["ingredients"]
-        if catalog["substances"][row["material_id"]]["role"] == "formulation_ingredient" and row.get("concentration_percent") is not None
-    ), 4)
+    def _counts_toward_total(row: dict, *, legacy: bool = False) -> bool:
+        if legacy:
+            return str(row.get("screening_role") or "formulation_ingredient") != "contaminant_analyte"
+        substance = catalog["substances"].get(row["material_id"]) or {}
+        return substance.get("role") != "contaminant_analyte"
+
+    ingredient_total = round(
+        sum(
+            float(row["concentration_percent"])
+            for row in formula["ingredients"]
+            if row.get("concentration_percent") is not None and _counts_toward_total(row)
+        )
+        + sum(
+            float(item["concentration_percent"])
+            for item in (formula.get("legacy_materials") or [])
+            if item.get("concentration_percent") is not None and _counts_toward_total(item, legacy=True)
+        ),
+        4,
+    )
     partial = formula.get("composition_completeness", "partial") != "complete"
     limitations = [
         catalog["coverage_note"],
@@ -1262,7 +1308,7 @@ def build_threshold_context(formula: dict, version_changes: list | None = None) 
                 "role": catalog["substances"][row["material_id"]]["role"],
                 "role_label": catalog["substances"][row["material_id"]]["role_label"],
                 "cas": catalog["substances"][row["material_id"]].get("cas_number"),
-                "counts_toward_ingredient_total": catalog["substances"][row["material_id"]]["role"] == "formulation_ingredient",
+                "counts_toward_ingredient_total": _counts_toward_total(row),
             }
             for row in formula["ingredients"]
         ] + [
@@ -1270,9 +1316,11 @@ def build_threshold_context(formula: dict, version_changes: list | None = None) 
                 "material_id": item.get("legacy_id") or item.get("name"),
                 "name": item.get("name"),
                 "concentration_percent": item.get("concentration_percent"),
+                "cas": item.get("cas_number"),
                 "role": "unmatched",
                 "role_label": "Not in the selected catalog branch",
-                "counts_toward_ingredient_total": False,
+                "in_rule_catalog": bool(item.get("in_rule_catalog", False)),
+                "counts_toward_ingredient_total": _counts_toward_total(item, legacy=True),
             }
             for item in formula.get("legacy_materials") or []
         ],
@@ -1296,6 +1344,7 @@ def build_threshold_context(formula: dict, version_changes: list | None = None) 
                 "material_id": item.get("legacy_id") or item.get("name"),
                 "name": item.get("name"),
                 "kind": "unmatched",
+                "cas": item.get("cas_number"),
             }
             for item in formula.get("legacy_materials") or []
         ],

@@ -155,6 +155,7 @@ export function PrecheckResult({
   const previewBand = bandFor(previewScore);
   const headline = preliminary?.score_headline || preliminary?.assessment_summary || prediction?.basis || run.summary;
   const driver = board?.driver || (scored.length <= 1 ? 'The top issue drives the score.' : 'The top 2 issues drive most of the risk.');
+  const aiFailed = run.aiStatus === 'failed' || assessment?.explanation?.status === 'failed';
   const confidence = prediction?.analysis_confidence || board?.confidence || 'low';
   const openIssues = board?.open_issues ?? scored.length;
   const dataGaps = board?.data_gaps ?? findings.filter((item) => item.status !== 'meets_rule' && item.status !== 'not_applicable' && item.status !== 'does_not_meet_rule').length;
@@ -241,7 +242,11 @@ export function PrecheckResult({
           </div>
         </div>
         <dl className="mt-5 grid grid-cols-2 gap-3 border-t border-line pt-4 sm:grid-cols-4">
-          <Stat label="Confidence" value={confidence.charAt(0).toUpperCase() + confidence.slice(1)} />
+          {!aiFailed ? (
+            <Stat label="Confidence" value={confidence.charAt(0).toUpperCase() + confidence.slice(1)} />
+          ) : (
+            <Stat label="AI analysis" value="Unavailable" />
+          )}
           <Stat label="Similar past decisions" value={String(similarCases)} />
           <Stat label="Open issues" value={String(openIssues)} />
           <Stat label="Data gaps" value={String(dataGaps)} />

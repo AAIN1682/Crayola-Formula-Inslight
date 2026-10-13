@@ -17,7 +17,7 @@ describe('runPrecheckBlockers', () => {
     draft.name = 'Test';
     draft.targetMarkets = ['US'];
     draft.ingredients = [{ ...emptyCompositionRow(), custom: true, pct: '100' }];
-    expect(runPrecheckBlockers(draft).some((r) => r.includes('not in the catalog'))).toBe(true);
+    expect(runPrecheckBlockers(draft).some((r) => r.includes('custom ingredient name'))).toBe(true);
   });
 });
 

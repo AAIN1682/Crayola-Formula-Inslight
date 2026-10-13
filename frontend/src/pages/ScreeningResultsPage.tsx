@@ -133,8 +133,9 @@ export function ScreeningResultsPage() {
       ) : null}
 
       {run.aiStatus === 'failed' ? (
-        <Notice tone="danger" title="AI analysis unavailable">
-          {run.formulaAssessment?.execution?.error_message || 'Azure generation did not succeed. Calculated checks are shown as a partial result.'}
+        <Notice tone="neutral" title="AI narrative unavailable">
+          {run.formulaAssessment?.execution?.error_message ||
+            'The rule-based calculated checks below are still shown. Azure did not produce a validated narrative for this run.'}
         </Notice>
       ) : null}
 

@@ -53,30 +53,7 @@ export function Sidebar({
         ) : null}
       </div>
 
-      <div className={cn('px-3 pb-4', collapsed && 'px-2')}>
-        <div
-          className={cn(
-            'flex items-center gap-2.5 rounded-lg bg-navy-700/70 p-2',
-            collapsed && 'justify-center p-1.5',
-          )}
-          title="Welcome back, Affine"
-        >
-          <span
-            className="flex size-7 shrink-0 items-center justify-center rounded-md bg-accent-500 text-[13px] font-bold text-white"
-            aria-hidden
-          >
-            A
-          </span>
-          {!collapsed ? (
-            <div className="min-w-0">
-              <p className="truncate text-[13px] leading-4 font-medium text-white">Welcome back, Affine</p>
-              <p className="truncate text-[11px] text-slate-400">Product Safety & Formulation</p>
-            </div>
-          ) : null}
-        </div>
-      </div>
-
-      <nav className="flex-1 px-3" aria-label="Primary">
+      <nav className="flex-1 px-3 pt-2" aria-label="Primary">
         <ul className="space-y-0.5">
           {NAV_ITEMS.map((item) => {
             const Icon = item.icon;

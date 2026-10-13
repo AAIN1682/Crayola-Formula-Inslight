@@ -170,6 +170,7 @@ describe('evidence summary', () => {
         formulaId: linked.id,
         uploadedAt: new Date().toISOString(),
         supplier: 'Test',
+        summary: 'Test SDS upload for evidence linking.',
       },
     ];
     const summary = summarizeEvidence(linked, seed.rawMaterials, documents);

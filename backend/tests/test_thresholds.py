@@ -112,6 +112,71 @@ def test_partial_screen_does_not_require_100_percent_and_flags_legacy_rows():
     assert "100%" in blocked.text
 
 
+def test_complete_formula_counts_legacy_declared_rows_toward_100_percent():
+    benzoate = "s_sodium_benzoate_532321"
+    payload = formula(
+        product_category="Paints",
+        composition_completeness="complete",
+        ingredients=[{"material_id": benzoate, "concentration_percent": 0.5}],
+        legacy_materials=[
+            {
+                "name": "Water",
+                "concentration_percent": 78.5,
+                "cas_number": "7732-18-5",
+                "in_rule_catalog": False,
+                "screening_role": "formulation_ingredient",
+            },
+            {
+                "name": "Glycerin",
+                "concentration_percent": 12.5,
+                "cas_number": "56-81-5",
+                "in_rule_catalog": False,
+                "screening_role": "formulation_ingredient",
+            },
+            {
+                "name": "Acid Yellow 23 / Tartrazine",
+                "concentration_percent": 8.5,
+                "cas_number": "1934-21-0",
+                "in_rule_catalog": False,
+                "screening_role": "formulation_ingredient",
+            },
+        ],
+    )
+    assessed = client.post("/api/assessments", json=payload)
+    assert assessed.status_code == 200, assessed.text
+    ctx = assessed.json()["llm_context"]
+    assert ctx["composition_total_percent"] == 100
+    legacy_checks = [
+        item for item in ctx["calculated_checks"]
+        if item.get("reason_code") == "unmatched_identity"
+    ]
+    assert len(legacy_checks) == 3
+    assert legacy_checks[0]["material_id"] == "Water"
+    assert all(item["status"] == "no_matching_rule" for item in legacy_checks)
+    assert all("No rule in catalog for this ingredient" in item["message"] for item in legacy_checks)
+
+
+def test_complete_formula_still_rejects_genuine_incomplete_total():
+    payload = formula(
+        product_category="Paints",
+        composition_completeness="complete",
+        ingredients=[],
+        legacy_materials=[
+            {
+                "name": "Water",
+                "concentration_percent": 78.5,
+                "cas_number": "7732-18-5",
+                "in_rule_catalog": False,
+                "screening_role": "formulation_ingredient",
+            },
+        ],
+    )
+    blocked = client.post("/api/assessments", json=payload)
+    assert blocked.status_code == 422
+    assert "78.5" in blocked.text
+    assert "100%" in blocked.text
+
+
 def test_contaminant_does_not_count_toward_the_ingredient_total():
     catalog = load_catalog()
     lead = next(

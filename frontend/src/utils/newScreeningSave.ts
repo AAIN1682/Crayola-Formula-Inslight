@@ -4,6 +4,7 @@ import type { FormulaInput } from '../types/services';
 import type { NewScreeningDraft } from '../types/newScreening';
 import { ageGroupForGrade } from '../types/newScreening';
 import { compositionIsComplete, compositionTotal } from './compositionMath';
+import { productColorHex } from './productColor';
 import { draftSaveRows } from './newScreeningValidation';
 
 function resolvePhysicalForm(text: string): PhysicalForm {
@@ -47,18 +48,25 @@ export function draftToFormulaInput(draft: NewScreeningDraft, lifecycle: 'draft'
         const pct = Number.parseFloat(row.pct);
         return Number.isFinite(pct) && pct > 0;
       })
-      .map((row) => ({
-        name: row.name.trim() || 'Unnamed ingredient',
-        rawMaterialId: row.custom ? undefined : row.catalogId,
-        concentration: Number.parseFloat(row.pct) || 0,
-        supplier: row.supplier.trim() || undefined,
-        notes: row.custom ? 'Not in catalog' : undefined,
-        screeningRole: row.screeningRole,
-        evidenceIds: [...row.documentIds],
-      })),
+      .map((row) => {
+        const notInRuleCatalog = row.custom || row.inRuleCatalog === false;
+        const cas = row.cas.trim();
+        return {
+          name: row.name.trim() || 'Unnamed ingredient',
+          rawMaterialId: notInRuleCatalog ? undefined : row.catalogId,
+          concentration: Number.parseFloat(row.pct) || 0,
+          supplier: row.supplier.trim() || undefined,
+          notes: notInRuleCatalog ? 'Not in catalog' : undefined,
+          casNumber: cas && cas !== '-' ? cas : undefined,
+          inRuleCatalog: notInRuleCatalog ? false : row.inRuleCatalog ?? true,
+          screeningRole:
+            row.screeningRole === 'contaminant_analyte' ? 'contaminant_analyte' : 'formulation_ingredient',
+          evidenceIds: [...row.documentIds],
+        };
+      }),
     evidenceIds,
     ...(draft.formulaCode.trim() ? { formulaCode: draft.formulaCode.trim() } : {}),
-    ...(draft.productColor ? { productColor: draft.productColor } : {}),
+    productColor: productColorHex(draft.productColor),
   } as FormulaInput & { formulaCode?: string; productColor?: string };
 }
 
@@ -77,10 +85,12 @@ export function formulaToDraft(formula: Formula): NewScreeningDraft {
     targetMarkets: [...formula.targetMarkets],
     ingredients: formula.ingredients.map((ingredient) => ({
       key: ingredient.id,
-      catalogId: ingredient.notes === 'Not in catalog' ? undefined : ingredient.rawMaterialId,
-      custom: ingredient.notes === 'Not in catalog' || !ingredient.rawMaterialId,
+      catalogId: ingredient.inRuleCatalog === false ? undefined : ingredient.rawMaterialId,
+      custom: ingredient.inRuleCatalog === false || !ingredient.rawMaterialId,
       name: ingredient.name,
-      cas: '-',
+      cas: ingredient.casNumber?.trim() || '-',
+      inRuleCatalog: ingredient.inRuleCatalog,
+      screeningRole: ingredient.screeningRole,
       functionLabel: '-',
       pct: String(ingredient.concentration),
       supplier: ingredient.supplier ?? '',

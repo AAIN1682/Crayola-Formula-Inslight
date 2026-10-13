@@ -191,6 +191,14 @@
   cursor: pointer;
 }
 
+.ps-screening .ps-small {
+  font-size: 12.5px;
+}
+
+.ps-screening .ps-muted {
+  color: var(--ps-ink-3);
+}
+
 .ps-screening .ps-mkts {
   display: flex;
   flex-wrap: wrap;
@@ -262,13 +270,43 @@
   text-align: right;
 }
 
+/* Prototype: .comp select.in { min-width: 240px } + .in { width: 100% } */
+.ps-screening .ps-tbl.comp td:first-child {
+  min-width: 260px;
+}
+
 .ps-screening .ps-tbl.comp select.ps-in {
-  min-width: 200px;
-  max-width: 280px;
+  display: block;
+  width: 100%;
+  min-width: 240px;
+  max-width: none;
+}
+
+.ps-screening .ps-ingredient-custom {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  min-width: 240px;
+}
+
+.ps-screening .ps-back-to-list {
+  border: 0;
+  padding: 0;
+  background: none;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ps-accent);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.ps-screening .ps-back-to-list:hover {
+  color: var(--ps-ink);
 }
 
 .ps-screening .ps-tbl.comp input[type='text'].ps-in {
-  min-width: 120px;
+  min-width: 130px;
 }
 
 .ps-screening .ps-tbl .ps-cas {
@@ -376,16 +414,6 @@
 
 .ps-screening .ps-total.off .ps-total-bar i {
   background: var(--ps-risk);
-}
-
-.ps-screening .ps-total.ok .ps-total-msg {
-  color: var(--ps-ap);
-  font-size: 12.5px;
-}
-
-.ps-screening .ps-total.off .ps-total-msg {
-  color: var(--ps-risk);
-  font-size: 12.5px;
 }
 
 .ps-screening .ps-total .ps-mono {
@@ -519,46 +547,6 @@
 .ps-screening .ps-startfrom .ps-in {
   width: auto;
   max-width: 280px;
-}
-
-.ps-screening .ps-combobox {
-  position: relative;
-  min-width: 200px;
-  max-width: 280px;
-}
-
-.ps-screening .ps-combobox-list {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(100% + 2px);
-  z-index: 20;
-  max-height: 220px;
-  overflow: auto;
-  margin: 0;
-  padding: 4px 0;
-  list-style: none;
-  background: var(--ps-surface);
-  border: 1px solid var(--ps-line-2);
-  border-radius: var(--ps-r-sm);
-  box-shadow: 0 10px 28px rgba(20, 25, 43, 0.08);
-}
-
-.ps-screening .ps-combobox-list button {
-  display: block;
-  width: 100%;
-  text-align: left;
-  padding: 6px 10px;
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-  font-size: 13px;
-}
-
-.ps-screening .ps-combobox-list button:hover,
-.ps-screening .ps-combobox-list button.ps-active {
-  background: var(--ps-accent-soft);
-  color: var(--ps-accent);
 }
 
 @media (max-width: 900px) {

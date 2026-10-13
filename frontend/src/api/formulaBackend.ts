@@ -110,6 +110,7 @@ export interface PackageCheck {
   message: string;
   document_ids?: string[];
   gap_status?: string;
+  check_kind?: string;
 }
 
 export interface AnalysisConfidence {
@@ -315,7 +316,15 @@ export interface PackageAssessment {
       regions?: string[];
       structured_content?: Record<string, unknown>;
     }[];
-    materials: { material_id: string; name: string }[];
+    materials: { material_id: string; name: string; cas?: string | null }[];
+    formula?: {
+      ingredients?: {
+        material_id?: string;
+        name?: string;
+        concentration_percent?: number | null;
+        cas?: string | null;
+      }[];
+    };
     source_issues: { issue_id: string; severity?: string; message: string; document_ids?: string[] }[];
     source_excerpts?: {
       source_id: string;
@@ -436,6 +445,9 @@ export function formulaToPackageRequest(
       name: ingredient.name.trim() || 'Unnamed ingredient',
       legacy_id: ingredient.rawMaterialId || null,
       concentration_percent: Number.isFinite(ingredient.concentration) ? ingredient.concentration : null,
+      cas_number: ingredient.casNumber?.trim() || null,
+      in_rule_catalog: ingredient.inRuleCatalog === true,
+      screening_role: ingredient.screeningRole === 'contaminant_analyte' ? 'contaminant_analyte' : 'formulation_ingredient',
     })),
     generate_explanation: generateExplanation,
     assessment_mode: assessmentMode,
@@ -745,10 +757,9 @@ export function mapPackageAssessment(result: PackageAssessment) {
         detail: item.message,
         relatedReference: item.requirement_id,
       }));
-  const aiFailed = result.explanation.status === 'failed' || result.execution?.llm_status === 'failed';
   const summary = live
     ? preliminary?.assessment_summary || result.explanation.content.summary || calculatedSummary(result)
-    : `${aiFailed ? 'AI assessment failed. Calculated checks were kept. ' : ''}${calculatedSummary(result)}`;
+    : calculatedSummary(result);
   return {
     status: screeningStatus(result.screening_status),
     summary,

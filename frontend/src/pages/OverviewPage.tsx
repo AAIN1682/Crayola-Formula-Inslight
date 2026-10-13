@@ -1,17 +1,15 @@
-import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight, Plus } from 'lucide-react';
 import { useAsyncData } from '../hooks/useAsyncData';
 import { useServices } from '../state/DemoDataProvider';
 import { PageHeader } from '../components/ui/PageHeader';
-import { Button, ButtonLink } from '../components/ui/Button';
+import { ButtonLink } from '../components/ui/Button';
 import { Card, CardBody, CardHeader } from '../components/ui/Card';
 import { OverviewKpiSummary, statusCountsFromDistribution } from '../components/overview/OverviewKpiSummary';
 import { SegmentedBar, type Segment } from '../components/ui/SegmentedBar';
 import { PrimaryCell, Table, TBody, Td, Th, THead, TableScroll, Tr } from '../components/ui/Table';
 import { ScreeningBadge } from '../components/ui/Badge';
 import { EmptyState, ErrorState, LoadingState } from '../components/ui/States';
-import { FormulaFormDrawer } from '../components/formulas/FormulaFormDrawer';
 import type { ScreeningStatus } from '../types/domain';
 import { SCREENING_STATUS_LABEL, formatDate, formatDateTime, formatRelative } from '../utils/formatting';
 
@@ -31,7 +29,6 @@ const STATUS_SEGMENTS: Record<string, { color: string; textClass: string; filter
 export function OverviewPage() {
   const services = useServices();
   const navigate = useNavigate();
-  const [formOpen, setFormOpen] = useState(false);
 
   const { data, loading, error, reload } = useAsyncData(() => services.getDashboardSummary(), []);
 
@@ -60,9 +57,13 @@ export function OverviewPage() {
             <ButtonLink to="/formulas" variant="secondary">
               Open Formula Library
             </ButtonLink>
-            <Button variant="primary" onClick={() => setFormOpen(true)} icon={<Plus aria-hidden className="size-4" />}>
-              New Formula
-            </Button>
+            <ButtonLink
+              to="/screening/new"
+              variant="primary"
+              icon={<Plus aria-hidden className="size-4" />}
+            >
+              New screening
+            </ButtonLink>
           </>
         }
       />
@@ -225,13 +226,6 @@ export function OverviewPage() {
           </TableScroll>
         )}
       </Card>
-
-      <FormulaFormDrawer
-        open={formOpen}
-        mode="create"
-        onClose={() => setFormOpen(false)}
-        onSaved={(formula) => navigate(`/formulas/${formula.id}`)}
-      />
     </div>
   );
 }

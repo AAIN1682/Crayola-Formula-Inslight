@@ -38,6 +38,8 @@ export interface IngredientInput {
   batchId?: string;
   compositionType?: string;
   screeningRole?: Ingredient['screeningRole'];
+  inRuleCatalog?: boolean;
+  casNumber?: string;
   needsCorrection?: boolean;
   measuredValue?: number;
   measuredUnit?: string;

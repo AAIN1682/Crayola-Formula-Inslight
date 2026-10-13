@@ -16,18 +16,6 @@ export function compositionIsComplete(total: number): boolean {
   return Math.abs(total - 100) <= COMPOSITION_TOLERANCE;
 }
 
-export function compositionMeterMessage(total: number): { ok: boolean; message: string } {
-  if (compositionIsComplete(total)) {
-    return { ok: true, message: 'Totals 100%. Ready to screen.' };
-  }
-  const delta = 100 - total;
-  const abs = Math.abs(delta).toFixed(3);
-  return {
-    ok: false,
-    message: `The template needs exactly 100%. ${delta > 0 ? 'Missing' : 'Over by'} ${abs}%.`,
-  };
-}
-
 /** Put the rounding gap on the largest-percentage row (prototype rebalance). */
 export function rebalancePercentages<T extends { pct: string }>(rows: T[]): T[] {
   if (rows.length === 0) return rows;

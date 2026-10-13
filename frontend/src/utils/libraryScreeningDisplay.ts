@@ -91,12 +91,11 @@ export function libraryStatusTone(status: LibraryDisplayStatus): 'neutral' | 'su
 }
 
 export function formatLibraryScore(summary?: LatestRunSummary | null): { text: string; barWidth: number | null; hint?: string } {
-  if (!summary || summary.scoreKind === 'none' || summary.scoreValue == null) {
+  if (!summary || summary.scoreKind !== 'numeric_estimate' || summary.scoreValue == null) {
     return { text: '-', barWidth: null };
   }
   const value = summary.scoreValue;
-  const hint = summary.scoreKind === 'rule_based' ? summary.scoreLabel ?? 'rule-based' : undefined;
-  return { text: `${value}%`, barWidth: Math.min(100, Math.max(0, value)), hint };
+  return { text: `${value}%`, barWidth: Math.min(100, Math.max(0, value)), hint: 'model estimate' };
 }
 
 export function topIssueLabel(summary: LatestRunSummary | undefined, hasRun: boolean): string {

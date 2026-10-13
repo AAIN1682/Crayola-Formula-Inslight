@@ -65,6 +65,8 @@ class Ingredient(BaseModel):
     batchId: str | None = None
     compositionType: str | None = None
     screeningRole: ScreeningRole | None = None
+    inRuleCatalog: bool | None = None
+    casNumber: str | None = None
     needsCorrection: bool | None = None
     measuredValue: float | None = None
     measuredUnit: str | None = None
@@ -129,6 +131,8 @@ class IngredientCreate(BaseModel):
     batchId: str | None = None
     compositionType: str | None = None
     screeningRole: ScreeningRole | None = None
+    inRuleCatalog: bool | None = None
+    casNumber: str | None = None
     needsCorrection: bool | None = None
     measuredValue: float | None = None
     measuredUnit: str | None = None
@@ -410,6 +414,8 @@ def _build_from_create(body: FormulaCreate, existing: list[Formula]) -> Formula:
             batchId=ingredient.batchId,
             compositionType=ingredient.compositionType,
             screeningRole=ingredient.screeningRole,
+            inRuleCatalog=ingredient.inRuleCatalog,
+            casNumber=ingredient.casNumber,
             needsCorrection=ingredient.needsCorrection,
             measuredValue=ingredient.measuredValue,
             measuredUnit=ingredient.measuredUnit,

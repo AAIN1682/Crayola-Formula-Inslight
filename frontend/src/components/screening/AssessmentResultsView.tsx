@@ -18,6 +18,12 @@ import { ReviewDecisionPanel } from './ReviewDecisionPanel';
 import { ExposureReadiness } from './ExposureReadiness';
 import { HistoricalComparisons } from './HistoricalComparisons';
 import { PrecheckResult } from './PrecheckResult';
+import {
+  buildMaterialDisplayMap,
+  enteredPercentLabel,
+  groupFindingChecks,
+  resolveMaterialDisplay,
+} from '../../utils/findingsTableDisplay';
 
 function supportLabel(level?: string) {
   if (level === 'substantial') return 'Substantial';
@@ -68,11 +74,13 @@ export function AssessmentResultsView({
   const [sourceId, setSourceId] = useState<string | null>(null);
 
   const live = isLiveAzureAssessment(assessment);
+  const aiFailed = run.aiStatus === 'failed' || assessment?.explanation?.status === 'failed';
   const storedPreliminary = assessment?.preliminary_assessment;
-  const preliminary = live || storedPreliminary?.risk_score || storedPreliminary?.findings?.length
-    ? storedPreliminary
-    : undefined;
-  const prediction = preliminary?.preliminary_prediction;
+  const preliminary =
+    !aiFailed && (live || storedPreliminary?.risk_score || storedPreliminary?.findings?.length)
+      ? storedPreliminary
+      : undefined;
+  const prediction = storedPreliminary?.preliminary_prediction;
   const metrics = assessment?.metrics;
   const support = assessment?.assessment_support ?? metrics?.assessment_support;
   const content = assessment?.explanation.content;
@@ -83,6 +91,8 @@ export function AssessmentResultsView({
     const rows = [...calculated, ...evidence].filter((item) => showNotApplicable || item.status !== 'not_applicable');
     return region === 'all' ? rows : rows.filter((item) => item.region === region);
   }, [assessment, region, showNotApplicable]);
+  const groupedChecks = useMemo(() => groupFindingChecks(checks), [checks]);
+  const materialDisplay = useMemo(() => buildMaterialDisplayMap(assessment), [assessment]);
   const names = new Map((assessment?.llm_context.materials ?? []).map((item) => [item.material_id, item.name]));
   const priorities = (content?.prioritized_actions ?? content?.recommendations ?? run.nextActions.map((item) => ({
     action: item.label,
@@ -140,11 +150,24 @@ export function AssessmentResultsView({
               Preliminary AP/CL assessment: {prediction?.outcome === 'ap_leaning' ? 'AP-leaning' : prediction?.outcome === 'cl_leaning' ? 'CL-leaning' : 'Indeterminate'}
             </p>
           </div>
-          <p className="text-[15px] leading-7 text-ink">{prediction?.basis || summary}</p>
-          <p className="text-sm text-muted">
-            AI assessment confidence: {prediction?.analysis_confidence || content?.analysis_confidence?.level || 'low'}. {prediction?.confidence_reason || content?.analysis_confidence?.basis}
+          <p className="text-[15px] leading-7 text-ink">
+            {aiFailed
+              ? prediction?.basis || 'The AI assessment did not complete. Calculated checks remain available below.'
+              : prediction?.basis || summary}
           </p>
-          <p className="max-w-4xl text-[15px] leading-7 text-ink">{summary}</p>
+          {!aiFailed ? (
+            <p className="text-sm text-muted">
+              AI assessment confidence: {prediction?.analysis_confidence || content?.analysis_confidence?.level || 'low'}.{' '}
+              {prediction?.confidence_reason || content?.analysis_confidence?.basis}
+            </p>
+          ) : null}
+          {!aiFailed && prediction?.basis && summary && prediction.basis !== summary ? (
+            <p className="max-w-4xl text-[15px] leading-7 text-ink">{summary}</p>
+          ) : !aiFailed && !prediction?.basis ? (
+            <p className="max-w-4xl text-[15px] leading-7 text-ink">{summary}</p>
+          ) : aiFailed ? (
+            <p className="max-w-4xl text-[15px] leading-7 text-muted">{summary}</p>
+          ) : null}
           {priorities[0] ? (
             <p className="text-[13px] leading-6 text-muted">
               Next: {priorities[0].action}. {priorities[0].rationale}
@@ -219,10 +242,27 @@ export function AssessmentResultsView({
                 </tr>
               </thead>
               <tbody className="divide-y divide-line">
-                {checks.map((item) => (
-                  <tr key={item.check_id} className={item.status === 'fail' ? 'bg-danger-soft/30' : item.status === 'not_assessed' ? 'bg-warning-soft/20' : undefined}>
-                    <td className="py-2.5 pr-3">{names.get(item.material_id ?? '') ?? item.material_id ?? item.requirement_id ?? item.check_id} · {item.region}</td>
-                    <td className="py-2.5 pr-3">{item.actual == null ? '—' : `${item.actual}%`}</td>
+                {groupedChecks.map((group) => {
+                  const item = group.representative;
+                  const display = resolveMaterialDisplay(group.materialId, materialDisplay);
+                  const title =
+                    group.materialId || item.requirement_id
+                      ? display.name
+                      : item.requirement_id ?? item.check_id;
+                  return (
+                  <tr key={group.key} className={item.status === 'fail' ? 'bg-danger-soft/30' : item.status === 'not_assessed' ? 'bg-warning-soft/20' : undefined}>
+                    <td className="py-2.5 pr-3">
+                      <div className="font-medium text-ink">{title}</div>
+                      {display.cas ? <div className="text-xs text-muted">CAS {display.cas}</div> : null}
+                      <div className="mt-1 flex flex-wrap gap-1">
+                        {group.markets.map((market) => (
+                          <span key={market} className="rounded-full border border-line px-2 py-0.5 text-[11px] text-muted">
+                            {market}
+                          </span>
+                        ))}
+                      </div>
+                    </td>
+                    <td className="py-2.5 pr-3">{enteredPercentLabel(item, assessment, formula)}</td>
                     <td className="py-2.5 pr-3">{item.threshold == null ? item.message : `${item.threshold}${item.unit ? ` ${item.unit}` : ''}`}</td>
                     <td className="py-2.5 pr-3">{statusLabel(item.status, item.document_type)}</td>
                     <td className="py-2.5 pr-3">{item.priority || (item.status === 'fail' ? 'high' : 'medium')}</td>
@@ -230,7 +270,8 @@ export function AssessmentResultsView({
                       <Button onClick={() => setOpenCheck(item.check_id)}>View details</Button>
                     </td>
                   </tr>
-                ))}
+                  );
+                })}
               </tbody>
             </table>
           </CardBody>
