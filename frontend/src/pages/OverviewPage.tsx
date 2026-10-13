@@ -13,7 +13,7 @@ import { ScreeningBadge } from '../components/ui/Badge';
 import { EmptyState, ErrorState, LoadingState } from '../components/ui/States';
 import { FormulaFormDrawer } from '../components/formulas/FormulaFormDrawer';
 import type { ScreeningStatus } from '../types/domain';
-import { SCREENING_STATUS_LABEL, formatDate, formatDateTime, formatRelative } from '../utils/formatting';
+import { SCREENING_STATUS_LABEL, assessmentOutcomeLabel, formatDate, formatDateTime, formatRelative } from '../utils/formatting';
 
 const SCREENING_OUTCOME_LABEL: Partial<Record<ScreeningStatus, string>> = {
   green: 'Likely AP',
@@ -58,7 +58,7 @@ export function OverviewPage() {
         actions={
           <>
             <ButtonLink to="/formulas" variant="secondary">
-              Open Formula Library
+              Open Latest Result
             </ButtonLink>
             <Button variant="primary" onClick={() => setFormOpen(true)} icon={<Plus aria-hidden className="size-4" />}>
               New Formula
@@ -102,7 +102,7 @@ export function OverviewPage() {
       <Card>
         <CardHeader
           title="Recent analyses"
-          description="Saved assessment results, including the score and confidence."
+          description="Saved assessment results, including confidence and the concentration summary."
         />
         {!data ? (
           <LoadingState label="Loading recent analyses…" />
@@ -118,7 +118,7 @@ export function OverviewPage() {
               <THead>
                 <tr>
                   <Th>Formula</Th>
-                  <Th>Score</Th>
+                  <Th>Outcome</Th>
                   <Th>Confidence</Th>
                   <Th>Screened</Th>
                   <Th className="text-right">Open</Th>
@@ -130,10 +130,7 @@ export function OverviewPage() {
                     <Td>
                       <PrimaryCell title={row.formulaName} subtitle={`${row.version || row.formulaId}`} />
                     </Td>
-                    <Td className="tabular">
-                      {typeof row.score === 'number' ? `${row.score}%` : '—'}
-                      {row.bandLabel ? ` ${row.bandLabel}` : ''}
-                    </Td>
+                    <Td>{assessmentOutcomeLabel(row.band) || row.headline || row.screeningStatusLabel || 'Saved result'}</Td>
                     <Td className="capitalize">{row.confidence || '—'}</Td>
                     <Td className="whitespace-nowrap text-muted tabular">{row.createdAt ? formatDateTime(row.createdAt) : '—'}</Td>
                     <Td className="text-right">

@@ -234,6 +234,57 @@ def test_pdf_upload_ocr_and_wrong_batch(upload_dir):
         assert blank.json()["processing_status"] == "failed"
 
 
+def test_paint_use_case_thresholds_and_uploaded_text_are_in_the_model_context(upload_dir):
+    saved = client.post(
+        "/api/documents",
+        files={"file": ("watercolor-coa.pdf", io.BytesIO(_pdf("CERTIFICATE OF ANALYSIS draft lot BATCH-WTC-2026-YEL appearance pass")), "application/pdf")},
+        data={
+            "document_type": "coa",
+            "scope": "finished_product",
+            "formula_id": "FML-PAINT",
+            "version_id": "v1",
+            "regions": "US",
+        },
+    )
+    assert saved.status_code == 200, saved.text
+    document_id = saved.json()["document_id"]
+    ingredient_pdf = client.post(
+        "/api/documents",
+        files={"file": ("water-sds.pdf", io.BytesIO(_pdf("SAFETY DATA SHEET Water CAS 7732-18-5 concentration 78.50 percent")), "application/pdf")},
+        data={"document_type": "sds", "scope": "material", "material_id": "water", "regions": "US"},
+    )
+    assert ingredient_pdf.status_code == 200, ingredient_pdf.text
+    assessed = client.post("/api/assessments", json=formula(
+        formula_id="FML-PAINT",
+        version_id="v1",
+        name="Washable liquid watercolor",
+        product_category="Paints",
+        document_ids=[document_id],
+        ingredients=[
+            {"material_id": "water", "concentration_percent": 78.5, "batch_id": "DI-2026-YEL"},
+            {"material_id": "glycerin", "concentration_percent": 12, "batch_id": "GLY-1102"},
+            {"material_id": "s_sodium_benzoate_532321", "concentration_percent": 9.5, "batch_id": "PRESERV-SB"},
+        ],
+    )).json()
+    checks = assessed["llm_context"]["calculated_checks"]
+    water = next(item for item in checks if item["material_id"] == "water" and item["status"] in {"pass", "fail"})
+    glycerin = next(item for item in checks if item["material_id"] == "glycerin" and item["status"] in {"pass", "fail"})
+    benzoate = next(item for item in checks if item["material_id"] == "s_sodium_benzoate_532321" and item["status"] in {"pass", "fail"})
+    assert water["status"] == "pass" and water["threshold"] == 90
+    assert glycerin["status"] == "pass" and glycerin["threshold"] == 15
+    assert benzoate["status"] == "fail" and benzoate["threshold"] == 0.5
+    assert any(item["substance_id"] == "water" for item in assessed["llm_context"]["use_case_thresholds"])
+    text = " ".join(item.get("relevant_text") or "" for item in assessed["llm_context"]["source_excerpts"])
+    assert "BATCH-WTC-2026-YEL" in text
+    assert any(item.get("document_id") == document_id for item in assessed["llm_context"]["source_excerpts"])
+    uploaded = {item["document_id"]: item for item in assessed["llm_context"]["uploaded_documents"]}
+    assert uploaded[document_id]["attached_to"] == "submission"
+    assert "BATCH-WTC-2026-YEL" in uploaded[document_id]["text"]
+    ingredient_id = ingredient_pdf.json()["document_id"]
+    assert uploaded[ingredient_id]["attached_to"] == "ingredient"
+    assert "7732-18-5" in uploaded[ingredient_id]["text"]
+
+
 def test_non_pdf_is_rejected(upload_dir):
     response = client.post(
         "/api/documents",

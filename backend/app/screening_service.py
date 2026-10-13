@@ -176,6 +176,25 @@ def get_saved_run(assessment_id: str) -> dict:
     raise ScreeningServiceError(404, "That assessment result was not found.")
 
 
+def store_demo_decisions(assessment_id: str, decisions: dict) -> dict:
+    path = runs_path()
+    with _LOCK:
+        history = load_runs()
+        for run in history["runs"]:
+            if isinstance(run, dict) and run.get("assessment_id") == assessment_id:
+                preliminary = run.get("preliminary_assessment")
+                if not isinstance(preliminary, dict):
+                    preliminary = {}
+                    run["preliminary_assessment"] = preliminary
+                preliminary["demo_past_decisions"] = decisions
+                try:
+                    _write_history(path, history)
+                except OSError as error:
+                    raise ScreeningServiceError(500, "Similar reviews could not be saved.") from error
+                return run
+    raise ScreeningServiceError(404, "That assessment result was not found.")
+
+
 def latest_screening_status(formula_id: str) -> dict | None:
     """Latest saved status for one formula, using the assessment's own fields."""
     wanted = str(formula_id or "").strip()

@@ -23,7 +23,6 @@ export function ScreeningResultsPage() {
   const { formulaId = '', runId = '' } = useParams();
   const services = useServices();
   const toast = useToast();
-  const [retrying, setRetrying] = useState(false);
   const [runOpen, setRunOpen] = useState(false);
 
   const { data, loading, error, reload } = useAsyncData(
@@ -143,19 +142,8 @@ export function ScreeningResultsPage() {
           run={run}
           formula={formula}
           isCurrent={isCurrent}
-          decisions={decisions}
-          retrying={retrying}
           onRerun={() => setRunOpen(true)}
-          onRetry={() => {
-            setRetrying(true);
-            services
-              .retryExplanation(run.id)
-              .then(() => reload())
-              .catch((cause: unknown) => {
-                toast.error('Explanation was not retried', cause instanceof Error ? cause.message : 'Try again.');
-              })
-              .finally(() => setRetrying(false));
-          }}
+          decisions={decisions}
         />
       ) : (
         <div className="grid gap-4 xl:grid-cols-3">
@@ -195,11 +183,6 @@ export function ScreeningResultsPage() {
           </div>
         </div>
       )}
-
-      <Notice tone="neutral" title="What this result is">
-        This is an internal assessment against the configured checks for the selected markets. Illustrative
-        evidence is not validated. It is not a certification and does not guarantee acceptance.
-      </Notice>
 
       <RunScreeningDialog
         open={runOpen}

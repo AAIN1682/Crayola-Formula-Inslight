@@ -213,7 +213,7 @@ export function FormulaLibraryPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Formula Library"
+        title="Latest Result"
         description="Formulas with assessment status."
         actions={
           <Button variant="primary" onClick={() => setFormOpen(true)} icon={<Plus aria-hidden className="size-4" />}>
@@ -303,7 +303,7 @@ export function FormulaLibraryPage() {
         ) : (
           <>
             <TableScroll>
-              <Table caption="Formula library">
+              <Table caption="Latest Result">
                 <THead>
                   <tr>
                     <SortableTh columnKey="name" activeKey={sortKey} direction={sortDirection} onSort={handleSort}>

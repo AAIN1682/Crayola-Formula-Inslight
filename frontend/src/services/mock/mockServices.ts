@@ -61,6 +61,12 @@ function delay(ms: number): Promise<void> {
   });
 }
 
+function nextFormulaVersion(current: string): string {
+  const match = /^(v?)(\d+)\.(\d+)$/i.exec(current.trim());
+  if (!match) return current.trim() ? `${current.trim()}.1` : 'v1.1';
+  return `${match[1] || 'v'}${match[2]}.${Number(match[3]) + 1}`;
+}
+
 function lastMonths(count: number): Date[] {
   const months: Date[] = [];
   const cursor = new Date();
@@ -322,10 +328,23 @@ export function createMockServices(store: DemoStore): FormulaInsightServices {
       const updated = buildFormulaFromInput(input, base);
       const latestRun = state().runs.find((run) => run.id === base.latestRunId);
       const stillCurrent = isRunCurrent(updated, latestRun);
+      const keptVersion = !input.version?.trim() || input.version.trim() === base.version;
+      const revised =
+        keptVersion &&
+        (updated.name !== base.name ||
+          updated.intendedUse !== base.intendedUse ||
+          updated.category !== base.category ||
+          updated.ageGroup !== base.ageGroup ||
+          updated.physicalForm !== base.physicalForm ||
+          JSON.stringify(updated.targetMarkets) !== JSON.stringify(base.targetMarkets) ||
+          JSON.stringify(updated.evidenceIds) !== JSON.stringify(base.evidenceIds) ||
+          JSON.stringify(updated.ingredients.map((item) => [item.name, item.concentration, item.rawMaterialId])) !==
+            JSON.stringify(base.ingredients.map((item) => [item.name, item.concentration, item.rawMaterialId])));
 
       const formula: Formula = {
         ...updated,
-        screeningCurrent: latestRun ? stillCurrent : false,
+        version: revised ? nextFormulaVersion(base.version) : updated.version,
+        screeningCurrent: revised ? false : latestRun ? stillCurrent : false,
       };
 
       const actions: DemoAction[] = [{ type: 'formula/upsert', formula }];

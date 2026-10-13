@@ -1,23 +1,22 @@
 import { NavLink } from 'react-router-dom';
 import {
+  Bookmark,
   Boxes,
   History,
   LayoutDashboard,
   PanelLeftClose,
   PanelLeftOpen,
-  Radar,
   Settings2,
   TestTubes,
 } from 'lucide-react';
 import { BrandMark } from '../components/graphics/Illustrations';
-import { useDemoSelector } from '../state/DemoDataProvider';
 import { cn } from '../utils/cn';
 
 const NAV_ITEMS = [
   { to: '/', label: 'Overview', icon: LayoutDashboard, end: true },
-  { to: '/formulas', label: 'Formula Library', icon: TestTubes, end: false },
+  { to: '/formulas', label: 'Latest Result', icon: TestTubes, end: false },
   { to: '/submissions', label: 'Submission History', icon: History, end: false },
-  { to: '/monitoring', label: 'Monitoring', icon: Radar, end: false },
+  { to: '/watchlist', label: 'Watchlist', icon: Bookmark, end: false },
   { to: '/materials', label: 'Raw Materials', icon: Boxes, end: false },
 ];
 
@@ -30,10 +29,6 @@ export function Sidebar({
   onToggle: () => void;
   onNavigate?: () => void;
 }) {
-  const openAlerts = useDemoSelector(
-    (state) => state.alerts.filter((alert) => alert.status === 'open').length,
-  );
-
   return (
     <div
       className={cn(
@@ -97,9 +92,9 @@ export function Sidebar({
                 >
                   <Icon aria-hidden className="size-4.5 shrink-0" />
                   {!collapsed ? <span className="truncate">{item.label}</span> : null}
-                  {!collapsed && item.to === '/monitoring' && openAlerts > 0 ? (
+                  {!collapsed && item.to === '/watchlist' ? (
                     <span className="ml-auto rounded-full bg-warning-soft px-1.5 py-0.5 text-[11px] font-semibold text-warning tabular">
-                      {openAlerts}
+                      3
                     </span>
                   ) : null}
                 </NavLink>

@@ -4,12 +4,13 @@ import type { AgeGroup, Formula, PhysicalForm, ProductCategory, TargetMarket } f
 import { AGE_GROUP_LABEL, AGE_GROUPS, PHYSICAL_FORMS, PRODUCT_CATEGORIES, SCREENING_MARKETS, TARGET_MARKETS } from '../../types/domain';
 import type { FormulaInput } from '../../types/services';
 import { type AssessmentMode } from '../../api/formulaBackend';
-import { useDemoSelector, useServices } from '../../state/DemoDataProvider';
+import { useServices } from '../../state/DemoDataProvider';
 import { useAsyncAction } from '../../hooks/useAsyncData';
 import { useToast } from '../ui/Toast';
 import { Drawer } from '../ui/Drawer';
 import { Button } from '../ui/Button';
-import { Field, SearchSelect, Select, TextArea, TextInput } from '../ui/Field';
+import { choiceForId, formulationChoices, formulationMaterial } from '../../data/formulationMaterials';
+import { Field, Select, TextArea, TextInput } from '../ui/Field';
 import { FormStepper, type StepDescriptor } from '../ui/Stepper';
 import { Notice } from '../ui/DemoNotice';
 import { Badge } from '../ui/Badge';
@@ -41,6 +42,7 @@ interface IngredientRow {
   batchId: string;
   addedInVersion?: string;
   compositionType: string;
+  casNumber: string;
   screeningRole: string;
   needsCorrection: boolean;
   measuredText: string;
@@ -53,6 +55,7 @@ interface IngredientRow {
 interface CatalogSubstance {
   substance_id: string;
   label: string;
+  cas_number?: string | null;
   role: string;
   role_label: string;
   regions: string[];
@@ -98,6 +101,7 @@ function emptyRow(section: 'formulation' | 'contaminant' = 'formulation'): Ingre
     notes: '',
     batchId: '',
     compositionType: '',
+    casNumber: '',
     screeningRole: section === 'contaminant' ? 'contaminant_analyte' : '',
     needsCorrection: false,
     measuredText: '',
@@ -108,7 +112,20 @@ function emptyRow(section: 'formulation' | 'contaminant' = 'formulation'): Ingre
   };
 }
 
-const FICTIONAL_USER_IDS = new Set(['usr-dana', 'usr-marcus', 'usr-priya', 'usr-theo', 'usr-elena']);
+const DEFAULT_PEOPLE = [
+  { id: 'usr-dana', name: 'Dana Whitfield', role: 'Formulation Scientist' },
+  { id: 'usr-marcus', name: 'Marcus Ellery', role: 'Product Safety Specialist' },
+  { id: 'usr-priya', name: 'Priya Raman', role: 'Regulatory Reviewer' },
+  { id: 'usr-theo', name: 'Theo Kowalski', role: 'R&D Manager' },
+  { id: 'usr-elena', name: 'Elena Barros', role: 'Formulation Scientist' },
+  { id: 'usr-jordan', name: 'Jordan Hale', role: 'Quality Reviewer' },
+];
+
+const PEOPLE_OPTIONS = DEFAULT_PEOPLE.map((person) => ({ value: person.id, label: `${person.name} · ${person.role}` }));
+
+function personName(id: string) {
+  return DEFAULT_PEOPLE.find((person) => person.id === id)?.name ?? 'Unassigned';
+}
 
 function toFormState(formula: Formula | undefined): FormState {
   if (!formula) {
@@ -156,7 +173,8 @@ function toFormState(formula: Formula | undefined): FormState {
       notes: ingredient.notes ?? '',
       batchId: ingredient.batchId ?? '',
       addedInVersion: ingredient.addedInVersion,
-      compositionType: ingredient.compositionType ?? '',
+      compositionType: ingredient.compositionType || formulationMaterial(ingredient.rawMaterialId ?? '')?.materialType || '',
+      casNumber: formulationMaterial(ingredient.rawMaterialId ?? '')?.casNumber ?? '',
       screeningRole: ingredient.screeningRole ?? '',
       needsCorrection: Boolean(ingredient.needsCorrection),
       measuredText: ingredient.measuredValue == null ? '' : String(ingredient.measuredValue),
@@ -264,8 +282,6 @@ export function FormulaFormDrawer({
 }) {
   const services = useServices();
   const toast = useToast();
-  const people = useDemoSelector((state) => state.people);
-  const configuredPeople = people.filter((person) => !FICTIONAL_USER_IDS.has(person.id) || person.id === formula?.ownerId || person.id === formula?.reviewerId);
 
   const [step, setStep] = useState(0);
   const [furthest, setFurthest] = useState(0);
@@ -274,13 +290,12 @@ export function FormulaFormDrawer({
   const [uploadError, setUploadError] = useState<string>();
   const [uploading, setUploading] = useState(false);
   const [docType, setDocType] = useState('coa');
-  const [docScope, setDocScope] = useState<'material' | 'finished_product'>('finished_product');
-  const [docMaterial, setDocMaterial] = useState('');
+  const [rowDocTypes, setRowDocTypes] = useState<Record<string, string>>({});
   const fileInput = useRef<HTMLInputElement>(null);
   const uploadTarget = useRef<string | undefined>(undefined);
+  const uploadType = useRef('coa');
   const [showAllIssues, setShowAllIssues] = useState(false);
   const [substances, setSubstances] = useState<CatalogSubstance[]>([]);
-  const [materialTypes, setMaterialTypes] = useState<string[]>([]);
   const [catalogNote, setCatalogNote] = useState('Catalog coverage incomplete.');
   const [catalogError, setCatalogError] = useState<string>();
 
@@ -299,7 +314,6 @@ export function FormulaFormDrawer({
   useEffect(() => {
     if (!open || !form.category || !form.ageGroup || screeningMarkets.length === 0) {
       setSubstances([]);
-      setMaterialTypes([]);
       return;
     }
     const controller = new AbortController();
@@ -309,14 +323,10 @@ export function FormulaFormDrawer({
       age_group: form.ageGroup,
     });
     setCatalogError(undefined);
-    Promise.all([
-      fetch(`/api/reference/material-types?${params}`, { signal: controller.signal }).then((response) => response.json()),
-      fetch(`/api/reference/substances?${params}`, { signal: controller.signal }).then((response) => response.json()),
-    ])
-      .then(([types, substanceBody]) => {
-        const nextTypes = (types.composition_types ?? []) as string[];
+    fetch(`/api/reference/substances?${params}`, { signal: controller.signal })
+      .then((response) => response.json())
+      .then((substanceBody) => {
         const nextSubstances = (substanceBody.substances ?? []) as CatalogSubstance[];
-        setMaterialTypes(nextTypes);
         setSubstances(nextSubstances);
         setCatalogNote(substanceBody.coverage_note || 'Catalog coverage incomplete.');
         const ids = new Set(nextSubstances.map((item) => item.substance_id));
@@ -324,9 +334,18 @@ export function FormulaFormDrawer({
           ...current,
           ingredients: current.ingredients.map((row) => {
             if (!row.rawMaterialId) return row;
-            const match = nextSubstances.find((item) => item.substance_id === row.rawMaterialId);
-            const typeOk = !row.compositionType || !match || match.composition_types.includes(row.compositionType);
-            return { ...row, needsCorrection: !match || !ids.has(row.rawMaterialId) || !typeOk };
+            const known = row.section === 'contaminant' ? undefined : formulationMaterial(row.rawMaterialId);
+            const match = nextSubstances.find((item) => item.substance_id === row.rawMaterialId)
+              ?? (known?.casNumber ? nextSubstances.find((item) => item.cas_number === known.casNumber) : undefined);
+            return {
+              ...row,
+              rawMaterialId: match?.substance_id || row.rawMaterialId,
+              name: known?.name || (match ? match.label.split(' — ')[0] : row.name),
+              compositionType: match?.composition_types[0] || known?.materialType || row.compositionType,
+              casNumber: known?.casNumber || match?.cas_number || row.casNumber,
+              screeningRole: match?.role || (known ? 'formulation_ingredient' : row.screeningRole),
+              needsCorrection: Boolean(match || known) ? false : !ids.has(row.rawMaterialId),
+            };
           }),
         }));
       })
@@ -341,7 +360,7 @@ export function FormulaFormDrawer({
 
   const catalogIds = useMemo(() => new Set(substances.map((item) => item.substance_id)), [substances]);
 
-  const uploadFiles = async (files: FileList | null, materialId?: string) => {
+  const uploadFiles = async (files: FileList | null, materialId?: string, documentType?: string) => {
     if (!files?.length) return;
     setUploading(true);
     setUploadError(undefined);
@@ -350,9 +369,9 @@ export function FormulaFormDrawer({
       for (const file of Array.from(files)) {
         const body = new FormData();
         body.set('file', file);
-        body.set('document_type', docType);
-        body.set('scope', materialId ? 'material' : docScope);
-        if (materialId || docMaterial) body.set('material_id', materialId || docMaterial);
+        body.set('document_type', documentType || docType);
+        body.set('scope', materialId ? 'material' : 'finished_product');
+        if (materialId) body.set('material_id', materialId);
         if (formula?.id) body.set('formula_id', formula.id);
         if (form.version) body.set('version_id', form.version);
         body.set('regions', form.targetMarkets.filter((market) => market === 'US' || market === 'EU').join(','));
@@ -490,7 +509,7 @@ export function FormulaFormDrawer({
           accept="application/pdf,.pdf"
           multiple
           className="hidden"
-          onChange={(event) => void uploadFiles(event.target.files, uploadTarget.current)}
+          onChange={(event) => void uploadFiles(event.target.files, uploadTarget.current, uploadType.current)}
         />
         <FormStepper steps={STEPS} current={step} furthest={furthest} onSelect={goTo} />
 
@@ -513,7 +532,7 @@ export function FormulaFormDrawer({
                 />
               </Field>
 
-              <Field label="Version" htmlFor="formula-version" hint="Used to track revisions, e.g. v1.0">
+              <Field label="Version" htmlFor="formula-version" hint="Saving an edit stores the next version, for example v1.0 becomes v1.1, unless you type a different one.">
                 <TextInput
                   id="formula-version"
                   value={form.version}
@@ -627,22 +646,22 @@ export function FormulaFormDrawer({
                 />
               </Field>
 
-              <Field label="Owner" htmlFor="formula-owner" hint="Optional. Only configured workspace users are listed.">
+              <Field label="Owner" htmlFor="formula-owner">
                 <Select
                   id="formula-owner"
                   value={form.ownerId}
-                  placeholder={configuredPeople.length ? 'Unassigned' : 'No configured users'}
-                  options={configuredPeople.map((person) => ({ value: person.id, label: `${person.name} · ${person.role}` }))}
+                  placeholder="Select an owner"
+                  options={PEOPLE_OPTIONS}
                   onChange={(event) => update('ownerId', event.target.value)}
                 />
               </Field>
 
-              <Field label="Assigned reviewer" htmlFor="formula-reviewer" hint="Optional">
+              <Field label="Assigned reviewer" htmlFor="formula-reviewer">
                 <Select
                   id="formula-reviewer"
                   value={form.reviewerId}
-                  placeholder={configuredPeople.length ? 'Unassigned' : 'No configured users'}
-                  options={configuredPeople.map((person) => ({ value: person.id, label: `${person.name} · ${person.role}` }))}
+                  placeholder="Select a reviewer"
+                  options={PEOPLE_OPTIONS}
                   onChange={(event) => update('reviewerId', event.target.value)}
                 />
               </Field>
@@ -668,8 +687,8 @@ export function FormulaFormDrawer({
 
         {step === 1 ? (
           <div className="space-y-4">
-            <Notice tone="warning" title="Catalog coverage incomplete">
-              {catalogNote} This list is not an approved recipe. Restricted substances and laboratory analytes stay separate from formulation ingredients.
+            <Notice tone="warning" title="Selection list, not a recipe">
+              Choose a substance from the dropdown. Material type and CAS fill in from that selection. You enter the concentration and can attach an SDS, CoA, laboratory report, or other file to that ingredient. {catalogNote} This list is not a Crayola recipe.
             </Notice>
             <Field label="Composition declaration">
               <Select
@@ -698,12 +717,28 @@ export function FormulaFormDrawer({
             <div className="space-y-3">
               {form.ingredients.map((row, index) => {
                 const rowErrors = validation.errors.filter((issue) => issue.ingredientIndex === index);
-                const unmapped = Boolean(row.needsCorrection || (row.rawMaterialId && substances.length > 0 && !catalogIds.has(row.rawMaterialId)));
-                const choices = substances.filter((item) => {
-                  if (row.compositionType && !item.composition_types.includes(row.compositionType)) return false;
-                  if (row.section === 'contaminant') return item.role !== 'formulation_ingredient';
-                  return item.role !== 'contaminant_analyte';
-                });
+                const formulationOptions = formulationChoices(form.category, substances);
+                const knownSelection = formulationMaterial(row.rawMaterialId);
+                const selectedFormulation = choiceForId(row.rawMaterialId, formulationOptions)
+                  ?? (knownSelection
+                    ? {
+                        id: knownSelection.id,
+                        name: knownSelection.name,
+                        casNumber: knownSelection.casNumber,
+                        materialType: knownSelection.materialType,
+                        role: 'formulation_ingredient',
+                      }
+                    : null);
+                const substanceOptions = selectedFormulation && !formulationOptions.some((item) => item.id === selectedFormulation.id)
+                  ? [selectedFormulation, ...formulationOptions]
+                  : formulationOptions;
+                const unmapped = row.section === 'contaminant'
+                  ? Boolean(row.needsCorrection || (row.rawMaterialId && substances.length > 0 && !catalogIds.has(row.rawMaterialId)))
+                  : Boolean(row.rawMaterialId && !selectedFormulation && !formulationMaterial(row.rawMaterialId));
+                const analyteOptions = substances
+                  .filter((item) => item.role !== 'formulation_ingredient')
+                  .map((item) => ({ value: item.substance_id, label: item.label }));
+                const linkedDocs = uploads.filter((item) => item.material_id === row.rawMaterialId && row.rawMaterialId);
                 return (
                   <div
                     key={row.key}
@@ -728,34 +763,61 @@ export function FormulaFormDrawer({
                     </div>
 
                     <div className="grid gap-3 sm:grid-cols-12">
-                      <Field label="Material type" className="sm:col-span-4">
-                        <Select
-                          value={row.compositionType}
-                          placeholder="Select a material type"
-                          options={materialTypes.map((item) => ({ value: item, label: item }))}
-                          onChange={(event) => updateRow(row.key, { compositionType: event.target.value })}
-                        />
+                      <Field
+                        label="Substance"
+                        className="sm:col-span-12"
+                        hint={row.section === 'contaminant'
+                          ? 'Laboratory analytes for the selected category, age group, and US or EU market.'
+                          : 'Common art-material substances for this product category. Material type and CAS fill in when you select one.'}
+                      >
+                        {row.section === 'contaminant' ? (
+                          <Select
+                            value={row.rawMaterialId}
+                            placeholder={analyteOptions.length === 0 ? 'Set category, age, and US or EU to load analytes' : 'Select an analyte'}
+                            options={analyteOptions}
+                            invalid={unmapped}
+                            onChange={(event) => {
+                              const materialId = event.target.value;
+                              const match = substances.find((item) => item.substance_id === materialId);
+                              updateRow(row.key, {
+                                rawMaterialId: materialId,
+                                name: match ? match.label.split(' — ')[0] : row.name,
+                                screeningRole: match?.role || 'contaminant_analyte',
+                                compositionType: match?.composition_types[0] || '',
+                                casNumber: match?.cas_number || '',
+                                needsCorrection: false,
+                              });
+                            }}
+                          />
+                        ) : (
+                          <Select
+                            value={selectedFormulation?.id || row.rawMaterialId}
+                            placeholder="Select a substance"
+                            options={substanceOptions.map((item) => ({
+                              value: item.id,
+                              label: `${item.materialType} · ${item.name}${item.casNumber ? ` · ${item.casNumber}` : ''}`,
+                            }))}
+                            invalid={unmapped}
+                            onChange={(event) => {
+                              const materialId = event.target.value;
+                              const match = choiceForId(materialId, substanceOptions);
+                              updateRow(row.key, {
+                                rawMaterialId: materialId,
+                                name: match?.name || row.name,
+                                screeningRole: match?.role || 'formulation_ingredient',
+                                compositionType: match?.materialType || '',
+                                casNumber: match?.casNumber || '',
+                                needsCorrection: false,
+                              });
+                            }}
+                          />
+                        )}
                       </Field>
-                      <Field label="Substance" className="sm:col-span-8" hint="Search the catalog. Unlisted substances cannot be added.">
-                        <SearchSelect
-                          value={row.rawMaterialId}
-                          placeholder="Search substance or CAS"
-                          options={choices.map((item) => ({
-                            value: item.substance_id,
-                            label: `${item.label}${item.role === 'role_requires_review' ? ' · Role requires review' : ''} · ${item.regions.join('/')}`,
-                          }))}
-                          invalid={unmapped}
-                          onChange={(materialId) => {
-                            const match = substances.find((item) => item.substance_id === materialId);
-                            updateRow(row.key, {
-                              rawMaterialId: materialId,
-                              name: match?.label ?? row.name,
-                              screeningRole: match?.role ?? row.screeningRole,
-                              compositionType: row.compositionType || match?.composition_types[0] || '',
-                              needsCorrection: false,
-                            });
-                          }}
-                        />
+                      <Field label="Material type" className="sm:col-span-5" hint="Set automatically from the selected substance.">
+                        <TextInput value={row.compositionType} readOnly placeholder="Select a substance" />
+                      </Field>
+                      <Field label="CAS number" className="sm:col-span-4" hint="Set automatically from the catalog.">
+                        <TextInput value={row.casNumber} readOnly placeholder="Not listed" />
                       </Field>
                       {row.section === 'contaminant' ? (
                         <>
@@ -812,24 +874,41 @@ export function FormulaFormDrawer({
                         </Field>
                       )}
 
-                      <div className="sm:col-span-5 flex flex-wrap items-end gap-2">
-                        <div className="text-[13px] text-muted">
-                          Documents {uploads.filter((item) => item.material_id === row.rawMaterialId).length + (row.rawMaterialId ? 0 : 0)} linked
-                          <span className="block text-xs">Linked files are not verified evidence.</span>
-                        </div>
+                      <Field label="Document for this ingredient" className="sm:col-span-4">
+                        <Select
+                          value={rowDocTypes[row.key] || 'coa'}
+                          options={[
+                            { value: 'sds', label: 'SDS' },
+                            { value: 'coa', label: 'CoA' },
+                            { value: 'lab_report', label: 'Laboratory report' },
+                            { value: 'other', label: 'Other' },
+                          ]}
+                          onChange={(event) => setRowDocTypes((current) => ({ ...current, [row.key]: event.target.value }))}
+                        />
+                      </Field>
+                      <div className="sm:col-span-8 flex flex-wrap items-end gap-2">
                         <Button
                           type="button"
                           onClick={() => {
                             uploadTarget.current = row.rawMaterialId;
-                            setDocScope('material');
-                            setDocMaterial(row.rawMaterialId);
+                            uploadType.current = rowDocTypes[row.key] || 'coa';
                             fileInput.current?.click();
                           }}
                           disabled={!row.rawMaterialId || uploading}
                         >
-                          Attach document
+                          Attach to this ingredient
                         </Button>
+                        <p className="text-xs text-muted">A linked file is not verified evidence.</p>
                       </div>
+                      {linkedDocs.length > 0 ? (
+                        <ul className="sm:col-span-12 space-y-1">
+                          {linkedDocs.map((item) => (
+                            <li key={item.document_id} className="text-[13px] text-muted">
+                              {item.filename || item.document_id} · {item.document_type}
+                            </li>
+                          ))}
+                        </ul>
+                      ) : null}
                     </div>
                     <details className="mt-3">
                       <summary className="cursor-pointer text-[13px] font-medium text-brand-500">Supplier, grade, batch, and notes</summary>
@@ -894,7 +973,7 @@ export function FormulaFormDrawer({
               <div>
                 <p className="text-sm font-medium text-ink">Upload documents</p>
                 <p className="mt-1 text-[13px] leading-6 text-muted">
-                  Add SDS, CoA, laboratory report, label, or other PDFs. A product file does not satisfy every ingredient. Processing a file does not verify it.
+                  Upload SDS, CoA, laboratory reports, or other PDFs that apply to this formula. Ingredient files are attached on the ingredient row.
                 </p>
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
@@ -911,30 +990,11 @@ export function FormulaFormDrawer({
                     onChange={(event) => setDocType(event.target.value)}
                   />
                 </Field>
-                <Field label="Applies to">
-                  <Select
-                    value={docScope}
-                    options={[
-                      { value: 'finished_product', label: 'Entire product' },
-                      { value: 'material', label: 'Selected ingredient' },
-                    ]}
-                    onChange={(event) => setDocScope(event.target.value as 'material' | 'finished_product')}
-                  />
-                </Field>
-                {docScope === 'material' ? (
-                  <Field label="Ingredient">
-                    <Select
-                      value={docMaterial}
-                      placeholder="Select an ingredient"
-                      options={form.ingredients.filter((row) => row.rawMaterialId).map((row) => ({ value: row.rawMaterialId, label: row.name || row.rawMaterialId }))}
-                      onChange={(event) => setDocMaterial(event.target.value)}
-                    />
-                  </Field>
-                ) : null}
               </div>
               <Button
                 onClick={() => {
-                  uploadTarget.current = docScope === 'material' ? docMaterial : undefined;
+                  uploadTarget.current = undefined;
+                  uploadType.current = docType;
                   fileInput.current?.click();
                 }}
                 loading={uploading}
@@ -943,7 +1003,7 @@ export function FormulaFormDrawer({
               </Button>
               {uploadError ? <p className="text-sm text-danger">{uploadError}</p> : null}
               <ul className="space-y-2">
-                {uploads.map((item) => (
+                {uploads.filter((item) => !item.material_id).map((item) => (
                   <li key={item.document_id} className="rounded-lg border border-line px-3 py-2 text-[13px] leading-6">
                     <p className="font-medium text-ink">{item.filename || item.document_id}</p>
                     <p className="text-muted">
@@ -979,7 +1039,8 @@ export function FormulaFormDrawer({
                   ['Age group', form.ageGroup ? AGE_GROUP_LABEL[form.ageGroup as AgeGroup] : '—'],
                   ['Target markets', form.targetMarkets.map((code) => TARGET_MARKETS.find((market) => market.code === code)?.label ?? code).join(', ') || '—'],
                   ['Physical form', form.physicalForm || '—'],
-                  ['Owner', people.find((person) => person.id === form.ownerId)?.name ?? '—'],
+                  ['Owner', personName(form.ownerId)],
+                  ['Reviewer', personName(form.reviewerId)],
                   ['Ingredients', String(form.ingredients.filter((row) => row.name.trim()).length)],
                   ['Composition total', formatConcentration(total)],
                   ['Linked documents', String(form.evidenceIds.length)],
@@ -990,6 +1051,21 @@ export function FormulaFormDrawer({
                   </div>
                 ))}
               </dl>
+            </div>
+
+            <div className="space-y-2">
+              <p className="text-sm font-medium text-ink">Ingredients</p>
+              {form.ingredients.filter((row) => row.name.trim() || row.rawMaterialId).map((row) => (
+                <div key={row.key} className="rounded-lg border border-line px-3 py-2 text-[13px] leading-6">
+                  <p className="font-medium text-ink">{row.name || 'Unnamed ingredient'}</p>
+                  <p className="text-muted">
+                    {row.compositionType || 'Material type not set'} · CAS {row.casNumber || 'not listed'} · {row.section === 'contaminant' ? `Result ${row.measuredText || '—'} ${row.measuredUnit}` : `${row.concentrationText || '—'}%`}
+                  </p>
+                  <p className="text-muted">
+                    {uploads.filter((item) => item.material_id === row.rawMaterialId && row.rawMaterialId).length} document{uploads.filter((item) => item.material_id === row.rawMaterialId && row.rawMaterialId).length === 1 ? '' : 's'} attached to this ingredient
+                  </p>
+                </div>
+              ))}
             </div>
 
             {validation.errors.length > 0 ? (

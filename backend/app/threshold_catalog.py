@@ -337,6 +337,164 @@ def _compatible_concentration(rule: dict, entered_basis: str) -> bool:
     return False
 
 
+def _apply_use_case_thresholds(substances: dict, entries: list[dict], rules: list[dict], roles: dict) -> dict:
+    """Add screening ceilings for ordinary paint ingredients the reference files do not evaluate."""
+    path = DATA / "use_case_thresholds.json"
+    if not path.is_file():
+        return {"rows": [], "sha256": ""}
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    digest = _sha256(path)
+    type_roles = roles.get("composition_type_roles") or {}
+    rows = []
+    for item in payload.get("ingredients") or []:
+        substance_id = str(item.get("substance_id") or "").strip()
+        if not substance_id:
+            continue
+        regions = [normalize_region(str(region)) for region in item.get("regions") or ["US"]]
+        categories = list(item.get("categories") or ["Paints"])
+        ages = [normalize_age(str(age)) for age in item.get("age_groups") or ["under_12"]]
+        try:
+            threshold = float(item["threshold_value"])
+        except (KeyError, TypeError, ValueError):
+            continue
+        operator = str(item.get("operator") or "<=")
+        polarity = str(item.get("operator_polarity") or "ceiling")
+        unit = str(item.get("threshold_unit") or "%")
+        if item.get("patch_existing"):
+            patched = False
+            for rule in rules:
+                if rule.get("duplicate_of") or rule.get("state_code"):
+                    continue
+                if rule.get("substance_id") != substance_id:
+                    continue
+                if rule.get("region") not in regions or rule.get("category_name") not in categories or rule.get("age_group") not in ages:
+                    continue
+                if rule.get("route") != "concentration":
+                    continue
+                if rule.get("threshold_value") is None:
+                    continue
+                if abs(float(rule["threshold_value"]) - threshold) > 0.001:
+                    continue
+                rule["operator"] = operator
+                rule["operator_source"] = "use_case_threshold"
+                rule["operator_polarity"] = polarity
+                rule["verification_status"] = "Verified"
+                rule["limit_text"] = item.get("limit_text") or rule.get("limit_text")
+                rule["regulation"] = item.get("regulation") or rule.get("regulation")
+                rule["applies_to"] = item.get("applies_to") or rule.get("applies_to")
+                rule["source_filename"] = path.name
+                patched = True
+                rows.append(_use_case_row(item, rule["rule_id"], rule["region"], rule["category_name"], rule["age_group"]))
+            if patched:
+                continue
+        name = str(item.get("substance") or substance_id)
+        composition_type = item.get("composition_type") or "Additives"
+        record = substances.setdefault(substance_id, {
+            "substance_id": substance_id,
+            "name": name,
+            "cas_number": item.get("cas_number"),
+            "names": [],
+            "regions": [],
+            "composition_types": [],
+            "identity_flags": [],
+            "role": None,
+            "approved_recipe_ingredient": False,
+        })
+        if name not in record["names"]:
+            record["names"].append(name)
+        if composition_type not in record["composition_types"]:
+            record["composition_types"].append(composition_type)
+        role = type_roles.get(composition_type) or "formulation_ingredient"
+        record["role"] = role
+        record["role_label"] = {
+            "formulation_ingredient": "Formulation ingredient",
+            "contaminant_analyte": "Contaminant / laboratory analyte",
+            "role_requires_review": "Role requires review",
+        }.get(role, "Formulation ingredient")
+        record["approved_recipe_ingredient"] = False
+        for region in regions:
+            if region not in record["regions"]:
+                record["regions"].append(region)
+            for category_name in categories:
+                for age in ages:
+                    source_age = AGE_TO_SOURCE.get(age, age)
+                    entries.append({
+                        "entry_id": f"usecase:{region.lower()}:{_slug(category_name)}:{source_age}:{substance_id}",
+                        "substance_id": substance_id,
+                        "region": region,
+                        "category_name": category_name,
+                        "category_id": _slug(category_name),
+                        "age_group": age,
+                        "source_age_group": source_age,
+                        "composition_type": composition_type,
+                        "source_filename": path.name,
+                        "json_pointer": f"/use_case/{substance_id}",
+                        "original": {
+                            "substance": name,
+                            "casNumber": item.get("cas_number"),
+                            "compositionType": composition_type,
+                            "maximumRecommendedUsageLevel": threshold,
+                            "unit": unit,
+                            "hasThreshold": True,
+                            "dataAvailability": "Use-case screening threshold",
+                        },
+                    })
+                    rule_id = f"usecase:{region.lower()}:{_slug(category_name)}:{age}:{substance_id}"
+                    rules.append({
+                        "rule_id": rule_id,
+                        "substance_id": substance_id,
+                        "region": region,
+                        "category_name": category_name,
+                        "age_group": age,
+                        "source_age_group": source_age,
+                        "composition_type": composition_type,
+                        "source_filename": path.name,
+                        "source_sha256": digest,
+                        "json_pointer": f"/use_case/{substance_id}",
+                        "threshold_type": "maximum concentration",
+                        "threshold_value": threshold,
+                        "threshold_unit": unit,
+                        "normalized_unit": "percent",
+                        "quantity": "mass_fraction",
+                        "basis": "stated_weight",
+                        "operator": operator,
+                        "operator_source": "use_case_threshold",
+                        "operator_polarity": polarity,
+                        "route": "concentration",
+                        "regulation": item.get("regulation"),
+                        "applies_to": item.get("applies_to"),
+                        "limit_text": item.get("limit_text"),
+                        "verification_status": "Verified",
+                        "source_url": None,
+                        "section": None,
+                        "state_code": None,
+                        "test_category": None,
+                        "combination": False,
+                        "elemental_on_compound": False,
+                        "contradictory": False,
+                        "duplicate_of": None,
+                    })
+                    rows.append(_use_case_row(item, rule_id, region, category_name, age))
+    return {"rows": rows, "sha256": digest}
+
+
+def _use_case_row(item: dict, rule_id: str, region: str, category_name: str, age: str) -> dict:
+    return {
+        "rule_id": rule_id,
+        "substance_id": item.get("substance_id"),
+        "substance": item.get("substance"),
+        "region": region,
+        "category_name": category_name,
+        "age_group": age,
+        "threshold_value": item.get("threshold_value"),
+        "threshold_unit": item.get("threshold_unit") or "%",
+        "operator": item.get("operator") or "<=",
+        "limit_text": item.get("limit_text"),
+        "regulation": item.get("regulation"),
+        "provenance": "use_case_threshold",
+    }
+
+
 @lru_cache(maxsize=1)
 def load_catalog() -> dict:
     roles = _load_roles()
@@ -477,7 +635,10 @@ def load_catalog() -> dict:
     _mark_chromium_conflicts(rules, issues)
     _dedupe_rules(rules, issues)
     _assign_roles(substances, entries, rules, roles)
+    use_case = _apply_use_case_thresholds(substances, entries, rules, roles)
     version_hash = hashlib.sha256("".join(item["sha256"] for item in files).encode("utf-8")).hexdigest()
+    if use_case.get("sha256"):
+        version_hash = hashlib.sha256((version_hash + use_case["sha256"]).encode("utf-8")).hexdigest()
     audit = "-".join(str(item.get("audit_date") or "undated") for item in files)
     return {
         "dataset_version": f"us-eu-thresholds-{audit}-{version_hash[:12]}",
@@ -496,6 +657,7 @@ def load_catalog() -> dict:
             "A submission is a partial substance screening unless the user explicitly declares a complete ingredient list totaling 100%."
         ),
         "role_mapping_version": roles.get("mapping_version"),
+        "use_case_thresholds": use_case.get("rows") or [],
     }
 
 
@@ -1281,6 +1443,18 @@ def build_threshold_context(formula: dict, version_changes: list | None = None) 
         limitations.append(f"{category} is not a category in the US/EU reference files. No threshold branch was applied.")
     if formula.get("legacy_materials"):
         limitations.append("Unmatched ingredient names were kept as coverage gaps and were not replaced with catalog substances.")
+    use_case_rows = [
+        row for row in catalog.get("use_case_thresholds") or []
+        if row.get("substance_id") in substance_ids
+        and row.get("category_name") == category
+        and row.get("age_group") == age
+        and row.get("region") in regions
+    ]
+    if use_case_rows:
+        limitations.append(
+            "Ingredients with a row in use_case_thresholds.json use those screening ceilings. "
+            "Those ceilings are calculated by the backend and supplied to the model. They are not an AP or CL decision."
+        )
     return {
         "formula": public_formula,
         "materials": [
@@ -1316,6 +1490,7 @@ def build_threshold_context(formula: dict, version_changes: list | None = None) 
         "missing_evidence": missing_evidence,
         "source_conflicts": issues,
         "source_excerpts": excerpts,
+        "uploaded_documents": _uploaded_documents(documents),
         "version_changes": version_changes or [],
         "documented_history": [],
         "assessment_limitations": limitations,
@@ -1333,12 +1508,13 @@ def build_threshold_context(formula: dict, version_changes: list | None = None) 
         "dataset_kind": "threshold_reference",
         "dataset_version": catalog["dataset_version"],
         "data_hash": catalog["data_hash"],
+        "use_case_thresholds": use_case_rows,
         "scenario_provenance": {
             "dataset_kind": "threshold_reference",
             "dataset_version": catalog["dataset_version"],
             "provenance": "supplied_us_eu_json",
             "is_regulatory_requirement": False,
-            "note": "Dummy concentration rules are not used in this workflow.",
+            "note": "Screening ceilings for the declared ingredients are in use_case_thresholds. Other example rules are not used.",
         },
         "applicable_scenario_rules": [],
     }
@@ -1471,23 +1647,47 @@ def _evidence(formula: dict, documents: list[dict], catalog: dict) -> tuple[list
     return checks, matches, missing
 
 
+def _uploaded_documents(documents: list[dict]) -> list[dict]:
+    """Extracted PDF text for ingredient uploads and for files attached at submission."""
+    rows = []
+    for document in documents:
+        text = "\n".join(
+            str(part.get("text") or "").strip()
+            for part in document.get("parts") or []
+            if str(part.get("text") or "").strip()
+        ).strip()
+        if not text:
+            continue
+        rows.append({
+            "document_id": document.get("document_id"),
+            "filename": document.get("original_filename") or document.get("filename"),
+            "document_type": document.get("document_type"),
+            "scope": document.get("scope"),
+            "material_id": document.get("material_id"),
+            "formula_id": document.get("formula_id"),
+            "attached_to": "ingredient" if document.get("material_id") else "submission",
+            "text": text[:6000],
+        })
+    return rows
+
+
 def _excerpts(documents: list[dict], formula: dict, catalog: dict) -> list[dict]:
-    names = [catalog["substances"][row["material_id"]]["name"].lower() for row in formula["ingredients"]]
+    """Send extracted CoA and SDS text for every document already linked to this formula."""
+    del formula, catalog
     excerpts = []
+    total = 0
     for document in documents:
         for part in document.get("parts") or []:
-            text = str(part.get("text") or "")
-            if names and not any(name.split("(")[0].strip().lower()[:12] in text.lower() for name in names if name):
-                if document.get("material_id") not in {row["material_id"] for row in formula["ingredients"]}:
-                    continue
-            if not text.strip():
+            text = str(part.get("text") or "").strip()
+            if not text:
                 continue
+            clipped = text[:4000]
             excerpts.append({
                 "source_id": f"{document['document_id']}:p{part.get('page')}",
                 "document_id": document["document_id"],
-                "filename": document.get("original_filename"),
+                "filename": document.get("original_filename") or document.get("filename"),
                 "page": part.get("page"),
-                "relevant_text": text[:700],
+                "relevant_text": clipped,
                 "review_status": document.get("review_status"),
                 "applicability": {
                     "material_id": document.get("material_id"),
@@ -1496,8 +1696,10 @@ def _excerpts(documents: list[dict], formula: dict, catalog: dict) -> list[dict]
                     "version_id": document.get("version_id"),
                     "regions": document.get("regions") or [],
                     "document_type": document.get("document_type"),
+                    "scope": document.get("scope"),
                 },
             })
-            if len(excerpts) >= 8:
+            total += len(clipped)
+            if len(excerpts) >= 16 or total >= 20000:
                 return excerpts
     return excerpts

@@ -9,10 +9,11 @@ import { IngredientsTab } from '../pages/formula-tabs/IngredientsTab';
 import { EvidenceTab } from '../pages/formula-tabs/EvidenceTab';
 import { ScreeningTab } from '../pages/formula-tabs/ScreeningTab';
 import { ResultsTab } from '../pages/formula-tabs/ResultsTab';
+import { HistoryTab } from '../pages/formula-tabs/HistoryTab';
 import { ActivityTab } from '../pages/formula-tabs/ActivityTab';
 import { ScreeningResultsPage } from '../pages/ScreeningResultsPage';
 import { SubmissionHistoryPage } from '../pages/SubmissionHistoryPage';
-import { MonitoringPage } from '../pages/MonitoringPage';
+import { WatchlistPage } from '../pages/WatchlistPage';
 import { RawMaterialsPage } from '../pages/RawMaterialsPage';
 import { SettingsPage } from '../pages/SettingsPage';
 
@@ -50,14 +51,14 @@ export const routes: RouteObject[] = [
           { path: 'evidence', element: <EvidenceTab /> },
           { path: 'screening', element: <ScreeningTab /> },
           { path: 'results', element: <ResultsTab /> },
+          { path: 'history', element: <HistoryTab /> },
           { path: 'activity', element: <ActivityTab /> },
         ],
       },
       { path: 'formulas/:formulaId/results/:runId', element: <ScreeningResultsPage /> },
       { path: 'submissions', element: <SubmissionHistoryPage /> },
       { path: 'submissions/:submissionId', element: <SubmissionHistoryPage /> },
-      { path: 'monitoring', element: <MonitoringPage /> },
-      { path: 'monitoring/:alertId', element: <MonitoringPage /> },
+      { path: 'watchlist', element: <WatchlistPage /> },
       { path: 'materials', element: <RawMaterialsPage /> },
       { path: 'materials/:materialId', element: <RawMaterialsPage /> },
       { path: 'settings', element: <SettingsPage /> },

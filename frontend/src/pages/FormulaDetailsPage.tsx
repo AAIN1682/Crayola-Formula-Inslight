@@ -36,6 +36,7 @@ const TABS = [
   { to: 'evidence', label: 'Evidence' },
   { to: 'screening', label: 'Screening' },
   { to: 'results', label: 'Results' },
+  { to: 'history', label: 'History' },
   { to: 'activity', label: 'Activity' },
 ];
 

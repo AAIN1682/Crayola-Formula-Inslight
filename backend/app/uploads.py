@@ -312,7 +312,12 @@ def documents_for_formula(formula: dict) -> list[dict]:
     formula_id = formula.get("formula_id")
     version_id = formula.get("version_id")
     regions = set(formula.get("regions") or [])
-    materials = {row.get("material_id") for row in formula.get("ingredients") or []}
+    materials = {row.get("material_id") for row in formula.get("ingredients") or [] if row.get("material_id")}
+    materials.update(
+        item.get("legacy_id") or item.get("material_id")
+        for item in formula.get("legacy_materials") or []
+        if item.get("legacy_id") or item.get("material_id")
+    )
     selected = []
     for row in _read_index():
         linked = row["document_id"] in wanted

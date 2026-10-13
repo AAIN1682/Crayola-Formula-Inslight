@@ -6,7 +6,7 @@ export const STORAGE_KEY = 'formula-insight.dataset';
 export const STORAGE_VERSION = 4;
 
 export const PERSISTENCE_DESCRIPTION =
-  'The Formula Library and Overview read formulas and dashboard metrics from the backend. Screening sends the backend formula to the assessment API and keeps that result. Review decisions, monitoring, submissions, documents, and any browser formula edits stay in this browser under "formula-insight.dataset". Browser formulas are not copied over the server, and server formulas are not written back over a different browser copy.';
+  'Latest Result and Overview read formulas and dashboard metrics from the backend. Screening sends the backend formula to the assessment API and keeps that result. Review decisions, monitoring, submissions, documents, and any browser formula edits stay in this browser under "formula-insight.dataset". Browser formulas are not copied over the server, and server formulas are not written back over a different browser copy.';
 
 interface Envelope {
   version: number;

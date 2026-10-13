@@ -26,6 +26,13 @@ const DATE_TIME_FORMAT = new Intl.DateTimeFormat('en-GB', {
 
 const MONTH_FORMAT = new Intl.DateTimeFormat('en-GB', { month: 'short', year: 'numeric' });
 
+export function assessmentOutcomeLabel(band?: string | null): string {
+  if (band === 'ap') return 'AP';
+  if (band === 'at_risk') return 'At risk';
+  if (band === 'likely_cl') return 'Likely CL';
+  return '';
+}
+
 export function formatDate(iso?: string): string {
   if (!iso) return '—';
   const date = new Date(iso);

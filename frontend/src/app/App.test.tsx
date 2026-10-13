@@ -177,10 +177,10 @@ describe('routes', () => {
     expect(container.querySelector('nav[aria-label="Primary"]')).not.toBeNull();
   });
 
-  it('renders the Formula Library with seeded, paginated rows', async () => {
+  it('renders the Latest Result page with seeded, paginated rows', async () => {
     await mountAt('/formulas');
 
-    expect(text()).toContain('Formula Library');
+    expect(text()).toContain('Latest Result');
     expect(text()).toContain('ColorFlow Washable Marker');
     expect(text()).toContain('FML-1001');
     expect(container.querySelectorAll('tbody tr').length).toBe(10);
@@ -195,7 +195,7 @@ describe('routes', () => {
     const tabs = Array.from(
       container.querySelectorAll('nav[aria-label="Formula sections"] a'),
     ).map((node) => node.textContent);
-    expect(tabs).toEqual(['Ingredients', 'Evidence', 'Screening', 'Activity']);
+    expect(tabs).toEqual(['Ingredients', 'Evidence', 'Screening', 'Results', 'History', 'Activity']);
   });
 
   it('opens a seeded screening result directly with all result sections', async () => {
@@ -208,7 +208,6 @@ describe('routes', () => {
     expect(text()).toContain('Next actions');
     expect(text()).toContain('Reviewer actions');
     expect(text()).toContain('Demo ingredient-overlap score');
-    expect(text()).toContain('not a certification');
     expect(text()).toContain('Not assessed');
   });
 
@@ -218,15 +217,6 @@ describe('routes', () => {
     expect(text()).toContain('Submission History');
     expect(text()).toContain('SUB-2301');
     expect(text()).toContain('historical acceptance does not establish acceptance');
-  });
-
-  it('renders Monitoring with alerts and the upcoming-review timeline', async () => {
-    await mountAt('/monitoring');
-
-    expect(text()).toContain('Monitoring');
-    expect(text()).toContain('Simulate update');
-    expect(text()).toContain('Upcoming reviews');
-    expect(text()).toContain('No live monitoring is connected');
   });
 
   it('renders the Raw Materials catalog', async () => {

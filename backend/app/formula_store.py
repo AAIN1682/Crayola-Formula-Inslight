@@ -349,6 +349,25 @@ def _ingredient_signature(ingredients: list[Ingredient]) -> tuple[tuple[Any, ...
     )
 
 
+def _next_version(current: str) -> str:
+    text = (current or "").strip()
+    match = re.fullmatch(r"v?(\d+)\.(\d+)", text, re.IGNORECASE)
+    if not match:
+        return "v1.1" if not text else f"{text}.1"
+    return f"v{int(match.group(1))}.{int(match.group(2)) + 1}"
+
+
+def _revision_changed(previous: Formula, updated: Formula) -> bool:
+    if previous.name != updated.name:
+        return True
+    if (previous.description or "") != (updated.description or ""):
+        return True
+    if list(previous.evidenceIds) != list(updated.evidenceIds):
+        return True
+    held = updated.model_copy(update={"version": previous.version})
+    return _screening_inputs_changed(previous, held)
+
+
 def _screening_inputs_changed(previous: Formula, updated: Formula) -> bool:
     if previous.version != updated.version:
         return True
@@ -435,7 +454,13 @@ def _apply_update(base: Formula, body: FormulaUpdate) -> Formula:
     merged.update(patch)
     merged["updatedAt"] = _utc_now_iso()
     updated = Formula.model_validate(merged)
-    if base.latestRunId and _screening_inputs_changed(base, updated):
+    requested = patch.get("version")
+    kept_current_version = requested in (None, "", base.version)
+    if kept_current_version and _revision_changed(base, updated):
+        updated = updated.model_copy(
+            update={"version": _next_version(base.version), "screeningCurrent": False}
+        )
+    elif base.latestRunId and _screening_inputs_changed(base, updated):
         updated = updated.model_copy(update={"screeningCurrent": False})
     return updated
 

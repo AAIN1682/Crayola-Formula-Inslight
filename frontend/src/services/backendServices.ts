@@ -126,7 +126,7 @@ export function createBackendServices(store: DemoStore): FormulaInsightServices 
         const sorted = sortRows(rows, selectors[sortKey] ?? selectors.name!, direction);
         return paginate(sorted, filters.page ?? 1, filters.pageSize ?? PAGE_SIZE);
       } catch (error) {
-        throw asServiceError(error, 'The formula library could not be loaded.');
+        throw asServiceError(error, 'The latest results could not be loaded.');
       }
     },
 

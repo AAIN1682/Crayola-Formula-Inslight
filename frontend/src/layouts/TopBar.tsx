@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
-  Bell,
   Boxes,
   ChevronRight,
   History,
@@ -12,8 +11,6 @@ import {
 } from 'lucide-react';
 import type { SearchResult } from '../types/services';
 import { useCurrentUser, useDemoSelector, useServices } from '../state/DemoDataProvider';
-import { AlertStatusBadge } from '../components/ui/Badge';
-import { ALERT_TYPE_LABEL, formatRelative } from '../utils/formatting';
 import { cn } from '../utils/cn';
 
 interface Crumb {
@@ -22,9 +19,9 @@ interface Crumb {
 }
 
 const STATIC_LABELS: Record<string, string> = {
-  formulas: 'Formula Library',
+  formulas: 'Latest Result',
   submissions: 'Submission History',
-  monitoring: 'Monitoring',
+  watchlist: 'Watchlist',
   materials: 'Raw Materials',
   settings: 'Preferences',
   ingredients: 'Ingredients',
@@ -57,7 +54,7 @@ function useBreadcrumbs(): Crumb[] {
       crumbs.push({ label: material?.name ?? segment, to: path });
       return;
     }
-    if (previous === 'submissions' || previous === 'monitoring' || previous === 'results') {
+    if (previous === 'submissions' || previous === 'results') {
       crumbs.push({ label: segment, to: path });
       return;
     }
@@ -169,98 +166,6 @@ function GlobalSearch() {
                       <span className="block truncate text-xs text-muted">{result.subtitle}</span>
                     </span>
                   </button>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      ) : null}
-    </div>
-  );
-}
-
-function NotificationBell() {
-  const [open, setOpen] = useState(false);
-  const wrapperRef = useRef<HTMLDivElement>(null);
-  const alerts = useDemoSelector((state) => state.alerts);
-  const openAlerts = alerts
-    .filter((alert) => alert.status !== 'resolved')
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-    .slice(0, 6);
-  const openCount = alerts.filter((alert) => alert.status === 'open').length;
-
-  useEffect(() => {
-    const handlePointerDown = (event: MouseEvent) => {
-      if (!wrapperRef.current?.contains(event.target as Node)) setOpen(false);
-    };
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpen(false);
-    };
-    document.addEventListener('mousedown', handlePointerDown);
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('mousedown', handlePointerDown);
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, []);
-
-  return (
-    <div ref={wrapperRef} className="relative">
-      <button
-        type="button"
-        onClick={() => setOpen((value) => !value)}
-        aria-expanded={open}
-        aria-haspopup="dialog"
-        aria-label={`Notifications: ${openCount} open monitoring ${openCount === 1 ? 'alert' : 'alerts'}`}
-        className="relative flex size-9 items-center justify-center rounded-lg border border-line bg-surface text-muted transition-colors hover:border-brand-200 hover:text-brand-500"
-      >
-        <Bell aria-hidden className="size-4.5" />
-        {openCount > 0 ? (
-          <span className="absolute -top-1.5 -right-1.5 flex min-w-4.5 items-center justify-center rounded-full bg-warning px-1 text-[10px] leading-4.5 font-semibold text-white tabular">
-            {openCount}
-          </span>
-        ) : null}
-      </button>
-
-      {open ? (
-        <div
-          role="dialog"
-          aria-label="Monitoring alerts"
-          className="fi-animate-in absolute top-full right-0 z-40 mt-2 w-[min(400px,calc(100vw-2rem))] overflow-hidden rounded-lg border border-line bg-surface shadow-overlay"
-        >
-          <header className="flex items-center justify-between border-b border-line px-4 py-3">
-            <h2 className="text-[13px] font-semibold text-ink">Monitoring alerts</h2>
-            <Link
-              to="/monitoring"
-              onClick={() => setOpen(false)}
-              className="text-xs font-medium text-brand-500 hover:underline"
-            >
-              View all
-            </Link>
-          </header>
-          {openAlerts.length === 0 ? (
-            <p className="px-4 py-6 text-center text-[13px] text-muted">
-              No open or acknowledged alerts in this workspace.
-            </p>
-          ) : (
-            <ul className="max-h-96 divide-y divide-line overflow-y-auto">
-              {openAlerts.map((alert) => (
-                <li key={alert.id}>
-                  <Link
-                    to={`/monitoring/${alert.id}`}
-                    onClick={() => setOpen(false)}
-                    className="block px-4 py-3 transition-colors hover:bg-brand-50/60"
-                  >
-                    <div className="flex items-start justify-between gap-2">
-                      <p className="text-[13px] leading-5 font-medium text-ink">{alert.title}</p>
-                      <AlertStatusBadge status={alert.status} />
-                    </div>
-                    <p className="mt-1 text-xs text-muted">
-                      {ALERT_TYPE_LABEL[alert.type]} · {formatRelative(alert.createdAt)} ·{' '}
-                      {alert.affectedFormulaIds.length}{' '}
-                      {alert.affectedFormulaIds.length === 1 ? 'formula' : 'formulas'} affected
-                    </p>
-                  </Link>
                 </li>
               ))}
             </ul>
@@ -397,7 +302,6 @@ export function TopBar({ onOpenNav }: { onOpenNav: () => void }) {
           <div className="hidden w-64 xl:block 2xl:w-80">
             <GlobalSearch />
           </div>
-          <NotificationBell />
           <UserMenu />
         </div>
       </div>

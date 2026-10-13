@@ -453,6 +453,13 @@ def test_formula_library_crud_uses_the_running_application(isolated_history):
     updated = client.put(f"/api/formulas/{formula_id}", json={"name": "Lab marker revised"})
     assert updated.status_code == 200, updated.text
     assert updated.json()["name"] == "Lab marker revised"
+    assert updated.json()["version"] == "v1.1"
+    unchanged = client.put(f"/api/formulas/{formula_id}", json={"name": "Lab marker revised"})
+    assert unchanged.status_code == 200, unchanged.text
+    assert unchanged.json()["version"] == "v1.1"
+    explicit = client.put(f"/api/formulas/{formula_id}", json={"version": "v2.0"})
+    assert explicit.status_code == 200, explicit.text
+    assert explicit.json()["version"] == "v2.0"
 
     duplicate = client.post(f"/api/formulas/{formula_id}/duplicate")
     assert duplicate.status_code == 201, duplicate.text

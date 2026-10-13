@@ -300,7 +300,7 @@ export function MonitoringPage() {
         Alerts link to the affected formulas. Open one to see what changed, why it matched and which review
         action is suggested, or go straight to the{' '}
         <Link to="/formulas" className="fi-link">
-          Formula Library
+          Latest Result
         </Link>
         .
       </p>

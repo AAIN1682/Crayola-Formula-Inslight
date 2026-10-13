@@ -124,6 +124,8 @@ def _public_context(context: dict) -> dict:
         "missing_evidence": context.get("missing_evidence"),
         "source_conflicts": context.get("source_conflicts"),
         "source_excerpts": context.get("source_excerpts"),
+        "uploaded_documents": context.get("uploaded_documents") or [],
+        "use_case_thresholds": context.get("use_case_thresholds") or [],
         "version_changes": context.get("version_changes"),
         "documented_history": context.get("documented_history"),
         "assessment_limitations": context.get("assessment_limitations"),
@@ -514,6 +516,42 @@ def recent_saved_assessments(formula_id: str | None = None, limit: int = 20):
         return {"analyses": recent_analyses(formula_id, limit)}
     except ScreeningServiceError as error:
         raise HTTPException(status_code=error.status_code, detail=error.detail) from error
+
+
+@app.post("/api/assessments/{assessment_id}/demo-past-decisions")
+def saved_demo_past_decisions(assessment_id: str):
+    from app.llm import AzureExplanationError, demo_brief, demo_past_decisions
+    from app.screening_service import ScreeningServiceError, get_saved_run, store_demo_decisions
+
+    try:
+        run = get_saved_run(assessment_id)
+    except ScreeningServiceError as error:
+        raise HTTPException(status_code=error.status_code, detail=error.detail) from error
+    preliminary = run.get("preliminary_assessment") if isinstance(run.get("preliminary_assessment"), dict) else {}
+    existing = preliminary.get("demo_past_decisions")
+    rows = existing.get("decisions") if isinstance(existing, dict) else None
+    if isinstance(rows, list) and len(rows) >= 3 and all(isinstance(item, dict) and item.get("similarity") and item.get("matched_on") for item in rows):
+        return existing
+    snapshot = run.get("input_snapshot") if isinstance(run.get("input_snapshot"), dict) else {}
+    public = run.get("llm_context") if isinstance(run.get("llm_context"), dict) else {}
+    try:
+        decisions = demo_past_decisions(demo_brief(
+            {
+                "formula": snapshot,
+                "materials": public.get("materials") or [],
+                "calculated_checks": public.get("calculated_checks") or public.get("checks") or [],
+            },
+            preliminary,
+        ))
+    except AzureExplanationError as error:
+        raise HTTPException(status_code=503, detail="Similar reviews could not be loaded.") from error
+    if not decisions:
+        raise HTTPException(status_code=503, detail="Similar reviews could not be loaded.")
+    try:
+        store_demo_decisions(assessment_id, decisions)
+    except ScreeningServiceError as error:
+        raise HTTPException(status_code=error.status_code, detail=error.detail) from error
+    return decisions
 
 
 @app.get("/api/assessments/{assessment_id}")

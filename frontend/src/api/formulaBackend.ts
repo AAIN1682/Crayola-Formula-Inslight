@@ -172,6 +172,22 @@ export interface RiskScore {
   disclaimer: string;
 }
 
+export interface PastDecision {
+  similarity: number;
+  code: string;
+  name: string;
+  year: number;
+  note: string;
+  matched_on?: string;
+  outcome: string;
+}
+
+export interface PastDecisions {
+  reviewed_count: number;
+  comment?: { quote?: string; attribution?: string };
+  decisions: PastDecision[];
+}
+
 export interface PreliminaryAssessment {
   assessment_id?: string;
   formula_id?: string;
@@ -197,6 +213,7 @@ export interface PreliminaryAssessment {
   version_comparison?: string | null;
   limitations?: string[];
   score_headline?: string | null;
+  demo_past_decisions?: PastDecisions;
   risk_score?: RiskScore;
   execution?: { llm_status?: string; deployment?: string | null; prompt_version?: string };
 }
@@ -481,6 +498,11 @@ export async function fetchRecentAnalyses(formulaId?: string, limit = 20): Promi
   const response = await fetch(`/api/assessments/recent?${params}`);
   const payload = (await readBody(response, 'Saved assessment history could not be read.')) as { analyses?: RecentAnalysis[] };
   return payload.analyses ?? [];
+}
+
+export async function fetchDemoPastDecisions(assessmentId: string): Promise<PastDecisions> {
+  const response = await fetch(`/api/assessments/${encodeURIComponent(assessmentId)}/demo-past-decisions`, { method: 'POST' });
+  return readBody(response, 'Similar reviews could not be loaded.') as Promise<PastDecisions>;
 }
 
 export async function fetchStoredAssessment(assessmentId: string): Promise<PackageAssessment> {
