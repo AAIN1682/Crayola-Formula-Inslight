@@ -177,7 +177,8 @@
     "intendedAgeDetail": null,
     "toyChildcareScope": null,
     "componentType": null,
-    "testMaterialCategory": null
+    "testMaterialCategory": null,
+    "versionHistory": []
   },
   {
     "id": "FML-1002",
@@ -355,7 +356,8 @@
     "intendedAgeDetail": null,
     "toyChildcareScope": null,
     "componentType": null,
-    "testMaterialCategory": null
+    "testMaterialCategory": null,
+    "versionHistory": []
   },
   {
     "id": "FML-1003",
@@ -555,7 +557,8 @@
     "intendedAgeDetail": null,
     "toyChildcareScope": null,
     "componentType": null,
-    "testMaterialCategory": null
+    "testMaterialCategory": null,
+    "versionHistory": []
   },
   {
     "id": "FML-1004",
@@ -733,7 +736,8 @@
     "intendedAgeDetail": null,
     "toyChildcareScope": null,
     "componentType": null,
-    "testMaterialCategory": null
+    "testMaterialCategory": null,
+    "versionHistory": []
   },
   {
     "id": "FML-1005",
@@ -931,7 +935,8 @@
     "intendedAgeDetail": null,
     "toyChildcareScope": null,
     "componentType": null,
-    "testMaterialCategory": null
+    "testMaterialCategory": null,
+    "versionHistory": []
   },
   {
     "id": "FML-1006",
@@ -1129,7 +1134,8 @@
     "intendedAgeDetail": null,
     "toyChildcareScope": null,
     "componentType": null,
-    "testMaterialCategory": null
+    "testMaterialCategory": null,
+    "versionHistory": []
   },
   {
     "id": "FML-1007",
@@ -1269,7 +1275,8 @@
     "intendedAgeDetail": null,
     "toyChildcareScope": null,
     "componentType": null,
-    "testMaterialCategory": null
+    "testMaterialCategory": null,
+    "versionHistory": []
   },
   {
     "id": "FML-1008",
@@ -1407,7 +1414,8 @@
     "intendedAgeDetail": null,
     "toyChildcareScope": null,
     "componentType": null,
-    "testMaterialCategory": null
+    "testMaterialCategory": null,
+    "versionHistory": []
   },
   {
     "id": "FML-1009",
@@ -1567,7 +1575,8 @@
     "intendedAgeDetail": null,
     "toyChildcareScope": null,
     "componentType": null,
-    "testMaterialCategory": null
+    "testMaterialCategory": null,
+    "versionHistory": []
   },
   {
     "id": "FML-1010",
@@ -1725,7 +1734,8 @@
     "intendedAgeDetail": null,
     "toyChildcareScope": null,
     "componentType": null,
-    "testMaterialCategory": null
+    "testMaterialCategory": null,
+    "versionHistory": []
   },
   {
     "id": "FML-1011",
@@ -1905,7 +1915,8 @@
     "intendedAgeDetail": null,
     "toyChildcareScope": null,
     "componentType": null,
-    "testMaterialCategory": null
+    "testMaterialCategory": null,
+    "versionHistory": []
   },
   {
     "id": "FML-1012",
@@ -2063,7 +2074,8 @@
     "intendedAgeDetail": null,
     "toyChildcareScope": null,
     "componentType": null,
-    "testMaterialCategory": null
+    "testMaterialCategory": null,
+    "versionHistory": []
   },
   {
     "id": "FML-1013",
@@ -2263,7 +2275,8 @@
     "intendedAgeDetail": null,
     "toyChildcareScope": null,
     "componentType": null,
-    "testMaterialCategory": null
+    "testMaterialCategory": null,
+    "versionHistory": []
   },
   {
     "id": "FML-1014",
@@ -2401,7 +2414,8 @@
     "intendedAgeDetail": null,
     "toyChildcareScope": null,
     "componentType": null,
-    "testMaterialCategory": null
+    "testMaterialCategory": null,
+    "versionHistory": []
   },
   {
     "id": "FML-1015",
@@ -2579,7 +2593,8 @@
     "intendedAgeDetail": null,
     "toyChildcareScope": null,
     "componentType": null,
-    "testMaterialCategory": null
+    "testMaterialCategory": null,
+    "versionHistory": []
   },
   {
     "id": "FML-1016",
@@ -2737,7 +2752,8 @@
     "intendedAgeDetail": null,
     "toyChildcareScope": null,
     "componentType": null,
-    "testMaterialCategory": null
+    "testMaterialCategory": null,
+    "versionHistory": []
   },
   {
     "id": "FML-1017",
@@ -2957,7 +2973,8 @@
     "intendedAgeDetail": null,
     "toyChildcareScope": null,
     "componentType": null,
-    "testMaterialCategory": null
+    "testMaterialCategory": null,
+    "versionHistory": []
   },
   {
     "id": "FML-1018",
@@ -3115,7 +3132,8 @@
     "intendedAgeDetail": null,
     "toyChildcareScope": null,
     "componentType": null,
-    "testMaterialCategory": null
+    "testMaterialCategory": null,
+    "versionHistory": []
   },
   {
     "id": "FML-1019",
@@ -3197,12 +3215,13 @@
     "intendedAgeDetail": "age_6_to_under_12",
     "toyChildcareScope": "yes",
     "componentType": "finished_formula",
-    "testMaterialCategory": "en71_cat_i"
+    "testMaterialCategory": "en71_cat_i",
+    "versionHistory": []
   },
   {
     "id": "FML-1020",
     "name": "SoftShape Modeling Compound",
-    "version": "v1.0",
+    "version": "v1.2",
     "category": "Crayons",
     "ageGroup": "under_12",
     "recordedAgeGroup": null,
@@ -3305,12 +3324,12 @@
     "screeningStatus": "not-screened",
     "preferredAssessmentMode": null,
     "scenarioOfFormulaId": null,
-    "screeningCurrent": false,
+    "screeningCurrent": true,
     "latestRunId": null,
     "lastScreenedAt": null,
     "reviewStatus": "not-started",
     "createdAt": "2026-10-12T13:28:36Z",
-    "updatedAt": "2026-10-13T01:51:42Z",
+    "updatedAt": "2026-10-13T07:38:37Z",
     "nextReviewDate": null,
     "originSubmissionId": null,
     "description": null,
@@ -3319,7 +3338,24 @@
     "intendedAgeDetail": null,
     "toyChildcareScope": null,
     "componentType": "finished_formula",
-    "testMaterialCategory": null
+    "testMaterialCategory": null,
+    "versionHistory": [
+      {
+        "version": "v1.0",
+        "kind": "created",
+        "at": "2026-10-12T13:28:36Z"
+      },
+      {
+        "version": "v1.1",
+        "kind": "assessed",
+        "at": "2026-10-13T07:36:02Z"
+      },
+      {
+        "version": "v1.2",
+        "kind": "assessed",
+        "at": "2026-10-13T07:38:37Z"
+      }
+    ]
   },
   {
     "id": "FML-1021",
@@ -3440,7 +3476,8 @@
     "intendedAgeDetail": null,
     "toyChildcareScope": null,
     "componentType": "finished_formula",
-    "testMaterialCategory": null
+    "testMaterialCategory": null,
+    "versionHistory": []
   },
   {
     "id": "FML-1022",
@@ -3558,12 +3595,13 @@
     "intendedAgeDetail": null,
     "toyChildcareScope": null,
     "componentType": "finished_formula",
-    "testMaterialCategory": null
+    "testMaterialCategory": null,
+    "versionHistory": []
   },
   {
     "id": "FML-1023",
     "name": "Crayola Washable Liquid Watercolor (Sunburst Yellow Base)",
-    "version": "v1.0",
+    "version": "v1.1",
     "category": "Paints",
     "ageGroup": "under_12",
     "recordedAgeGroup": null,
@@ -3573,7 +3611,7 @@
     ],
     "physicalForm": "Liquid",
     "intendedUse": "Liquid watercolor paint for artistic paper applications by school children.",
-    "ownerId": "usr-priya",
+    "ownerId": "usr-marcus",
     "reviewerId": "usr-marcus",
     "lifecycle": "active",
     "ingredients": [
@@ -3619,7 +3657,7 @@
       },
       {
         "id": "FML-1023-ING-03",
-        "name": "Sodium benzoate",
+        "name": "Sodium Benzoate",
         "rawMaterialId": "s_sodium_benzoate_532321",
         "concentration": 9.0,
         "supplier": "LANXESS",
@@ -3640,7 +3678,9 @@
     ],
     "evidenceIds": [
       "UPL-a3226cafc3ba",
-      "UPL-5004460e11d4"
+      "UPL-5004460e11d4",
+      "UPL-402e3ed8983e",
+      "UPL-1092c49b841b"
     ],
     "screeningStatus": "not-screened",
     "preferredAssessmentMode": null,
@@ -3650,7 +3690,7 @@
     "lastScreenedAt": null,
     "reviewStatus": "not-started",
     "createdAt": "2026-10-13T04:38:54Z",
-    "updatedAt": "2026-10-13T04:38:54Z",
+    "updatedAt": "2026-10-13T05:52:49Z",
     "nextReviewDate": null,
     "originSubmissionId": null,
     "description": "Evaluated for ACMI Approved Product (AP) non-toxic seal. Safe water-soluble dye-based liquid paint system",
@@ -3659,6 +3699,434 @@
     "intendedAgeDetail": null,
     "toyChildcareScope": null,
     "componentType": "finished_formula",
-    "testMaterialCategory": null
+    "testMaterialCategory": null,
+    "versionHistory": []
+  },
+  {
+    "id": "FML-1024",
+    "name": "Crayola Washable Liquid Watercolor (Sunburst Yellow Base)",
+    "version": "v1.13",
+    "category": "Paints",
+    "ageGroup": "under_12",
+    "recordedAgeGroup": null,
+    "ageGroupNeedsSelection": false,
+    "targetMarkets": [
+      "US"
+    ],
+    "physicalForm": "Liquid",
+    "intendedUse": "Liquid watercolor paint for artistic paper applications by school children.",
+    "ownerId": "usr-priya",
+    "reviewerId": "usr-dana",
+    "lifecycle": "active",
+    "ingredients": [
+      {
+        "id": "FML-1024-ING-01",
+        "name": "Water",
+        "rawMaterialId": "water",
+        "concentration": 79.0,
+        "supplier": null,
+        "grade": null,
+        "evidenceIds": [],
+        "addedInVersion": null,
+        "notes": null,
+        "batchId": null,
+        "compositionType": "Solvents",
+        "screeningRole": "formulation_ingredient",
+        "needsCorrection": false,
+        "measuredValue": null,
+        "measuredUnit": null,
+        "measuredBound": null,
+        "measurementKind": null,
+        "testMethod": null
+      },
+      {
+        "id": "FML-1024-ING-02",
+        "name": "Glycerin",
+        "rawMaterialId": "glycerin",
+        "concentration": 12.0,
+        "supplier": null,
+        "grade": null,
+        "evidenceIds": [],
+        "addedInVersion": null,
+        "notes": null,
+        "batchId": null,
+        "compositionType": "Additives",
+        "screeningRole": "formulation_ingredient",
+        "needsCorrection": false,
+        "measuredValue": null,
+        "measuredUnit": null,
+        "measuredBound": null,
+        "measurementKind": null,
+        "testMethod": null
+      },
+      {
+        "id": "FML-1024-ING-03",
+        "name": "Sodium benzoate",
+        "rawMaterialId": "s_sodium_benzoate_532321",
+        "concentration": 9.0,
+        "supplier": null,
+        "grade": null,
+        "evidenceIds": [],
+        "addedInVersion": null,
+        "notes": null,
+        "batchId": null,
+        "compositionType": "Preservatives",
+        "screeningRole": "formulation_ingredient",
+        "needsCorrection": false,
+        "measuredValue": null,
+        "measuredUnit": null,
+        "measuredBound": null,
+        "measurementKind": null,
+        "testMethod": null
+      }
+    ],
+    "evidenceIds": [
+      "UPL-2dfc4876784d"
+    ],
+    "screeningStatus": "not-screened",
+    "preferredAssessmentMode": null,
+    "scenarioOfFormulaId": null,
+    "screeningCurrent": true,
+    "latestRunId": null,
+    "lastScreenedAt": null,
+    "reviewStatus": "not-started",
+    "createdAt": "2026-10-13T05:54:51Z",
+    "updatedAt": "2026-10-13T07:45:47Z",
+    "nextReviewDate": null,
+    "originSubmissionId": null,
+    "description": "Evaluated for ACMI Approved Product (AP) non-toxic seal. Safe water-soluble dye-based liquid paint system.",
+    "compositionCompleteness": "complete",
+    "usStates": [],
+    "intendedAgeDetail": null,
+    "toyChildcareScope": null,
+    "componentType": "finished_formula",
+    "testMaterialCategory": null,
+    "versionHistory": [
+      {
+        "version": "v1.0",
+        "kind": "created",
+        "at": "2026-10-13T05:54:51Z"
+      },
+      {
+        "version": "v1.1",
+        "kind": "assessed",
+        "at": "2026-10-13T06:51:58Z"
+      },
+      {
+        "version": "v1.2",
+        "kind": "assessed",
+        "at": "2026-10-13T06:52:07Z"
+      },
+      {
+        "version": "v1.3",
+        "kind": "assessed",
+        "at": "2026-10-13T06:52:27Z"
+      },
+      {
+        "version": "v1.4",
+        "kind": "assessed",
+        "at": "2026-10-13T06:52:33Z"
+      },
+      {
+        "version": "v1.5",
+        "kind": "assessed",
+        "at": "2026-10-13T06:52:39Z"
+      },
+      {
+        "version": "v1.6",
+        "kind": "assessed",
+        "at": "2026-10-13T06:52:45Z"
+      },
+      {
+        "version": "v1.7",
+        "kind": "assessed",
+        "at": "2026-10-13T06:53:12Z"
+      },
+      {
+        "version": "v1.8",
+        "kind": "assessed",
+        "at": "2026-10-13T06:53:19Z"
+      },
+      {
+        "version": "v1.9",
+        "kind": "assessed",
+        "at": "2026-10-13T06:53:25Z"
+      },
+      {
+        "version": "v1.10",
+        "kind": "assessed",
+        "at": "2026-10-13T06:56:17Z"
+      },
+      {
+        "version": "v1.11",
+        "kind": "assessed",
+        "at": "2026-10-13T06:59:19Z"
+      },
+      {
+        "version": "v1.12",
+        "kind": "assessed",
+        "at": "2026-10-13T07:02:27Z"
+      },
+      {
+        "version": "v1.13",
+        "kind": "assessed",
+        "at": "2026-10-13T07:45:47Z"
+      }
+    ]
+  },
+  {
+    "id": "FML-1025",
+    "name": "Crayola Washable Liquid Watercolor",
+    "version": "v1.0",
+    "category": "Paints",
+    "ageGroup": "under_12",
+    "recordedAgeGroup": null,
+    "ageGroupNeedsSelection": false,
+    "targetMarkets": [
+      "US"
+    ],
+    "physicalForm": "Liquid",
+    "intendedUse": "Liquid watercolor paint for artistic paper applications by school children.",
+    "ownerId": "usr-theo",
+    "reviewerId": "usr-theo",
+    "lifecycle": "active",
+    "ingredients": [
+      {
+        "id": "FML-1025-ING-01",
+        "name": "Water",
+        "rawMaterialId": "water",
+        "concentration": 78.0,
+        "supplier": "Deionized Water System",
+        "grade": null,
+        "evidenceIds": [],
+        "addedInVersion": null,
+        "notes": null,
+        "batchId": "DI-2026-YEL",
+        "compositionType": "Solvents",
+        "screeningRole": "formulation_ingredient",
+        "needsCorrection": false,
+        "measuredValue": null,
+        "measuredUnit": null,
+        "measuredBound": null,
+        "measurementKind": null,
+        "testMethod": null
+      },
+      {
+        "id": "FML-1025-ING-02",
+        "name": "Glycerin",
+        "rawMaterialId": "glycerin",
+        "concentration": 12.0,
+        "supplier": "Wilmar International",
+        "grade": null,
+        "evidenceIds": [],
+        "addedInVersion": null,
+        "notes": null,
+        "batchId": "GLY-1102",
+        "compositionType": "Additives",
+        "screeningRole": "formulation_ingredient",
+        "needsCorrection": false,
+        "measuredValue": null,
+        "measuredUnit": null,
+        "measuredBound": null,
+        "measurementKind": null,
+        "testMethod": null
+      },
+      {
+        "id": "FML-1025-ING-03",
+        "name": "Sodium benzoate",
+        "rawMaterialId": "sodium_benzoate",
+        "concentration": 10.0,
+        "supplier": "LANXESS",
+        "grade": null,
+        "evidenceIds": [],
+        "addedInVersion": null,
+        "notes": null,
+        "batchId": "PRESERV-SB",
+        "compositionType": "Preservatives",
+        "screeningRole": "formulation_ingredient",
+        "needsCorrection": false,
+        "measuredValue": null,
+        "measuredUnit": null,
+        "measuredBound": null,
+        "measurementKind": null,
+        "testMethod": null
+      }
+    ],
+    "evidenceIds": [],
+    "screeningStatus": "not-screened",
+    "preferredAssessmentMode": null,
+    "scenarioOfFormulaId": null,
+    "screeningCurrent": false,
+    "latestRunId": null,
+    "lastScreenedAt": null,
+    "reviewStatus": "not-started",
+    "createdAt": "2026-10-13T07:02:19Z",
+    "updatedAt": "2026-10-13T07:02:19Z",
+    "nextReviewDate": null,
+    "originSubmissionId": null,
+    "description": null,
+    "compositionCompleteness": "complete",
+    "usStates": [],
+    "intendedAgeDetail": null,
+    "toyChildcareScope": null,
+    "componentType": "finished_formula",
+    "testMaterialCategory": null,
+    "versionHistory": [
+      {
+        "version": "v1.0",
+        "kind": "created",
+        "at": "2026-10-13T07:02:19Z"
+      }
+    ]
+  },
+  {
+    "id": "FML-1026",
+    "name": "Crayola Washable Liquid Watercolor",
+    "version": "v1.9",
+    "category": "Paints",
+    "ageGroup": "under_12",
+    "recordedAgeGroup": null,
+    "ageGroupNeedsSelection": false,
+    "targetMarkets": [
+      "US"
+    ],
+    "physicalForm": "Liquid",
+    "intendedUse": "Liquid watercolor paint for artistic paper applications by school children.",
+    "ownerId": "usr-priya",
+    "reviewerId": "usr-marcus",
+    "lifecycle": "active",
+    "ingredients": [
+      {
+        "id": "FML-1026-ING-01",
+        "name": "Water",
+        "rawMaterialId": "water",
+        "concentration": 78.0,
+        "supplier": "Deionized Water System",
+        "grade": null,
+        "evidenceIds": [],
+        "addedInVersion": null,
+        "notes": null,
+        "batchId": "DI-2026-YEL",
+        "compositionType": "Solvents",
+        "screeningRole": "formulation_ingredient",
+        "needsCorrection": false,
+        "measuredValue": null,
+        "measuredUnit": null,
+        "measuredBound": null,
+        "measurementKind": null,
+        "testMethod": null
+      },
+      {
+        "id": "FML-1026-ING-02",
+        "name": "Glycerin",
+        "rawMaterialId": "glycerin",
+        "concentration": 12.0,
+        "supplier": "Wilmar International",
+        "grade": null,
+        "evidenceIds": [],
+        "addedInVersion": null,
+        "notes": null,
+        "batchId": "GLY-1102",
+        "compositionType": "Additives",
+        "screeningRole": "formulation_ingredient",
+        "needsCorrection": false,
+        "measuredValue": null,
+        "measuredUnit": null,
+        "measuredBound": null,
+        "measurementKind": null,
+        "testMethod": null
+      },
+      {
+        "id": "FML-1026-ING-03",
+        "name": "Sodium benzoate",
+        "rawMaterialId": "s_sodium_benzoate_532321",
+        "concentration": 10.0,
+        "supplier": "LANXESS",
+        "grade": null,
+        "evidenceIds": [],
+        "addedInVersion": null,
+        "notes": null,
+        "batchId": "PRESERV-SB",
+        "compositionType": "Preservatives",
+        "screeningRole": "formulation_ingredient",
+        "needsCorrection": false,
+        "measuredValue": null,
+        "measuredUnit": null,
+        "measuredBound": null,
+        "measurementKind": null,
+        "testMethod": null
+      }
+    ],
+    "evidenceIds": [],
+    "screeningStatus": "not-screened",
+    "preferredAssessmentMode": null,
+    "scenarioOfFormulaId": null,
+    "screeningCurrent": true,
+    "latestRunId": null,
+    "lastScreenedAt": null,
+    "reviewStatus": "not-started",
+    "createdAt": "2026-10-13T07:07:57Z",
+    "updatedAt": "2026-10-13T07:30:50Z",
+    "nextReviewDate": null,
+    "originSubmissionId": null,
+    "description": null,
+    "compositionCompleteness": "partial",
+    "usStates": [],
+    "intendedAgeDetail": null,
+    "toyChildcareScope": null,
+    "componentType": "finished_formula",
+    "testMaterialCategory": null,
+    "versionHistory": [
+      {
+        "version": "v1.0",
+        "kind": "created",
+        "at": "2026-10-13T07:07:57Z"
+      },
+      {
+        "version": "v1.1",
+        "kind": "assessed",
+        "at": "2026-10-13T07:08:05Z"
+      },
+      {
+        "version": "v1.2",
+        "kind": "assessed",
+        "at": "2026-10-13T07:10:53Z"
+      },
+      {
+        "version": "v1.3",
+        "kind": "assessed",
+        "at": "2026-10-13T07:13:49Z"
+      },
+      {
+        "version": "v1.4",
+        "kind": "assessed",
+        "at": "2026-10-13T07:16:38Z"
+      },
+      {
+        "version": "v1.5",
+        "kind": "assessed",
+        "at": "2026-10-13T07:20:26Z"
+      },
+      {
+        "version": "v1.6",
+        "kind": "assessed",
+        "at": "2026-10-13T07:21:58Z"
+      },
+      {
+        "version": "v1.7",
+        "kind": "assessed",
+        "at": "2026-10-13T07:25:34Z"
+      },
+      {
+        "version": "v1.8",
+        "kind": "assessed",
+        "at": "2026-10-13T07:28:18Z"
+      },
+      {
+        "version": "v1.9",
+        "kind": "assessed",
+        "at": "2026-10-13T07:30:50Z"
+      }
+    ]
   }
 ]

@@ -117,11 +117,11 @@ export function ScreeningResultsPage() {
       />
 
       <Link
-        to={`/formulas/${formulaId}/screening`}
+        to={`/formulas/${formulaId}/history`}
         className="fi-no-print fi-link inline-flex items-center gap-1.5 text-[13px] font-medium"
       >
         <ArrowLeft aria-hidden className="size-3.5" />
-        Back to the formula&rsquo;s screening history
+        Back to version history
       </Link>
 
       {run.legacySample ? (

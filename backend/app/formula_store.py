@@ -26,6 +26,7 @@ _FILE_LOCK = asyncio.Lock()
 _ID_PATTERN = re.compile(r"^FML-(\d+)$")
 
 ScreeningStatus = Literal["green", "amber", "red", "not-screened"]
+VersionKind = Literal["created", "edited", "assessed"]
 ReviewStatus = Literal["not-started", "in-review", "awaiting-evidence", "complete", "returned"]
 Lifecycle = Literal["draft", "active", "archived"]
 AgeGroup = Literal["under_12", "12_and_above"]
@@ -73,6 +74,14 @@ class Ingredient(BaseModel):
     testMethod: str | None = None
 
 
+class VersionEvent(BaseModel):
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+
+    version: str = Field(min_length=1, max_length=40)
+    kind: VersionKind
+    at: str
+
+
 class Formula(BaseModel):
     model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
 
@@ -110,6 +119,7 @@ class Formula(BaseModel):
     componentType: str | None = None
     testMaterialCategory: str | None = None
     missingEvidenceCount: int | None = None
+    versionHistory: list[VersionEvent] = Field(default_factory=list)
 
 
 class IngredientCreate(BaseModel):
@@ -287,6 +297,41 @@ async def replace_formula(updated: Formula) -> Formula:
     raise HTTPException(status_code=404, detail=f"Formula {updated.id} was not found.")
 
 
+async def assign_run_version(formula_id: str) -> tuple[str | None, Formula | None]:
+    """Advance the stored formula version for an assessment run.
+
+    Returns the new version and the previous record so a failed run can be restored.
+    Formulas that are not in the library are left unchanged.
+    """
+    store = await load_formulas()
+    for index, formula in enumerate(store):
+        if formula.id != formula_id:
+            continue
+        now = _utc_now_iso()
+        version = _next_version(formula.version)
+        store[index] = formula.model_copy(
+            update={
+                "version": version,
+                "updatedAt": now,
+                "screeningCurrent": True,
+                "versionHistory": _with_version_event(formula, version, "assessed", now),
+            }
+        )
+        await save_formulas(store)
+        return version, formula
+    return None, None
+
+
+async def restore_formula(previous: Formula) -> None:
+    store = await load_formulas()
+    for index, formula in enumerate(store):
+        if formula.id != previous.id:
+            continue
+        store[index] = previous
+        await save_formulas(store)
+        return
+
+
 async def apply_screening_outcome(
     formula_id: str,
     *,
@@ -349,6 +394,14 @@ def _ingredient_signature(ingredients: list[Ingredient]) -> tuple[tuple[Any, ...
     )
 
 
+def _with_version_event(formula: Formula, version: str, kind: VersionKind, at: str) -> list[VersionEvent]:
+    history = list(formula.versionHistory)
+    if not history and kind != "created":
+        history.append(VersionEvent(version=formula.version, kind="created", at=formula.createdAt))
+    history.append(VersionEvent(version=version, kind=kind, at=at))
+    return history
+
+
 def _next_version(current: str) -> str:
     text = (current or "").strip()
     match = re.fullmatch(r"v?(\d+)\.(\d+)", text, re.IGNORECASE)
@@ -357,15 +410,14 @@ def _next_version(current: str) -> str:
     return f"v{int(match.group(1))}.{int(match.group(2)) + 1}"
 
 
-def _revision_changed(previous: Formula, updated: Formula) -> bool:
-    if previous.name != updated.name:
-        return True
-    if (previous.description or "") != (updated.description or ""):
-        return True
-    if list(previous.evidenceIds) != list(updated.evidenceIds):
-        return True
-    held = updated.model_copy(update={"version": previous.version})
-    return _screening_inputs_changed(previous, held)
+def _content_changed(previous: Formula, updated: Formula) -> bool:
+    ignored = {"updatedAt", "version", "versionHistory", "screeningCurrent", "missingEvidenceCount"}
+    left = previous.model_dump()
+    right = updated.model_dump()
+    for key in ignored:
+        left.pop(key, None)
+        right.pop(key, None)
+    return left != right
 
 
 def _screening_inputs_changed(previous: Formula, updated: Formula) -> bool:
@@ -414,7 +466,8 @@ def _build_from_create(body: FormulaCreate, existing: list[Formula]) -> Formula:
     return Formula(
         id=formula_id,
         name=body.name.strip(),
-        version=(body.version or "v1.0").strip(),
+        version="v1.0",
+        versionHistory=[VersionEvent(version="v1.0", kind="created", at=now)],
         category=body.category or "Markers",
         ageGroup=body.ageGroup or "under_12",
         recordedAgeGroup=body.recordedAgeGroup,
@@ -450,15 +503,22 @@ def _apply_update(base: Formula, body: FormulaUpdate) -> Formula:
     patch = body.model_dump(exclude_unset=True)
     if not patch:
         raise HTTPException(status_code=422, detail="No fields provided for update.")
+    patch.pop("version", None)
+    if not patch:
+        return base
     merged = base.model_dump()
     merged.update(patch)
+    merged["version"] = base.version
     merged["updatedAt"] = _utc_now_iso()
     updated = Formula.model_validate(merged)
-    requested = patch.get("version")
-    kept_current_version = requested in (None, "", base.version)
-    if kept_current_version and _revision_changed(base, updated):
+    if _content_changed(base, updated):
+        version = _next_version(base.version)
         updated = updated.model_copy(
-            update={"version": _next_version(base.version), "screeningCurrent": False}
+            update={
+                "version": version,
+                "screeningCurrent": False,
+                "versionHistory": _with_version_event(base, version, "edited", updated.updatedAt),
+            }
         )
     elif base.latestRunId and _screening_inputs_changed(base, updated):
         updated = updated.model_copy(update={"screeningCurrent": False})
@@ -602,6 +662,7 @@ async def duplicate_formula(formula_id: str) -> Formula:
             "id": new_id,
             "name": f"{base.name} (copy)",
             "version": "v1.0",
+            "versionHistory": [VersionEvent(version="v1.0", kind="created", at=now)],
             "lifecycle": "draft",
             "screeningStatus": "not-screened",
             "screeningCurrent": False,

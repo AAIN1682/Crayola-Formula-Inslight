@@ -64,7 +64,6 @@ interface CatalogSubstance {
 
 interface FormState {
   name: string;
-  version: string;
   category: string;
   ageGroup: string;
   targetMarkets: TargetMarket[];
@@ -131,7 +130,6 @@ function toFormState(formula: Formula | undefined): FormState {
   if (!formula) {
     return {
       name: '',
-      version: 'v1.0',
       category: '',
       ageGroup: '',
       targetMarkets: [],
@@ -153,7 +151,6 @@ function toFormState(formula: Formula | undefined): FormState {
 
   return {
     name: formula.name,
-    version: formula.version,
     category: formula.category,
     ageGroup: formula.ageGroupNeedsSelection ? '' : formula.ageGroup,
     targetMarkets: [...(formula.targetMarkets ?? [])],
@@ -197,7 +194,6 @@ function toFormState(formula: Formula | undefined): FormState {
 function toInput(form: FormState, lifecycle: 'draft' | 'active'): FormulaInput {
   return {
     name: form.name,
-    version: form.version,
     category: (form.category || undefined) as ProductCategory | undefined,
     ageGroup: (form.ageGroup || undefined) as AgeGroup | undefined,
     targetMarkets: form.targetMarkets,
@@ -373,7 +369,6 @@ export function FormulaFormDrawer({
         body.set('scope', materialId ? 'material' : 'finished_product');
         if (materialId) body.set('material_id', materialId);
         if (formula?.id) body.set('formula_id', formula.id);
-        if (form.version) body.set('version_id', form.version);
         body.set('regions', form.targetMarkets.filter((market) => market === 'US' || market === 'EU').join(','));
         const response = await fetch('/api/documents', { method: 'POST', body });
         const payload = await response.json().catch(() => ({}));
@@ -425,7 +420,7 @@ export function FormulaFormDrawer({
       mode === 'edit' ? 'Formula updated' : lifecycle === 'draft' ? 'Draft saved' : 'Formula created',
       lifecycle === 'draft'
         ? `${saved.name} was saved as a draft. Missing fields are listed on the formula record.`
-        : `${saved.name} ${saved.version} is ready to screen.`,
+        : `${saved.name} was saved as ${saved.version}.`,
     );
     onSaved?.(saved);
     onClose();
@@ -529,14 +524,6 @@ export function FormulaFormDrawer({
                   onChange={(event) => update('name', event.target.value)}
                   placeholder="e.g. ColorFlow Brush Marker"
                   invalid={Boolean(fieldError(validation, 'name'))}
-                />
-              </Field>
-
-              <Field label="Version" htmlFor="formula-version" hint="Saving an edit stores the next version, for example v1.0 becomes v1.1, unless you type a different one.">
-                <TextInput
-                  id="formula-version"
-                  value={form.version}
-                  onChange={(event) => update('version', event.target.value)}
                 />
               </Field>
 
@@ -1034,7 +1021,6 @@ export function FormulaFormDrawer({
               <dl className="grid grid-cols-2 gap-x-4 gap-y-3 p-4 sm:grid-cols-3">
                 {[
                   ['Name', form.name || 'New Formula'],
-                  ['Version', form.version || '—'],
                   ['Category', form.category || '—'],
                   ['Age group', form.ageGroup ? AGE_GROUP_LABEL[form.ageGroup as AgeGroup] : '—'],
                   ['Target markets', form.targetMarkets.map((code) => TARGET_MARKETS.find((market) => market.code === code)?.label ?? code).join(', ') || '—'],

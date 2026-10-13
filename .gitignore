@@ -10,6 +10,7 @@ backend/dist
 backend/.env
 backend/.env.*
 backend/.pytest_cache
+backend/.venv
 backend/**/__pycache__
 backend/**/*.pyc
 backend/data/.extract_cache

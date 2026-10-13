@@ -66,7 +66,7 @@ export function AssessmentResultsView({
           <Button onClick={onRerun} icon={<PlayCircle aria-hidden className="size-4" />}>
             Re-run Assessment
           </Button>
-          <Button onClick={() => navigate(`/formulas/${formula.id}/screening`)} icon={<GitCompare aria-hidden className="size-4" />}>
+          <Button onClick={() => navigate(`/formulas/${formula.id}/history`)} icon={<GitCompare aria-hidden className="size-4" />}>
             Compare Versions
           </Button>
         </div>

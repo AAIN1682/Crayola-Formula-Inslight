@@ -151,6 +151,8 @@ export function createBackendServices(store: DemoStore): FormulaInsightServices 
         return {
           ...detail,
           formula: latestRun ? { ...remote, latestRunId: latestRun.id } : remote,
+          owner: remote.ownerId ? personName(remote.ownerId) : undefined,
+          reviewer: remote.reviewerId ? personName(remote.reviewerId) : undefined,
           latestRun,
         };
       } catch (error) {

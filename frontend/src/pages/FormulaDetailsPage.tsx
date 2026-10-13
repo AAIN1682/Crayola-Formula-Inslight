@@ -33,11 +33,8 @@ export function useFormulaPageActions() {
 
 const TABS = [
   { to: 'ingredients', label: 'Ingredients' },
-  { to: 'evidence', label: 'Evidence' },
-  { to: 'screening', label: 'Screening' },
   { to: 'results', label: 'Results' },
   { to: 'history', label: 'History' },
-  { to: 'activity', label: 'Activity' },
 ];
 
 export function FormulaDetailsPage() {
@@ -203,6 +200,7 @@ export function FormulaDetailsPage() {
         mode="edit"
         formula={formula}
         onClose={() => setEditOpen(false)}
+        onSaved={() => reload()}
       />
 
       <RunScreeningDialog

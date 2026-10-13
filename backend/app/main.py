@@ -16,7 +16,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from app.config import DATA, azure_settings
 from app.dashboard_service import router as dashboard_router
-from app.formula_store import router as formula_router
+from app.formula_store import assign_run_version, restore_formula, router as formula_router
 from app.engine import (
     _assessment_mode,
     _metrics,
@@ -32,7 +32,7 @@ from app.engine import (
     screen_status,
     screening_status_label,
 )
-from app.llm import AzureExplanationError, empty_explanation, explain, public_config
+from app.llm import PROMPT_VERSION, AzureExplanationError, empty_explanation, explain, public_config
 
 logger = logging.getLogger("affine.api")
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(message)s")
@@ -40,7 +40,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(message)s
 app = FastAPI(title="Affine Formula Screening", version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
-    allow_origin_regex=r"https?://(localhost|127\.0\.0\.1)(:\d+)?",
+    allow_origin_regex=r"https?://(localhost|127\.0\.0\.1|20\.120\.212\.78)(:\d+)?",
     allow_methods=["GET", "POST", "PUT"],
     allow_headers=["*"],
 )
@@ -96,6 +96,7 @@ class Formula(BaseModel):
     component_type: str | None = Field(default=None, max_length=80)
     test_material_category: str | None = Field(default=None, max_length=80)
     document_ids: list[str] = Field(default_factory=list, max_length=40)
+    deployment: str | None = Field(default=None, max_length=80)
 
 
 class Comparison(BaseModel):
@@ -200,8 +201,9 @@ def _assessment(formula: Formula, version_changes: list | None = None) -> dict:
     }
     if formula.generate_explanation:
         logger.info("assessment_stage correlation_id=%s stage=azure_request", assessment_id)
+        execution["deployment"] = formula.deployment or execution.get("deployment")
         try:
-            generated = explain(context)
+            generated = explain(context, formula.deployment)
             content = generated["content"]
             content["analysis_confidence"] = constrain_analysis_confidence(
                 content.get("analysis_confidence"), context, metrics
@@ -225,7 +227,7 @@ def _assessment(formula: Formula, version_changes: list | None = None) -> dict:
                 preliminary["execution"] = {
                     "llm_status": "succeeded",
                     "deployment": execution.get("deployment"),
-                    "prompt_version": generated["execution"].get("prompt_version") or "assessment_v2",
+                    "prompt_version": generated["execution"].get("prompt_version") or PROMPT_VERSION,
                 }
                 context["preliminary_assessment"] = preliminary
             execution["generated_at"] = generated_at
@@ -244,7 +246,7 @@ def _assessment(formula: Formula, version_changes: list | None = None) -> dict:
             }
             execution.update(error.execution)
         except Exception as error:
-            logger.info("assessment_stage correlation_id=%s stage=azure_failed code=request_failed", assessment_id)
+            logger.exception("assessment_stage correlation_id=%s stage=azure_failed code=request_failed", assessment_id)
             explanation = {
                 "status": "failed",
                 "source": "none",
@@ -291,7 +293,7 @@ def _assessment(formula: Formula, version_changes: list | None = None) -> dict:
             "execution": {
                 "llm_status": "failed",
                 "deployment": execution.get("deployment"),
-                "prompt_version": "assessment_v2",
+                "prompt_version": PROMPT_VERSION,
             },
         }
     logger.info(
@@ -330,12 +332,18 @@ def _assessment(formula: Formula, version_changes: list | None = None) -> dict:
 @app.get("/api/health")
 def health():
     azure = public_config()
+    settings = azure_settings()
+    deployment = settings.get("deployment")
+    deployments = settings.get("deployments")
+    if not deployments and deployment:
+        deployments = [deployment]
     return {
         "status": "ok",
         "data_version": STORE["version"],
         "data_dir": STORE.get("data_dir"),
         "azure_configured": azure["azure_configured"],
         "missing_azure": azure["missing"],
+        "deployments": deployments or [],
     }
 
 
@@ -535,6 +543,7 @@ def saved_demo_past_decisions(assessment_id: str):
     snapshot = run.get("input_snapshot") if isinstance(run.get("input_snapshot"), dict) else {}
     public = run.get("llm_context") if isinstance(run.get("llm_context"), dict) else {}
     try:
+        stored_execution = run.get("execution") if isinstance(run.get("execution"), dict) else {}
         decisions = demo_past_decisions(demo_brief(
             {
                 "formula": snapshot,
@@ -542,7 +551,7 @@ def saved_demo_past_decisions(assessment_id: str):
                 "calculated_checks": public.get("calculated_checks") or public.get("checks") or [],
             },
             preliminary,
-        ))
+        ), stored_execution.get("deployment"))
     except AzureExplanationError as error:
         raise HTTPException(status_code=503, detail="Similar reviews could not be loaded.") from error
     if not decisions:
@@ -570,19 +579,30 @@ def assessments(formula: Formula):
 
 
 @app.post("/api/formulas/{id}/assessments")
-def formula_assessments(id: str, formula: Annotated[Formula | None, Body()] = None):
+async def formula_assessments(id: str, formula: Annotated[Formula | None, Body()] = None):
     from pydantic import ValidationError
 
     from app.screening_service import ScreeningServiceError, assess_saved_formula, load_saved_formula
 
+    assigned, previous = await assign_run_version(id)
     try:
         if formula is None:
             formula = Formula.model_validate(load_saved_formula(id))
+        if assigned:
+            formula = formula.model_copy(update={"version_id": assigned})
         return assess_saved_formula(id, formula, _assessment)
     except ScreeningServiceError as error:
+        if previous is not None:
+            await restore_formula(previous)
         raise HTTPException(status_code=error.status_code, detail=error.detail) from error
     except ValidationError as error:
+        if previous is not None:
+            await restore_formula(previous)
         raise HTTPException(status_code=422, detail=error.errors()) from error
+    except Exception:
+        if previous is not None:
+            await restore_formula(previous)
+        raise
 
 
 @app.post("/api/compare")

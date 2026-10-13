@@ -53,7 +53,8 @@ export function RunScreeningDialog({
     }
     if (!started) return;
 
-    const key = `${formula.id}:${formula.version}:${attempt}`;
+    // Excludes formula.version: each run advances the stored version, which must not start another run.
+    const key = `${formula.id}:${attempt}`;
     if (startedKeyRef.current === key) return;
     startedKeyRef.current = key;
     abortRef.current?.abort();
@@ -86,7 +87,7 @@ export function RunScreeningDialog({
         if (controller.signal.aborted) return;
         setError(cause instanceof Error ? cause.message : 'The screening run did not complete.');
       });
-  }, [open, started, attempt, formula.id, formula.version, services, toast]);
+  }, [open, started, attempt, formula.id, services, toast]);
 
   const finished = Boolean(run);
   const live = isLiveAzureAssessment(run?.formulaAssessment);
@@ -132,7 +133,7 @@ export function RunScreeningDialog({
             >
               Edit as new version
             </Button>
-            <Button onClick={() => navigate(`/formulas/${formula.id}/screening`)}>Compare versions</Button>
+            <Button onClick={() => navigate(`/formulas/${formula.id}/history`)}>Compare versions</Button>
             <Button variant="primary" onClick={() => onComplete?.(run)}>
               View full result
             </Button>

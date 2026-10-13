@@ -7,10 +7,8 @@ import { FormulaLibraryPage } from '../pages/FormulaLibraryPage';
 import { FormulaDetailsPage } from '../pages/FormulaDetailsPage';
 import { IngredientsTab } from '../pages/formula-tabs/IngredientsTab';
 import { EvidenceTab } from '../pages/formula-tabs/EvidenceTab';
-import { ScreeningTab } from '../pages/formula-tabs/ScreeningTab';
 import { ResultsTab } from '../pages/formula-tabs/ResultsTab';
 import { HistoryTab } from '../pages/formula-tabs/HistoryTab';
-import { ActivityTab } from '../pages/formula-tabs/ActivityTab';
 import { ScreeningResultsPage } from '../pages/ScreeningResultsPage';
 import { SubmissionHistoryPage } from '../pages/SubmissionHistoryPage';
 import { WatchlistPage } from '../pages/WatchlistPage';
@@ -49,10 +47,10 @@ export const routes: RouteObject[] = [
           { index: true, element: <Navigate to="ingredients" replace /> },
           { path: 'ingredients', element: <IngredientsTab /> },
           { path: 'evidence', element: <EvidenceTab /> },
-          { path: 'screening', element: <ScreeningTab /> },
+          { path: 'screening', element: <Navigate to="../history" replace /> },
           { path: 'results', element: <ResultsTab /> },
           { path: 'history', element: <HistoryTab /> },
-          { path: 'activity', element: <ActivityTab /> },
+          { path: 'activity', element: <Navigate to="../history" replace /> },
         ],
       },
       { path: 'formulas/:formulaId/results/:runId', element: <ScreeningResultsPage /> },

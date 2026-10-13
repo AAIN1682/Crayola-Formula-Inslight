@@ -8,10 +8,35 @@ import { EmptyState, ErrorState, LoadingState } from '../../components/ui/States
 import { PrecheckResult } from '../../components/screening/PrecheckResult';
 import { assessmentOutcomeLabel, formatDateTime } from '../../utils/formatting';
 
+interface VersionEvent {
+  version: string;
+  kind: 'created' | 'edited' | 'assessed' | string;
+  at: string;
+}
+
+interface HistoryEntry {
+  key: string;
+  version: string;
+  at: string;
+  label: string;
+  assessmentId?: string;
+  band?: string;
+  headline?: string;
+  confidence?: string;
+}
+
+function eventLabel(kind: string) {
+  if (kind === 'edited') return 'Edited';
+  if (kind === 'created') return 'Created';
+  if (kind === 'assessed') return 'Assessment';
+  return 'Saved';
+}
+
 export function HistoryTab() {
   const { formula } = useFormulaDetail();
   const { openEdit } = useFormulaPageActions();
   const [rows, setRows] = useState<RecentAnalysis[]>([]);
+  const [events, setEvents] = useState<VersionEvent[]>([]);
   const [selectedId, setSelectedId] = useState<string>('');
   const [run, setRun] = useState<ScreeningRun | null>(null);
   const [loadingList, setLoadingList] = useState(true);
@@ -22,10 +47,18 @@ export function HistoryTab() {
     let cancelled = false;
     setLoadingList(true);
     setError('');
-    fetchRecentAnalyses(formula.id, 50)
-      .then((analyses) => {
+    Promise.all([
+      fetchRecentAnalyses(formula.id, 50),
+      fetch(`/api/formulas/${encodeURIComponent(formula.id)}`).then(async (response) => {
+        if (!response.ok) return [] as VersionEvent[];
+        const body = await response.json();
+        return Array.isArray(body.versionHistory) ? (body.versionHistory as VersionEvent[]) : [];
+      }),
+    ])
+      .then(([analyses, history]) => {
         if (cancelled) return;
         setRows(analyses);
+        setEvents(history);
         setSelectedId(analyses[0]?.assessmentId ?? '');
       })
       .catch((cause: unknown) => {
@@ -38,7 +71,7 @@ export function HistoryTab() {
     return () => {
       cancelled = true;
     };
-  }, [formula.id]);
+  }, [formula.id, formula.version, formula.updatedAt]);
 
   useEffect(() => {
     if (!selectedId) {
@@ -81,13 +114,34 @@ export function HistoryTab() {
     );
   }
 
-  if (rows.length === 0) {
+  const entries: HistoryEntry[] = [
+    ...rows.map((row) => ({
+      key: row.assessmentId,
+      version: row.version || 'Version not recorded',
+      at: row.createdAt || '',
+      label: 'Assessment',
+      assessmentId: row.assessmentId,
+      band: row.band,
+      headline: row.headline,
+      confidence: row.confidence,
+    })),
+    ...events
+      .filter((event) => event.kind !== 'assessed')
+      .map((event) => ({
+        key: `${event.kind}-${event.version}-${event.at}`,
+        version: event.version,
+        at: event.at,
+        label: eventLabel(event.kind),
+      })),
+  ].sort((left, right) => (right.at || '').localeCompare(left.at || ''));
+
+  if (entries.length === 0) {
     return (
       <Card>
         <EmptyState
           variant="shield"
           title="No saved assessment yet"
-          message="Each assessment is stored here with the formula version it was run against."
+          message="Each edit and assessment is stored here with the version assigned by the server."
         />
       </Card>
     );
@@ -97,30 +151,44 @@ export function HistoryTab() {
     <div className="space-y-4">
       <Card>
         <CardBody className="space-y-2">
-          <p className="text-sm font-semibold text-navy-800">Saved analyses</p>
+          <p className="text-sm font-semibold text-navy-800">Version history</p>
+          <p className="text-[12px] text-muted">Current version {formula.version}. The server assigns a new version for each edit and each assessment.</p>
           <ul className="divide-y divide-line rounded-lg border border-line">
-            {rows.map((row) => {
-              const selected = row.assessmentId === selectedId;
+            {entries.map((entry) => {
+              const selected = Boolean(entry.assessmentId) && entry.assessmentId === selectedId;
+              const content = (
+                <>
+                  <span>
+                    <span className="block text-sm font-medium text-ink">{entry.version}</span>
+                    <span className="block text-[12px] text-muted">{entry.at ? formatDateTime(entry.at) : 'Saved'}</span>
+                  </span>
+                  <span className="text-right">
+                    <span className="block text-sm font-semibold text-ink">
+                      {entry.assessmentId
+                        ? assessmentOutcomeLabel(entry.band) || entry.headline || 'Saved result'
+                        : entry.label}
+                    </span>
+                    <span className="block text-[12px] capitalize text-muted">
+                      {entry.assessmentId ? `Confidence ${entry.confidence || 'not rated'}` : 'Assigned by the server'}
+                    </span>
+                  </span>
+                </>
+              );
               return (
-                <li key={row.assessmentId}>
-                  <button
-                    type="button"
-                    onClick={() => setSelectedId(row.assessmentId)}
-                    className={`flex w-full flex-wrap items-center justify-between gap-3 px-3 py-2.5 text-left ${selected ? 'bg-brand-50' : 'hover:bg-canvas'}`}
-                  >
-                    <span>
-                      <span className="block text-sm font-medium text-ink">{row.version || 'Version not recorded'}</span>
-                      <span className="block text-[12px] text-muted">{row.createdAt ? formatDateTime(row.createdAt) : 'Saved result'}</span>
-                    </span>
-                    <span className="text-right">
-                      <span className="block text-sm font-semibold text-ink">
-                        {assessmentOutcomeLabel(row.band) || row.headline || 'Saved result'}
-                      </span>
-                      <span className="block text-[12px] capitalize text-muted">
-                        Confidence {row.confidence || 'not rated'}
-                      </span>
-                    </span>
-                  </button>
+                <li key={entry.key}>
+                  {entry.assessmentId ? (
+                    <button
+                      type="button"
+                      onClick={() => setSelectedId(entry.assessmentId || '')}
+                      className={`flex w-full flex-wrap items-center justify-between gap-3 px-3 py-2.5 text-left ${selected ? 'bg-brand-50' : 'hover:bg-canvas'}`}
+                    >
+                      {content}
+                    </button>
+                  ) : (
+                    <div className="flex w-full flex-wrap items-center justify-between gap-3 px-3 py-2.5">
+                      {content}
+                    </div>
+                  )}
                 </li>
               );
             })}

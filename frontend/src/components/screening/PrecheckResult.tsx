@@ -365,7 +365,6 @@ export function PrecheckResult({
           ) : (
             <ol className="space-y-3">
               {scored.map((item, index) => {
-                const points = pointsFor(item);
                 const planned = plan.some((row) => row.relatedFindingId === item.finding_id && selected.includes(row.id));
                 return (
                   <li key={item.finding_id} className="rounded-xl border border-line px-3 py-3">
@@ -379,7 +378,6 @@ export function PrecheckResult({
                             <span className="rounded-full bg-neutral-soft px-2 py-0.5 font-medium text-ink">{riskLabel(item.risk_level || item.severity)}</span>
                           ) : null}
                           <span className="rounded-full bg-canvas px-2 py-0.5 text-muted">{findingTags(item)}</span>
-                          <span className="font-semibold text-danger">−{points} pts</span>
                           <button type="button" className="font-medium text-brand-500 hover:underline" onClick={() => addFinding(item.finding_id)}>
                             {planned ? 'Remove from plan' : 'Add fix to plan'}
                           </button>

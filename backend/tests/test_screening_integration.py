@@ -436,12 +436,21 @@ def test_dashboard_unreadable_history_is_an_error(isolated_history):
 def test_formula_library_crud_uses_the_running_application(isolated_history):
     created = client.post(
         "/api/formulas",
-        json={"name": "Lab marker", "intendedUse": "Classroom marker on paper.", "ownerId": "usr-dana"},
+        json={
+            "name": "Lab marker",
+            "intendedUse": "Classroom marker on paper.",
+            "ownerId": "usr-dana",
+            "version": "v9.9",
+        },
     )
     assert created.status_code == 201, created.text
     formula_id = created.json()["id"]
     assert formula_id == "FML-1001"
     assert created.json()["screeningStatus"] == "not-screened"
+    assert created.json()["version"] == "v1.0"
+    assert created.json()["versionHistory"] == [
+        {"version": "v1.0", "kind": "created", "at": created.json()["createdAt"]},
+    ]
 
     listed = client.get("/api/formulas", params={"pageSize": 50})
     assert listed.status_code == 200, listed.text
@@ -454,12 +463,13 @@ def test_formula_library_crud_uses_the_running_application(isolated_history):
     assert updated.status_code == 200, updated.text
     assert updated.json()["name"] == "Lab marker revised"
     assert updated.json()["version"] == "v1.1"
+    assert [event["kind"] for event in updated.json()["versionHistory"]] == ["created", "edited"]
     unchanged = client.put(f"/api/formulas/{formula_id}", json={"name": "Lab marker revised"})
     assert unchanged.status_code == 200, unchanged.text
     assert unchanged.json()["version"] == "v1.1"
     explicit = client.put(f"/api/formulas/{formula_id}", json={"version": "v2.0"})
     assert explicit.status_code == 200, explicit.text
-    assert explicit.json()["version"] == "v2.0"
+    assert explicit.json()["version"] == "v1.1"
 
     duplicate = client.post(f"/api/formulas/{formula_id}/duplicate")
     assert duplicate.status_code == 201, duplicate.text

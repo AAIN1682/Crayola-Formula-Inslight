@@ -981,7 +981,12 @@ def demo_brief(context: dict, preliminary: dict | None = None) -> dict:
     }
 
 
-def demo_past_decisions(brief: dict) -> dict:
+def _model_name(config: dict, deployment: str | None) -> str:
+    requested = (deployment or "").strip()
+    return requested or config["deployment"]
+
+
+def demo_past_decisions(brief: dict, deployment: str | None = None) -> dict:
     """Fictional similar decisions for the demo screen. Not stored history."""
     config = azure_config()
     if not config["ok"]:
@@ -1007,7 +1012,7 @@ def demo_past_decisions(brief: dict) -> dict:
     for _attempt in range(2):
         try:
             response = client.chat.completions.create(
-                model=config["deployment"],
+                model=_model_name(config, deployment),
                 messages=messages,
                 max_completion_tokens=1400,
                 response_format={"type": "json_object"},
@@ -1030,10 +1035,11 @@ def demo_past_decisions(brief: dict) -> dict:
     raise AzureExplanationError(safe_error_message(code), code=code, execution={"llm_status": "failed", "error_code": code}) from last_error
 
 
-def explain(context: dict) -> dict:
+def explain(context: dict, deployment: str | None = None) -> dict:
     config = azure_config()
     if not config["ok"]:
         raise RuntimeError("Azure OpenAI is not configured.")
+    model = _model_name(config, deployment)
     from openai import AzureOpenAI
 
     started = time.perf_counter()
@@ -1041,7 +1047,7 @@ def explain(context: dict) -> dict:
         api_key=config["key"],
         azure_endpoint=config["endpoint"],
         api_version=config["api_version"],
-        timeout=90,
+        timeout=300,
         max_retries=0,
     )
     messages = [
@@ -1055,24 +1061,36 @@ def explain(context: dict) -> dict:
         parsed = None
         for json_mode in (True, False):
             try:
+                # Reasoning models count hidden reasoning against this budget.
+                # A 4000 cap was consumed entirely by reasoning and left the answer empty.
                 request = {
-                    "model": config["deployment"],
+                    "model": model,
                     "messages": messages,
-                    "max_completion_tokens": 4000,
+                    "max_completion_tokens": 16000,
+                    "reasoning_effort": "low",
                 }
                 if json_mode:
                     request["response_format"] = {"type": "json_object"}
                 response = client.chat.completions.create(**request)
                 last_response = response
-                text = ((response.choices[0].message.content if response.choices else None) or "").strip()
+                choice = response.choices[0] if response.choices else None
+                text = ((choice.message.content if choice and choice.message else None) or "").strip()
                 if not text:
+                    usage = _usage_dict(response) or {}
+                    details = usage.get("completion_tokens_details") or {}
+                    logger.info(
+                        "azure_empty_assessment finish_reason=%s completion_tokens=%s reasoning_tokens=%s",
+                        getattr(choice, "finish_reason", None),
+                        usage.get("completion_tokens"),
+                        details.get("reasoning_tokens"),
+                    )
                     raise RuntimeError("Azure OpenAI returned an empty assessment.")
                 cleaned = text.removeprefix("```json").removesuffix("```").strip()
                 parsed = json.loads(cleaned)
                 break
             except Exception as error:
                 last_error = error
-                logger.info("azure_explanation_failed code=%s", classify_error(error))
+                logger.info("azure_explanation_failed code=%s detail=%s", classify_error(error), sanitize(error))
         if parsed is None:
             break
         validated, validation_errors = validate_assessment(parsed, context)
@@ -1084,7 +1102,7 @@ def explain(context: dict) -> dict:
                 "execution": {
                     "llm_status": "succeeded",
                     "llm_provider": "azure_openai",
-                    "deployment": config["deployment"],
+                    "deployment": model,
                     "response_id": response_id,
                     "request_id": request_id,
                     "latency_ms": int((time.perf_counter() - started) * 1000),
@@ -1112,7 +1130,7 @@ def explain(context: dict) -> dict:
         execution={
             "llm_status": "failed",
             "llm_provider": "azure_openai",
-            "deployment": config["deployment"],
+            "deployment": model,
             "response_id": response_id,
             "request_id": request_id,
             "latency_ms": int((time.perf_counter() - started) * 1000),
