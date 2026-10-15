@@ -74,7 +74,7 @@ export function FormulaDetailsPage() {
 
   if (!data) return null;
 
-  const { formula, evidence, latestRun } = data;
+  const { formula, latestRun } = data;
   const screeningOutdated = formula.screeningStatus !== 'not-screened' && !formula.screeningCurrent;
 
   return (
@@ -114,7 +114,7 @@ export function FormulaDetailsPage() {
       />
 
       <Card>
-        <dl className="grid grid-cols-2 gap-4 px-5 py-4 sm:grid-cols-3 lg:grid-cols-6">
+        <dl className="grid grid-cols-2 gap-4 px-5 py-4 sm:grid-cols-3 lg:grid-cols-5">
           <DataPoint label="Owner" value={data.owner ?? '—'} />
           <DataPoint label="Reviewer" value={data.reviewer ?? 'Unassigned'} />
           <DataPoint
@@ -128,15 +128,6 @@ export function FormulaDetailsPage() {
             hint={latestRun ? `Run on ${latestRun.formulaVersion}` : 'No run recorded'}
           />
           <DataPoint
-            label="Documents"
-            value={
-              evidence.requiredCount === 0
-                ? 'See assessment'
-                : `${evidence.presentCount} linked`
-            }
-            hint="Linked files are not verified evidence."
-          />
-          <DataPoint
             label="Next review"
             value={formula.nextReviewDate ? formatDate(formula.nextReviewDate) : 'Not scheduled'}
           />
@@ -147,19 +138,6 @@ export function FormulaDetailsPage() {
         <Notice tone="warning" title="The latest screening result is outdated">
           Reassessment required. Markets, age group, or composition changed after the last result. Run the
           assessment again before recording a review decision.
-        </Notice>
-      ) : null}
-
-      {formula.ingredients.some((ingredient) => !ingredient.rawMaterialId || !/^[a-z][a-z0-9_]*$/.test(ingredient.rawMaterialId)) ? (
-        <Notice tone="warning" title="Unresolved ingredient identities">
-          One or more rows are not in the US/EU catalog branch. Run Assessment keeps those rows and records each one as a coverage gap. Names are not matched by similarity.
-        </Notice>
-      ) : null}
-
-      {latestRun?.legacySample ? (
-        <Notice tone="warning" title="Latest result is a legacy sample">
-          The stored run is from the previous demo engine and is not an Azure result. Run Assessment to generate
-          a live document-grounded analysis.
         </Notice>
       ) : null}
 

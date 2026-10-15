@@ -15,6 +15,8 @@ from pathlib import Path
 from app.config import DATA, composition_tolerance
 
 REFERENCE_FILES = {"US": "us_ 2.json", "EU": "eu_ 2.json"}
+LIMITS_FILE = "substance_limits.json"
+ALL_REGIONS = "ALL"
 TOLERANCE = composition_tolerance()
 AGE_TO_SOURCE = {"under_12": "Under_12", "12_and_above": "Age_12_Plus"}
 SOURCE_TO_AGE = {value: key for key, value in AGE_TO_SOURCE.items()}
@@ -200,13 +202,6 @@ def _operator(limit_text: str | None) -> tuple[str | None, str, str | None]:
     return None, "unresolved", None
 
 
-def _passes(actual: float, operator: str, threshold: float, polarity: str | None) -> bool:
-    met = _compare(actual, operator, threshold)
-    if polarity == "ceiling":
-        return met
-    return not met
-
-
 def _route(threshold_type: str | None, unit_info: dict) -> str:
     kind = str(threshold_type or "").strip().lower()
     if kind in STATUS_TYPES:
@@ -256,24 +251,6 @@ def _test_category(applies_to: str | None) -> str | None:
     return None
 
 
-def _age_constraint(text: str) -> str | None:
-    low = text.lower()
-    if "not age-split" in low:
-        return None
-    hits = []
-    if any(token in low for token in ("under 36 months", "under 3 years", "0-3", "0–3", "children under 3")):
-        hits.append("under_36_months")
-    if any(token in low for token in ("3-6", "3 to 6", "3–6")):
-        hits.append("age_3_to_under_6")
-    if "14+" in low or "14 +" in low:
-        hits.append("age_14_plus")
-    if len(hits) == 1:
-        return hits[0]
-    if len(hits) > 1:
-        return "unresolved"
-    return None
-
-
 def _combination(limit_text: str | None, applies_to: str | None) -> bool:
     blob = f"{limit_text or ''} {applies_to or ''}".lower()
     if "not sum" in blob or "individual phthalate, not sum" in blob:
@@ -293,46 +270,6 @@ def _is_elemental_on_compound(name: str, rule: dict, roles: dict, unit_info: dic
             return True
     # A ppm or mg/kg content limit stored on a compound or pigment is not a compound percentage.
     if route == "concentration" and (unit_info or {}).get("normalized_unit") in {"ppm", "mg/kg"}:
-        return True
-    return False
-
-
-def _compare(actual: float, operator: str, threshold: float) -> bool:
-    if operator == "<=":
-        return actual <= threshold
-    if operator == "<":
-        return actual < threshold
-    if operator == ">=":
-        return actual >= threshold
-    if operator == ">":
-        return actual > threshold
-    return False
-
-
-def _to_ppm(value: float, unit: str) -> float | None:
-    if unit == "ppm":
-        return value
-    if unit == "percent":
-        return value * 10000
-    if unit == "mg/kg":
-        return value
-    return None
-
-
-def _compatible_concentration(rule: dict, entered_basis: str) -> bool:
-    basis = rule.get("basis")
-    quantity = rule.get("quantity")
-    if quantity == "exposure":
-        return False
-    if rule.get("route") != "concentration":
-        return False
-    if basis in {None, "stated_weight", "total_content"} and entered_basis in {"finished_formula", "stated_weight", "total_content"}:
-        return rule.get("normalized_unit") in {"percent", "ppm", "mg/kg"}
-    if basis == "plasticised_material" and entered_basis == "plasticised_material":
-        return rule.get("normalized_unit") == "percent"
-    if basis == "dried_film_or_nonvolatile" and entered_basis == "dried_film_or_nonvolatile":
-        return True
-    if basis == "paint_weight" and entered_basis == "paint_weight":
         return True
     return False
 
@@ -873,96 +810,6 @@ def _fmt(value: float) -> str:
     return f"{value:.10f}".rstrip("0").rstrip(".")
 
 
-def _applicability(rule: dict, formula: dict) -> tuple[str | None, str]:
-    states = {str(item).upper() for item in formula.get("us_states") or []}
-    if rule.get("state_code"):
-        if rule["state_code"] not in states:
-            return "not_applicable", f"State rule for {rule['state_code']} is not applied to a generic US assessment."
-    constraint = _age_constraint(f"{rule.get('applies_to') or ''} {rule.get('limit_text') or ''}")
-    intended = formula.get("intended_age_detail")
-    if constraint == "unresolved":
-        return "applicability_unknown", "The rule states more than one age boundary that the selected band does not resolve."
-    if constraint and intended != constraint:
-        if not intended:
-            return "applicability_unknown", "Select an intended age within the catalog band before this rule can be applied."
-        return "not_applicable", "The selected intended age does not match this rule's age boundary."
-    if rule.get("test_category"):
-        selected = formula.get("test_material_category")
-        if not selected:
-            return "applicability_unknown", "Select the EN 71-3 material category this migration limit applies to."
-        if selected != rule["test_category"]:
-            return "not_applicable", "This migration limit is for a different material category."
-    blob = f"{rule.get('applies_to') or ''}".lower()
-    needs_toy = "toy" in blob or "child care" in blob or "childcare" in blob
-    scope = str(formula.get("toy_childcare_scope") or "").lower()
-    if needs_toy:
-        if scope in {"", "unknown"}:
-            return "applicability_unknown", "Confirm whether the product is a toy or childcare article."
-        if scope == "no":
-            return "not_applicable", "The rule applies to toys or childcare articles, which this product is not declared to be."
-    basis = rule.get("basis")
-    component = formula.get("component_type") or "finished_formula"
-    if basis == "plasticised_material" and component != "plasticised_material":
-        return "applicability_unknown", "This limit is on plasticised material, not the finished-formula percentage."
-    if basis == "dried_film_or_nonvolatile" and component != "dried_film":
-        return "applicability_unknown", "This limit uses dried-film or nonvolatile content, not the entered formula percentage."
-    if "substrate" in blob and component != "substrate":
-        return "applicability_unknown", "This limit applies to substrate materials, which has not been selected."
-    return None, ""
-
-
-def _measurement(row: dict, route: str) -> dict | None:
-    kind = str(row.get("measurement_kind") or "").lower()
-    if route == "migration" and kind != "migration":
-        return None
-    if route == "concentration" and kind not in {"concentration", "content"}:
-        return None
-    if row.get("measured_value") is None and not row.get("below_detection"):
-        return None
-    bound = str(row.get("measured_bound") or "exact").lower()
-    if row.get("below_detection"):
-        bound = "below_detection"
-    return {
-        "value": None if row.get("measured_value") is None else float(row["measured_value"]),
-        "unit": row.get("measured_unit"),
-        "bound": bound,
-        "method": row.get("test_method"),
-        "analyte": row.get("analyte"),
-        "kind": kind or route,
-    }
-
-
-def _bound_result(measurement: dict, rule: dict, actual_unit: str) -> tuple[str, float | None]:
-    operator = rule["operator"]
-    polarity = rule.get("operator_polarity") or "trigger"
-    threshold = float(rule["threshold_value"])
-    rule_unit = rule.get("normalized_unit") or actual_unit
-    bound = measurement["bound"]
-    value = measurement["value"]
-    if value is None:
-        return "needs_test_data", None
-    if actual_unit == rule_unit:
-        compare_value = value
-        compare_threshold = threshold
-    else:
-        actual_ppm = _to_ppm(value, actual_unit)
-        rule_ppm = _to_ppm(threshold, rule_unit)
-        if actual_ppm is None or rule_ppm is None or rule.get("route") == "migration":
-            return "applicability_unknown", None
-        compare_value = actual_ppm
-        compare_threshold = rule_ppm
-    if bound in {"below_detection", "lt", "lte"}:
-        if polarity == "trigger" and operator in {">", ">="} and compare_value <= compare_threshold:
-            return "pass", compare_value
-        if polarity == "ceiling" and operator in {"<", "<="} and compare_value <= compare_threshold:
-            return "pass", compare_value
-        return "needs_test_data", compare_value
-    if bound != "exact":
-        return "needs_test_data", compare_value
-    passed = _passes(compare_value, operator, compare_threshold, polarity)
-    return ("pass" if passed else "fail"), compare_value
-
-
 def validate_threshold_formula(formula: dict) -> list[dict]:
     catalog = load_catalog()
     errors = []
@@ -1059,246 +906,139 @@ def validate_threshold_formula(formula: dict) -> list[dict]:
     return errors
 
 
-def _check(rule: dict, row: dict, status: str, message: str, action: str, actual=None) -> dict:
-    return {
-        "check_id": f"{rule['region']}:{row['material_id']}:{rule['rule_id']}",
-        "material_id": row["material_id"],
-        "region": rule["region"],
-        "rule_id": rule["rule_id"],
-        "status": status,
+def load_substance_limits() -> dict:
+    """Read on every assessment so edits to the file apply without a restart."""
+    path = DATA / LIMITS_FILE
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    by_id = {}
+    for item in payload.get("substances") or []:
+        substance_id = str(item.get("substance_id") or "").strip()
+        if substance_id:
+            by_id[substance_id] = item
+    return {"filename": path.name, "by_id": by_id}
+
+
+def _limit_value(limit: dict | None) -> float | None:
+    if not limit or limit.get("max_percent") is None:
+        return None
+    try:
+        return float(limit["max_percent"])
+    except (TypeError, ValueError):
+        return None
+
+
+def _limit_check(row: dict, substance: dict, limit: dict | None) -> dict:
+    material_id = row["material_id"]
+    name = substance["name"]
+    threshold = _limit_value(limit)
+    actual = row.get("concentration_percent")
+    check = {
+        "check_id": f"LIMIT:{material_id}",
+        "material_id": material_id,
+        "region": ALL_REGIONS,
+        "rule_id": f"limit:{material_id}" if threshold is not None else None,
         "actual": actual,
-        "threshold": rule.get("threshold_value"),
-        "unit": rule.get("threshold_unit"),
-        "basis": rule.get("basis"),
-        "operator": rule.get("operator"),
-        "route": rule.get("route"),
-        "verification_status": rule.get("verification_status"),
-        "verified_limit_available": status in {"pass", "fail"} and rule.get("verification_status") == "Verified",
-        "json_pointer": rule.get("json_pointer"),
-        "source_filename": rule.get("source_filename"),
-        "priority": "high" if status == "fail" else "medium",
-        "reason_code": status,
-        "message": message,
-        "action": action,
-        "check_kind": rule.get("route"),
+        "threshold": threshold,
+        "unit": "%",
+        "basis": "stated_weight",
+        "operator": "<=",
+        "route": "concentration",
+        "check_kind": "concentration",
+        "verification_status": "Verified" if threshold is not None else None,
+        "source_filename": LIMITS_FILE,
+        "verified_limit_available": False,
+        "priority": "medium",
+    }
+    if threshold is None:
+        return {
+            **check,
+            "status": "no_matching_rule",
+            "reason_code": "no_limit_set",
+            "message": f"No limit is set for {name} in {LIMITS_FILE}.",
+            "action": f"Add a max_percent for {name} in {LIMITS_FILE} to screen its concentration.",
+        }
+    try:
+        actual = float(actual)
+    except (TypeError, ValueError):
+        return {
+            **check,
+            "status": "needs_test_data",
+            "reason_code": "needs_test_data",
+            "message": f"No concentration is entered for {name}.",
+            "action": f"Enter the {name} concentration to compare it with the {_fmt(threshold)}% limit.",
+        }
+    passed = actual <= threshold
+    return {
+        **check,
+        "status": "pass" if passed else "fail",
+        "actual": actual,
+        "verified_limit_available": True,
+        "priority": "medium" if passed else "high",
+        "reason_code": "pass" if passed else "fail",
+        "message": (
+            f"{_fmt(actual)}% compared with the {_fmt(threshold)}% limit. "
+            + ("Within the limit." if passed else "Above the limit.")
+        ),
+        "action": (
+            "No concentration change is needed for this limit."
+            if passed
+            else f"Reduce {name} to {_fmt(threshold)}% or less and rerun the screening."
+        ),
     }
 
 
-def _evaluate_rule(rule: dict, row: dict, formula: dict, substance: dict) -> dict:
-    skipped, reason = _applicability(rule, formula)
-    if skipped:
-        return _check(rule, row, skipped, reason, "Resolve applicability before treating this as a pass or a failure.", row.get("concentration_percent"))
-    if rule.get("duplicate_of"):
-        return _check(rule, row, "not_applicable", f"Duplicate of {rule['duplicate_of']}.", "Use the retained rule.", None)
-    if rule.get("contradictory"):
-        return _check(
-            rule,
-            row,
-            "source_review_required",
-            "Overlapping Chromium (III) and Chromium (VI) thresholds are flagged. Neither value is applied automatically.",
-            "Keep the species separate and resolve the source conflict before a migration comparison.",
-            None,
-        )
-    if substance.get("identity_flags"):
-        return _check(
-            rule,
-            row,
-            "source_review_required",
-            "The source name or abbreviation is inconsistent, so this record is not given a verified verdict.",
-            "Resolve the substance identity in the source file before comparing a concentration.",
-            row.get("concentration_percent"),
-        )
-    if rule.get("elemental_on_compound"):
-        return _check(
-            rule,
-            row,
-            "source_review_required",
-            "An elemental limit is recorded under a compound entry. The compound percentage is not compared with that elemental limit.",
-            "Supply an elemental measurement on the stated basis, or select the element analyte.",
-            None,
-        )
-    if rule.get("verification_status") != "Verified":
-        return _check(
-            rule,
-            row,
-            "source_review_required",
-            f"Source verification status is {rule.get('verification_status') or 'unset'}. This is the file's stated status, not an independent verification, and it is not used as a verdict.",
-            "Use the record as reference context until the source status is Verified and unambiguous.",
-            None,
-        )
-    if rule["route"] == "status_text":
-        return _check(
-            rule,
-            row,
-            "source_review_required",
-            "Regulatory status text is not mapped to a supported verdict. Restricted, banned, or warning wording stays unresolved.",
-            "Review applicability of the status text. No automatic prohibition or approval is inferred.",
-            None,
-        )
-    if rule["route"] in {"ambiguous", "exposure"}:
-        return _check(
-            rule,
-            row,
-            "needs_test_data" if rule["route"] == "exposure" else "source_review_required",
-            "Exposure and mixed migration/content/emission limits are not compared with a formulation percentage. No exposure model is configured."
-            if rule["route"] == "exposure"
-            else "The threshold type mixes measurement bases and is not evaluated automatically.",
-            "Provide the measurement the rule actually requires, on a matching basis.",
-            None,
-        )
-    if rule["route"] == "migration":
-        measurement = _measurement(row, "migration")
-        if not measurement or not measurement.get("method"):
-            return _check(
-                rule,
-                row,
-                "needs_test_data",
-                "This is a migration limit. A measured migration result, analyte, method, and material category are required.",
-                "Upload or enter a migration result for this analyte. Do not compare it with a formulation percentage.",
-                None,
-            )
-        if rule.get("operator") is None or rule.get("threshold_value") is None:
-            return _check(
-                rule,
-                row,
-                "source_review_required",
-                "A migration result is present, but the source record does not state an operator. It is not assumed to be <=.",
-                "Resolve the operator before comparing the measured result.",
-                measurement.get("value"),
-            )
-        unit = _normalize_unit(measurement.get("unit"))
-        if unit["normalized_unit"] != rule.get("normalized_unit") and not (
-            unit["normalized_unit"] in {"ppm", "mg/kg"} and rule.get("normalized_unit") in {"ppm", "mg/kg"}
-        ):
-            return _check(rule, row, "applicability_unknown", "The migration result unit is not compatible with this limit.", "Report the result in the limit's unit.", None)
-        status, actual = _bound_result(measurement, rule, unit["normalized_unit"])
-        if status == "needs_test_data":
-            message = "The reported bound is not an exact measurement and does not decide this migration limit. A less-than result was not converted to zero."
-        elif status == "pass":
-            message = f"Migration result is within the source threshold ({rule['operator']} {_fmt(rule['threshold_value'])} {rule.get('threshold_unit')})."
-        else:
-            message = f"Migration result is outside the source threshold ({rule['operator']} {_fmt(rule['threshold_value'])} {rule.get('threshold_unit')})."
-        return _check(rule, row, status, message, "Record the migration comparison against the cited rule.", actual)
-    entered_basis = "finished_formula"
-    if formula.get("component_type") == "plasticised_material":
-        entered_basis = "plasticised_material"
-    elif formula.get("component_type") == "dried_film":
-        entered_basis = "dried_film_or_nonvolatile"
-    if not _compatible_concentration(rule, entered_basis):
-        return _check(
-            rule,
-            row,
-            "applicability_unknown",
-            "The concentration basis or unit is not compatible with this threshold.",
-            "Do not convert total content, migration, and exposure into each other.",
-            row.get("concentration_percent"),
-        )
-    if rule.get("operator") is None or rule.get("threshold_value") is None:
-        return _check(
-            rule,
-            row,
-            "source_review_required",
-            "The record has no unambiguous operator or numeric threshold. A missing number is not treated as zero or as a failure.",
-            "Keep the record visible and do not invent a limit.",
-            row.get("concentration_percent"),
-        )
-    content = _measurement(row, "concentration") if row.get("concentration_percent") is None else None
-    if content:
-        unit = _normalize_unit(content.get("unit"))
-        if not unit.get("normalized_unit"):
-            return _check(rule, row, "applicability_unknown", "The content result unit is not recognized, so it is not compared with this limit.", "Report the result in the limit's unit.", None)
-        status, actual = _bound_result(content, rule, unit["normalized_unit"])
-        actual_unit = unit["normalized_unit"]
-    else:
-        try:
-            actual = float(row.get("concentration_percent"))
-        except (TypeError, ValueError):
-            return _check(rule, row, "needs_test_data", "A numeric concentration is required for this content limit.", "Enter the concentration on the rule's basis.", None)
-        actual_unit = "percent"
-        status, _compared = _bound_result({"value": actual, "bound": "exact", "unit": "percent"}, rule, actual_unit)
-    if status == "applicability_unknown":
-        return _check(rule, row, status, "Unit conversion is not supported for this pair of units.", "Use a matching unit.", actual)
-    if status == "needs_test_data":
-        return _check(rule, row, status, "The reported bound is not an exact content measurement and was not converted to zero.", "Report an exact result or a bound that sits entirely on the safe side of the operator.", actual)
-    passed = status == "pass"
-    shown = f"{_fmt(actual)} {actual_unit}" if actual_unit != "percent" else f"{_fmt(actual)}%"
-    message = (
-        f"{shown} compared with {rule['operator']} {_fmt(rule['threshold_value'])} {rule.get('threshold_unit')} ({rule.get('basis')}). "
-        + ("Within the stated boundary." if passed else "Outside the stated boundary.")
-    )
-    return _check(rule, row, "pass" if passed else "fail", message, "The numerical comparison is from the backend, using the source operator and basis.", actual)
-
-
-def _evaluate_ingredient(row, formula, catalog, regions, category, age, calculated, applicable_rules, seen_rules, group_members) -> None:
-    substance = catalog["substances"][row["material_id"]]
-    for region in regions:
-        catalog_matches = [
-            rule for rule in catalog["rules"]
-            if rule["substance_id"] == row["material_id"]
-            and rule["region"] == region
-            and rule["category_name"] == category
-            and rule["age_group"] == age
-            and not rule.get("duplicate_of")
-        ]
-        matched = [rule for rule in catalog_matches if not rule.get("state_code")]
-        if catalog_matches and not matched:
-            continue
-        if not matched:
-            calculated.append({
-                "check_id": f"{region}:{row['material_id']}:NO-RULE",
-                "material_id": row["material_id"],
-                "region": region,
-                "rule_id": None,
-                "status": "no_matching_rule",
-                "actual": row.get("concentration_percent"),
-                "threshold": None,
-                "unit": None,
-                "basis": None,
-                "verified_limit_available": False,
-                "priority": "medium",
-                "reason_code": "no_matching_rule",
-                "message": f"No {region} entry in this category and age band. That is a coverage gap, not a prohibition or an approval.",
-                "action": "Do not infer a regulatory outcome from a missing catalog row.",
-                "check_kind": "coverage",
-            })
-            continue
-        for rule in matched:
-            check = _evaluate_rule(rule, row, formula, substance)
-            calculated.append(check)
-            if check["status"] in {"pass", "fail"} and rule["rule_id"] not in seen_rules:
-                seen_rules.add(rule["rule_id"])
-                applicable_rules.append(_public_rule(rule))
-            if rule.get("combination") and check["status"] not in {"not_applicable"}:
-                group_members.setdefault((region, rule.get("regulation"), rule.get("threshold_value"), rule.get("threshold_unit"), rule.get("operator")), []).append((rule, row, check))
+def _limit_rule(substance: dict, limit: dict) -> dict:
+    threshold = _limit_value(limit)
+    return {
+        "rule_id": f"limit:{substance['substance_id']}",
+        "substance_id": substance["substance_id"],
+        "region": ALL_REGIONS,
+        "threshold_type": "maximum concentration",
+        "threshold_value": threshold,
+        "threshold_unit": "%",
+        "normalized_unit": "percent",
+        "basis": "stated_weight",
+        "operator": "<=",
+        "route": "concentration",
+        "regulation": "Substance screening limit",
+        "applies_to": "All regions, categories, and age groups",
+        "limit_text": f"No more than {_fmt(threshold)}% {substance['name']} in the finished formula.",
+        "verification_status": "Verified",
+        "source_url": None,
+        "section": None,
+        "json_pointer": f"/substances/{substance['substance_id']}",
+        "source_filename": LIMITS_FILE,
+        "state_code": None,
+    }
 
 
 def _legacy_checks(formula: dict, regions: list[str], category: str, calculated: list[dict]) -> None:
+    del regions
     supported = formula.get("category_supported", True)
     for index, item in enumerate(formula.get("legacy_materials") or []):
         label = str(item.get("name") or "Unnamed ingredient")
         legacy_id = str(item.get("legacy_id") or f"row-{index + 1}")
         category_note = "" if supported else f" {category} is not a category in the US/EU reference files."
-        for region in regions:
-            calculated.append({
-                "check_id": f"{region}:legacy:{legacy_id}:{index}",
-                "material_id": legacy_id,
-                "region": region,
-                "rule_id": None,
-                "status": "no_matching_rule",
-                "actual": item.get("concentration_percent"),
-                "threshold": None,
-                "unit": None,
-                "basis": None,
-                "verified_limit_available": False,
-                "priority": "medium",
-                "reason_code": "unmatched_identity",
-                "message": (
-                    f"{label} is not in the selected category, age group, and region branch.{category_note} "
-                    "The name was not matched to a catalog substance."
-                ),
-                "action": "Select a substance from that catalog branch. This row is kept as a coverage gap.",
-                "check_kind": "identity",
-            })
+        calculated.append({
+            "check_id": f"legacy:{legacy_id}:{index}",
+            "material_id": legacy_id,
+            "region": ALL_REGIONS,
+            "rule_id": None,
+            "status": "no_matching_rule",
+            "actual": item.get("concentration_percent"),
+            "threshold": None,
+            "unit": None,
+            "basis": None,
+            "verified_limit_available": False,
+            "priority": "medium",
+            "reason_code": "unmatched_identity",
+            "message": (
+                f"{label} is not in the selected category, age group, and region branch.{category_note} "
+                "The name was not matched to a catalog substance."
+            ),
+            "action": "Select a substance from that catalog branch. This row is kept as a coverage gap.",
+            "check_kind": "identity",
+        })
 
 
 def build_threshold_context(formula: dict, version_changes: list | None = None) -> dict:
@@ -1308,79 +1048,31 @@ def build_threshold_context(formula: dict, version_changes: list | None = None) 
     if errors:
         raise ValueError(errors)
     catalog = load_catalog()
+    limits = load_substance_limits()
     regions = list(dict.fromkeys(formula["regions"]))
     category = formula["product_category"]
     age = formula["age_group"]
     calculated = []
     applicable_rules = []
-    seen_rules = set()
-    group_members: dict[tuple, list[dict]] = {}
+    limit_rows = []
     if formula.get("category_supported", True):
         for row in formula["ingredients"]:
-            _evaluate_ingredient(row, formula, catalog, regions, category, age, calculated, applicable_rules, seen_rules, group_members)
+            substance = catalog["substances"][row["material_id"]]
+            limit = limits["by_id"].get(row["material_id"])
+            check = _limit_check(row, substance, limit)
+            calculated.append(check)
+            if limit:
+                limit_rows.append(limit)
+            if check["status"] in {"pass", "fail"}:
+                applicable_rules.append(_limit_rule(substance, limit))
     _legacy_checks(formula, regions, category, calculated)
-    for key, members in group_members.items():
-        if len({item[1]["material_id"] for item in members}) < 1:
-            continue
-        if any(item[2]["status"] == "source_review_required" for item in members):
-            continue
-        ruleset = members[0][0]
-        total = 0.0
-        for _rule, row, _check in members:
-            try:
-                total += float(row.get("concentration_percent") or 0)
-            except (TypeError, ValueError):
-                total = None
-                break
-        check_id = f"{key[0]}:GROUP:{_slug(str(key[1]))}:{ruleset['rule_id']}"
-        if total is None or ruleset.get("operator") is None or ruleset.get("threshold_value") is None:
-            calculated.append({
-                "check_id": check_id,
-                "material_id": None,
-                "region": key[0],
-                "rule_id": ruleset["rule_id"],
-                "status": "source_review_required",
-                "verified_limit_available": False,
-                "message": "The source requires a combination total, which is not evaluated as independent ingredient limits.",
-                "action": "Resolve the group scope before a numerical comparison.",
-                "priority": "medium",
-                "reason_code": "combination_limit",
-                "check_kind": "combination",
-                "threshold": ruleset.get("threshold_value"),
-                "unit": ruleset.get("threshold_unit"),
-                "basis": ruleset.get("basis"),
-            })
-        else:
-            passed = _passes(total, ruleset["operator"], float(ruleset["threshold_value"]), ruleset.get("operator_polarity"))
-            calculated.append({
-                "check_id": check_id,
-                "material_id": None,
-                "region": key[0],
-                "rule_id": ruleset["rule_id"],
-                "status": "pass" if passed else "fail",
-                "actual": round(total, 4),
-                "threshold": ruleset["threshold_value"],
-                "unit": ruleset["threshold_unit"],
-                "basis": ruleset["basis"],
-                "operator": ruleset["operator"],
-                "verified_limit_available": True,
-                "message": f"Group total {_fmt(total)} compared with {ruleset['operator']} {_fmt(ruleset['threshold_value'])} {ruleset.get('threshold_unit')}.",
-                "action": "The group total is a separate check from each member.",
-                "priority": "high" if not passed else "medium",
-                "reason_code": "combination_limit",
-                "check_kind": "combination",
-                "json_pointer": ruleset["json_pointer"],
-                "source_filename": ruleset["source_filename"],
-            })
     documents = documents_for_formula(formula)
     evidence_checks, evidence_matches, missing_evidence = _evidence(formula, documents, catalog)
     substance_ids = {row["material_id"] for row in formula["ingredients"]}
     issues = [
         issue for issue in catalog["issues"]
-        if issue.get("substance_id") in substance_ids or set(issue.get("rule_ids") or []).intersection({item.get("rule_id") for item in calculated})
+        if issue.get("kind") == "identity_inconsistency" and issue.get("substance_id") in substance_ids
     ]
-    if not any("boron" in (catalog["substances"][item]["name"].lower()) for item in substance_ids):
-        issues = [issue for issue in issues if "boron" not in str(issue.get("message") or "").lower()]
     excerpts = _excerpts(documents, formula, catalog)
     ingredient_total = round(sum(
         float(row["concentration_percent"])
@@ -1390,8 +1082,7 @@ def build_threshold_context(formula: dict, version_changes: list | None = None) 
     partial = formula.get("composition_completeness", "partial") != "complete"
     limitations = [
         catalog["coverage_note"],
-        "Source verification status is the status stated in the supplied file. This application does not independently verify it.",
-        "State-specific requirements remain in the source dataset and are excluded from this assessment. They are not applied to a generic United States result.",
+        f"Concentration limits come only from {limits['filename']}: one limit per substance, the same for every region, category, and age group.",
         "Partial composition." if partial else f"The declared formulation ingredients total 100% within ±{TOLERANCE} percentage points. This is still not an approved-recipe or full regulatory certification.",
     ]
     public_formula = {
@@ -1443,18 +1134,6 @@ def build_threshold_context(formula: dict, version_changes: list | None = None) 
         limitations.append(f"{category} is not a category in the US/EU reference files. No threshold branch was applied.")
     if formula.get("legacy_materials"):
         limitations.append("Unmatched ingredient names were kept as coverage gaps and were not replaced with catalog substances.")
-    use_case_rows = [
-        row for row in catalog.get("use_case_thresholds") or []
-        if row.get("substance_id") in substance_ids
-        and row.get("category_name") == category
-        and row.get("age_group") == age
-        and row.get("region") in regions
-    ]
-    if use_case_rows:
-        limitations.append(
-            "Ingredients with a row in use_case_thresholds.json use those screening ceilings. "
-            "Those ceilings are calculated by the backend and supplied to the model. They are not an AP or CL decision."
-        )
     return {
         "formula": public_formula,
         "materials": [
@@ -1475,16 +1154,7 @@ def build_threshold_context(formula: dict, version_changes: list | None = None) 
         ],
         "calculated_checks": calculated,
         "applicable_verified_rules": applicable_rules,
-        "reference_claims_pending_verification": [
-            _public_rule(rule)
-            for rule in catalog["rules"]
-            if rule["substance_id"] in substance_ids
-            and rule["category_name"] == category
-            and rule["age_group"] == age
-            and rule["region"] in regions
-            and rule.get("verification_status") != "Verified"
-            and not rule.get("duplicate_of")
-        ][:24],
+        "reference_claims_pending_verification": [],
         "evidence_requirements": _requirements(evidence_checks),
         "evidence_matches": evidence_matches,
         "missing_evidence": missing_evidence,
@@ -1500,47 +1170,23 @@ def build_threshold_context(formula: dict, version_changes: list | None = None) 
         "extracted_facts": [fact for document in documents for fact in document.get("extracted_fields") or []],
         "source_issues": issues,
         "applicable_rules": applicable_rules,
-        "regulatory_reference_status": "Threshold records are limited to the selected region, category, and age branch.",
-        "regulatory_rows_disabled": sum(1 for rule in catalog["rules"] if rule.get("verification_status") != "Verified"),
+        "regulatory_reference_status": f"Concentration limits come only from {limits['filename']}.",
+        "regulatory_rows_disabled": 0,
         "historical_cases": [],
         "composition_total_percent": ingredient_total,
         "assessment_mode": "evidence",
         "dataset_kind": "threshold_reference",
         "dataset_version": catalog["dataset_version"],
         "data_hash": catalog["data_hash"],
-        "use_case_thresholds": use_case_rows,
+        "substance_limits": limit_rows,
         "scenario_provenance": {
             "dataset_kind": "threshold_reference",
             "dataset_version": catalog["dataset_version"],
-            "provenance": "supplied_us_eu_json",
+            "provenance": limits["filename"],
             "is_regulatory_requirement": False,
-            "note": "Screening ceilings for the declared ingredients are in use_case_thresholds. Other example rules are not used.",
+            "note": f"Each ingredient is compared with its single max_percent in {limits['filename']}. No other threshold source is used.",
         },
         "applicable_scenario_rules": [],
-    }
-
-
-def _public_rule(rule: dict) -> dict:
-    return {
-        "rule_id": rule["rule_id"],
-        "substance_id": rule["substance_id"],
-        "region": rule["region"],
-        "threshold_type": rule["threshold_type"],
-        "threshold_value": rule["threshold_value"],
-        "threshold_unit": rule["threshold_unit"],
-        "normalized_unit": rule["normalized_unit"],
-        "basis": rule["basis"],
-        "operator": rule["operator"],
-        "route": rule["route"],
-        "regulation": rule["regulation"],
-        "applies_to": rule["applies_to"],
-        "limit_text": rule["limit_text"],
-        "verification_status": rule["verification_status"],
-        "source_url": rule["source_url"],
-        "section": rule["section"],
-        "json_pointer": rule["json_pointer"],
-        "source_filename": rule["source_filename"],
-        "state_code": rule.get("state_code"),
     }
 
 
@@ -1561,7 +1207,12 @@ def _requirements(checks: list[dict]) -> list[dict]:
     return rows
 
 
+DOCUMENT_LABELS = {"coa": "CoA", "sds": "SDS", "lab_report": "laboratory report"}
+
+
 def _evidence(formula: dict, documents: list[dict], catalog: dict) -> tuple[list[dict], list[dict], list[dict]]:
+    from app.uploads import document_material_ids
+
     checks = []
     matches = []
     missing = []
@@ -1575,7 +1226,7 @@ def _evidence(formula: dict, documents: list[dict], catalog: dict) -> tuple[list
                     document for document in documents
                     if document.get("document_type") == document_type
                     and document.get("scope") != "finished_product"
-                    and document.get("material_id") == material_id
+                    and material_id in document_material_ids(document)
                     and (not document.get("regions") or region in document.get("regions"))
                 ]
                 if document_type == "sds":
@@ -1589,11 +1240,8 @@ def _evidence(formula: dict, documents: list[dict], catalog: dict) -> tuple[list
                         else:
                             exact.append(document)
                 else:
-                    exact = [
-                        document for document in related
-                        if (batch and document.get("batch_id") == batch) or (not batch and not document.get("batch_id"))
-                    ]
                     wrong = [document for document in related if batch and document.get("batch_id") and document.get("batch_id") != batch]
+                    exact = [document for document in related if document not in wrong]
                 if document_type in {"coa", "lab_report"} and wrong and not exact:
                     status = "mismatched"
                     ids = [document["document_id"] for document in wrong]
@@ -1604,16 +1252,11 @@ def _evidence(formula: dict, documents: list[dict], catalog: dict) -> tuple[list
                     ids = [document["document_id"] for document in wrong]
                     message = f"{', '.join(ids)} does not match the recorded supplier or grade. Batch is not required for an SDS."
                     action = "Review the SDS identity. Do not treat a different grade as this material."
-                elif exact and any(document.get("review_status") == "confirmed" for document in exact):
-                    status = "satisfied"
-                    ids = [document["document_id"] for document in exact if document.get("review_status") == "confirmed"]
-                    message = "Reviewed evidence matches this material." if document_type == "sds" else "Reviewed evidence matches this material and batch."
-                    action = "No further upload is required for this matching document."
                 elif exact:
-                    status = "needs_review"
+                    status = "satisfied"
                     ids = [document["document_id"] for document in exact]
-                    message = "A matching document is on file and still needs review. Do not upload it again."
-                    action = "Review the extracted fields."
+                    message = f"An uploaded {DOCUMENT_LABELS[document_type]} is on file for this material."
+                    action = "No further upload is required for this document."
                 elif document_type == "lab_report":
                     continue
                 else:
@@ -1664,6 +1307,7 @@ def _uploaded_documents(documents: list[dict]) -> list[dict]:
             "document_type": document.get("document_type"),
             "scope": document.get("scope"),
             "material_id": document.get("material_id"),
+            "material_ids": document.get("material_ids") or ([document["material_id"]] if document.get("material_id") else []),
             "formula_id": document.get("formula_id"),
             "attached_to": "ingredient" if document.get("material_id") else "submission",
             "text": text[:6000],

@@ -18,7 +18,7 @@ const KPI_ITEMS: {
     status: 'amber',
     label: 'At risk',
     caption: 'likely to need another review round',
-    dotClass: 'bg-warning',
+    dotClass: 'bg-warning-fill',
   },
   {
     status: 'red',

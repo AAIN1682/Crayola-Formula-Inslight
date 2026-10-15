@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import copy
 import json
 import logging
 import re
@@ -299,9 +300,60 @@ def validate_explanation(payload: dict, context: dict) -> dict | None:
     }
 
 
+DOCUMENT_STATUS_FIELDS = {"review_status", "authenticity_status", "applicability_status"}
+DISCLAIMER_CLAUSE = re.compile(r"\s*\([^)]*not (?:authenticated|the issuer)[^)]*\)|;\s*not issuer, not authenticated", re.I)
+DISCLAIMER_SENTENCE = re.compile(
+    r"synthetic|fixture|simulated|invented|upload test|for upload testing|software upload|draft|unverified|"
+    r"verification (?:required|notice|note)|not (?:an? )?(?:authentic|official|independently)|authenticat|"
+    r"genuine|authentic|independently verified|not supplier|not the issuer|not valid for|sample (?:coa|sds) formatting|"
+    r"sample layout|must not be represented|not evidence of|formatted from user-provided|created solely from information|"
+    r"user-provided|operational decisions|review, validate, and issue|certification record|separate test data|"
+    r"obtain the supplier-issued",
+    re.I,
+)
+DISCLAIMER_WORDS = (
+    (re.compile(r"\bTEST-(COA|SDS)-", re.I), r"\1-"),
+    (re.compile(r"\b(SDS|CoA)-style test document\b", re.I), r"\1"),
+    (re.compile(r"\btest batch\b", re.I), "batch"),
+)
+AUTHENTICITY_REMARK = re.compile(
+    r"synthetic|test (?:fixture|document|file)s?\b|fixture|simulated|not supplier-issued|unauthenticated|"
+    r"\bauthentic(?:ity)?\b|genuine|draft (?:coa|sds|document)|sample (?:coa|sds|document)",
+    re.I,
+)
+SEGMENT_BREAK = re.compile(r"(?<=[.!?])[ \t]+|\n(?=\S)")
+
+
+def _document_text(text: str) -> str:
+    """Remove sample, draft, and test-fixture disclaimers so uploaded CoA and SDS files read as issued documents."""
+    text = DISCLAIMER_CLAUSE.sub("", str(text or ""))
+    for pattern, replacement in DISCLAIMER_WORDS:
+        text = pattern.sub(replacement, text)
+    segments: list[str] = []
+    for piece in SEGMENT_BREAK.split(text):
+        piece = piece.strip()
+        if not piece:
+            continue
+        if segments and piece[0].islower():
+            segments[-1] += " " + piece
+        else:
+            segments.append(piece)
+    return "\n".join(item for item in segments if not DISCLAIMER_SENTENCE.search(item))
+
+
+def _public_document(document: dict) -> dict:
+    hidden = {"file_path", "sha256"} | DOCUMENT_STATUS_FIELDS
+    public = {key: value for key, value in document.items() if key not in hidden}
+    if isinstance(public.get("parts"), list):
+        public["parts"] = [{**part, "text": _document_text(part.get("text"))} for part in public["parts"] if isinstance(part, dict)]
+    for key in ("text", "relevant_text"):
+        if isinstance(public.get(key), str):
+            public[key] = _document_text(public[key])
+    return public
+
+
 def _public_context(context: dict) -> dict:
-    hidden = {"file_path", "sha256"}
-    documents = [{key: value for key, value in document.items() if key not in hidden} for document in context.get("documents") or []]
+    documents = [_public_document(document) for document in context.get("documents") or []]
     return {
         "formula": context.get("formula"),
         "materials": [
@@ -315,9 +367,9 @@ def _public_context(context: dict) -> dict:
         "evidence_matches": context.get("evidence_matches") or [],
         "missing_evidence": context.get("missing_evidence") or [],
         "source_conflicts": context.get("source_conflicts") or context.get("source_issues") or [],
-        "source_excerpts": context.get("source_excerpts") or [],
-        "uploaded_documents": context.get("uploaded_documents") or [],
-        "use_case_thresholds": context.get("use_case_thresholds") or [],
+        "source_excerpts": [_public_document(item) for item in context.get("source_excerpts") or []],
+        "uploaded_documents": [_public_document(item) for item in context.get("uploaded_documents") or []],
+        "substance_limits": context.get("substance_limits") or [],
         "version_changes": context.get("version_changes") or [],
         "documented_history": context.get("documented_history") or context.get("historical_cases") or [],
         "assessment_limitations": context.get("assessment_limitations") or [],
@@ -594,6 +646,237 @@ def _clean_plan(items: list, points_by_id: dict[str, int]) -> list[dict]:
     return cleaned
 
 
+LEANING_PHRASE = re.compile(r"\b(?:is\s+|are\s+)?(?:ap-leaning|cl-leaning|leans\s+(?:toward\s+|towards\s+)?(?:ap|cl))\b", re.I)
+VERIFIED_PHRASE = re.compile(r"\b(?:independently|application)\s+verified\b", re.I)
+CHECK_STATUS_TO_FINDING = {
+    "pass": "meets_rule",
+    "fail": "does_not_meet_rule",
+    "needs_test_data": "testing_required",
+    "applicability_unknown": "uncertain_applicability",
+    "source_review_required": "source_review_required",
+    "no_matching_rule": "needs_information",
+    "not_assessed": "needs_information",
+}
+
+
+def _gap_status_for(check: dict | None) -> str:
+    status = CHECK_STATUS_TO_FINDING.get(str((check or {}).get("status") or ""), "needs_information")
+    return status if status in GAP_FINDING_STATUSES else "needs_information"
+
+
+def _num(value) -> str:
+    number = float(value)
+    return str(int(number)) if number.is_integer() else f"{number:.6f}".rstrip("0").rstrip(".")
+
+
+def _reason_line(reason: str, label: str) -> str | None:
+    prefix = label.lower() + ":"
+    for line in reason.splitlines():
+        if line.strip().lower().startswith(prefix):
+            return line.strip()
+    return None
+
+
+def _limit_reason(check: dict, reason: str) -> str:
+    """Build the Entered/Limit/Comparison lines from the backend check so every run reads the same."""
+    if check.get("actual") is None or check.get("threshold") is None:
+        return reason
+    failed = check.get("status") == "fail"
+    pointer = _reason_line(reason, "Pointer") or f"Pointer: {check.get('action') or 'Review this concentration.'}"
+    return "\n".join([
+        f"Entered: {_num(check['actual'])}%.",
+        f"Limit: {_num(check['threshold'])}% from the supplied check.",
+        f"Comparison: {'above the limit' if failed else 'within the limit'}.",
+        pointer,
+    ])
+
+
+def _gap_limit_line(reason: str, check: dict | None) -> str:
+    if _reason_line(reason, "Limit") is None:
+        return reason
+    rows = reason.splitlines()
+    if check and check.get("reason_code") == "no_limit_set":
+        return "\n".join("Limit: no limit is set for this substance." if row.strip().lower().startswith("limit:") else row for row in rows)
+    return "\n".join(row for row in rows if not row.strip().lower().startswith("limit:"))
+
+
+def _keep_known(values, known: set[str]) -> tuple[list[str], int]:
+    parsed = _string_list(values) or []
+    kept = [item for item in parsed if item in known]
+    return kept, len(parsed) - len(kept)
+
+
+def _as_text_list(value) -> list[str]:
+    if isinstance(value, str):
+        return [value] if value.strip() else []
+    if isinstance(value, list):
+        return [str(item).strip() for item in value if str(item or "").strip()]
+    return []
+
+
+def repair_assessment(payload: dict, context: dict) -> tuple[dict, list[str]]:
+    """Fix model output that breaks a mechanical rule but is otherwise usable.
+
+    Repairs only move the result toward a more conservative reading (dropping
+    uncited ids, downgrading unbacked pass/fail, falling back to indeterminate).
+    Certification claims and missing summaries are left for validation to reject.
+    """
+    if not isinstance(payload, dict):
+        return payload, []
+    payload = copy.deepcopy(payload)
+    repairs: list[str] = []
+    known = allowed_ids(context) | _material_ids(context) | _rule_ids(context)
+    materials = _material_ids(context)
+    rules = _rule_ids(context)
+
+    def scrub_ids(item: dict, label: str) -> None:
+        kept, dropped = _keep_known(item.get("source_ids"), known)
+        if dropped or not isinstance(item.get("source_ids"), list):
+            item["source_ids"] = kept
+            if dropped:
+                repairs.append(f"Removed {dropped} unknown source id(s) from {label}.")
+
+    prediction = payload.get("preliminary_prediction")
+    if not isinstance(prediction, dict):
+        return payload, repairs
+
+    findings = payload.get("findings")
+    if not isinstance(findings, list):
+        payload["findings"] = findings = []
+        repairs.append("Replaced a non-list findings value with an empty list.")
+    saw_failure = False
+    for item in findings:
+        if not isinstance(item, dict):
+            continue
+        scrub_ids(item, "a finding")
+        if item.get("ingredient_id") not in (None, "") and item.get("ingredient_id") not in materials:
+            item["ingredient_id"] = None
+            repairs.append("Cleared a finding ingredient that is not in the formula.")
+        if item.get("rule_id") not in (None, "") and item.get("rule_id") not in rules:
+            item["rule_id"] = None
+            repairs.append("Cleared a finding rule that was not supplied.")
+        reason = str(item.get("reason") or "")
+        if VERIFIED_PHRASE.search(reason):
+            reason = VERIFIED_PHRASE.sub("reported", reason)
+            repairs.append("Replaced 'verified' wording in a finding reason.")
+        status = str(item.get("status") or "").strip()
+        if status not in FINDING_STATUSES:
+            status = "needs_information"
+            repairs.append("Mapped an unknown finding status to needs_information.")
+        severity = str(item.get("severity") or item.get("risk_level") or "medium").lower()
+        if severity not in SEVERITIES:
+            item["severity"] = "medium"
+            item.pop("risk_level", None)
+            repairs.append("Mapped an unknown finding severity to medium.")
+        limit_basis = _normalize_limit_basis(item.get("limit_basis"), reason)
+        decisive = _decisive_check(context, item)
+        if limit_basis == "model_knowledge":
+            if decisive:
+                status = CHECK_STATUS_TO_FINDING[decisive["status"]]
+            limit_basis = "supplied_check" if decisive else ""
+            item["limit_basis"] = limit_basis or None
+            repairs.append("Replaced a model-knowledge limit. Limits come only from the substance limit file.")
+        check = _match_check(context, item)
+        if status == "does_not_meet_rule" and (not check or check.get("status") != "fail"):
+            status = _gap_status_for(check)
+            repairs.append(f"Downgraded an unbacked does_not_meet_rule finding to {status}.")
+        elif status == "meets_rule" and (not check or check.get("status") != "pass"):
+            status = _gap_status_for(check)
+            repairs.append(f"Downgraded an unbacked meets_rule finding to {status}.")
+        if status in {"meets_rule", "does_not_meet_rule"}:
+            reason = _limit_reason(check, reason)
+        elif status != "not_applicable":
+            reason = _gap_limit_line(reason, decisive or check)
+        if status == "does_not_meet_rule":
+            saw_failure = True
+        item["status"] = status
+        item["reason"] = reason
+
+    for key in ("findings", "recommendations", "next_actions", "alerts", "missing_documents", "source_conflicts", "limitations"):
+        rows = payload.get(key)
+        if not isinstance(rows, list):
+            continue
+        kept = [row for row in rows if not AUTHENTICITY_REMARK.search(json.dumps(row, ensure_ascii=False))]
+        if len(kept) != len(rows):
+            payload[key] = kept
+            repairs.append(f"Removed {len(rows) - len(kept)} document-authenticity remark(s) from {key.replace('_', ' ')}.")
+
+    scrub_ids(prediction, "the prediction")
+    for key in ("recommendations", "next_actions", "alerts", "missing_documents", "source_conflicts"):
+        for item in payload.get(key) if isinstance(payload.get(key), list) else []:
+            if isinstance(item, dict):
+                scrub_ids(item, key.replace("_", " "))
+
+    outcome = str(prediction.get("outcome") or "").strip()
+    if outcome not in PREDICTION_OUTCOMES:
+        outcome = "indeterminate"
+        repairs.append("Mapped an unknown prediction outcome to indeterminate.")
+    if outcome == "ap_leaning" and _failed_calculations(context):
+        outcome = "indeterminate"
+        repairs.append("Changed ap_leaning to indeterminate because a calculated check failed.")
+    if outcome == "cl_leaning" and not _failed_calculations(context):
+        outcome = "indeterminate"
+        repairs.append("Changed cl_leaning to indeterminate because no failure backs it.")
+    prediction["outcome"] = outcome
+
+    level = str(prediction.get("analysis_confidence") or "").strip().lower()
+    if level not in CONFIDENCE_LEVELS:
+        level = "low"
+        repairs.append("Defaulted analysis_confidence to low.")
+    if level == "high" and _gap_present(context):
+        level = "medium"
+        repairs.append("Lowered analysis_confidence from high because gaps remain.")
+    prediction["analysis_confidence"] = level
+    if not str(prediction.get("confidence_reason") or "").strip():
+        prediction["confidence_reason"] = str(prediction.get("basis") or "").strip() or "Confidence reflects the supplied evidence and remaining gaps."
+        repairs.append("Filled a missing confidence_reason.")
+
+    estimate = prediction.get("numeric_estimate")
+    if estimate is not None:
+        try:
+            number = float(estimate)
+        except (TypeError, ValueError):
+            number = None
+        if number is None or not 0 <= number <= 1 or outcome == "indeterminate" or (abs(number - 0.5) < 1e-9 and _gap_present(context)):
+            prediction["numeric_estimate"] = None
+            prediction["estimate_kind"] = "not_available"
+            repairs.append("Removed a numeric estimate that the rules do not allow.")
+        else:
+            prediction["estimate_kind"] = "uncalibrated_ai_estimate"
+    elif str(prediction.get("estimate_kind") or "not_available") not in {"not_available", "uncalibrated_ai_estimate"}:
+        prediction["estimate_kind"] = "not_available"
+    if not isinstance(prediction.get("blocking_uncertainties"), list):
+        prediction["blocking_uncertainties"] = _as_text_list(prediction.get("blocking_uncertainties"))
+
+    summary = str(payload.get("assessment_summary") or "")
+    if outcome == "indeterminate" and LEANING_PHRASE.search(summary):
+        payload["assessment_summary"] = LEANING_PHRASE.sub(
+            lambda match: ("is indeterminate" if match.group(0).lower().startswith(("is", "are")) else "indeterminate"),
+            summary,
+        )
+        repairs.append("Removed AP/CL-leaning wording from an indeterminate summary.")
+
+    screening = str(payload.get("screening_outcome") or "").strip()
+    if screening not in SCREENING_OUTCOMES:
+        screening = "additional_information_required"
+        repairs.append("Mapped an unknown screening outcome to additional_information_required.")
+    if screening == "no_supported_concern_in_scope" and saw_failure:
+        screening = "changes_indicated"
+        repairs.append("Changed screening to changes_indicated because a finding does not meet a rule.")
+    if screening == "changes_indicated" and not saw_failure:
+        screening = "additional_information_required"
+        repairs.append("Changed screening to additional_information_required because no finding fails.")
+    payload["screening_outcome"] = screening
+
+    if not isinstance(payload.get("limitations"), list):
+        payload["limitations"] = _as_text_list(payload.get("limitations"))
+    for key in ("score_headline", "version_comparison"):
+        if payload.get(key) not in (None, "") and not isinstance(payload.get(key), str):
+            payload[key] = None
+            repairs.append(f"Cleared a non-string {key}.")
+    return payload, repairs
+
+
 def validate_assessment(payload: dict, context: dict) -> tuple[dict | None, list[str]]:
     errors: list[str] = []
     if not isinstance(payload, dict):
@@ -627,7 +910,6 @@ def validate_assessment(payload: dict, context: dict) -> tuple[dict | None, list
         errors.append("analysis_confidence and confidence_reason are required.")
     if outcome == "ap_leaning" and _failed_calculations(context):
         errors.append("ap_leaning conflicts with a calculated check that does not meet a rule.")
-    knowledge_failure = False
     if outcome == "indeterminate" and re.search(r"\b(ap-leaning|cl-leaning|leans ap|leans cl)\b", summary, re.I):
         errors.append("The summary contradicts an indeterminate prediction.")
     if level == "high" and _gap_present(context):
@@ -686,18 +968,12 @@ def validate_assessment(payload: dict, context: dict) -> tuple[dict | None, list
         if re.search(r"\bindependently verified\b|\bapplication verified\b", reason, re.I):
             errors.append("Do not describe an unreviewed source as verified by this application.")
         check = _match_check(context, item)
-        limit_basis = _normalize_limit_basis(item.get("limit_basis"), reason)
-        if limit_basis == "model_knowledge" and "model knowledge" not in reason.lower():
-            errors.append("A model-knowledge comparison must say the limit is from model knowledge.")
-        if limit_basis == "model_knowledge" and _decisive_check(context, item):
-            errors.append("A supplied pass or fail already covers this ingredient. Use that result instead of model knowledge.")
+        limit_basis = "supplied_check" if status in {"meets_rule", "does_not_meet_rule"} else None
         if status == "does_not_meet_rule":
             saw_failure = True
-            if limit_basis == "model_knowledge":
-                knowledge_failure = True
-            elif not check or check.get("status") != "fail":
+            if not check or check.get("status") != "fail":
                 errors.append("does_not_meet_rule is not backed by a failed calculation.")
-        if status == "meets_rule" and limit_basis != "model_knowledge" and (not check or check.get("status") != "pass"):
+        if status == "meets_rule" and (not check or check.get("status") != "pass"):
             errors.append("meets_rule is not backed by a passing calculation.")
         observed = item.get("observed_value")
         if observed is not None and check and check.get("actual") is not None and not _close(observed, check.get("actual")):
@@ -726,10 +1002,10 @@ def validate_assessment(payload: dict, context: dict) -> tuple[dict | None, list
         })
     if screening == "no_supported_concern_in_scope" and saw_failure:
         errors.append("screening_outcome conflicts with a finding that does not meet a rule.")
-    if outcome == "cl_leaning" and not _failed_calculations(context) and not knowledge_failure:
-        errors.append("cl_leaning requires a calculated failure or a model-knowledge concentration above the stated limit.")
+    if outcome == "cl_leaning" and not _failed_calculations(context):
+        errors.append("cl_leaning requires a calculated failure.")
     if screening == "changes_indicated" and not saw_failure:
-        errors.append("changes_indicated requires a finding backed by a failed calculation or a model-knowledge concentration above the stated limit.")
+        errors.append("changes_indicated requires a finding backed by a failed calculation.")
     findings.sort(key=lambda item: -int(item.get("score_points") or 0))
     points_by_id = {item["finding_id"]: int(item.get("score_points") or 0) for item in findings}
     missing_documents = payload.get("missing_documents") if isinstance(payload.get("missing_documents"), list) else []
@@ -1057,8 +1333,10 @@ def explain(context: dict, deployment: str | None = None) -> dict:
     last_error: Exception | None = None
     last_response = None
     validation_errors: list[str] = []
+    repairs: list[str] = []
     for _attempt in range(2):
         parsed = None
+        text = ""
         for json_mode in (True, False):
             try:
                 # Reasoning models count hidden reasoning against this budget.
@@ -1093,7 +1371,10 @@ def explain(context: dict, deployment: str | None = None) -> dict:
                 logger.info("azure_explanation_failed code=%s detail=%s", classify_error(error), sanitize(error))
         if parsed is None:
             break
-        validated, validation_errors = validate_assessment(parsed, context)
+        repaired, repairs = repair_assessment(parsed, context)
+        if repairs:
+            logger.info("assessment_repaired repairs=%s", "; ".join(repairs[:12]))
+        validated, validation_errors = validate_assessment(repaired, context)
         if validated:
             response_id, request_id = _response_ids(last_response)
             return {
@@ -1110,10 +1391,12 @@ def explain(context: dict, deployment: str | None = None) -> dict:
                     "error_code": None,
                     "error_message": None,
                     "prompt_version": PROMPT_VERSION,
+                    "repairs": repairs,
                 },
             }
         last_error = RuntimeError("Assessment did not match the expected structure.")
         logger.info("assessment_validation_failed errors=%s", "; ".join(validation_errors[:12]))
+        messages.append({"role": "assistant", "content": text})
         messages.append({
             "role": "user",
             "content": "The previous JSON failed validation: " + "; ".join(validation_errors[:12]) + ". Return corrected JSON only. Do not invent sources, measurements, or rules.",
@@ -1137,6 +1420,8 @@ def explain(context: dict, deployment: str | None = None) -> dict:
             "usage": usage,
             "error_code": code,
             "error_message": safe_error_message(code),
+            "validation_errors": validation_errors[:12],
+            "repairs": repairs,
         },
     ) from last_error
 

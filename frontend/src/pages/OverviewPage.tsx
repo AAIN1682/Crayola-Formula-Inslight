@@ -13,7 +13,7 @@ import { ScreeningBadge } from '../components/ui/Badge';
 import { EmptyState, ErrorState, LoadingState } from '../components/ui/States';
 import { FormulaFormDrawer } from '../components/formulas/FormulaFormDrawer';
 import type { ScreeningStatus } from '../types/domain';
-import { SCREENING_STATUS_LABEL, assessmentOutcomeLabel, formatDate, formatDateTime, formatRelative } from '../utils/formatting';
+import { SCREENING_STATUS_LABEL, formatDate, formatRelative } from '../utils/formatting';
 
 const SCREENING_OUTCOME_LABEL: Partial<Record<ScreeningStatus, string>> = {
   green: 'Likely AP',
@@ -23,7 +23,7 @@ const SCREENING_OUTCOME_LABEL: Partial<Record<ScreeningStatus, string>> = {
 
 const STATUS_SEGMENTS: Record<string, { color: string; textClass: string; filter: string }> = {
   green: { color: '#15803D', textClass: 'text-success', filter: 'green' },
-  amber: { color: '#B45309', textClass: 'text-warning', filter: 'amber' },
+  amber: { color: '#F59E0B', textClass: 'text-warning', filter: 'amber' },
   red: { color: '#B91C1C', textClass: 'text-danger', filter: 'red' },
   'not-screened': { color: '#CBD5E1', textClass: 'text-muted', filter: 'not-screened' },
 };
@@ -97,58 +97,6 @@ export function OverviewPage() {
             <LoadingState label="Loading status distribution…" rows={2} />
           )}
         </CardBody>
-      </Card>
-
-      <Card>
-        <CardHeader
-          title="Recent analyses"
-          description="Saved assessment results, including confidence and the concentration summary."
-        />
-        {!data ? (
-          <LoadingState label="Loading recent analyses…" />
-        ) : (data.recentAnalyses ?? []).length === 0 ? (
-          <EmptyState
-            title="No saved analyses yet"
-            message="Run an assessment. The result is stored and listed here."
-            variant="shield"
-          />
-        ) : (
-          <TableScroll>
-            <Table caption="Recent saved assessments">
-              <THead>
-                <tr>
-                  <Th>Formula</Th>
-                  <Th>Outcome</Th>
-                  <Th>Confidence</Th>
-                  <Th>Screened</Th>
-                  <Th className="text-right">Open</Th>
-                </tr>
-              </THead>
-              <TBody>
-                {(data.recentAnalyses ?? []).map((row) => (
-                  <Tr key={row.assessmentId} onClick={() => navigate(`/formulas/${row.formulaId}/results/${row.assessmentId}`)}>
-                    <Td>
-                      <PrimaryCell title={row.formulaName} subtitle={`${row.version || row.formulaId}`} />
-                    </Td>
-                    <Td>{assessmentOutcomeLabel(row.band) || row.headline || row.screeningStatusLabel || 'Saved result'}</Td>
-                    <Td className="capitalize">{row.confidence || '—'}</Td>
-                    <Td className="whitespace-nowrap text-muted tabular">{row.createdAt ? formatDateTime(row.createdAt) : '—'}</Td>
-                    <Td className="text-right">
-                      <Link
-                        to={`/formulas/${row.formulaId}/results/${row.assessmentId}`}
-                        className="fi-link inline-flex items-center gap-1 text-[13px] font-medium"
-                        onClick={(event) => event.stopPropagation()}
-                      >
-                        Open
-                        <ArrowRight aria-hidden className="size-3.5" />
-                      </Link>
-                    </Td>
-                  </Tr>
-                ))}
-              </TBody>
-            </Table>
-          </TableScroll>
-        )}
       </Card>
 
       <Card>

@@ -142,7 +142,7 @@ def test_repeated_assessments_keep_history(isolated_history):
     first = client.post("/api/formulas/FML-T/assessments", json=live_formula())
     second = client.post(
         "/api/formulas/FML-T/assessments",
-        json=live_formula(ingredients=[{"material_id": "s_toluene_108883", "concentration_percent": 10, "batch_id": "LOT-9"}]),
+        json=live_formula(ingredients=[{"material_id": "s_toluene_108883", "concentration_percent": 12, "batch_id": "LOT-9"}]),
     )
     assert first.status_code == 200, first.text
     assert second.status_code == 200, second.text
@@ -196,7 +196,7 @@ def test_persistence_error_keeps_existing_history(isolated_history, monkeypatch)
     monkeypatch.setattr("app.screening_service._write_history", fail_write)
     second = client.post(
         "/api/formulas/FML-T/assessments",
-        json=live_formula(ingredients=[{"material_id": "s_toluene_108883", "concentration_percent": 10, "batch_id": "LOT-9"}]),
+        json=live_formula(ingredients=[{"material_id": "s_toluene_108883", "concentration_percent": 12, "batch_id": "LOT-9"}]),
     )
     assert second.status_code == 500
     assert second.json()["detail"] == "The assessment result could not be saved."
@@ -245,7 +245,7 @@ def test_saved_history_latest_is_derived_from_runs(isolated_history):
     first = client.post("/api/formulas/FML-T/assessments", json=live_formula())
     second = client.post(
         "/api/formulas/FML-T/assessments",
-        json=live_formula(ingredients=[{"material_id": "s_toluene_108883", "concentration_percent": 10, "batch_id": "LOT-9"}]),
+        json=live_formula(ingredients=[{"material_id": "s_toluene_108883", "concentration_percent": 12, "batch_id": "LOT-9"}]),
     )
     assert first.status_code == 200, first.text
     assert second.status_code == 200, second.text

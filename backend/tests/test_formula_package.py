@@ -63,7 +63,7 @@ def test_unknown_material_is_not_substituted():
 
 
 def test_quantity_change_does_not_use_dummy_as_verdict():
-    high = client.post("/api/assessments", json=_live(ingredients=[{"material_id": "s_toluene_108883", "concentration_percent": 10}])).json()
+    high = client.post("/api/assessments", json=_live(ingredients=[{"material_id": "s_toluene_108883", "concentration_percent": 12}])).json()
     low = client.post("/api/assessments", json=_live()).json()
     high_check = next(item for item in high["llm_context"]["calculated_checks"] if item.get("status") == "fail")
     low_check = next(item for item in low["llm_context"]["calculated_checks"] if item.get("rule_id") == high_check["rule_id"])

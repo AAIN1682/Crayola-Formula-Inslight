@@ -27,7 +27,7 @@ export function SettingsPage() {
   const counts = useMemo(
     () => [
       ['Formulas', dataset.formulas.length],
-      ['Raw materials', dataset.rawMaterials.length],
+      ['Ingredient library', dataset.rawMaterials.length],
       ['Documents', dataset.documents.length],
       ['Submissions', dataset.submissions.length],
       ['Alerts', dataset.alerts.length],

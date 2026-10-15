@@ -206,13 +206,10 @@ export function PrecheckResult({
   const [selected, setSelected] = useState<string[]>([]);
   const [showHidden, setShowHidden] = useState(false);
   const [showAllRules, setShowAllRules] = useState(false);
-  const [askOpen, setAskOpen] = useState(false);
-
   useEffect(() => {
     setSelected([]);
     setShowHidden(false);
     setShowAllRules(false);
-    setAskOpen(false);
   }, [run.id]);
 
   useEffect(() => {
@@ -312,18 +309,11 @@ export function PrecheckResult({
         </div>
         <div className="flex flex-wrap gap-2">
           <Button size="sm" onClick={onEditFormula} disabled={!onEditFormula}>Edit formula</Button>
-          <Button size="sm" onClick={() => setAskOpen((value) => !value)}>Ask PreSeal</Button>
           <Button size="sm" variant="primary" onClick={exportPack} icon={<Download aria-hidden className="size-3.5" />}>
             Export submission pack
           </Button>
         </div>
       </div>
-
-      {askOpen ? (
-        <p className="rounded-lg border border-line bg-canvas px-3 py-2 text-[13px] leading-6 text-muted">
-          This result is the assessment. Use the findings and fix plan below, then edit the formula and run again. There is no separate chat.
-        </p>
-      ) : null}
 
       <section className="rounded-panel border border-line bg-white p-5 shadow-card">
         <div className="grid gap-6 lg:grid-cols-[220px_1fr] lg:items-center">
@@ -532,7 +522,7 @@ function Stat({ label, value }: { label: string; value: string }) {
 function RuleRow({ item, tone, name }: { item: PackageCheck; tone: ReturnType<typeof ruleTone>; name?: string }) {
   const title = name || item.material_id || item.document_type || item.requirement_id || item.check_id;
   const detail = item.message || item.gap_status || '';
-  const source = item.document_type || item.region || 'Calculation';
+  const source = item.document_type || (item.region === 'ALL' ? 'All regions' : item.region) || 'Calculation';
   return (
     <li className="flex items-start justify-between gap-3 py-2.5">
       <div className="flex min-w-0 gap-2">

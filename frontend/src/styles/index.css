@@ -51,6 +51,8 @@
   --color-warning: #b45309;
   --color-warning-soft: #fff7ec;
   --color-warning-line: #fcd9a4;
+  /* Fill only; too light for text on white. */
+  --color-warning-fill: #f59e0b;
   --color-danger: #b91c1c;
   --color-danger-soft: #fef2f2;
   --color-danger-line: #fecaca;

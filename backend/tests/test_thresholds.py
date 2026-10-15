@@ -7,7 +7,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from app.main import app
-from app.threshold_catalog import load_catalog
+from app.threshold_catalog import load_catalog, load_substance_limits
 
 client = TestClient(app)
 TOLUENE = "s_toluene_108883"
@@ -100,9 +100,9 @@ def test_partial_screen_does_not_require_100_percent_and_flags_legacy_rows():
     assert assessed["llm_context"]["formula"]["catalog_coverage_incomplete"] is True
     labeling = next(item for item in assessed["llm_context"]["calculated_checks"] if item.get("route") == "concentration" and item.get("status") in {"pass", "fail"})
     assert labeling["status"] == "pass"
-    assert labeling["operator"] == ">="
+    assert labeling["operator"] == "<="
     assert labeling["verified_limit_available"] is True
-    high = client.post("/api/assessments", json=formula(ingredients=[{"material_id": TOLUENE, "concentration_percent": 10, "batch_id": "LOT-9"}])).json()
+    high = client.post("/api/assessments", json=formula(ingredients=[{"material_id": TOLUENE, "concentration_percent": 12, "batch_id": "LOT-9"}])).json()
     failed = next(item for item in high["llm_context"]["calculated_checks"] if item.get("rule_id") == labeling["rule_id"])
     assert failed["status"] == "fail"
     assert high["screening_status"] == "changes_required"
@@ -130,59 +130,40 @@ def test_contaminant_does_not_count_toward_the_ingredient_total():
     assert assessed["llm_context"]["composition_total_percent"] == 5
 
 
-def test_chromium_overlap_is_not_resolved_and_pending_is_not_a_verdict():
-    catalog = load_catalog()
-    chromium = next(item["substance_id"] for item in catalog["substances"].values() if item["substance_id"].endswith("16065831"))
-    payload = formula(
-        regions=["EU"],
-        ingredients=[{
-            "material_id": chromium,
-            "measured_value": 0.001,
-            "measured_unit": "mg/kg",
-            "measured_bound": "exact",
-            "measurement_kind": "migration",
-            "test_method": "EN 71-3",
-            "analyte": "Chromium (III)",
-        }],
-        test_material_category="en71_cat_ii",
+def _toluene_checks(**overrides) -> list[dict]:
+    assessed = client.post("/api/assessments", json=formula(**overrides)).json()
+    return [item for item in assessed["llm_context"]["calculated_checks"] if item["material_id"] == TOLUENE]
+
+
+def test_one_limit_per_substance_regardless_of_region_category_and_age():
+    limit = load_substance_limits()["by_id"][TOLUENE]["max_percent"]
+    for overrides in (
+        {},
+        {"regions": ["US", "EU"]},
+        {"product_category": "Paints"},
+        {"age_group": "12_and_above"},
+    ):
+        checks = _toluene_checks(**overrides)
+        assert len(checks) == 1
+        assert checks[0]["threshold"] == limit
+        assert checks[0]["status"] == "pass"
+        assert checks[0]["source_filename"] == "substance_limits.json"
+
+
+def test_a_substance_without_a_limit_is_a_gap_not_a_verdict():
+    limits = load_substance_limits()["by_id"]
+    offered = client.get(
+        "/api/reference/substances", params={"regions": "US", "category": "Markers", "age_group": "under_12"},
+    ).json()["substances"]
+    unset = next(
+        item["substance_id"] for item in offered
+        if item["role"] == "formulation_ingredient" and limits[item["substance_id"]]["max_percent"] is None
     )
-    assessed = client.post("/api/assessments", json=payload).json()
-    checks = [item for item in assessed["llm_context"]["calculated_checks"] if item["material_id"] == chromium]
-    assert checks
-    assert any(item["status"] == "source_review_required" for item in checks)
-    assert all(item["status"] != "pass" for item in checks)
-    assert all(item["status"] != "fail" for item in checks)
-    pending = [
-        item for item in assessed["llm_context"]["calculated_checks"]
-        if item.get("verification_status") == "Pending Verification"
-    ]
-    assert all(item["status"] != "pass" and item["status"] != "fail" for item in pending)
-
-
-def test_migration_without_a_result_needs_test_data():
-    catalog = load_catalog()
-    lead = next(item["substance_id"] for item in catalog["substances"].values() if item.get("cas_number") == "7439-92-1")
-    payload = formula(
-        regions=["EU"],
-        product_category="Markers",
-        test_material_category="en71_cat_ii",
-        ingredients=[{"material_id": lead}],
-    )
-    assessed = client.post("/api/assessments", json=payload).json()
-    migration = [
-        item for item in assessed["llm_context"]["calculated_checks"]
-        if item.get("route") == "migration" and item.get("verification_status") == "Verified"
-    ]
-    assert migration
-    assert any(item["status"] == "needs_test_data" for item in migration)
-
-
-def test_state_rule_is_not_applied_to_generic_us():
-    assessed = client.post("/api/assessments", json=formula()).json()
-    state_checks = [item for item in assessed["llm_context"]["calculated_checks"] if "State rule" in item.get("message", "")]
-    assert state_checks == []
-    limitations = assessed["llm_context"]["assessment_limitations"]
-    assert any("State-specific" in item for item in limitations)
+    assessed = client.post("/api/assessments", json=formula(ingredients=[{"material_id": unset, "concentration_percent": 1}])).json()
+    check = next(item for item in assessed["llm_context"]["calculated_checks"] if item["material_id"] == unset)
+    assert check["status"] == "no_matching_rule"
+    assert check["reason_code"] == "no_limit_set"
+    assert check["threshold"] is None
 
 
 def _blank_pdf() -> bytes:
@@ -270,10 +251,11 @@ def test_paint_use_case_thresholds_and_uploaded_text_are_in_the_model_context(up
     water = next(item for item in checks if item["material_id"] == "water" and item["status"] in {"pass", "fail"})
     glycerin = next(item for item in checks if item["material_id"] == "glycerin" and item["status"] in {"pass", "fail"})
     benzoate = next(item for item in checks if item["material_id"] == "s_sodium_benzoate_532321" and item["status"] in {"pass", "fail"})
-    assert water["status"] == "pass" and water["threshold"] == 90
-    assert glycerin["status"] == "pass" and glycerin["threshold"] == 15
-    assert benzoate["status"] == "fail" and benzoate["threshold"] == 0.5
-    assert any(item["substance_id"] == "water" for item in assessed["llm_context"]["use_case_thresholds"])
+    limits = load_substance_limits()["by_id"]
+    assert water["status"] == "pass" and water["threshold"] == limits["water"]["max_percent"]
+    assert glycerin["status"] == "pass" and glycerin["threshold"] == limits["glycerin"]["max_percent"]
+    assert benzoate["status"] == "fail" and benzoate["threshold"] == limits["s_sodium_benzoate_532321"]["max_percent"]
+    assert any(item["substance_id"] == "water" for item in assessed["llm_context"]["substance_limits"])
     text = " ".join(item.get("relevant_text") or "" for item in assessed["llm_context"]["source_excerpts"])
     assert "BATCH-WTC-2026-YEL" in text
     assert any(item.get("document_id") == document_id for item in assessed["llm_context"]["source_excerpts"])
@@ -283,6 +265,31 @@ def test_paint_use_case_thresholds_and_uploaded_text_are_in_the_model_context(up
     ingredient_id = ingredient_pdf.json()["document_id"]
     assert uploaded[ingredient_id]["attached_to"] == "ingredient"
     assert "7732-18-5" in uploaded[ingredient_id]["text"]
+
+
+def test_one_upload_mapped_to_several_ingredients_satisfies_each(upload_dir):
+    saved = client.post(
+        "/api/documents",
+        files={"file": ("coa.pdf", io.BytesIO(_pdf("CERTIFICATE OF ANALYSIS water glycerin")), "application/pdf")},
+        data={"document_type": "coa", "material_ids": "water,glycerin", "regions": "US"},
+    )
+    assert saved.status_code == 200, saved.text
+    assert saved.json()["material_ids"] == ["water", "glycerin"]
+    assessed = client.post("/api/assessments", json=formula(
+        product_category="Paints",
+        ingredients=[
+            {"material_id": "water", "concentration_percent": 78.5, "batch_id": "DI-2026-YEL"},
+            {"material_id": "glycerin", "concentration_percent": 12, "batch_id": "GLY-1102"},
+        ],
+    )).json()
+    coa = {item["material_id"]: item for item in assessed["llm_context"]["evidence_checks"] if item["document_type"] == "coa"}
+    assert coa["water"]["status"] == "satisfied"
+    assert coa["glycerin"]["status"] == "satisfied"
+    assert all(item["status"] == "missing" for item in assessed["llm_context"]["evidence_checks"] if item["document_type"] == "sds")
+    listed = client.get("/api/documents", params={"material_ids": "glycerin"}).json()
+    assert [row["document_id"] for row in listed] == [saved.json()["document_id"]]
+    assert client.delete(f"/api/documents/{saved.json()['document_id']}").status_code == 200
+    assert client.get("/api/documents", params={"material_ids": "glycerin"}).json() == []
 
 
 def test_non_pdf_is_rejected(upload_dir):
@@ -317,9 +324,10 @@ def test_legacy_rows_stay_unmatched_and_the_assessment_completes():
     assert any("not a category" in item["message"] for item in glue_response.json()["llm_context"]["calculated_checks"])
 
 
-def test_us_context_does_not_include_eu_rules():
+def test_only_the_substance_limit_file_supplies_rules():
     assessed = client.post("/api/assessments", json=formula()).json()
-    rules = assessed["llm_context"]["applicable_verified_rules"] + assessed["llm_context"]["reference_claims_pending_verification"]
+    rules = assessed["llm_context"]["applicable_verified_rules"]
     assert rules
-    assert all(item["region"] == "US" for item in rules)
+    assert all(item["source_filename"] == "substance_limits.json" for item in rules)
+    assert assessed["llm_context"]["reference_claims_pending_verification"] == []
     assert "glow_purple" not in str(assessed["llm_context"]["materials"])

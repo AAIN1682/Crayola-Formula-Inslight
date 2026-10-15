@@ -11,6 +11,7 @@ import { Drawer } from '../ui/Drawer';
 import { Button } from '../ui/Button';
 import { choiceForId, formulationChoices, formulationMaterial } from '../../data/formulationMaterials';
 import { Field, Select, TextArea, TextInput } from '../ui/Field';
+import { MultiSelectFilter } from '../ui/Filters';
 import { FormStepper, type StepDescriptor } from '../ui/Stepper';
 import { Notice } from '../ui/DemoNotice';
 import { Badge } from '../ui/Badge';
@@ -83,11 +84,51 @@ interface FormState {
   testMaterialCategory: string;
 }
 
+interface UploadRecord {
+  document_id: string;
+  filename?: string;
+  document_type?: string;
+  document_type_label?: string;
+  processing_status?: string;
+  evidence_status?: string;
+  material_id?: string | null;
+  material_ids?: string[];
+  extraction_status?: string;
+}
+
+interface DocumentRow {
+  key: string;
+  documentType: string;
+  materialIds: string[];
+  files: File[];
+}
+
+const DOCUMENT_TYPE_OPTIONS = [
+  { value: 'sds', label: 'SDS' },
+  { value: 'coa', label: 'CoA' },
+  { value: 'lab_report', label: 'Laboratory report' },
+  { value: 'label', label: 'Label / artwork' },
+  { value: 'other', label: 'Other' },
+];
+
+function documentTypeLabel(value?: string) {
+  return DOCUMENT_TYPE_OPTIONS.find((option) => option.value === value)?.label ?? value ?? 'Document';
+}
+
+function uploadMaterials(item: UploadRecord): string[] {
+  if (item.material_ids?.length) return item.material_ids;
+  return item.material_id ? [item.material_id] : [];
+}
+
 let rowCounter = 0;
 const nextKey = () => {
   rowCounter += 1;
   return `row-${rowCounter}`;
 };
+
+function emptyDocumentRow(): DocumentRow {
+  return { key: nextKey(), documentType: 'coa', materialIds: [], files: [] };
+}
 
 function emptyRow(section: 'formulation' | 'contaminant' = 'formulation'): IngredientRow {
   return {
@@ -282,14 +323,11 @@ export function FormulaFormDrawer({
   const [step, setStep] = useState(0);
   const [furthest, setFurthest] = useState(0);
   const [form, setForm] = useState<FormState>(() => toFormState(formula));
-  const [uploads, setUploads] = useState<{ document_id: string; filename?: string; document_type?: string; processing_status?: string; evidence_status?: string; material_id?: string | null; extraction_status?: string }[]>([]);
+  const [uploads, setUploads] = useState<UploadRecord[]>([]);
   const [uploadError, setUploadError] = useState<string>();
-  const [uploading, setUploading] = useState(false);
-  const [docType, setDocType] = useState('coa');
-  const [rowDocTypes, setRowDocTypes] = useState<Record<string, string>>({});
-  const fileInput = useRef<HTMLInputElement>(null);
-  const uploadTarget = useRef<string | undefined>(undefined);
-  const uploadType = useRef('coa');
+  const [uploading, setUploading] = useState<string>();
+  const [docRows, setDocRows] = useState<DocumentRow[]>(() => [emptyDocumentRow()]);
+  const fileInputs = useRef<Record<string, HTMLInputElement | null>>({});
   const [showAllIssues, setShowAllIssues] = useState(false);
   const [substances, setSubstances] = useState<CatalogSubstance[]>([]);
   const [catalogNote, setCatalogNote] = useState('Catalog coverage incomplete.');
@@ -300,9 +338,22 @@ export function FormulaFormDrawer({
     setForm(toFormState(formula));
     setUploads([]);
     setUploadError(undefined);
+    setDocRows([emptyDocumentRow()]);
     setStep(0);
     setFurthest(0);
     setShowAllIssues(false);
+    if (!formula) return;
+    const params = new URLSearchParams({
+      ids: formula.evidenceIds.join(','),
+      material_ids: formula.ingredients.map((ingredient) => ingredient.rawMaterialId).filter(Boolean).join(','),
+    });
+    if (!params.get('ids') && !params.get('material_ids')) return;
+    const controller = new AbortController();
+    fetch(`/api/documents?${params}`, { signal: controller.signal })
+      .then((response) => (response.ok ? response.json() : []))
+      .then((rows: UploadRecord[]) => setUploads(Array.isArray(rows) ? rows : []))
+      .catch(() => undefined);
+    return () => controller.abort();
   }, [open, formula]);
 
   const screeningMarkets = form.targetMarkets.filter((market) => market === 'US' || market === 'EU');
@@ -356,18 +407,27 @@ export function FormulaFormDrawer({
 
   const catalogIds = useMemo(() => new Set(substances.map((item) => item.substance_id)), [substances]);
 
-  const uploadFiles = async (files: FileList | null, materialId?: string, documentType?: string) => {
-    if (!files?.length) return;
-    setUploading(true);
+  const ingredientOptions = form.ingredients
+    .filter((row) => row.rawMaterialId)
+    .map((row) => ({ value: row.rawMaterialId, label: row.name || row.rawMaterialId }));
+  const ingredientLabel = (materialId: string) =>
+    ingredientOptions.find((option) => option.value === materialId)?.label ?? materialId;
+
+  const updateDocRow = (key: string, patch: Partial<DocumentRow>) =>
+    setDocRows((current) => current.map((row) => (row.key === key ? { ...row, ...patch } : row)));
+
+  const uploadRow = async (row: DocumentRow) => {
+    if (!row.files.length) return;
+    setUploading(row.key);
     setUploadError(undefined);
     try {
-      const saved: { document_id: string; filename?: string; document_type?: string; processing_status?: string; evidence_status?: string; material_id?: string | null; extraction_status?: string }[] = [];
-      for (const file of Array.from(files)) {
+      const saved: UploadRecord[] = [];
+      for (const file of row.files) {
         const body = new FormData();
         body.set('file', file);
-        body.set('document_type', documentType || docType);
-        body.set('scope', materialId ? 'material' : 'finished_product');
-        if (materialId) body.set('material_id', materialId);
+        body.set('document_type', row.documentType);
+        body.set('scope', row.materialIds.length ? 'material' : 'finished_product');
+        if (row.materialIds.length) body.set('material_ids', row.materialIds.join(','));
         if (formula?.id) body.set('formula_id', formula.id);
         body.set('regions', form.targetMarkets.filter((market) => market === 'US' || market === 'EU').join(','));
         const response = await fetch('/api/documents', { method: 'POST', body });
@@ -381,14 +441,28 @@ export function FormulaFormDrawer({
       setUploads((current) => [...saved, ...current]);
       setForm((current) => ({
         ...current,
-        evidenceIds: Array.from(new Set([...current.evidenceIds, ...saved.map((item) => item.document_id as string)])),
+        evidenceIds: Array.from(new Set([...current.evidenceIds, ...saved.map((item) => item.document_id)])),
       }));
+      setDocRows((current) => {
+        const remaining = current.filter((item) => item.key !== row.key);
+        return remaining.length ? remaining : [emptyDocumentRow()];
+      });
     } catch (cause) {
       setUploadError(cause instanceof Error ? cause.message : 'The document was not saved.');
     } finally {
-      setUploading(false);
-      if (fileInput.current) fileInput.current.value = '';
+      setUploading(undefined);
     }
+  };
+
+  const removeUpload = async (documentId: string) => {
+    setUploadError(undefined);
+    const response = await fetch(`/api/documents/${documentId}`, { method: 'DELETE' }).catch(() => undefined);
+    if (response && !response.ok && response.status !== 404) {
+      setUploadError('The document could not be removed.');
+      return;
+    }
+    setUploads((current) => current.filter((row) => row.document_id !== documentId));
+    update('evidenceIds', form.evidenceIds.filter((id) => id !== documentId));
   };
 
   const update = <K extends keyof FormState>(key: K, value: FormState[K]) =>
@@ -498,14 +572,6 @@ export function FormulaFormDrawer({
       }
     >
       <div className="space-y-5">
-        <input
-          ref={fileInput}
-          type="file"
-          accept="application/pdf,.pdf"
-          multiple
-          className="hidden"
-          onChange={(event) => void uploadFiles(event.target.files, uploadTarget.current, uploadType.current)}
-        />
         <FormStepper steps={STEPS} current={step} furthest={furthest} onSelect={goTo} />
 
         {step === 0 ? (
@@ -675,7 +741,7 @@ export function FormulaFormDrawer({
         {step === 1 ? (
           <div className="space-y-4">
             <Notice tone="warning" title="Selection list, not a recipe">
-              Choose a substance from the dropdown. Material type and CAS fill in from that selection. You enter the concentration and can attach an SDS, CoA, laboratory report, or other file to that ingredient. {catalogNote} This list is not a Crayola recipe.
+              Choose a substance from the dropdown. Material type and CAS fill in from that selection. You enter the concentration. SDS, CoA, and other files are uploaded and mapped to ingredients in the next step. {catalogNote} This list is not a Crayola recipe.
             </Notice>
             <Field label="Composition declaration">
               <Select
@@ -725,7 +791,7 @@ export function FormulaFormDrawer({
                 const analyteOptions = substances
                   .filter((item) => item.role !== 'formulation_ingredient')
                   .map((item) => ({ value: item.substance_id, label: item.label }));
-                const linkedDocs = uploads.filter((item) => item.material_id === row.rawMaterialId && row.rawMaterialId);
+                const linkedDocs = uploads.filter((item) => row.rawMaterialId && uploadMaterials(item).includes(row.rawMaterialId));
                 return (
                   <div
                     key={row.key}
@@ -849,7 +915,7 @@ export function FormulaFormDrawer({
                           </Field>
                         </>
                       ) : (
-                        <Field label="Concentration %" className="sm:col-span-3">
+                        <Field label="% W/W" className="sm:col-span-3">
                           <TextInput
                             inputMode="decimal"
                             value={row.concentrationText}
@@ -861,40 +927,10 @@ export function FormulaFormDrawer({
                         </Field>
                       )}
 
-                      <Field label="Document for this ingredient" className="sm:col-span-4">
-                        <Select
-                          value={rowDocTypes[row.key] || 'coa'}
-                          options={[
-                            { value: 'sds', label: 'SDS' },
-                            { value: 'coa', label: 'CoA' },
-                            { value: 'lab_report', label: 'Laboratory report' },
-                            { value: 'other', label: 'Other' },
-                          ]}
-                          onChange={(event) => setRowDocTypes((current) => ({ ...current, [row.key]: event.target.value }))}
-                        />
-                      </Field>
-                      <div className="sm:col-span-8 flex flex-wrap items-end gap-2">
-                        <Button
-                          type="button"
-                          onClick={() => {
-                            uploadTarget.current = row.rawMaterialId;
-                            uploadType.current = rowDocTypes[row.key] || 'coa';
-                            fileInput.current?.click();
-                          }}
-                          disabled={!row.rawMaterialId || uploading}
-                        >
-                          Attach to this ingredient
-                        </Button>
-                        <p className="text-xs text-muted">A linked file is not verified evidence.</p>
-                      </div>
                       {linkedDocs.length > 0 ? (
-                        <ul className="sm:col-span-12 space-y-1">
-                          {linkedDocs.map((item) => (
-                            <li key={item.document_id} className="text-[13px] text-muted">
-                              {item.filename || item.document_id} · {item.document_type}
-                            </li>
-                          ))}
-                        </ul>
+                        <p className="sm:col-span-12 text-[13px] text-muted">
+                          Documents on file: {linkedDocs.map((item) => `${documentTypeLabel(item.document_type)} (${item.filename || item.document_id})`).join(', ')}
+                        </p>
                       ) : null}
                     </div>
                     <details className="mt-3">
@@ -960,55 +996,113 @@ export function FormulaFormDrawer({
               <div>
                 <p className="text-sm font-medium text-ink">Upload documents</p>
                 <p className="mt-1 text-[13px] leading-6 text-muted">
-                  Upload SDS, CoA, laboratory reports, or other PDFs that apply to this formula. Ingredient files are attached on the ingredient row.
+                  Choose the document type, map it to one or more ingredients, and upload the PDF. An SDS or CoA mapped to an ingredient counts as on file for that ingredient. Leave ingredients empty for a product-level file.
                 </p>
               </div>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <Field label="Document type">
-                  <Select
-                    value={docType}
-                    options={[
-                      { value: 'sds', label: 'SDS' },
-                      { value: 'coa', label: 'CoA' },
-                      { value: 'lab_report', label: 'Laboratory report' },
-                      { value: 'label', label: 'Label / artwork' },
-                      { value: 'other', label: 'Other' },
-                    ]}
-                    onChange={(event) => setDocType(event.target.value)}
-                  />
-                </Field>
+              {ingredientOptions.length === 0 ? (
+                <Notice tone="warning" title="No ingredients selected yet">
+                  Add ingredients in the previous step to map documents to them.
+                </Notice>
+              ) : null}
+              <div className="space-y-3">
+                {docRows.map((row, index) => (
+                  <div key={row.key} className="rounded-lg border border-line bg-canvas/50 p-3">
+                    <div className="mb-2 flex items-center justify-between">
+                      <span className="text-[11px] font-semibold tracking-wide text-subtle uppercase">Document {index + 1}</span>
+                      {docRows.length > 1 ? (
+                        <button
+                          type="button"
+                          onClick={() => setDocRows((current) => current.filter((item) => item.key !== row.key))}
+                          aria-label={`Remove document row ${index + 1}`}
+                          className="rounded p-1 text-muted transition-colors hover:bg-danger-soft hover:text-danger"
+                        >
+                          <Trash2 aria-hidden className="size-4" />
+                        </button>
+                      ) : null}
+                    </div>
+                    <div className="grid gap-3 sm:grid-cols-12">
+                      <Field label="Document type" className="sm:col-span-4">
+                        <Select
+                          value={row.documentType}
+                          options={DOCUMENT_TYPE_OPTIONS}
+                          onChange={(event) => updateDocRow(row.key, { documentType: event.target.value })}
+                        />
+                      </Field>
+                      <Field label="Ingredients" className="sm:col-span-8">
+                        <MultiSelectFilter
+                          label="Ingredients"
+                          options={ingredientOptions}
+                          selected={row.materialIds.filter((id) => ingredientOptions.some((option) => option.value === id))}
+                          onChange={(values) => updateDocRow(row.key, { materialIds: values })}
+                          emptyLabel="Whole product"
+                          width="w-full"
+                          disabled={ingredientOptions.length === 0}
+                        />
+                      </Field>
+                      <div className="sm:col-span-12 flex flex-wrap items-center gap-2">
+                        <input
+                          ref={(element) => {
+                            fileInputs.current[row.key] = element;
+                          }}
+                          type="file"
+                          accept="application/pdf,.pdf"
+                          multiple
+                          className="hidden"
+                          onChange={(event) => {
+                            updateDocRow(row.key, { files: Array.from(event.target.files ?? []) });
+                            event.target.value = '';
+                          }}
+                        />
+                        <Button onClick={() => fileInputs.current[row.key]?.click()} disabled={Boolean(uploading)}>
+                          Choose PDF
+                        </Button>
+                        <span className="min-w-0 flex-1 truncate text-[13px] text-muted">
+                          {row.files.length ? row.files.map((file) => file.name).join(', ') : 'No file chosen'}
+                        </span>
+                        <Button
+                          variant="primary"
+                          onClick={() => void uploadRow(row)}
+                          loading={uploading === row.key}
+                          disabled={!row.files.length || Boolean(uploading)}
+                        >
+                          Upload
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
               <Button
-                onClick={() => {
-                  uploadTarget.current = undefined;
-                  uploadType.current = docType;
-                  fileInput.current?.click();
-                }}
-                loading={uploading}
+                variant="subtle"
+                onClick={() => setDocRows((current) => [...current, emptyDocumentRow()])}
+                icon={<Plus aria-hidden className="size-4" />}
               >
-                Choose PDF files
+                Add another document
               </Button>
               {uploadError ? <p className="text-sm text-danger">{uploadError}</p> : null}
-              <ul className="space-y-2">
-                {uploads.filter((item) => !item.material_id).map((item) => (
-                  <li key={item.document_id} className="rounded-lg border border-line px-3 py-2 text-[13px] leading-6">
-                    <p className="font-medium text-ink">{item.filename || item.document_id}</p>
-                    <p className="text-muted">
-                      {item.document_type} · processing {item.processing_status || item.extraction_status || 'processed'} · evidence {item.evidence_status || 'pending review'}
-                    </p>
-                    <button
-                      type="button"
-                      className="text-brand-500 hover:underline"
-                      onClick={() => {
-                        setUploads((current) => current.filter((row) => row.document_id !== item.document_id));
-                        update('evidenceIds', form.evidenceIds.filter((id) => id !== item.document_id));
-                      }}
-                    >
-                      Remove
-                    </button>
-                  </li>
-                ))}
-              </ul>
+              {uploads.length > 0 ? (
+                <div className="space-y-2">
+                  <p className="text-[13px] font-medium text-ink">Documents on file</p>
+                  <ul className="space-y-2">
+                    {uploads.map((item) => {
+                      const mapped = uploadMaterials(item);
+                      return (
+                        <li key={item.document_id} className="flex flex-wrap items-start justify-between gap-2 rounded-lg border border-line px-3 py-2 text-[13px] leading-6">
+                          <div className="min-w-0">
+                            <p className="truncate font-medium text-ink">{item.filename || item.document_id}</p>
+                            <p className="text-muted">
+                              {documentTypeLabel(item.document_type)} · {mapped.length ? mapped.map(ingredientLabel).join(', ') : 'Whole product'}
+                            </p>
+                          </div>
+                          <button type="button" className="text-brand-500 hover:underline" onClick={() => void removeUpload(item.document_id)}>
+                            Remove
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              ) : null}
             </div>
 
             <IssueList issues={stepIssues} />
@@ -1029,7 +1123,7 @@ export function FormulaFormDrawer({
                   ['Reviewer', personName(form.reviewerId)],
                   ['Ingredients', String(form.ingredients.filter((row) => row.name.trim()).length)],
                   ['Composition total', formatConcentration(total)],
-                  ['Linked documents', String(form.evidenceIds.length)],
+                  ['Linked documents', String(Math.max(uploads.length, form.evidenceIds.length))],
                 ].map(([label, value]) => (
                   <div key={label}>
                     <dt className="text-[11px] font-semibold tracking-wide text-subtle uppercase">{label}</dt>
@@ -1047,9 +1141,10 @@ export function FormulaFormDrawer({
                   <p className="text-muted">
                     {row.compositionType || 'Material type not set'} · CAS {row.casNumber || 'not listed'} · {row.section === 'contaminant' ? `Result ${row.measuredText || '—'} ${row.measuredUnit}` : `${row.concentrationText || '—'}%`}
                   </p>
-                  <p className="text-muted">
-                    {uploads.filter((item) => item.material_id === row.rawMaterialId && row.rawMaterialId).length} document{uploads.filter((item) => item.material_id === row.rawMaterialId && row.rawMaterialId).length === 1 ? '' : 's'} attached to this ingredient
-                  </p>
+                  {(() => {
+                    const count = uploads.filter((item) => row.rawMaterialId && uploadMaterials(item).includes(row.rawMaterialId)).length;
+                    return <p className="text-muted">{count} document{count === 1 ? '' : 's'} mapped to this ingredient</p>;
+                  })()}
                 </div>
               ))}
             </div>
@@ -1058,13 +1153,13 @@ export function FormulaFormDrawer({
               <Notice tone="warning" title="Input is incomplete">
                 {validation.missingFieldLabels.join(', ') || 'Fix the items above'}. You can still save a draft. Saving does not run an assessment.
               </Notice>
-            ) : form.evidenceIds.length === 0 ? (
+            ) : form.evidenceIds.length === 0 && uploads.length === 0 ? (
               <Notice tone="warning" title="Input can be saved. Evidence is not sufficient.">
                 No documents are linked. An assessment can still run and will treat the missing documents as uncertainty. Saving does not complete an assessment.
               </Notice>
             ) : (
               <Notice tone="success" title="Input is complete">
-                Documents are linked and still need processing and review. A processed file is not verified evidence, and this save does not run an assessment.
+                Documents are mapped to ingredients and count as on file at the next screening. This save does not run an assessment.
               </Notice>
             )}
 

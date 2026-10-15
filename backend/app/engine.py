@@ -1299,7 +1299,7 @@ def screen_status(context: dict) -> tuple[str, dict]:
     by_region = {}
     for region in context["formula"]["regions"]:
         status = _region_status(
-            [item for item in context["calculated_checks"] if item["region"] == region],
+            [item for item in context["calculated_checks"] if item["region"] in {region, "ALL"}],
             [item for item in context["evidence_checks"] if item["region"] == region],
         )
         by_region[region] = {"screening_status": status, "regulatory_status": "not_assessed", "ap_cl_decision": None}

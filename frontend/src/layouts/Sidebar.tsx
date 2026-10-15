@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 import {
   Bookmark,
   Boxes,
-  History,
+  Database,
   LayoutDashboard,
   PanelLeftClose,
   PanelLeftOpen,
@@ -15,9 +15,9 @@ import { cn } from '../utils/cn';
 const NAV_ITEMS = [
   { to: '/', label: 'Overview', icon: LayoutDashboard, end: true },
   { to: '/formulas', label: 'Latest Result', icon: TestTubes, end: false },
-  { to: '/submissions', label: 'Submission History', icon: History, end: false },
   { to: '/watchlist', label: 'Watchlist', icon: Bookmark, end: false },
-  { to: '/materials', label: 'Raw Materials', icon: Boxes, end: false },
+  { to: '/materials', label: 'Ingredient Library', icon: Boxes, end: false },
+  { to: '/data-sources', label: 'Data sources', icon: Database, end: false },
 ];
 
 export function Sidebar({

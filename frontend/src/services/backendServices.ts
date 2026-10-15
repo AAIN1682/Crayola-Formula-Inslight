@@ -9,6 +9,7 @@ import type {
   SearchResult,
 } from '../types/services';
 import type { DemoStore } from '../state/store';
+import { PEOPLE } from '../data/seed';
 import {
   applyPersistedScreeningStatus,
   archiveStoredFormula,
@@ -71,7 +72,8 @@ export function formulaRecordKey(formula: Formula): string {
 export function createBackendServices(store: DemoStore): FormulaInsightServices {
   const local = createMockServices(store);
   const personName = (id?: string) =>
-    store.getState().people.find((person) => person.id === id)?.name ?? 'Unassigned';
+    (store.getState().people.find((person) => person.id === id) ?? PEOPLE.find((person) => person.id === id))?.name ??
+    'Unassigned';
 
   const withStatus = async (formula: Formula) => {
     const saved = await fetchPersistedScreeningStatuses();

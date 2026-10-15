@@ -48,7 +48,7 @@ function MaterialDrawer({ materialId, onClose }: { materialId: string; onClose: 
         open
         onClose={onClose}
         width="lg"
-        eyebrow="Raw material"
+        eyebrow="Ingredient"
         title={material?.name ?? materialId}
         subtitle={material ? `${material.id} · ${material.supplier} · ${material.role}` : undefined}
         footer={<Button onClick={onClose}>Close</Button>}
@@ -233,8 +233,8 @@ export function RawMaterialsPage() {
 
   const exportCsv = () => {
     if (!data) return;
-    downloadCsv(timestampedFilename('raw-materials', 'csv'), data, [
-      { header: 'Material ID', value: (row) => row.id },
+    downloadCsv(timestampedFilename('ingredient-library', 'csv'), data, [
+      { header: 'Ingredient ID', value: (row) => row.id },
       { header: 'Name', value: (row) => row.name },
       { header: 'Supplier', value: (row) => row.supplier },
       { header: 'Functional role', value: (row) => row.role },
@@ -243,7 +243,7 @@ export function RawMaterialsPage() {
       { header: 'Evidence completeness %', value: (row) => row.evidenceCompleteness },
       { header: 'Formulas using', value: (row) => row.usageCount },
     ]);
-    toast.success('CSV downloaded', `${data.length} materials exported.`);
+    toast.success('CSV downloaded', `${data.length} ingredients exported.`);
   };
 
   const activeFilters = [
@@ -261,8 +261,8 @@ export function RawMaterialsPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Raw Materials"
-        description="Catalog of materials referenced by the formulas in this workspace, with the supporting documents the demo checks look for. Identifiers and suppliers are fictional."
+        title="Ingredient Library"
+        description="Catalog of ingredients referenced by the formulas in this workspace, with the supporting documents the demo checks look for. Identifiers and suppliers are fictional."
         actions={
           <Button onClick={exportCsv} disabled={!data || data.length === 0} icon={<Download aria-hidden className="size-4" />}>
             Export CSV
@@ -275,8 +275,8 @@ export function RawMaterialsPage() {
           <SearchInput
             value={query}
             onChange={setQuery}
-            label="Search raw materials"
-            placeholder="Search by material, ID or supplier…"
+            label="Search ingredients"
+            placeholder="Search by ingredient, ID or supplier…"
             className="w-full sm:w-72"
           />
           <MultiSelectFilter label="Role" options={roleOptions} selected={roles} onChange={setRoles} width="w-52" />
@@ -320,19 +320,19 @@ export function RawMaterialsPage() {
         {error ? (
           <ErrorState message={error} onRetry={reload} />
         ) : loading && !data ? (
-          <LoadingState label="Loading raw materials…" rows={6} />
+          <LoadingState label="Loading ingredients…" rows={6} />
         ) : !data || data.length === 0 ? (
           <EmptyState
             variant="search"
-            title="No materials match these filters"
+            title="No ingredients match these filters"
             message="Try a different search term or clear the filters."
           />
         ) : (
           <TableScroll>
-            <Table caption="Raw material catalog">
+            <Table caption="Ingredient library">
               <THead>
                 <tr>
-                  <Th>Material</Th>
+                  <Th>Ingredient</Th>
                   <Th>Supplier</Th>
                   <Th>Functional role</Th>
                   <Th className="text-right">Documents</Th>

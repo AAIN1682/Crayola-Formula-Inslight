@@ -692,7 +692,7 @@ export function mapPackageAssessment(result: PackageAssessment) {
         id: item.check_id,
         severity: item.status === 'fail' ? 'high' as const : item.status === 'pass' ? 'info' as const : 'medium' as const,
         scope: 'ingredient' as const,
-        reference: `${names.get(item.material_id ?? '') ?? item.material_id} · ${item.region}`,
+        reference: `${names.get(item.material_id ?? '') ?? item.material_id} · ${item.region === 'ALL' ? 'All regions' : item.region}`,
         ruleId: item.rule_id || item.check_id,
         concern: `${item.status === 'pass' ? 'Passed' : item.status === 'fail' ? 'Failed' : item.status === 'needs_test_data' ? 'Needs test data' : item.status === 'source_review_required' ? 'Source review required' : item.status === 'applicability_unknown' ? 'Applicability unknown' : item.status === 'no_matching_rule' ? 'No matching rule' : 'Not assessed'}: ${names.get(item.material_id ?? '') ?? item.material_id}${item.actual == null ? '' : ` · ${item.actual}`}`,
         explanation: generated?.explanation || [

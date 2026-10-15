@@ -11,6 +11,18 @@ import { downloadCsv, timestampedFilename } from '../../utils/export';
 import { formatConcentration } from '../../utils/formatting';
 import { CONCENTRATION_TOLERANCE, sumConcentrations, isTotalWithinTolerance } from '../../utils/validation';
 import { useToast } from '../../components/ui/Toast';
+import { formulationMaterial } from '../../data/formulationMaterials';
+import type { Ingredient } from '../../types/domain';
+
+const CAS_SUFFIX = /\s+—\s+(\d{2,7}-\d{2}-\d)$/;
+
+function ingredientType(ingredient: Ingredient) {
+  return ingredient.compositionType || formulationMaterial(ingredient.rawMaterialId ?? '')?.materialType || '';
+}
+
+function ingredientCas(ingredient: Ingredient) {
+  return formulationMaterial(ingredient.rawMaterialId ?? '')?.casNumber || ingredient.name.match(CAS_SUFFIX)?.[1] || '';
+}
 
 export function IngredientsTab() {
   const detail = useFormulaDetail();
@@ -30,9 +42,11 @@ export function IngredientsTab() {
       timestampedFilename(`${formula.id}-ingredients`, 'csv'),
       formula.ingredients,
       [
-        { header: 'Ingredient', value: (row) => row.name },
+        { header: 'Ingredient', value: (row) => row.name.replace(CAS_SUFFIX, '') },
+        { header: 'Ingredient type', value: (row) => ingredientType(row) },
+        { header: 'CAS number', value: (row) => ingredientCas(row) },
         { header: 'Raw material', value: (row) => row.rawMaterialId ?? 'Not linked' },
-        { header: 'Concentration %', value: (row) => row.concentration },
+        { header: '% W/W', value: (row) => row.concentration },
         { header: 'Supplier', value: (row) => row.supplier ?? '' },
         {
           header: 'Evidence complete',
@@ -66,8 +80,10 @@ export function IngredientsTab() {
               <THead>
                 <tr>
                   <Th>Ingredient</Th>
+                  <Th>Type</Th>
+                  <Th>CAS number</Th>
                   <Th>Raw material</Th>
-                  <Th className="text-right">Concentration</Th>
+                  <Th className="text-right">% W/W</Th>
                   <Th>Supplier</Th>
                   <Th>Evidence</Th>
                 </tr>
@@ -84,7 +100,7 @@ export function IngredientsTab() {
                         <PrimaryCell
                           title={
                             <span className="flex items-center gap-2">
-                              {ingredient.name}
+                              {ingredient.name.replace(CAS_SUFFIX, '')}
                               {ingredient.addedInVersion === formula.version ? (
                                 <Badge tone="info">New in {formula.version}</Badge>
                               ) : null}
@@ -93,6 +109,8 @@ export function IngredientsTab() {
                           subtitle={ingredient.notes}
                         />
                       </Td>
+                      <Td className="text-muted">{ingredientType(ingredient) || '—'}</Td>
+                      <Td className="whitespace-nowrap text-muted tabular">{ingredientCas(ingredient) || '—'}</Td>
                       <Td>
                         {unmapped ? (
                           <Badge tone="warning" icon={<AlertTriangle aria-hidden className="size-3.5" />}>
@@ -125,7 +143,7 @@ export function IngredientsTab() {
               </TBody>
               <tfoot className="border-t border-line bg-canvas/70">
                 <tr>
-                  <td className="px-4 py-2.5 text-[13px] font-medium text-ink" colSpan={2}>
+                  <td className="px-4 py-2.5 text-[13px] font-medium text-ink" colSpan={4}>
                     Composition total
                   </td>
                   <td className="px-4 py-2.5 text-right text-[13px] font-semibold tabular">

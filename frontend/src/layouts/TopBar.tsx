@@ -20,9 +20,10 @@ interface Crumb {
 
 const STATIC_LABELS: Record<string, string> = {
   formulas: 'Latest Result',
+  'data-sources': 'Data sources',
   submissions: 'Submission History',
   watchlist: 'Watchlist',
-  materials: 'Raw Materials',
+  materials: 'Ingredient Library',
   settings: 'Preferences',
   ingredients: 'Ingredients',
   evidence: 'Evidence',
@@ -129,8 +130,8 @@ function GlobalSearch() {
       <input
         type="search"
         value={query}
-        aria-label="Search formulas and raw materials"
-        placeholder="Search formulas, raw materials, submissions…"
+        aria-label="Search formulas and ingredients"
+        placeholder="Search formulas, ingredients, submissions…"
         onChange={(event) => {
           setQuery(event.target.value);
           setOpen(true);
@@ -149,7 +150,7 @@ function GlobalSearch() {
             <p className="px-4 py-3 text-[13px] text-muted">Searching…</p>
           ) : results.length === 0 ? (
             <p className="px-4 py-3 text-[13px] text-muted">
-              No formulas, raw materials or submissions match “{query}”.
+              No formulas, ingredients or submissions match “{query}”.
             </p>
           ) : (
             <ul className="max-h-80 overflow-y-auto py-1">

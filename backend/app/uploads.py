@@ -193,9 +193,15 @@ def save_upload(content: bytes, original_filename: str, metadata: dict) -> dict:
     document_type = str(metadata.get("document_type") or "")
     if document_type not in DOCUMENT_TYPES:
         raise UploadError("Choose a document type from the list.")
-    scope = str(metadata.get("scope") or "")
+    material_ids = [str(item).strip() for item in metadata.get("material_ids") or [] if str(item or "").strip()]
+    if metadata.get("material_id") and str(metadata["material_id"]).strip() not in material_ids:
+        material_ids.insert(0, str(metadata["material_id"]).strip())
+    material_ids = list(dict.fromkeys(material_ids))
+    scope = str(metadata.get("scope") or ("material" if material_ids else ""))
     if scope not in {"material", "finished_product"}:
         raise UploadError("Scope must be material or finished product.")
+    if scope == "material" and not material_ids:
+        raise UploadError("Select at least one ingredient for this document.")
     safe_name = re.sub(r"[^A-Za-z0-9._-]+", "_", Path(original_filename or "upload.pdf").name).strip("._")[:120] or "upload.pdf"
     document_id = "UPL-" + uuid4().hex[:12]
     digest = hashlib.sha256(content).hexdigest()
@@ -240,7 +246,8 @@ def save_upload(content: bytes, original_filename: str, metadata: dict) -> dict:
         "document_type": document_type,
         "document_type_label": DOCUMENT_TYPES[document_type],
         "scope": scope,
-        "material_id": metadata.get("material_id") or None,
+        "material_id": material_ids[0] if material_ids else None,
+        "material_ids": material_ids,
         "supplier": metadata.get("supplier") or None,
         "grade": metadata.get("grade") or None,
         "batch_id": metadata.get("batch_id") or None,
@@ -278,6 +285,18 @@ def get_upload(document_id: str) -> dict | None:
     return None
 
 
+def delete_upload(document_id: str) -> bool:
+    rows = _read_index()
+    match = next((row for row in rows if row.get("document_id") == document_id), None)
+    if not match:
+        return False
+    path = file_for(document_id)
+    if path:
+        path.unlink(missing_ok=True)
+    _write_index([row for row in rows if row.get("document_id") != document_id])
+    return True
+
+
 def review_upload(document_id: str, corrections: list[dict]) -> dict:
     rows = _read_index()
     match = next((row for row in rows if row.get("document_id") == document_id), None)
@@ -307,6 +326,13 @@ def review_upload(document_id: str, corrections: list[dict]) -> dict:
     return _public(match)
 
 
+def document_material_ids(document: dict) -> set[str]:
+    ids = {str(item) for item in document.get("material_ids") or [] if item}
+    if document.get("material_id"):
+        ids.add(str(document["material_id"]))
+    return ids
+
+
 def documents_for_formula(formula: dict) -> list[dict]:
     wanted = set(formula.get("document_ids") or [])
     formula_id = formula.get("formula_id")
@@ -322,7 +348,7 @@ def documents_for_formula(formula: dict) -> list[dict]:
     for row in _read_index():
         linked = row["document_id"] in wanted
         same_formula = formula_id and row.get("formula_id") == formula_id and row.get("version_id") in {None, version_id}
-        same_material = row.get("material_id") in materials
+        same_material = bool(document_material_ids(row) & materials)
         region_ok = not row.get("regions") or bool(regions.intersection(row.get("regions") or []))
         if (linked or same_formula or same_material) and region_ok:
             selected.append(_public(row))

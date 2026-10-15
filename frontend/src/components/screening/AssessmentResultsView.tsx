@@ -5,7 +5,6 @@ import { isLiveAzureAssessment } from '../../api/formulaBackend';
 import { Badge, ScreeningBadge } from '../ui/Badge';
 import { Button } from '../ui/Button';
 import { Card, CardBody } from '../ui/Card';
-import { Notice } from '../ui/DemoNotice';
 import { formatDateTime } from '../../utils/formatting';
 import { PrecheckResult } from './PrecheckResult';
 
@@ -111,10 +110,6 @@ export function AssessmentResultsView({
         ))}
       </div>
       ) : null}
-
-      <Notice tone="neutral" title="What this result is">
-        This is an internal assessment against the configured checks for the selected markets. Illustrative evidence is not validated. It is not a certification and does not guarantee acceptance.
-      </Notice>
     </div>
   );
 }

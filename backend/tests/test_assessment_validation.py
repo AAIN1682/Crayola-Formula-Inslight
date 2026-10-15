@@ -1,6 +1,12 @@
 """LLM assessment schema checks. These do not call Azure."""
 
-from app.llm import clean_demo_decisions, validate_assessment
+from app.llm import _document_text, clean_demo_decisions, repair_assessment, validate_assessment
+
+
+def _repair_then_validate(payload: dict, context: dict):
+    repaired, repairs = repair_assessment(payload, context)
+    validated, errors = validate_assessment(repaired, context)
+    return validated, errors, repairs
 
 
 def _context() -> dict:
@@ -155,47 +161,50 @@ def test_overall_score_is_the_sum_of_critical_high_and_low_ratings():
     assert [item["score_points"] for item in matched] == [26, 0]
 
 
-def test_model_knowledge_can_compare_a_concentration_when_no_threshold_was_supplied():
+def _model_knowledge_failure() -> dict:
     payload = _payload()
     payload["findings"][0]["status"] = "does_not_meet_rule"
     payload["findings"][0]["rule_id"] = None
     payload["findings"][0]["source_ids"] = []
     payload["findings"][0]["limit_basis"] = "model_knowledge"
-    payload["findings"][0]["reason"] = "Entered: 8%.\nLimit: 1% from model knowledge, not a supplied threshold file.\nComparison: above the limit.\nPointer: lower the concentration."
+    payload["findings"][0]["reason"] = "Entered: 8%.\nLimit: 1% from model knowledge.\nComparison: above the limit.\nPointer: lower the concentration."
     payload["screening_outcome"] = "changes_indicated"
     payload["preliminary_prediction"]["outcome"] = "cl_leaning"
     payload["preliminary_prediction"]["source_ids"] = []
-    validated, errors = validate_assessment(payload, _context())
-    assert errors == []
-    assert validated["findings"][0]["limit_basis"] == "model_knowledge"
+    return payload
 
 
-def test_model_knowledge_cannot_override_a_supplied_pass_or_fail():
-    context = _context()
-    context["calculated_checks"][0]["status"] = "fail"
-    context["calculated_checks"][0]["actual"] = 8
-    payload = _payload()
-    payload["findings"][0]["status"] = "meets_rule"
-    payload["findings"][0]["limit_basis"] = "model_knowledge"
-    payload["findings"][0]["reason"] = "Entered: 8%.\nLimit: 10% from model knowledge.\nComparison: within the limit."
-    validated, errors = validate_assessment(payload, context)
+def test_a_model_knowledge_limit_is_not_accepted_as_a_failure():
+    validated, errors = validate_assessment(_model_knowledge_failure(), _context())
     assert validated is None
-    assert any("model knowledge" in item for item in errors)
+    assert any("does_not_meet_rule" in item for item in errors)
 
 
-def test_spaced_model_knowledge_basis_is_accepted():
+def test_repair_turns_a_model_knowledge_failure_into_a_gap():
+    validated, errors, _ = _repair_then_validate(_model_knowledge_failure(), _context())
+    assert errors == []
+    assert validated["findings"][0]["status"] == "testing_required"
+    assert validated["findings"][0]["limit_basis"] is None
+    assert "Limit:" not in validated["findings"][0]["reason"]
+    assert validated["preliminary_prediction"]["outcome"] == "indeterminate"
+
+
+def test_repair_writes_the_limit_lines_from_the_backend_check():
+    context = _context()
+    context["calculated_checks"][0].update({"status": "fail", "actual": 16.0, "threshold": 15.0})
     payload = _payload()
     payload["findings"][0]["status"] = "does_not_meet_rule"
-    payload["findings"][0]["rule_id"] = None
-    payload["findings"][0]["source_ids"] = []
-    payload["findings"][0]["limit_basis"] = "model knowledge"
-    payload["findings"][0]["reason"] = "Entered: 8%.\nLimit: 1% from model knowledge.\nComparison: above the limit."
+    payload["findings"][0]["reason"] = (
+        "Entered: 16.0% glycerin.\nLimit: 15.0% from the supplied check, on a stated-weight basis.\n"
+        "Comparison: exceeds the ceiling.\nPointer: reduce glycerin and rescreen."
+    )
     payload["screening_outcome"] = "changes_indicated"
     payload["preliminary_prediction"]["outcome"] = "cl_leaning"
-    payload["preliminary_prediction"]["source_ids"] = []
-    validated, errors = validate_assessment(payload, _context())
+    validated, errors, _ = _repair_then_validate(payload, context)
     assert errors == []
-    assert validated["findings"][0]["limit_basis"] == "model_knowledge"
+    assert validated["findings"][0]["reason"] == (
+        "Entered: 16%.\nLimit: 15% from the supplied check.\nComparison: above the limit.\nPointer: reduce glycerin and rescreen."
+    )
 
 
 def test_a_mismatched_observed_value_uses_the_backend_number():
@@ -252,3 +261,90 @@ def test_default_half_estimate_is_rejected_when_evidence_is_missing():
     validated, errors = validate_assessment(payload, _context())
     assert validated is None
     assert any("0.5" in item or "indeterminate" in item for item in errors)
+
+
+def test_repair_drops_unknown_citations_instead_of_failing():
+    payload = _payload()
+    payload["findings"][0]["source_ids"] = ["R1", "ASTM D-4236"]
+    payload["preliminary_prediction"]["source_ids"] = ["CPSIA 2008"]
+    payload["recommendations"][0]["source_ids"] = ["invented-source"]
+    validated, errors, repairs = _repair_then_validate(payload, _context())
+    assert errors == []
+    assert validated["findings"][0]["source_ids"] == ["R1"]
+    assert validated["preliminary_prediction"]["source_ids"] == []
+    assert any("unknown source" in item for item in repairs)
+
+
+def test_repair_removes_leaning_wording_from_an_indeterminate_summary():
+    payload = _payload(assessment_summary="Toluene at 8% has no reviewed CoA, so the formula is CL-leaning until a measurement is supplied.")
+    validated, errors, repairs = _repair_then_validate(payload, _context())
+    assert errors == []
+    assert "leaning" not in validated["assessment_summary"].lower()
+    assert "is indeterminate" in validated["assessment_summary"]
+    assert repairs
+
+
+def test_repair_downgrades_an_unbacked_failure_to_a_gap():
+    payload = _payload()
+    payload["findings"][0]["status"] = "does_not_meet_rule"
+    payload["screening_outcome"] = "changes_indicated"
+    payload["preliminary_prediction"]["outcome"] = "cl_leaning"
+    validated, errors, _ = _repair_then_validate(payload, _context())
+    assert errors == []
+    assert validated["findings"][0]["status"] == "testing_required"
+    assert validated["preliminary_prediction"]["outcome"] == "indeterminate"
+    assert validated["screening_outcome"] == "additional_information_required"
+
+
+def test_repair_uses_the_supplied_result_over_model_knowledge():
+    context = _context()
+    context["calculated_checks"][0]["status"] = "fail"
+    context["calculated_checks"][0]["actual"] = 8
+    payload = _payload()
+    payload["findings"][0]["status"] = "meets_rule"
+    payload["findings"][0]["limit_basis"] = "model_knowledge"
+    payload["findings"][0]["reason"] = "Entered: 8%.\nLimit: 10% from model knowledge.\nComparison: within the limit."
+    validated, errors, _ = _repair_then_validate(payload, context)
+    assert errors == []
+    assert validated["findings"][0]["status"] == "does_not_meet_rule"
+    assert validated["findings"][0]["limit_basis"] == "supplied_check"
+
+
+def test_uploaded_document_text_drops_test_fixture_disclaimers():
+    text = (
+        "SYNTHETIC TEST DOCUMENT | Not supplier-issued | Not valid for safety or batch release\n"
+        "Document ID: TEST-COA-GLYCERIN | Revision: 1.0\n"
+        "Supplier reference (user supplied)\nWilmar International; not issuer, not authenticated\n"
+        "Formula inclusion: 12.00% w/w of finished formula. Simulated CoA values are separate test data."
+    )
+    cleaned = _document_text(text)
+    assert cleaned == (
+        "Document ID: COA-GLYCERIN | Revision: 1.0\n"
+        "Supplier reference (user supplied)\nWilmar International\n"
+        "Formula inclusion: 12.00% w/w of finished formula."
+    )
+
+
+def test_repair_removes_document_authenticity_findings():
+    payload = _payload()
+    payload["findings"].append({
+        "finding_id": "F-2",
+        "ingredient_id": None,
+        "status": "source_review_required",
+        "severity": "high",
+        "title": "Uploaded evidence files are synthetic fixtures",
+        "reason": "Pointer: replace synthetic test fixtures with genuine supplier-issued files.",
+        "source_ids": [],
+    })
+    payload["recommendations"].append({"priority": "high", "action": "Replace the test fixtures with genuine files.", "reason": "", "related_finding_id": "F-2"})
+    validated, errors, _ = _repair_then_validate(payload, _context())
+    assert errors == []
+    assert [item["finding_id"] for item in validated["findings"]] == ["F-1"]
+    assert all("fixture" not in item["action"] for item in validated["recommendations"])
+
+
+def test_repair_does_not_hide_a_certification_claim():
+    payload = _payload(assessment_summary="This formula is certified and guaranteed safe for children of all ages.")
+    validated, errors, _ = _repair_then_validate(payload, _context())
+    assert validated is None
+    assert any("certification" in item for item in errors)

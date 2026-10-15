@@ -177,6 +177,18 @@ describe('routes', () => {
     expect(container.querySelector('nav[aria-label="Primary"]')).not.toBeNull();
   });
 
+  it('renders the Data sources mock with pipeline steps and source rows', async () => {
+    await mountAt('/data-sources');
+
+    expect(text()).toContain('What powers each step');
+    expect(text()).toContain('Rule checks');
+    expect(text()).toContain('Past decisions');
+    expect(text()).toContain('ECHA C&L Inventory');
+    expect(text()).toContain('Needs client data');
+    expect(text()).toContain('Templated answers');
+    expect(container.querySelector('nav[aria-label="Primary"]')?.textContent).toContain('Data sources');
+  });
+
   it('renders the Latest Result page with seeded, paginated rows', async () => {
     await mountAt('/formulas');
 
@@ -219,10 +231,10 @@ describe('routes', () => {
     expect(text()).toContain('historical acceptance does not establish acceptance');
   });
 
-  it('renders the Raw Materials catalog', async () => {
+  it('renders the Ingredient Library catalog', async () => {
     await mountAt('/materials');
 
-    expect(text()).toContain('Raw Materials');
+    expect(text()).toContain('Ingredient Library');
     expect(text()).toContain('RM-101');
     expect(text()).toContain('Aqua Base Concentrate');
   });

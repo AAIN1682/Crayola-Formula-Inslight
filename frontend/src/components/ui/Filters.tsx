@@ -56,6 +56,8 @@ export function MultiSelectFilter({
   onChange,
   className,
   width = 'w-52',
+  emptyLabel = 'All',
+  disabled,
 }: {
   label: string;
   options: FilterOption[];
@@ -63,6 +65,8 @@ export function MultiSelectFilter({
   onChange: (values: string[]) => void;
   className?: string;
   width?: string;
+  emptyLabel?: string;
+  disabled?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -89,7 +93,7 @@ export function MultiSelectFilter({
 
   const summary =
     selected.length === 0
-      ? 'All'
+      ? emptyLabel
       : selected.length === 1
         ? (options.find((option) => option.value === selected[0])?.label ?? '1 selected')
         : `${selected.length} selected`;
@@ -101,8 +105,9 @@ export function MultiSelectFilter({
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
         aria-haspopup="listbox"
+        disabled={disabled}
         className={cn(
-          'flex h-9.5 items-center justify-between gap-2 rounded-lg border bg-surface px-3 text-sm transition-colors',
+          'flex h-9.5 items-center justify-between gap-2 rounded-lg border bg-surface px-3 text-sm transition-colors disabled:cursor-not-allowed disabled:opacity-50',
           width,
           selected.length > 0 ? 'border-brand-300 text-ink' : 'border-line text-muted hover:border-brand-200',
         )}

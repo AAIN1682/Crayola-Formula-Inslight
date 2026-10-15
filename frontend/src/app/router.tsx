@@ -3,6 +3,7 @@ import { AppProviders } from './providers';
 import { AppShell } from '../layouts/AppShell';
 import { NotFoundPage } from '../pages/NotFoundPage';
 import { OverviewPage } from '../pages/OverviewPage';
+import { DataSourcesPage } from '../pages/DataSourcesPage';
 import { FormulaLibraryPage } from '../pages/FormulaLibraryPage';
 import { FormulaDetailsPage } from '../pages/FormulaDetailsPage';
 import { IngredientsTab } from '../pages/formula-tabs/IngredientsTab';
@@ -39,6 +40,7 @@ export const routes: RouteObject[] = [
     ),
     children: [
       { index: true, element: <OverviewPage /> },
+      { path: 'data-sources', element: <DataSourcesPage /> },
       { path: 'formulas', element: <FormulaLibraryPage /> },
       {
         path: 'formulas/:formulaId',

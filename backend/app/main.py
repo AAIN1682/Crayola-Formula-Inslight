@@ -41,7 +41,7 @@ app = FastAPI(title="Affine Formula Screening", version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origin_regex=r"https?://(localhost|127\.0\.0\.1|20\.120\.212\.78)(:\d+)?",
-    allow_methods=["GET", "POST", "PUT"],
+    allow_methods=["GET", "POST", "PUT", "DELETE"],
     allow_headers=["*"],
 )
 
@@ -126,7 +126,7 @@ def _public_context(context: dict) -> dict:
         "source_conflicts": context.get("source_conflicts"),
         "source_excerpts": context.get("source_excerpts"),
         "uploaded_documents": context.get("uploaded_documents") or [],
-        "use_case_thresholds": context.get("use_case_thresholds") or [],
+        "substance_limits": context.get("substance_limits") or [],
         "version_changes": context.get("version_changes"),
         "documented_history": context.get("documented_history"),
         "assessment_limitations": context.get("assessment_limitations"),
@@ -426,8 +426,9 @@ class ReviewBody(BaseModel):
 async def upload_document(
     file: UploadFile = File(...),
     document_type: str = Form(...),
-    scope: str = Form(...),
+    scope: str | None = Form(default=None),
     material_id: str | None = Form(default=None),
+    material_ids: str | None = Form(default=None),
     supplier: str | None = Form(default=None),
     grade: str | None = Form(default=None),
     batch_id: str | None = Form(default=None),
@@ -445,6 +446,7 @@ async def upload_document(
             "document_type": document_type,
             "scope": scope,
             "material_id": material_id,
+            "material_ids": [item.strip() for item in (material_ids or "").split(",") if item.strip()],
             "supplier": supplier,
             "grade": grade,
             "batch_id": batch_id,
@@ -456,6 +458,31 @@ async def upload_document(
     except UploadError as error:
         raise HTTPException(status_code=422, detail=error.message) from error
     return record
+
+
+@app.get("/api/documents")
+def documents(ids: str | None = None, material_ids: str | None = None):
+    from app.uploads import document_material_ids, list_uploads
+
+    wanted = {item.strip() for item in (ids or "").split(",") if item.strip()}
+    materials = {item.strip() for item in (material_ids or "").split(",") if item.strip()}
+    hidden = {"parts", "extracted_fields"}
+    return [
+        {key: value for key, value in row.items() if key not in hidden}
+        for row in list_uploads()
+        if (not wanted and not materials)
+        or row.get("document_id") in wanted
+        or bool(document_material_ids(row) & materials)
+    ]
+
+
+@app.delete("/api/documents/{document_id}")
+def remove_document(document_id: str):
+    from app.uploads import delete_upload
+
+    if not delete_upload(document_id):
+        raise HTTPException(status_code=404, detail="That document is not on file.")
+    return {"document_id": document_id, "deleted": True}
 
 
 @app.get("/api/documents/{document_id}/status")

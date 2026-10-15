@@ -1,0 +1,804 @@
+{
+  "purpose": "One concentration limit per substance. The backend compares each entered concentration with max_percent (pass when entered <= max_percent). Region, category, and age group are not used. Edit max_percent to change a limit; null means no limit is set.",
+  "unit": "% w/w of the finished formula",
+  "substances": [
+    {
+      "substance_id": "s_acenaphthene_83329",
+      "substance": "Acenaphthene",
+      "cas_number": "83-32-9",
+      "max_percent": 5e-05,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_acenaphthylene_208968",
+      "substance": "Acenaphthylene",
+      "cas_number": "208-96-8",
+      "max_percent": 5e-05,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_acetone_67641",
+      "substance": "Acetone",
+      "cas_number": "67-64-1",
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "acid_yellow_23",
+      "substance": "Acid Yellow 23 / Tartrazine",
+      "cas_number": "1934-21-0",
+      "max_percent": 5.0,
+      "derived_from": "use_case_thresholds.json"
+    },
+    {
+      "substance_id": "s_aluminium_7429905",
+      "substance": "Aluminium (Al)",
+      "cas_number": "7429-90-5",
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_anthracene_120127",
+      "substance": "Anthracene",
+      "cas_number": "120-12-7",
+      "max_percent": 5e-05,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_antimony_7440360",
+      "substance": "Antimony (Sb)",
+      "cas_number": "7440-36-0",
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_antimony_trioxide_1309644",
+      "substance": "Antimony Trioxide",
+      "cas_number": "1309-64-4",
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_arsenic_7440382",
+      "substance": "Arsenic (As)",
+      "cas_number": "7440-38-2",
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_azo_dyes_releasing_the_22_listed_aromatic_amines",
+      "substance": "Azo dyes (releasing the 22 listed aromatic amines)",
+      "cas_number": null,
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_barium_7440393",
+      "substance": "Barium (Ba)",
+      "cas_number": "7440-39-3",
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "beeswax",
+      "substance": "Beeswax",
+      "cas_number": "8012-89-3",
+      "max_percent": 15.0,
+      "derived_from": "use_case_thresholds.json"
+    },
+    {
+      "substance_id": "s_benzene_71432",
+      "substance": "Benzene",
+      "cas_number": "71-43-2",
+      "max_percent": 5.0,
+      "derived_from": "us_ 2.json"
+    },
+    {
+      "substance_id": "s_benzidine_based_azo_dyes_92875",
+      "substance": "Benzidine-Based Azo Dyes",
+      "cas_number": "92-87-5",
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_benzo_a_anthracene_56553",
+      "substance": "Benzo[a]anthracene (BaA)",
+      "cas_number": "56-55-3",
+      "max_percent": 5e-05,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_benzo_a_pyrene_50328",
+      "substance": "Benzo[a]pyrene (BaP)",
+      "cas_number": "50-32-8",
+      "max_percent": 5e-05,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_benzo_b_fluoranthene_205992",
+      "substance": "Benzo[b]fluoranthene (BbFA)",
+      "cas_number": "205-99-2",
+      "max_percent": 5e-05,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_benzo_e_pyrene_192972",
+      "substance": "Benzo[e]pyrene (BeP)",
+      "cas_number": "192-97-2",
+      "max_percent": 5e-05,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_benzo_ghi_perylene_191242",
+      "substance": "Benzo[ghi]perylene",
+      "cas_number": "191-24-2",
+      "max_percent": 5e-05,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_benzo_j_fluoranthene_205823",
+      "substance": "Benzo[j]fluoranthene (BjFA)",
+      "cas_number": "205-82-3",
+      "max_percent": 5e-05,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_benzo_k_fluoranthene_207089",
+      "substance": "Benzo[k]fluoranthene (BkFA)",
+      "cas_number": "207-08-9",
+      "max_percent": 5e-05,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_benzyl_butyl_phthalate_85687",
+      "substance": "Benzyl butyl phthalate (BBP)",
+      "cas_number": "85-68-7",
+      "max_percent": 0.1,
+      "derived_from": "us_ 2.json"
+    },
+    {
+      "substance_id": "s_bisphenol_a_bpa",
+      "substance": "Bisphenol A (BPA)",
+      "cas_number": null,
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_borax_sodium_tetraborate_boric_acid",
+      "substance": "Borax / Sodium Tetraborate (Boric Acid)",
+      "cas_number": null,
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_boric_acid_borates_e_g_sodium_borate",
+      "substance": "Boric Acid / Borates (e.g., Sodium Borate)",
+      "cas_number": "10043-35-3, 1303-96-4",
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_boron_7440428",
+      "substance": "Boron (B)",
+      "cas_number": "7440-42-8",
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_cadmium_7440439",
+      "substance": "Cadmium (Cd)",
+      "cas_number": "7440-43-9",
+      "max_percent": 0.1,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_cadmium_pigments_1306236",
+      "substance": "Cadmium Pigments (Cadmium Red/Yellow)",
+      "cas_number": "1306-23-6",
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_cadmium_red_yellow_pigments",
+      "substance": "Cadmium Red/Yellow Pigments",
+      "cas_number": null,
+      "max_percent": 0.1,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "gypsum",
+      "substance": "Calcium Sulfate Dihydrate / Gypsum",
+      "cas_number": "10101-41-4",
+      "max_percent": 70.0,
+      "derived_from": "use_case_thresholds.json"
+    },
+    {
+      "substance_id": "s_chloromethylisothiazolinone_26172554",
+      "substance": "Chloromethylisothiazolinone (CMIT)",
+      "cas_number": "26172-55-4",
+      "max_percent": 7.5e-05,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_chromium_7440473",
+      "substance": "Chromium",
+      "cas_number": "7440-47-3",
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_chromium_16065831",
+      "substance": "Chromium (III)",
+      "cas_number": "16065-83-1",
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_chromium_18540299",
+      "substance": "Chromium (VI)",
+      "cas_number": "18540-29-9",
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_chrysene_218019",
+      "substance": "Chrysene (CHR)",
+      "cas_number": "218-01-9",
+      "max_percent": 5e-05,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_cmr_substances_category_1a",
+      "substance": "CMR substances Category 1A",
+      "cas_number": null,
+      "max_percent": 0.01,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_cmr_substances_category_1b",
+      "substance": "CMR substances Category 1B",
+      "cas_number": null,
+      "max_percent": 0.01,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_cmr_substances_category_2",
+      "substance": "CMR substances Category 2",
+      "cas_number": null,
+      "max_percent": 0.1,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_cobalt_7440484",
+      "substance": "Cobalt (Co)",
+      "cas_number": "7440-48-4",
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_cobalt_aluminate_cobalt_blue",
+      "substance": "Cobalt Aluminate (Cobalt Blue)",
+      "cas_number": null,
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_cobalt_pigments_1345160",
+      "substance": "Cobalt Pigments (Cobalt Blue)",
+      "cas_number": "1345-16-0",
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_copper_7440508",
+      "substance": "Copper (Cu)",
+      "cas_number": "7440-50-8",
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "copper_powder",
+      "substance": "Copper Powder Flakes",
+      "cas_number": "7440-50-8",
+      "max_percent": 1.0,
+      "derived_from": "use_case_thresholds.json"
+    },
+    {
+      "substance_id": "s_dbp",
+      "substance": "DBP",
+      "cas_number": null,
+      "max_percent": 0.1,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_dehp",
+      "substance": "DEHP",
+      "cas_number": null,
+      "max_percent": 0.1,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_di_phthalate_117817",
+      "substance": "Di(2-ethylhexyl) phthalate (DEHP)",
+      "cas_number": "117-81-7",
+      "max_percent": 0.1,
+      "derived_from": "us_ 2.json"
+    },
+    {
+      "substance_id": "s_di_n_hexyl_phthalate_dnhp_or_dnop_84753",
+      "substance": "Di-n-hexyl phthalate (DnHP (or DNOP))",
+      "cas_number": "84-75-3",
+      "max_percent": 0.1,
+      "derived_from": "us_ 2.json"
+    },
+    {
+      "substance_id": "s_di_n_hexyl_phthalate_dphp_117828",
+      "substance": "Di-n-hexyl phthalate (DPHP)",
+      "cas_number": "117-82-8",
+      "max_percent": 0.1,
+      "derived_from": "us_ 2.json"
+    },
+    {
+      "substance_id": "s_di_n_octyl_phthalate_117840",
+      "substance": "Di-n-octyl phthalate (DNOP)",
+      "cas_number": "117-84-0",
+      "max_percent": 0.1,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_di_n_pentyl_phthalate_131180",
+      "substance": "Di-n-pentyl phthalate (DPENP)",
+      "cas_number": "131-18-0",
+      "max_percent": 0.1,
+      "derived_from": "us_ 2.json"
+    },
+    {
+      "substance_id": "s_dibenzo_a_h_anthracene_53703",
+      "substance": "Dibenzo[a,h]anthracene (DBAhA)",
+      "cas_number": "53-70-3",
+      "max_percent": 5e-05,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_dibutyl_phthalate_84742",
+      "substance": "Dibutyl phthalate (DBP)",
+      "cas_number": "84-74-2",
+      "max_percent": 0.1,
+      "derived_from": "us_ 2.json"
+    },
+    {
+      "substance_id": "s_dibutyltin_dbt_compounds",
+      "substance": "Dibutyltin (DBT) compounds",
+      "cas_number": null,
+      "max_percent": 0.1,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_dicyclohexyl_phthalate_84617",
+      "substance": "Dicyclohexyl phthalate (DCHP)",
+      "cas_number": "84-61-7",
+      "max_percent": 0.1,
+      "derived_from": "us_ 2.json"
+    },
+    {
+      "substance_id": "s_didp",
+      "substance": "DIDP",
+      "cas_number": null,
+      "max_percent": 0.1,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_diisobutyl_phthalate_84695",
+      "substance": "Diisobutyl phthalate (DIBP)",
+      "cas_number": "84-69-5",
+      "max_percent": 0.1,
+      "derived_from": "us_ 2.json"
+    },
+    {
+      "substance_id": "s_diisodecyl_phthalate_didp",
+      "substance": "Diisodecyl phthalate (DIDP)",
+      "cas_number": "26761-40-0, 68515-49-1",
+      "max_percent": 0.1,
+      "derived_from": "us_ 2.json"
+    },
+    {
+      "substance_id": "s_diisononyl_phthalate_dinp",
+      "substance": "Diisononyl phthalate (DINP)",
+      "cas_number": "28553-12-0, 68515-48-0",
+      "max_percent": 0.1,
+      "derived_from": "us_ 2.json"
+    },
+    {
+      "substance_id": "s_dinp",
+      "substance": "DINP",
+      "cas_number": null,
+      "max_percent": 0.1,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_dioctyltin_dot_compounds",
+      "substance": "Dioctyltin (DOT) compounds",
+      "cas_number": null,
+      "max_percent": 0.1,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_ethyl_acetate_141786",
+      "substance": "Ethyl Acetate",
+      "cas_number": "141-78-6",
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_ethylene_glycol_107211",
+      "substance": "Ethylene Glycol",
+      "cas_number": "107-21-1",
+      "max_percent": 10.0,
+      "derived_from": "us_ 2.json"
+    },
+    {
+      "substance_id": "talc",
+      "substance": "Fine Grade Talc",
+      "cas_number": "14807-96-6",
+      "max_percent": 2.0,
+      "derived_from": "use_case_thresholds.json"
+    },
+    {
+      "substance_id": "s_fluoranthene_206440",
+      "substance": "Fluoranthene",
+      "cas_number": "206-44-0",
+      "max_percent": 5e-05,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_fluorene_86737",
+      "substance": "Fluorene",
+      "cas_number": "86-73-7",
+      "max_percent": 5e-05,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_formaldehyde_50000",
+      "substance": "Formaldehyde",
+      "cas_number": "50-00-0",
+      "max_percent": 0.1,
+      "derived_from": "us_ 2.json"
+    },
+    {
+      "substance_id": "s_formaldehyde",
+      "substance": "Formaldehyde",
+      "cas_number": null,
+      "max_percent": 0.001,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_formaldehyde_releasers_e_g_bronopol_dmdm_hydantoin",
+      "substance": "Formaldehyde Releasers (e.g., Bronopol, DMDM Hydantoin)",
+      "cas_number": null,
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_formaldehyde_releasers_e_g_dmdm_hydantoin_bronopol_quaternium_15_imidazolidinyl_urea",
+      "substance": "Formaldehyde Releasers (e.g., DMDM Hydantoin, Bronopol, Quaternium-15, Imidazolidinyl Urea)",
+      "cas_number": "Varies",
+      "max_percent": 0.1,
+      "derived_from": "us_ 2.json"
+    },
+    {
+      "substance_id": "s_free_formaldehyde_in_pigments_50000",
+      "substance": "Free Formaldehyde in Pigments",
+      "cas_number": "50-00-0",
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "glycerin",
+      "substance": "Glycerin",
+      "cas_number": "56-81-5",
+      "max_percent": 20.0,
+      "derived_from": "use_case_thresholds.json"
+    },
+    {
+      "substance_id": "s_hexavalent_chromium_13530659",
+      "substance": "Hexavalent Chromium (Zinc Chromate)",
+      "cas_number": "13530-65-9",
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_indeno_1_2_3_cd_pyrene_193395",
+      "substance": "Indeno[1,2,3-cd]pyrene",
+      "cas_number": "193-39-5",
+      "max_percent": 5e-05,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "iron_oxide_red",
+      "substance": "Iron oxide, red",
+      "cas_number": "1309-37-1",
+      "max_percent": 5.0,
+      "derived_from": "use_case_thresholds.json"
+    },
+    {
+      "substance_id": "s_lead_7439921",
+      "substance": "Lead (Pb)",
+      "cas_number": "7439-92-1",
+      "max_percent": 0.009,
+      "derived_from": "us_ 2.json"
+    },
+    {
+      "substance_id": "s_lead_chromate_7758976",
+      "substance": "Lead Chromate (Chrome Yellow/Orange)",
+      "cas_number": "7758-97-6",
+      "max_percent": 0.009,
+      "derived_from": "us_ 2.json"
+    },
+    {
+      "substance_id": "s_lead_chromate_chrome_yellow_orange",
+      "substance": "Lead Chromate (Chrome Yellow/Orange)",
+      "cas_number": null,
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_manganese_7439965",
+      "substance": "Manganese (Mn)",
+      "cas_number": "7439-96-5",
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_mercury_7439976",
+      "substance": "Mercury (Hg)",
+      "cas_number": "7439-97-6",
+      "max_percent": 0.009,
+      "derived_from": "us_ 2.json"
+    },
+    {
+      "substance_id": "s_metallic_inks_glitters",
+      "substance": "Metallic Inks / Glitters",
+      "cas_number": null,
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_methanol",
+      "substance": "Methanol",
+      "cas_number": null,
+      "max_percent": 0.05,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_methanol_67561",
+      "substance": "Methanol (Methyl Alcohol)",
+      "cas_number": "67-56-1",
+      "max_percent": 4.0,
+      "derived_from": "us_ 2.json"
+    },
+    {
+      "substance_id": "s_methylchloroisothiazolinone_26172554",
+      "substance": "Methylchloroisothiazolinone (CMIT)",
+      "cas_number": "26172-55-4",
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_methylisothiazolinone_2682204",
+      "substance": "Methylisothiazolinone (MIT)",
+      "cas_number": "2682-20-4",
+      "max_percent": 2.5e-05,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "microcrystalline_wax",
+      "substance": "Microcrystalline wax",
+      "cas_number": "63231-60-7",
+      "max_percent": 30.0,
+      "derived_from": "use_case_thresholds.json"
+    },
+    {
+      "substance_id": "s_mineral_spirits_naphtha_8052413",
+      "substance": "Mineral Spirits / Naphtha",
+      "cas_number": "8052-41-3",
+      "max_percent": 10.0,
+      "derived_from": "us_ 2.json"
+    },
+    {
+      "substance_id": "s_mineral_spirits_naphtha",
+      "substance": "Mineral Spirits / Naphtha",
+      "cas_number": null,
+      "max_percent": 10.0,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_mit_cmit_kathon",
+      "substance": "MIT / CMIT (Kathon)",
+      "cas_number": null,
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_naphthalene_91203",
+      "substance": "Naphthalene",
+      "cas_number": "91-20-3",
+      "max_percent": 5e-05,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_natural_waxes_beeswax_carnauba",
+      "substance": "Natural Waxes (Beeswax, Carnauba)",
+      "cas_number": null,
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_nickel_7440020",
+      "substance": "Nickel (Ni)",
+      "cas_number": "7440-02-0",
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_nickel_compounds",
+      "substance": "Nickel Compounds",
+      "cas_number": null,
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_nonylphenol_ethoxylates_npe",
+      "substance": "Nonylphenol Ethoxylates (NPE)",
+      "cas_number": null,
+      "max_percent": 0.01,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_organic_tin",
+      "substance": "Organic Tin",
+      "cas_number": "Varies",
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_organotin_compounds_tbt_tpt_dbt_dot",
+      "substance": "Organotin compounds (TBT, TPT, DBT, DOT)",
+      "cas_number": null,
+      "max_percent": 0.1,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "paraffin_wax",
+      "substance": "Paraffin wax",
+      "cas_number": "8002-74-2",
+      "max_percent": 70.0,
+      "derived_from": "use_case_thresholds.json"
+    },
+    {
+      "substance_id": "s_phenanthrene_85018",
+      "substance": "Phenanthrene",
+      "cas_number": "85-01-8",
+      "max_percent": 5e-05,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_phenoxyethanol_122996",
+      "substance": "Phenoxyethanol",
+      "cas_number": "122-99-6",
+      "max_percent": 1.0,
+      "derived_from": "us_ 2.json"
+    },
+    {
+      "substance_id": "s_potassium_sorbate_24634615",
+      "substance": "Potassium Sorbate",
+      "cas_number": "24634-61-5",
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_pyrene_129000",
+      "substance": "Pyrene",
+      "cas_number": "129-00-0",
+      "max_percent": 5e-05,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_reaction_mass_of_cmit_and_mit_55965849",
+      "substance": "Reaction mass of CMIT and MIT (3:1)",
+      "cas_number": "55965-84-9",
+      "max_percent": 0.0001,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_selenium_7782492",
+      "substance": "Selenium (Se)",
+      "cas_number": "7782-49-2",
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_sodium_benzoate_532321",
+      "substance": "Sodium Benzoate",
+      "cas_number": "532-32-1",
+      "max_percent": 0.5,
+      "derived_from": "use_case_thresholds.json"
+    },
+    {
+      "substance_id": "starch_gum",
+      "substance": "Starch Gum",
+      "cas_number": "9005-25-8",
+      "max_percent": 20.0,
+      "derived_from": "use_case_thresholds.json"
+    },
+    {
+      "substance_id": "s_strontium_7440246",
+      "substance": "Strontium (Sr)",
+      "cas_number": "7440-24-6",
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_talc_unpurified",
+      "substance": "Talc (unpurified)",
+      "cas_number": null,
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_tin_7440315",
+      "substance": "Tin (Sn)",
+      "cas_number": "7440-31-5",
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_toluene_108883",
+      "substance": "Toluene",
+      "cas_number": "108-88-3",
+      "max_percent": 10.0,
+      "derived_from": "us_ 2.json"
+    },
+    {
+      "substance_id": "s_toluene",
+      "substance": "Toluene",
+      "cas_number": null,
+      "max_percent": 1.0,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "s_tributyltin_tbt_triphenyltin_tpt_compounds_tri_substituted_organostannic",
+      "substance": "Tributyltin (TBT) / Triphenyltin (TPT) compounds (tri-substituted organostannic)",
+      "cas_number": null,
+      "max_percent": 0.1,
+      "derived_from": "eu_ 2.json"
+    },
+    {
+      "substance_id": "water",
+      "substance": "Water",
+      "cas_number": "7732-18-5",
+      "max_percent": 90.0,
+      "derived_from": "use_case_thresholds.json"
+    },
+    {
+      "substance_id": "s_xylene",
+      "substance": "Xylene",
+      "cas_number": null,
+      "max_percent": null,
+      "derived_from": null
+    },
+    {
+      "substance_id": "s_xylene_1330207",
+      "substance": "Xylene (o-, m-, p-)",
+      "cas_number": "1330-20-7",
+      "max_percent": 10.0,
+      "derived_from": "us_ 2.json"
+    },
+    {
+      "substance_id": "s_zinc_7440666",
+      "substance": "Zinc (Zn)",
+      "cas_number": "7440-66-6",
+      "max_percent": null,
+      "derived_from": null
+    }
+  ]
+}

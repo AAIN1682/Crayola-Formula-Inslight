@@ -39,6 +39,7 @@ export const PEOPLE: Person[] = [
   { id: 'usr-priya', name: 'Priya Raman', role: 'Regulatory Reviewer', initials: 'PR' },
   { id: 'usr-theo', name: 'Theo Kowalski', role: 'R&D Manager', initials: 'TK' },
   { id: 'usr-elena', name: 'Elena Barros', role: 'Formulation Scientist', initials: 'EB' },
+  { id: 'usr-jordan', name: 'Jordan Hale', role: 'Quality Reviewer', initials: 'JH' },
 ];
 
 /* ------------------------------------------------------- raw materials */
